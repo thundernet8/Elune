@@ -30,8 +30,10 @@ import com.fedepot.mvc.controller.Controller;
 public class HomeController extends Controller {
 
     @Route("")
-    public String index() {
+    public void index() {
 
-        return "Hello, world";
+        String name = "Elune";
+
+        Render("index.htm", "name", name);
     }
 }

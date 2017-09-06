@@ -20,7 +20,6 @@ package com.fedapp;
 
 import com.fedepot.Razor;
 import com.fedepot.event.EventType;
-import com.fedepot.mvc.Constants;
 
 /**
  * Hello world!
@@ -31,6 +30,7 @@ public class App {
 
         Razor razor = Razor.self();
 
+        razor.webRoot("WWW");
         razor.listen("0.0.0.0", 9000);
         razor.start(App.class, args);
 
