@@ -20,11 +20,17 @@ package com.fedapp;
 
 import com.fedepot.Razor;
 import com.fedepot.event.EventType;
+import lombok.extern.slf4j.Slf4j;
+
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * Hello world!
  *
  */
+@Slf4j
 public class App {
     public static void main( String[] args ) {
 
@@ -37,5 +43,32 @@ public class App {
         razor.getEventEmitter().on(EventType.APP_STARTED, e -> {
             System.out.println("APP started");
         });
+    }
+
+    private void prepareConfiguration(String[] args) {
+
+        String configFilePath = "";
+
+        for (int i = 0; i < args.length; i++) {
+
+            if (args[i].startsWith("--config") && i < args.length - 1) {
+
+                configFilePath = args[i+1];
+                break;
+            }
+        }
+
+        if (configFilePath.equals("")) {
+
+            log.info("Configuration file is not specified");
+
+//            try {
+//
+//                FileWriter writer = new FileWriter(new FileOutputStream("./elune_config.xml"));
+//            } catch (IOException e) {
+//
+//                log.error(e.getMessage());
+//            }
+        }
     }
 }
