@@ -18,13 +18,21 @@
 
 package com.fedapp;
 
+import com.fedapp.configuration.Configuration;
+import com.fedapp.configuration.ConfigurationFactory;
+import com.fedapp.init.AppLoader;
 import com.fedepot.Razor;
 import com.fedepot.event.EventType;
-import lombok.extern.slf4j.Slf4j;
 
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
 
 /**
  * Hello world!
@@ -32,12 +40,41 @@ import java.io.IOException;
  */
 @Slf4j
 public class App {
-    public static void main( String[] args ) {
+
+    private Configuration configuration;
+
+    public Configuration configuration() {
+
+        return configuration;
+    }
+
+    public static void main(String[] args ) throws Exception {
+
+        App app = new App();
+
+        try {
+
+            app.prepareConfiguration(args);
+            app.startServer(args);
+        } catch (Exception e) {
+
+            log.info("App start failed, exit now");
+            System.exit(-1);
+            //throw e;
+        }
+    }
+
+    private void startServer(String[] args) {
 
         Razor razor = Razor.self();
 
+        AppLoader.init(razor, this);
+
+        razor.registerInstance(this);
+
         razor.webRoot("WWW");
         razor.listen("0.0.0.0", 9000);
+
         razor.start(App.class, args);
 
         razor.getEventEmitter().on(EventType.APP_STARTED, e -> {
@@ -45,7 +82,8 @@ public class App {
         });
     }
 
-    private void prepareConfiguration(String[] args) {
+
+    private void prepareConfiguration(String[] args) throws Exception {
 
         String configFilePath = "";
 
@@ -62,13 +100,31 @@ public class App {
 
             log.info("Configuration file is not specified");
 
-//            try {
-//
-//                FileWriter writer = new FileWriter(new FileOutputStream("./elune_config.xml"));
-//            } catch (IOException e) {
-//
-//                log.error(e.getMessage());
-//            }
+            File defaultConfigFile = new File("elune_config.xml");
+
+            if (!defaultConfigFile.exists()) {
+
+                InputStream sampleConfigStream = App.class.getResourceAsStream("/WEB-INF/elune_config_sample.xml");
+
+                Path targetFilePath = Paths.get("elune_config.xml");
+
+                try {
+
+                    Files.copy(sampleConfigStream, targetFilePath, StandardCopyOption.REPLACE_EXISTING);
+                    log.info("A configuration file elune_config.xml is copied to the root folder of project, please accomplish it and restart server");
+                } catch (Exception e) {
+
+                    log.error("Copy sample configuration file failed", e);
+                    throw e;
+                } finally {
+
+                    IOUtils.closeQuietly(sampleConfigStream);
+                }
+            }
+
+            configFilePath = defaultConfigFile.getAbsolutePath();
         }
+
+        this.configuration = ConfigurationFactory.fromXml(new FileInputStream(new File(configFilePath)));
     }
 }

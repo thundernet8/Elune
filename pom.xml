@@ -44,7 +44,8 @@
         <slf4j.version>1.7.25</slf4j.version>
         <junit.version>4.12</junit.version>
         <lombok.version>1.16.18</lombok.version>
-        <razor.version>0.0.2</razor.version>
+        <razor.version>0.0.3</razor.version>
+        <commonsio.version>1.3.2</commonsio.version>
         <project.scm.id>github</project.scm.id>
     </properties>
 
@@ -146,6 +147,12 @@
             <groupId>com.fedepot</groupId>
             <artifactId>razor-mvc</artifactId>
             <version>${razor.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-io -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commonsio.version}</version>
         </dependency>
         <!-- Test -->
         <dependency>

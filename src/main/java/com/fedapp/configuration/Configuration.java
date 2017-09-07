@@ -25,8 +25,6 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.File;
-import java.io.InputStream;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
@@ -39,7 +37,7 @@ import java.util.Properties;
  */
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class Configuration {
 
     private Properties props = new Properties();
@@ -129,25 +127,5 @@ public class Configuration {
     public Properties getProps() {
 
         return props;
-    }
-
-    /**
-     * Initialize configuration from xml stream
-     *
-     * @param is configuration file stream
-     * @return Configuration instance
-     * @throws Exception exception
-     */
-    public static Configuration fromXml(InputStream is) throws Exception {
-
-        try {
-
-            Properties properties = ConfigurationFactory.parseAppXml(is);
-            return new Configuration(properties);
-        } catch (Exception e) {
-
-            log.error("Parse configuration xml stream failed", e);
-            throw e;
-        }
     }
 }

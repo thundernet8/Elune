@@ -16,10 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.fedapp.controllers;
+package com.fedapp.controller;
 
+import com.fedapp.App;
+import com.fedapp.Constant;
+import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.mvc.annotation.Route;
 import com.fedepot.mvc.controller.Controller;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.fedapp.Constant.*;
 
 /**
  * Home controller
@@ -29,11 +37,22 @@ import com.fedepot.mvc.controller.Controller;
  */
 public class HomeController extends Controller {
 
+//    @FromService
+//    private App app;
+
     @Route("")
     public void index() {
 
         String name = "Elune";
 
-        Render("index.htm", "name", name);
+        String des = "Configuration factory Ok";
+
+        Map<String, Object> model = new HashMap<>();
+
+        model.put("name", name);
+        model.put("des", des);
+//        model.put("other", app.configuration().get(CONFIG_KEY_MYSQL_PASS, ""));
+
+        Render("index.htm", model);
     }
 }

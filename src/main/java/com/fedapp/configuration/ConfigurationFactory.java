@@ -19,6 +19,8 @@
 
 package com.fedapp.configuration;
 
+import lombok.extern.slf4j.Slf4j;
+
 import org.w3c.dom.*;
 
 import javax.xml.parsers.*;
@@ -33,16 +35,30 @@ import static com.fedapp.Constant.*;
  * @author Touchumind
  * @since 0.0.1
  */
+@Slf4j
 public class ConfigurationFactory {
 
-    public static Properties parseAppXml(File file) throws Exception {
+    /**
+     * Initialize configuration from xml stream
+     *
+     * @param is configuration file stream
+     * @return Configuration instance
+     * @throws Exception exception
+     */
+    public static Configuration fromXml(InputStream is) throws Exception {
 
-        InputStream is = new FileInputStream(file);
+        try {
 
-        return parseAppXml(is);
+            Properties properties = ConfigurationFactory.parseAppXml(is);
+            return new Configuration(properties);
+        } catch (Exception e) {
+
+            log.error("Parse configuration xml stream failed", e);
+            throw e;
+        }
     }
 
-    public static Properties parseAppXml(InputStream is) throws Exception {
+    private static Properties parseAppXml(InputStream is) throws Exception {
 
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -63,20 +79,20 @@ public class ConfigurationFactory {
                 Node node = childNodes.item(i);
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
 
-                    switch (node.getNodeValue()) {
+                    switch (node.getNodeName()) {
 
                         case "mysql":
                             Element element = (Element)node;
                             properties.put(CONFIG_KEY_MYSQL_HOST, element.getElementsByTagName("host").item(0).getTextContent());
                             properties.put(CONFIG_KEY_MYSQL_PORT, Integer.valueOf(element.getElementsByTagName("port").item(0).getTextContent()));
-                            properties.put(CONFIG_KEY_MYSQL_HOST, element.getElementsByTagName("user").item(0).getTextContent());
-                            properties.put(CONFIG_KEY_MYSQL_HOST, element.getElementsByTagName("pass").item(0).getTextContent());
+                            properties.put(CONFIG_KEY_MYSQL_USER, element.getElementsByTagName("user").item(0).getTextContent());
+                            properties.put(CONFIG_KEY_MYSQL_PASS, element.getElementsByTagName("pass").item(0).getTextContent());
                             break;
                         case "redis":
                             Element element2 = (Element)node;
-                            properties.put(CONFIG_KEY_MYSQL_HOST, element2.getElementsByTagName("host").item(0).getTextContent());
-                            properties.put(CONFIG_KEY_MYSQL_PORT, Integer.valueOf(element2.getElementsByTagName("port").item(0).getTextContent()));
-                            properties.put(CONFIG_KEY_MYSQL_HOST, element2.getElementsByTagName("pass").item(0).getTextContent());
+                            properties.put(CONFIG_KEY_REDIS_HOST, element2.getElementsByTagName("host").item(0).getTextContent());
+                            properties.put(CONFIG_KEY_REDIS_PORT, Integer.valueOf(element2.getElementsByTagName("port").item(0).getTextContent()));
+                            properties.put(CONFIG_KEY_REDIS_PASS, element2.getElementsByTagName("pass").item(0).getTextContent());
                     }
                 }
             }
