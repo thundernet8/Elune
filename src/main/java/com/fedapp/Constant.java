@@ -39,11 +39,15 @@ public interface Constant {
 
     public static String CONFIG_KEY_MYSQL_PASS = "app.db.mysql.pass";
 
+    public static String CONFIG_KEY_MYSQL_DBNAME = "app.db.mysql.name";
+
     public static String CONFIG_KEY_REDIS_HOST = "app.db.redis.host";
 
     public static String CONFIG_KEY_REDIS_PORT = "app.db.redis.port";
 
     public static String CONFIG_KEY_REDIS_PASS = "app.db.redis.pass";
+
+    public static String CONFIG_KEY_APP_DEV_MODE = "app.env.mode.dev";
 
     /**
      * Default values
@@ -51,6 +55,8 @@ public interface Constant {
     public static String DEFAULT_MYSQL_HOST = "localhost";
 
     public static int DEFAULT_MYSQL_PORT = 3306;
+
+    public static String DEFAULT_MEYSQL_DBNAME = "elune";
 
     public static String DEFAULT_REDIS_HOST = "localhost";
 

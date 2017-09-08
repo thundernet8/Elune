@@ -38,23 +38,23 @@ import java.util.Properties;
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-public class Configuration {
+public class AppConfiguration {
 
     private Properties props = new Properties();
 
-    public static Configuration newInstance() {
+    public static AppConfiguration newInstance() {
 
-        return new Configuration();
+        return new AppConfiguration();
     }
 
-    public Configuration set(@NonNull String key, @NonNull Object value) {
+    public AppConfiguration set(@NonNull String key, @NonNull Object value) {
 
         props.put(key, value);
 
         return this;
     }
 
-    public Configuration setMulti(@NonNull Map<String, String> map) {
+    public AppConfiguration setMulti(@NonNull Map<String, String> map) {
 
         map.forEach(props::setProperty);
 

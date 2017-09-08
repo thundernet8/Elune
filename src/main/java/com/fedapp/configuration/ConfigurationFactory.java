@@ -45,12 +45,12 @@ public class ConfigurationFactory {
      * @return Configuration instance
      * @throws Exception exception
      */
-    public static Configuration fromXml(InputStream is) throws Exception {
+    public static AppConfiguration fromXml(InputStream is) throws Exception {
 
         try {
 
             Properties properties = ConfigurationFactory.parseAppXml(is);
-            return new Configuration(properties);
+            return new AppConfiguration(properties);
         } catch (Exception e) {
 
             log.error("Parse configuration xml stream failed", e);
@@ -83,19 +83,61 @@ public class ConfigurationFactory {
 
                         case "mysql":
                             Element element = (Element)node;
-                            properties.put(CONFIG_KEY_MYSQL_HOST, element.getElementsByTagName("host").item(0).getTextContent());
-                            properties.put(CONFIG_KEY_MYSQL_PORT, Integer.valueOf(element.getElementsByTagName("port").item(0).getTextContent()));
-                            properties.put(CONFIG_KEY_MYSQL_USER, element.getElementsByTagName("user").item(0).getTextContent());
-                            properties.put(CONFIG_KEY_MYSQL_PASS, element.getElementsByTagName("pass").item(0).getTextContent());
+                            NodeList props = element.getElementsByTagName("property");
+                            for (int j=0; j<props.getLength(); j++) {
+                                Element propEle = (Element)props.item(j);
+                                String name = propEle.getAttribute("name");
+                                switch (name) {
+
+                                    case "host":
+                                        properties.put(CONFIG_KEY_MYSQL_HOST, propEle.getTextContent());
+                                        break;
+                                    case "port":
+                                        properties.put(CONFIG_KEY_MYSQL_PORT, Integer.parseInt(propEle.getTextContent()));
+                                        break;
+                                    case "user":
+                                        properties.put(CONFIG_KEY_MYSQL_USER, propEle.getTextContent());
+                                        break;
+                                    case "pass":
+                                        properties.put(CONFIG_KEY_MYSQL_PASS, propEle.getTextContent());
+                                        break;
+                                    case "database":
+                                        properties.put(CONFIG_KEY_MYSQL_DBNAME, propEle.getTextContent());
+                                        break;
+                                }
+                            }
                             break;
                         case "redis":
                             Element element2 = (Element)node;
-                            properties.put(CONFIG_KEY_REDIS_HOST, element2.getElementsByTagName("host").item(0).getTextContent());
-                            properties.put(CONFIG_KEY_REDIS_PORT, Integer.valueOf(element2.getElementsByTagName("port").item(0).getTextContent()));
-                            properties.put(CONFIG_KEY_REDIS_PASS, element2.getElementsByTagName("pass").item(0).getTextContent());
+                            NodeList props2 = element2.getElementsByTagName("property");
+                            for (int j=0; j<props2.getLength(); j++) {
+                                Element propEle = (Element)props2.item(j);
+                                String name = propEle.getAttribute("name");
+                                switch (name) {
+
+                                    case "host":
+                                        properties.put(CONFIG_KEY_REDIS_HOST, propEle.getTextContent());
+                                        break;
+                                    case "port":
+                                        properties.put(CONFIG_KEY_REDIS_PORT, Integer.parseInt(propEle.getTextContent()));
+                                        break;
+                                    case "pass":
+                                        properties.put(CONFIG_KEY_REDIS_PASS, propEle.getTextContent());
+                                        break;
+                                }
+                            }
+                            break;
                     }
                 }
             }
+        }
+
+        // Environment
+        NodeList envNodes = doc.getElementsByTagName("development");
+        if (envNodes.getLength() > 0) {
+
+            Element ele = (Element)envNodes.item(0);
+            properties.put(CONFIG_KEY_APP_DEV_MODE, !(ele.getTextContent().equals("false")));
         }
 
 

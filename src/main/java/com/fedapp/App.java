@@ -18,7 +18,7 @@
 
 package com.fedapp;
 
-import com.fedapp.configuration.Configuration;
+import com.fedapp.configuration.AppConfiguration;
 import com.fedapp.configuration.ConfigurationFactory;
 import com.fedapp.init.AppLoader;
 
@@ -41,16 +41,19 @@ import java.nio.file.StandardCopyOption;
 @Slf4j
 public class App {
 
-    private Configuration configuration;
+    private AppConfiguration configuration;
 
-    public Configuration configuration() {
+    public AppConfiguration configuration() {
 
         return configuration;
     }
 
+    private Razor razor;
+
     public static void main(String[] args ) {
 
         App app = new App();
+        app.razor = Razor.self();
 
         try {
 
@@ -66,11 +69,10 @@ public class App {
 
     private void startServer(String[] args) {
 
-        Razor razor = Razor.self();
-
         AppLoader.init(razor, this);
 
         razor.registerInstance(this);
+        razor.registerInstance(configuration);
 
         razor.webRoot("WWW");
         razor.addStatic("/static");
@@ -78,6 +80,7 @@ public class App {
         razor.start(App.class, args);
 
         razor.getEventEmitter().on(EventType.APP_STARTED, e -> {
+
             System.out.println("APP started");
         });
     }

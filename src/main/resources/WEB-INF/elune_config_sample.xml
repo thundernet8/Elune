@@ -4,17 +4,20 @@
     <database>
         <!-- main database use mysql -->
         <mysql>
-            <host>localhost</host>
-            <port>3306</port>
-            <user>mysql_username</user>
-            <pass>mysql_pass</pass>
+            <property name="host">localhost</property>
+            <property name="port">3306</property>
+            <property name="user">mysql_username</property>
+            <property name="pass">mysql_pass</property>
+            <property name="database">elune</property>
         </mysql>
         <!-- cache database use redis -->
         <redis>
-            <host>localhost</host>
-            <port>6379</port>
+            <property name="host">localhost</property>
+            <property name="port">6379</property>
             <!-- leave blank if no auth required -->
-            <pass></pass>
+            <property name="pass"></property>
         </redis>
     </database>
+
+    <development>true</development>
 </app>
