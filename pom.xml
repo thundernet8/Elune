@@ -44,7 +44,7 @@
         <slf4j.version>1.7.25</slf4j.version>
         <junit.version>4.12</junit.version>
         <lombok.version>1.16.18</lombok.version>
-        <razor.version>0.0.3</razor.version>
+        <razor.version>0.0.4</razor.version>
         <commonsio.version>1.3.2</commonsio.version>
         <project.scm.id>github</project.scm.id>
     </properties>

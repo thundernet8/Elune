@@ -16,42 +16,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.fedapp.controller;
 
-import com.fedapp.App;
-import com.fedepot.ioc.annotation.FromService;
-import com.fedepot.mvc.annotation.Route;
-import com.fedepot.mvc.controller.Controller;
+package com.fedapp.exception;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static com.fedapp.Constant.*;
+import com.fedepot.Razor;
+import com.fedepot.exception.ExceptionHandler;
 
 /**
- * Home controller
+ * Global exception handler for netty channel handler chain
  *
  * @author Touchumind
  * @since 0.0.1
  */
-public class HomeController extends Controller {
+public class GlobalExceptionHandler implements ExceptionHandler {
 
-    @FromService
-    private App app;
+    @Override
+    public void handle(Exception e, Razor razor) {
 
-    @Route("")
-    public void index() {
-
-        String name = "Elune";
-
-        String des = "Configuration factory Ok";
-
-        Map<String, Object> model = new HashMap<>();
-
-        model.put("name", name);
-        model.put("des", des);
-        model.put("other", app.configuration().get(CONFIG_KEY_MYSQL_PASS, ""));
-
-        Render("index.htm", model);
+        System.out.println("Global exception handler: " + e.toString());
     }
 }

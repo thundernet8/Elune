@@ -73,6 +73,7 @@ public class App {
         razor.registerInstance(this);
 
         razor.webRoot("WWW");
+        razor.addStatic("/static");
         razor.listen("0.0.0.0", 9000);
 
         razor.start(App.class, args);
@@ -100,7 +101,7 @@ public class App {
 
             log.info("Configuration file is not specified");
 
-            File defaultConfigFile = new File("elune_config.xml");
+            File defaultConfigFile = new File("./elune_config.xml");
 
             if (!defaultConfigFile.exists()) {
 
@@ -120,6 +121,9 @@ public class App {
 
                     IOUtils.closeQuietly(sampleConfigStream);
                 }
+            } else {
+
+                log.info("Using configuration file: {}", defaultConfigFile.getAbsolutePath());
             }
 
             configFilePath = defaultConfigFile.getAbsolutePath();
