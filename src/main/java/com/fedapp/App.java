@@ -53,8 +53,6 @@ public class App {
 
         App app = new App();
 
-        System.out.println(new File(Constants.APP_CLASS_PATH).getParent());
-
         try {
 
             app.prepareConfiguration(args);
@@ -62,8 +60,8 @@ public class App {
         } catch (Exception e) {
 
             log.info("App start failed, exit now");
-            System.exit(-1);
-            //throw e;
+            //System.exit(-1);
+            throw e;
         }
     }
 
@@ -104,19 +102,24 @@ public class App {
 
             log.info("Configuration file is not specified");
 
-            String parentFolder = new File(Constants.APP_CLASS_PATH).getParent();
-            File defaultConfigFile = new File(parentFolder + "/elune_config.xml");
+            String defaultConfigFilePath = Constant.ROOT_FOLDER.concat("/elune_config.xml");
+
+            log.info("Try to find default configuration file: {}", defaultConfigFilePath);
+
+            File defaultConfigFile = new File(defaultConfigFilePath);
 
             if (!defaultConfigFile.exists()) {
 
                 InputStream sampleConfigStream = App.class.getResourceAsStream("/WEB-INF/elune_config_sample.xml");
 
-                Path targetFilePath = Paths.get("elune_config.xml");
+                Path targetFilePath = Paths.get(defaultConfigFilePath);
+
+                System.out.println("Target file path: " + targetFilePath);
 
                 try {
 
                     Files.copy(sampleConfigStream, targetFilePath, StandardCopyOption.REPLACE_EXISTING);
-                    log.info("A configuration file elune_config.xml is copied to the root folder of project, please accomplish it and restart server");
+                    log.info("A configuration file elune_config.xml is copied to {}, please accomplish it and restart server", defaultConfigFilePath);
                 } catch (Exception e) {
 
                     log.error("Copy sample configuration file failed", e);

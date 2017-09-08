@@ -19,7 +19,14 @@
 
 package com.fedapp;
 
+import java.io.File;
+
 public interface Constant {
+
+    /**
+     * Root folder, for running a packaged jar file, it will be the folder contain this jar; for source code running, it will be the target folder contains compiled classes folder.
+     */
+    public static String ROOT_FOLDER = new File(Constant.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParentFile().getAbsolutePath();
 
     /**
      * Configuration keys
