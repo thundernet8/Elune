@@ -21,9 +21,10 @@ package com.fedapp;
 import com.fedapp.configuration.Configuration;
 import com.fedapp.configuration.ConfigurationFactory;
 import com.fedapp.init.AppLoader;
+
 import com.fedepot.Razor;
 import com.fedepot.event.EventType;
-
+import com.fedepot.mvc.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
@@ -51,6 +52,8 @@ public class App {
     public static void main(String[] args ) throws Exception {
 
         App app = new App();
+
+        System.out.println(new File(Constants.APP_CLASS_PATH).getParent());
 
         try {
 
@@ -101,7 +104,8 @@ public class App {
 
             log.info("Configuration file is not specified");
 
-            File defaultConfigFile = new File("./elune_config.xml");
+            String parentFolder = new File(Constants.APP_CLASS_PATH).getParent();
+            File defaultConfigFile = new File(parentFolder + "/elune_config.xml");
 
             if (!defaultConfigFile.exists()) {
 
