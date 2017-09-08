@@ -24,7 +24,6 @@ import com.fedapp.init.AppLoader;
 
 import com.fedepot.Razor;
 import com.fedepot.event.EventType;
-import com.fedepot.mvc.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
@@ -49,7 +48,7 @@ public class App {
         return configuration;
     }
 
-    public static void main(String[] args ) throws Exception {
+    public static void main(String[] args ) {
 
         App app = new App();
 
@@ -60,8 +59,8 @@ public class App {
         } catch (Exception e) {
 
             log.info("App start failed, exit now");
-            //System.exit(-1);
-            throw e;
+            System.exit(-1);
+            //throw e;
         }
     }
 
@@ -75,7 +74,6 @@ public class App {
 
         razor.webRoot("WWW");
         razor.addStatic("/static");
-        razor.listen("0.0.0.0", 9000);
 
         razor.start(App.class, args);
 
