@@ -35,8 +35,10 @@ import java.nio.file.StandardCopyOption;
 
 
 /**
- * Hello world!
+ * 应用入口
  *
+ * @author Touchumind
+ * @since 0.0.1
  */
 @Slf4j
 public class App {
