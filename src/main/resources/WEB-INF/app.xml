@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<app>
+    <server>
+        <host>0.0.0.0</host>
+        <port>9000</port>
+        <charset>utf-8</charset>
+
+        <!-- Http cache in seconds for static files -->
+        <cache>31536000</cache>
+        <ssl>false</ssl>
+    </server>
+
+    <root>
+        <!-- Web root folder relative your class path -->
+        <!-- If a absolute path specified, class path prefix will be ignored -->
+        <property name="www">WWW</property>
+        <!-- Template folder path relative your class path -->
+        <property name="template">WEB-INF/templates</property>
+    </root>
+
+    <statics>
+        <static>/favicon.ico</static>
+        <static>/robots.txt</static>
+        <static>/sitemap.xml</static>
+        <static>/static</static>
+        <static>/assets</static>
+    </statics>
+
+    <indexFiles>
+        <index>index.html</index>
+        <index>index.htm</index>
+    </indexFiles>
+
+    <session>
+        <key>SESSIONID</key>
+        <timeout>2592000</timeout>
+    </session>
+
+    <!-- Error page template path relative templates folder path -->
+    <errorPage>
+        <!--<_403>403.htm</_403>-->
+        <_404>404.htm</_404>
+        <!--<_500>500.htm</_500>-->
+        <!--<_502>502.htm</_502>-->
+    </errorPage>
+</app>

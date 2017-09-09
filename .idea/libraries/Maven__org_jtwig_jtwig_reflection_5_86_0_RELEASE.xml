@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.jtwig:jtwig-reflection:5.86.0.RELEASE">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jtwig/jtwig-reflection/5.86.0.RELEASE/jtwig-reflection-5.86.0.RELEASE.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jtwig/jtwig-reflection/5.86.0.RELEASE/jtwig-reflection-5.86.0.RELEASE-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/jtwig/jtwig-reflection/5.86.0.RELEASE/jtwig-reflection-5.86.0.RELEASE-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
