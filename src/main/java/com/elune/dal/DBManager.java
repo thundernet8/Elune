@@ -17,9 +17,9 @@
  */
 
 
-package com.fedapp.dal;
+package com.elune.dal;
 
-import com.fedapp.configuration.AppConfiguration;
+import com.elune.configuration.AppConfiguration;
 
 import com.fedepot.ioc.annotation.Inject;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
@@ -33,7 +33,7 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
 import javax.sql.DataSource;
 
-import static com.fedapp.Constant.*;
+import static com.elune.Constant.*;
 
 @Inject(sington = true)
 public final class DBManager {

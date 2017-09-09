@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Elune Project</title>
-</head>
-<body>
+<% layout("inc/layout.htm"){ %>
+<% include("inc/header.htm"){} %>
 <h2>Hello, ${name}</h2>
 <p>${des}</p>
-<p>${other}</p>
-</body>
-</html>
+<% } %>

@@ -17,15 +17,18 @@
  */
 
 
-package com.fedapp.dal.model;
+package com.elune.dal.mapper;
 
-public class Book {
+import com.elune.dal.model.Book;
 
-    public int id;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Select;
 
-    public String name;
+public interface BookMapper {
 
-    public String isbn;
+    @Select("SELECT * FROM book WHERE id = #{id}")
+    Book selectBook(int id);
 
-    public String author;
+    @Insert("INSERT INTO book (name, isbn, author) values(#{name}, #{isbn}, #{author})")
+    void addBook(Book book);
 }

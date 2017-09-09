@@ -21,6 +21,8 @@
         <static>/favicon.ico</static>
         <static>/robots.txt</static>
         <static>/sitemap.xml</static>
+        <static>/static</static>
+        <static>/assets</static>
     </statics>
 
     <indexFiles>
@@ -29,15 +31,15 @@
     </indexFiles>
 
     <session>
-        <key>SESSION</key>
+        <key>SESSIONID</key>
         <timeout>2592000</timeout>
     </session>
 
     <!-- Error page template path relative templates folder path -->
-    <!--<errorPage>-->
-    <!--<_403>403.htm</_403>-->
-    <!--<_404>404.htm</_404>-->
-    <!--<_500>500.htm</_500>-->
-    <!--<_502>502.htm</_502>-->
-    <!--</errorPage>-->
+    <errorPage>
+        <!--<_403>403.htm</_403>-->
+        <_404>404.htm</_404>
+        <!--<_500>500.htm</_500>-->
+        <!--<_502>502.htm</_502>-->
+    </errorPage>
 </app>

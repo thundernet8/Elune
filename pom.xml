@@ -64,7 +64,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>com.fedapp.App</mainClass>
+                            <mainClass>com.elune.App</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

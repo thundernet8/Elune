@@ -17,11 +17,11 @@
  */
 
 
-package com.fedapp.controller;
+package com.elune.controller;
 
-import com.fedapp.dal.DBManager;
-import com.fedapp.dal.mapper.BookMapper;
-import com.fedapp.dal.model.Book;
+import com.elune.dal.DBManager;
+import com.elune.dal.mapper.BookMapper;
+import com.elune.dal.model.Book;
 
 import com.fedepot.mvc.annotation.FromBody;
 import com.fedepot.mvc.annotation.HttpPost;

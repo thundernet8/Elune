@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,minimal-ui=yes">
+    <title>${VIEWBAG.title == "" ? "Elune" : VIEWBAG.title}</title>
+    <meta name="description" content="${VIEWBAG.description}">
+    <meta name="keywords" content="${VIEWBAG.keywords}">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="private">
+    <meta name="format-detection" content="telephone=no, email=no">
+    <link rel="stylesheet" href="/assets/css/app.css">
+</head>
+<body>
+    <div id="app" class="App affix" style="min-height: 858px;">
+        ${layoutContent}
+    </div>
+    <script src="/assets/js/vender.js"></script>
+    <script src="/assets/js/app.js"></script>
+</body>
+</html>

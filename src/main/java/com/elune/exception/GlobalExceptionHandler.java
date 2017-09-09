@@ -1,5 +1,5 @@
 /**
- * Elune - Lightweight Forum Powered by Razor.
+ * Elune - Lightweight Forum Powered by Razor
  * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -17,14 +17,22 @@
  */
 
 
-package com.fedapp.dal.annotation;
+package com.elune.exception;
 
-import java.lang.annotation.*;
+import com.fedepot.Razor;
+import com.fedepot.exception.ExceptionHandler;
 
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface IsMapper {
+/**
+ * Global exception handler for netty channel handler chain
+ *
+ * @author Touchumind
+ * @since 0.0.1
+ */
+public class GlobalExceptionHandler implements ExceptionHandler {
 
-    String value() default "";
+    @Override
+    public void handle(Exception e, Razor razor) {
+
+        System.out.println("Global exception handler: " + e.toString());
+    }
 }

@@ -16,11 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.fedapp;
+package com.elune;
 
-import com.fedapp.configuration.AppConfiguration;
-import com.fedapp.configuration.ConfigurationFactory;
-import com.fedapp.init.AppLoader;
+import com.elune.configuration.AppConfiguration;
+import com.elune.configuration.ConfigurationFactory;
+import com.elune.init.AppLoader;
 
 import com.fedepot.Razor;
 import com.fedepot.event.EventType;
@@ -75,9 +75,6 @@ public class App {
 
         razor.registerInstance(this);
         razor.registerInstance(configuration);
-
-        razor.webRoot("WWW");
-        razor.addStatic("/static");
 
         razor.start(App.class, args);
 

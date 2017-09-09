@@ -16,23 +16,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+package com.elune.controller;
 
-package com.fedapp.exception;
+import com.elune.App;
+import com.fedepot.ioc.annotation.FromService;
+import com.fedepot.mvc.annotation.Route;
+import com.fedepot.mvc.controller.Controller;
 
-import com.fedepot.Razor;
-import com.fedepot.exception.ExceptionHandler;
+import java.util.HashMap;
+import java.util.Map;
+
+import static com.elune.Constant.*;
 
 /**
- * Global exception handler for netty channel handler chain
+ * Home controller
  *
  * @author Touchumind
  * @since 0.0.1
  */
-public class GlobalExceptionHandler implements ExceptionHandler {
+public class HomeController extends Controller {
 
-    @Override
-    public void handle(Exception e, Razor razor) {
+    @FromService
+    private App app;
 
-        System.out.println("Global exception handler: " + e.toString());
+    @Route("")
+    public void index() {
+
+        String name = "Elune";
+
+        String des = "Configuration factory Ok";
+
+        Map<String, Object> model = new HashMap<>();
+
+        model.put("name", name);
+        model.put("des", des);
+        model.put("other", app.configuration().get(CONFIG_KEY_MYSQL_PASS, ""));
+
+        View("index.htm", model);
     }
 }

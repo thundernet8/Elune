@@ -17,7 +17,7 @@
  */
 
 
-package com.fedapp.configuration;
+package com.elune.configuration;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

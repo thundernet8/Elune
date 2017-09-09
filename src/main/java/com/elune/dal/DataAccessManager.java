@@ -17,24 +17,7 @@
  */
 
 
-package com.fedapp.init;
+package com.elune.dal;
 
-import com.fedapp.App;
-import com.fedepot.Razor;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-
-/**
- * Application loader
- *
- * @author Touchumind
- * @since 0.0.1
- */
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class AppLoader {
-
-    public static void init(Razor razor, App app) {
-
-        // TODO
-    }
+public class DataAccessManager {
 }

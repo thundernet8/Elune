@@ -17,7 +17,7 @@
  */
 
 
-package com.fedapp.configuration;
+package com.elune.configuration;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,7 +27,7 @@ import javax.xml.parsers.*;
 import java.io.*;
 import java.util.*;
 
-import static com.fedapp.Constant.*;
+import static com.elune.Constant.*;
 
 /**
  * Parse app configuration xml to configuration entity
