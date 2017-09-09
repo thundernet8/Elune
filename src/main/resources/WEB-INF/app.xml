@@ -6,15 +6,16 @@
         <charset>utf-8</charset>
 
         <!-- Http cache in seconds for static files -->
-        <cache>3600</cache>
+        <cache>31536000</cache>
         <ssl>false</ssl>
     </server>
 
     <root>
         <!-- Web root folder relative your class path -->
-        <web>WWW</web>
+        <!-- If a absolute path specified, class path prefix will be ignored -->
+        <property name="www">WWW</property>
         <!-- Template folder path relative your class path -->
-        <template>WEB-INF/templates</template>
+        <property name="template">WEB-INF/templates</property>
     </root>
 
     <statics>

@@ -24,6 +24,7 @@ import com.elune.init.AppLoader;
 
 import com.fedepot.Razor;
 import com.fedepot.event.EventType;
+import com.fedepot.mvc.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 
@@ -75,6 +76,11 @@ public class App {
 
         razor.registerInstance(this);
         razor.registerInstance(configuration);
+
+        String rootFolder = Constant.ROOT_FOLDER.endsWith("/target") ? Constant.ROOT_FOLDER.substring(0, Constant.ROOT_FOLDER.length() - 7) : Constant.ROOT_FOLDER;
+        razor.webRoot(rootFolder.concat(File.separator).concat("WWW"));
+        log.info("---------------------------------------------------------------------------------------------------");
+        log.info("Use Web Root: {}", rootFolder.concat(File.separator).concat("WWW"));
 
         razor.start(App.class, args);
 
