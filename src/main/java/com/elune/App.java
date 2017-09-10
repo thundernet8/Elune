@@ -19,20 +19,13 @@
 package com.elune;
 
 import com.elune.configuration.AppConfiguration;
-import com.elune.configuration.ConfigurationFactory;
 import com.elune.init.AppLoader;
 
 import com.fedepot.Razor;
 import com.fedepot.event.EventType;
-import com.fedepot.mvc.Constants;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
-
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import lombok.Getter;
 
 
 /**
@@ -44,13 +37,11 @@ import java.nio.file.StandardCopyOption;
 @Slf4j
 public class App {
 
+    @Getter
+    @Setter
     private AppConfiguration configuration;
 
-    public AppConfiguration configuration() {
-
-        return configuration;
-    }
-
+    @Getter
     private Razor razor;
 
     public static void main(String[] args ) {
@@ -60,88 +51,24 @@ public class App {
 
         try {
 
-            app.prepareConfiguration(args);
-            app.startServer(args);
+            app.start(args);
         } catch (Exception e) {
 
-            log.info("App start failed, exit now");
+            log.info(">>>>>>>>>>>>>>>>>>>>>>>>> APP start failed, exit now <<<<<<<<<<<<<<<<<<<<<<<<<");
             System.exit(-1);
-            //throw e;
         }
     }
 
-    private void startServer(String[] args) {
+    private void start(String[] args) throws Exception {
 
-        AppLoader.init(razor, this);
-
-        razor.registerInstance(this);
-        razor.registerInstance(configuration);
-
-        String rootFolder = Constant.ROOT_FOLDER.endsWith("/target") ? Constant.ROOT_FOLDER.substring(0, Constant.ROOT_FOLDER.length() - 7) : Constant.ROOT_FOLDER;
-        razor.webRoot(rootFolder.concat(File.separator).concat("WWW/dist"));
-        log.info("---------------------------------------------------------------------------------------------------");
-        log.info("Use Web Root: {}", rootFolder.concat(File.separator).concat("WWW/dist"));
+        AppLoader.init(this, args);
 
         razor.start(App.class, args);
 
         razor.getEventEmitter().on(EventType.APP_STARTED, e -> {
 
-            System.out.println("APP started");
+            log.info(">>>>>>>>>>>>>>>>>>>>>>>>> APP started <<<<<<<<<<<<<<<<<<<<<<<<<");
         });
     }
 
-
-    private void prepareConfiguration(String[] args) throws Exception {
-
-        String configFilePath = "";
-
-        for (int i = 0; i < args.length; i++) {
-
-            if (args[i].startsWith("--config") && i < args.length - 1) {
-
-                configFilePath = args[i+1];
-                break;
-            }
-        }
-
-        if (configFilePath.equals("")) {
-
-            log.info("Configuration file is not specified");
-
-            String defaultConfigFilePath = Constant.ROOT_FOLDER.concat("/elune_config.xml");
-
-            log.info("Try to find default configuration file: {}", defaultConfigFilePath);
-
-            File defaultConfigFile = new File(defaultConfigFilePath);
-
-            if (!defaultConfigFile.exists()) {
-
-                InputStream sampleConfigStream = App.class.getResourceAsStream("/WEB-INF/elune_config_sample.xml");
-
-                Path targetFilePath = Paths.get(defaultConfigFilePath);
-
-                System.out.println("Target file path: " + targetFilePath);
-
-                try {
-
-                    Files.copy(sampleConfigStream, targetFilePath, StandardCopyOption.REPLACE_EXISTING);
-                    log.info("A configuration file elune_config.xml is copied to {}, please accomplish it and restart server", defaultConfigFilePath);
-                } catch (Exception e) {
-
-                    log.error("Copy sample configuration file failed", e);
-                    throw e;
-                } finally {
-
-                    IOUtils.closeQuietly(sampleConfigStream);
-                }
-            } else {
-
-                log.info("Using configuration file: {}", defaultConfigFile.getAbsolutePath());
-            }
-
-            configFilePath = defaultConfigFile.getAbsolutePath();
-        }
-
-        this.configuration = ConfigurationFactory.fromXml(new FileInputStream(new File(configFilePath)));
-    }
 }
