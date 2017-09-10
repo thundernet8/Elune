@@ -78,9 +78,9 @@ public class App {
         razor.registerInstance(configuration);
 
         String rootFolder = Constant.ROOT_FOLDER.endsWith("/target") ? Constant.ROOT_FOLDER.substring(0, Constant.ROOT_FOLDER.length() - 7) : Constant.ROOT_FOLDER;
-        razor.webRoot(rootFolder.concat(File.separator).concat("WWW"));
+        razor.webRoot(rootFolder.concat(File.separator).concat("WWW/dist"));
         log.info("---------------------------------------------------------------------------------------------------");
-        log.info("Use Web Root: {}", rootFolder.concat(File.separator).concat("WWW"));
+        log.info("Use Web Root: {}", rootFolder.concat(File.separator).concat("WWW/dist"));
 
         razor.start(App.class, args);
 

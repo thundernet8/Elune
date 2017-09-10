@@ -18,15 +18,12 @@
 
 package com.elune.controller;
 
-import com.elune.App;
-import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.mvc.annotation.Route;
 import com.fedepot.mvc.controller.Controller;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.elune.Constant.*;
 
 /**
  * Home controller
@@ -36,10 +33,7 @@ import static com.elune.Constant.*;
  */
 public class HomeController extends Controller {
 
-    @FromService
-    private App app;
-
-    @Route("")
+    @Route("*")
     public void index() {
 
         String name = "Elune";
@@ -50,7 +44,6 @@ public class HomeController extends Controller {
 
         model.put("name", name);
         model.put("des", des);
-        model.put("other", app.configuration().get(CONFIG_KEY_MYSQL_PASS, ""));
 
         View("index.htm", model);
     }
