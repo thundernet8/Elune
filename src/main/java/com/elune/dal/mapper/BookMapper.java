@@ -19,7 +19,7 @@
 
 package com.elune.dal.mapper;
 
-import com.elune.dal.model.Book;
+import com.elune.dal.entity.Book;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;

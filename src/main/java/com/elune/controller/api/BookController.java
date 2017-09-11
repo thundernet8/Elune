@@ -17,11 +17,11 @@
  */
 
 
-package com.elune.controller;
+package com.elune.controller.api;
 
 import com.elune.dal.DBManager;
 import com.elune.dal.mapper.BookMapper;
-import com.elune.dal.model.Book;
+import com.elune.dal.entity.Book;
 
 import com.fedepot.mvc.annotation.FromBody;
 import com.fedepot.mvc.annotation.HttpPost;
@@ -30,7 +30,7 @@ import com.fedepot.mvc.annotation.RoutePrefix;
 import com.fedepot.mvc.controller.Controller;
 import org.apache.ibatis.session.SqlSession;
 
-@RoutePrefix("books")
+@RoutePrefix("api/books")
 public class BookController extends Controller {
 
     private DBManager dbManager;

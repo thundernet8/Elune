@@ -17,7 +17,7 @@
  */
 
 
-package com.elune.dal.model;
+package com.elune.dal.entity;
 
 public class Book {
 
