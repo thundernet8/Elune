@@ -63,7 +63,7 @@
         <appender-ref ref="sqlappender" />
     </logger>
 
-    <logger name="com.elune.dal.mapper">
+    <logger name="com.elune.dao.mapper">
         <level value="debug" />
         <appender-ref ref="sqlappender" />
     </logger>

@@ -17,11 +17,11 @@
  */
 
 
-package com.elune.dal;
+package com.elune.dao;
 
 import com.elune.configuration.AppConfiguration;
 
-import com.fedepot.ioc.annotation.Inject;
+import com.fedepot.ioc.annotation.Service;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
@@ -35,7 +35,7 @@ import javax.sql.DataSource;
 
 import static com.elune.Constant.*;
 
-@Inject(sington = true)
+@Service(sington = true)
 public final class DBManager {
 
     private AppConfiguration appConfig;

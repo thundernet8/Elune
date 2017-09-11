@@ -17,56 +17,47 @@
  */
 
 
-package com.elune.controller.api;
+package com.elune.dao.service;
 
 import com.elune.dao.DBManager;
-import com.elune.dao.mapper.BookMapper;
 import com.elune.dao.entity.Book;
-
-import com.elune.dao.service.BookService;
+import com.elune.dao.mapper.BookMapper;
 import com.fedepot.ioc.annotation.FromService;
-import com.fedepot.mvc.annotation.FromBody;
-import com.fedepot.mvc.annotation.HttpPost;
-import com.fedepot.mvc.annotation.Route;
-import com.fedepot.mvc.annotation.RoutePrefix;
-import com.fedepot.mvc.controller.Controller;
+import com.fedepot.ioc.annotation.Service;
 import org.apache.ibatis.session.SqlSession;
 
-@RoutePrefix("api/books")
-public class BookController extends Controller {
-
-    private DBManager dbManager;
+@Service
+public class BookService {
 
     @FromService
-    private BookService bookService;
+    private DBManager dbManager;
 
-    public BookController(DBManager dbManager) {
+    public Book getBook(int id) {
 
-        this.dbManager = dbManager;
-    }
+        SqlSession sqlSession = dbManager.getSqlSession();
+        try {
 
-    @Route("{int:id}")
-    public String getBookDetail(int id) {
+            BookMapper mapper = sqlSession.getMapper(BookMapper.class);
+            return mapper.selectBook(id);
+        } finally {
 
-        Book book = bookService.getBook(id);
-
-        String message;
-
-        if (book == null) {
-
-            message = "Book with id " + id + " is not exist";
-        } else {
-
-            message = "Book detail name " + book.name;
+            sqlSession.close();
         }
-
-        return message;
     }
 
-    @HttpPost
-    @Route("")
-    public void addBook(@FromBody Book book) {
+    public void createBook(Book book) {
 
-        bookService.createBook(book);
+        SqlSession sqlSession = dbManager.getSqlSession();
+
+        try {
+
+            BookMapper mapper = sqlSession.getMapper(BookMapper.class);
+            mapper.addBook(book);
+            sqlSession.commit();
+
+        } finally {
+
+            sqlSession.close();
+        }
     }
 }

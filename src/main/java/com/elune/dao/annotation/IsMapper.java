@@ -17,7 +17,14 @@
  */
 
 
-package com.elune.dal;
+package com.elune.dao.annotation;
 
-public class DataAccessManager {
+import java.lang.annotation.*;
+
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface IsMapper {
+
+    String value() default "";
 }
