@@ -14,6 +14,7 @@ indent_size = 4
 
 # Markdown files
 [*.md]
+indent_size = 2
 
 # Trailing whitespaces are significant in Markdown.
 trim_trailing_whitespace = false

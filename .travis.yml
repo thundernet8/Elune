@@ -7,4 +7,4 @@ branches:
     - master
     - release
 before_install: 'mvn -version'
-install: 'mvn clean verify test -Dmaven.test.skip=false'
+install: 'mvn clean verify test -Dmaven.test.skip=true'
