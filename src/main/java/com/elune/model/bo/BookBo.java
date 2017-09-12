@@ -17,14 +17,15 @@
  */
 
 
-package com.elune.dao.annotation;
+package com.elune.model.bo;
 
-import java.lang.annotation.*;
+public class BookBo {
 
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface IsMapper {
+    public int id;
 
-    String value() default "";
+    public String name;
+
+    public String isbn;
+
+    public String author;
 }

@@ -20,17 +20,16 @@
 package com.elune.controller.api;
 
 import com.elune.dao.DBManager;
-import com.elune.dao.mapper.BookMapper;
-import com.elune.dao.entity.Book;
+import com.elune.model.bo.BookBo;
 
-import com.elune.dao.service.BookService;
+import com.elune.model.vo.BookVo;
+import com.elune.service.BookService;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.mvc.annotation.FromBody;
 import com.fedepot.mvc.annotation.HttpPost;
 import com.fedepot.mvc.annotation.Route;
 import com.fedepot.mvc.annotation.RoutePrefix;
 import com.fedepot.mvc.controller.Controller;
-import org.apache.ibatis.session.SqlSession;
 
 @RoutePrefix("api/books")
 public class BookController extends Controller {
@@ -48,16 +47,16 @@ public class BookController extends Controller {
     @Route("{int:id}")
     public String getBookDetail(int id) {
 
-        Book book = bookService.getBook(id);
+        BookVo book = bookService.getBook(id);
 
         String message;
 
         if (book == null) {
 
-            message = "Book with id " + id + " is not exist";
+            message = "BookBo with id " + id + " is not exist";
         } else {
 
-            message = "Book detail name " + book.name;
+            message = "BookBo detail name " + book.name;
         }
 
         return message;
@@ -65,7 +64,7 @@ public class BookController extends Controller {
 
     @HttpPost
     @Route("")
-    public void addBook(@FromBody Book book) {
+    public void addBook(@FromBody BookVo book) {
 
         bookService.createBook(book);
     }

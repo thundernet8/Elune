@@ -1,5 +1,5 @@
 /**
- * Elune - Lightweight Forum Powered by Razor.
+ * Elune - Lightweight Forum Powered by Razor
  * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -17,9 +17,9 @@
  */
 
 
-package com.elune.dao.entity;
+package com.elune.model.vo;
 
-public class Book {
+public class BookVo {
 
     public int id;
 

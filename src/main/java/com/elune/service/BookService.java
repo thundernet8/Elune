@@ -17,10 +17,11 @@
  */
 
 
-package com.elune.dao.service;
+package com.elune.service;
 
 import com.elune.dao.DBManager;
-import com.elune.dao.entity.Book;
+import com.elune.model.bo.BookBo;
+import com.elune.model.vo.BookVo;
 import com.elune.dao.mapper.BookMapper;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.ioc.annotation.Service;
@@ -32,32 +33,38 @@ public class BookService {
     @FromService
     private DBManager dbManager;
 
-    public Book getBook(int id) {
+    public BookVo getBook(int id) {
 
-        SqlSession sqlSession = dbManager.getSqlSession();
-        try {
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             BookMapper mapper = sqlSession.getMapper(BookMapper.class);
-            return mapper.selectBook(id);
-        } finally {
-
-            sqlSession.close();
+            BookBo bookBo = mapper.selectBook(id);
+            return new BookVo(){
+                {
+                    id = bookBo.id;
+                    name = bookBo.name;
+                    isbn = bookBo.isbn;
+                    author = bookBo.author;
+                }
+            };
         }
     }
 
-    public void createBook(Book book) {
+    public void createBook(BookVo book) {
 
-        SqlSession sqlSession = dbManager.getSqlSession();
-
-        try {
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             BookMapper mapper = sqlSession.getMapper(BookMapper.class);
-            mapper.addBook(book);
+            mapper.addBook(new BookBo(){
+                {
+                    id = book.id;
+                    name = book.name;
+                    isbn = book.isbn;
+                    author = book.author;
+                }
+            });
             sqlSession.commit();
 
-        } finally {
-
-            sqlSession.close();
         }
     }
 }

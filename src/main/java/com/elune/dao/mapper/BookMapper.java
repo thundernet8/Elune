@@ -19,7 +19,7 @@
 
 package com.elune.dao.mapper;
 
-import com.elune.dao.entity.Book;
+import com.elune.model.bo.BookBo;
 
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
@@ -27,8 +27,8 @@ import org.apache.ibatis.annotations.Select;
 public interface BookMapper {
 
     @Select("SELECT * FROM book WHERE id = #{id}")
-    Book selectBook(int id);
+    BookBo selectBook(int id);
 
     @Insert("INSERT INTO book (name, isbn, author) values(#{name}, #{isbn}, #{author})")
-    void addBook(Book book);
+    void addBook(BookBo book);
 }
