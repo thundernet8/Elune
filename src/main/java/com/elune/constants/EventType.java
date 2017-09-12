@@ -17,15 +17,7 @@
  */
 
 
-package com.elune.model.bo;
+package com.elune.constants;
 
-public class BookBo {
-
-    public int id;
-
-    public String name;
-
-    public String isbn;
-
-    public String author;
+public interface EventType {
 }

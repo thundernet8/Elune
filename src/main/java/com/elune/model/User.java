@@ -17,15 +17,13 @@
  */
 
 
-package com.elune.model.vo;
+package com.elune.model;
 
-public class BookVo {
+import java.io.Serializable;
 
-    public int id;
+public class User implements Serializable {
 
-    public String name;
+    public long id;
 
-    public String isbn;
-
-    public String author;
+    public String nickname;
 }

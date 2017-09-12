@@ -17,7 +17,7 @@
  */
 
 
-package com.elune;
+package com.elune.constants;
 
 import java.io.File;
 

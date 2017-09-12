@@ -19,11 +19,10 @@
 
 package com.elune.controller.api;
 
-import com.elune.dao.DBManager;
-import com.elune.model.bo.BookBo;
+import com.elune.dal.DBManager;
 
-import com.elune.model.vo.BookVo;
-import com.elune.service.BookService;
+import com.elune.model.User;
+import com.elune.service.UserService;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.mvc.annotation.FromBody;
 import com.fedepot.mvc.annotation.HttpPost;
@@ -31,15 +30,15 @@ import com.fedepot.mvc.annotation.Route;
 import com.fedepot.mvc.annotation.RoutePrefix;
 import com.fedepot.mvc.controller.Controller;
 
-@RoutePrefix("api/books")
-public class BookController extends Controller {
+@RoutePrefix("api/users")
+public class UserController extends Controller {
 
     private DBManager dbManager;
 
     @FromService
-    private BookService bookService;
+    private UserService userService;
 
-    public BookController(DBManager dbManager) {
+    public UserController(DBManager dbManager) {
 
         this.dbManager = dbManager;
     }
@@ -47,16 +46,16 @@ public class BookController extends Controller {
     @Route("{int:id}")
     public String getBookDetail(int id) {
 
-        BookVo book = bookService.getBook(id);
+        User user = userService.getUser(id);
 
         String message;
 
-        if (book == null) {
+        if (user == null) {
 
-            message = "BookBo with id " + id + " is not exist";
+            message = "User with id " + id + " is not exist";
         } else {
 
-            message = "BookBo detail name " + book.name;
+            message = "User detail name " + user.nickname;
         }
 
         return message;
@@ -64,8 +63,8 @@ public class BookController extends Controller {
 
     @HttpPost
     @Route("")
-    public void addBook(@FromBody BookVo book) {
+    public void addUser(@FromBody User user) {
 
-        bookService.createBook(book);
+        userService.createUser(user);
     }
 }

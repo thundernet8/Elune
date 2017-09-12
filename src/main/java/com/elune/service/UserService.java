@@ -19,50 +19,46 @@
 
 package com.elune.service;
 
-import com.elune.dao.DBManager;
-import com.elune.model.bo.BookBo;
-import com.elune.model.vo.BookVo;
-import com.elune.dao.mapper.BookMapper;
+import com.elune.dal.DBManager;
+import com.elune.entity.UserEntity;
+import com.elune.model.User;
+import com.elune.dao.UserMapper;
+
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.ioc.annotation.Service;
 import org.apache.ibatis.session.SqlSession;
 
 @Service
-public class BookService {
+public class UserService {
 
     @FromService
     private DBManager dbManager;
 
-    public BookVo getBook(int id) {
+    public User getUser(long id) {
 
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
-            BookMapper mapper = sqlSession.getMapper(BookMapper.class);
-            BookBo bookBo = mapper.selectBook(id);
-            return new BookVo(){
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            UserEntity userEntity = mapper.selectByPrimaryKey(id);
+            return new User(){
                 {
-                    id = bookBo.id;
-                    name = bookBo.name;
-                    isbn = bookBo.isbn;
-                    author = bookBo.author;
+                    id = userEntity.getId();
+                    nickname = userEntity.getNickname();
                 }
             };
         }
     }
 
-    public void createBook(BookVo book) {
+    public void createUser(User user) {
 
+        // Example
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
-            BookMapper mapper = sqlSession.getMapper(BookMapper.class);
-            mapper.addBook(new BookBo(){
-                {
-                    id = book.id;
-                    name = book.name;
-                    isbn = book.isbn;
-                    author = book.author;
-                }
-            });
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            UserEntity userEntity = new UserEntity();
+            userEntity.setId(user.id);
+            userEntity.setNickname(user.nickname);
+
             sqlSession.commit();
 
         }

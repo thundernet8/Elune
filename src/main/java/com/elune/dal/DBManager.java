@@ -17,7 +17,7 @@
  */
 
 
-package com.elune.dao;
+package com.elune.dal;
 
 import com.elune.configuration.AppConfiguration;
 
@@ -33,7 +33,7 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
 import javax.sql.DataSource;
 
-import static com.elune.Constant.*;
+import static com.elune.constants.Constant.*;
 
 @Service(sington = true)
 public final class DBManager {
@@ -63,7 +63,7 @@ public final class DBManager {
         Environment environment = new Environment(isDev ? "development" : "production", transactionFactory, dataSource);
         configuration = new Configuration(environment);
 
-        configuration.addMappers(DBManager.class.getPackage().getName().concat(".mapper"));
+        configuration.addMappers("com.elune.dao");
 
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
     }
