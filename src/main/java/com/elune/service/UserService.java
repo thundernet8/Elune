@@ -19,52 +19,58 @@
 
 package com.elune.service;
 
-import com.elune.dal.DBManager;
-import com.elune.entity.UserEntity;
-import com.elune.model.User;
-import com.elune.dao.UserMapper;
+import com.elune.model.*;
 
-import com.fedepot.ioc.annotation.FromService;
-import com.fedepot.ioc.annotation.Service;
-import org.apache.ibatis.session.SqlSession;
+import java.util.Map;
 
-@Service
-public class UserService {
+public interface UserService {
 
-    @FromService
-    private DBManager dbManager;
+    User signup(RegisterModel registerModel) throws Exception;
 
-    public User getUser(long id) {
+    LoginUser signin(LoginModel loginModel) throws Exception;
 
-        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+    void signout(long uid) throws Exception;
 
-            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-            UserEntity userEntity = mapper.selectByPrimaryKey(id);
-            if (userEntity == null) {
+    User getUser(long id);
 
-                return null;
-            }
-            return new User(){
-                {
-                    id = userEntity.getId();
-                    nickname = userEntity.getNickname();
-                }
-            };
-        }
-    }
+    User getUserByName(String username);
 
-    public void createUser(User user) {
+    User getUserByEmail(String email);
 
-        // Example
-        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+    Map<String, Object> getUserInfo(long uid);
 
-            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-            UserEntity userEntity = new UserEntity();
-            userEntity.setId(user.id);
-            userEntity.setNickname(user.nickname);
+    /**
+     * 更新用户 (仅更新User表所包含字段)
+     *
+     * @param user 用户模型
+     * @return 更新成功返回true, 否则false
+     */
+    boolean update(User user);
 
-            sqlSession.commit();
+    /**
+     * 更新用户信息 包含扩展信息(UserMeta)
+     *
+     * @param info 用户信息数据
+     * @return 更新成功返回true, 否则false
+     */
+    boolean updateInfo(Map<String, Object> info);
 
-        }
-    }
+    /**
+     * 获取未读消息数量
+     *
+     * @param uid 用户ID
+     * @return 未读消息数量
+     */
+    int getUnReadCount(long uid);
+
+
+    /**
+     * 分页查询站内提醒
+     *
+     * @param uid 用户ID
+     * @param page 分页
+     * @param pageSize 分页大小
+     * @return 分页的提醒对象
+     */
+    Pagination<Notification> getNotifications(long uid, int page, int pageSize);
 }

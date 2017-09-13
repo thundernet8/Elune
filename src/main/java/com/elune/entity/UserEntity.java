@@ -19,11 +19,14 @@
 
 package com.elune.entity;
 
+import lombok.Builder;
+
 import java.io.Serializable;
 
 /**
  * @author Touchumind
  */
+@Builder
 public class UserEntity implements Serializable {
     private Long id;
 

@@ -19,7 +19,9 @@
 
 package com.elune.controller.api;
 
-import com.elune.dal.DBManager;
+import com.elune.model.LoginModel;
+import com.elune.model.LoginUser;
+import com.elune.model.RegisterModel;
 import com.elune.model.User;
 import com.elune.service.UserService;
 
@@ -28,37 +30,58 @@ import com.fedepot.mvc.annotation.FromBody;
 import com.fedepot.mvc.annotation.HttpPost;
 import com.fedepot.mvc.annotation.Route;
 import com.fedepot.mvc.annotation.RoutePrefix;
-import com.fedepot.mvc.controller.Controller;
+import com.fedepot.mvc.controller.APIController;
+import com.fedepot.mvc.http.Session;
 
-@RoutePrefix("api/users")
-public class UserController extends Controller {
-
-    private DBManager dbManager;
+// TODO csrf header verify
+@RoutePrefix("api")
+public class AuthController extends APIController{
 
     @FromService
     private UserService userService;
 
-    public UserController(DBManager dbManager) {
+    @HttpPost
+    @Route("signin")
+    public void login(@FromBody LoginModel loginModel) {
 
-        this.dbManager = dbManager;
+        try {
+
+            LoginUser user = userService.signin(loginModel);
+            Succeed(user);
+            // TODO session绑定
+        } catch (Exception e) {
+
+            Fail(e);
+        }
     }
 
     @HttpPost
-    @Route("{int:id}")
-    public String getUserDetail(int id) {
+    @Route("signup")
+    public void register(@FromBody RegisterModel registerModel) {
 
-        User user = userService.getUser(id);
+        try{
 
-        String message;
+            User user = userService.signup(registerModel);
+            Succeed(user);
+        } catch (Exception e) {
 
-        if (user == null) {
-
-            message = "User with id " + id + " is not exist";
-        } else {
-
-            message = "User detail name " + user.nickname;
+            Fail(e);
         }
+    }
 
-        return message;
+    @HttpPost
+    @Route("signout")
+    public void logout() {
+
+        try{
+
+            Session session = Request().session();
+            long uid = (long)session.attribute("uid");
+            userService.signout(uid);
+            Succeed("");
+        } catch (Exception e) {
+
+            Fail(e);
+        }
     }
 }

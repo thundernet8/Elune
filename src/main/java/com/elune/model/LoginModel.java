@@ -1,5 +1,5 @@
 /**
- * Elune - Lightweight Forum Powered by Razor
+ * Elune - Lightweight Forum Powered by Razor.
  * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -19,20 +19,12 @@
 
 package com.elune.model;
 
-import lombok.Builder;
-
-import java.io.Serializable;
-
-@Builder
-public class User implements Serializable {
-
-    public long id;
+/**
+ * 用户登录请求体模型
+ */
+public class LoginModel {
 
     public String username;
 
-    public String nickname;
-
-    public String email;
-
-    public int joinTime;
+    public String password;
 }

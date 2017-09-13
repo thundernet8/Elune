@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : utf-8
 
- Date: 09/12/2017 23:59:30 PM
+ Date: 09/14/2017 00:42:08 AM
 */
 
 SET NAMES utf8;
@@ -35,6 +35,8 @@ CREATE TABLE `t_channel` (
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `hosts` varchar(255) NOT NULL DEFAULT '' COMMENT '频道主持 多个id以逗号分隔',
   PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_title` (`title`),
+  UNIQUE KEY `idx_slug` (`slug`),
   KEY `idx_create_time` (`create_time`),
   KEY `idx_update_time` (`update_time`),
   KEY `idx_pid` (`pid`)
@@ -133,7 +135,9 @@ CREATE TABLE `t_tag` (
   `slug` varchar(30) NOT NULL COMMENT '英文简写',
   `topics_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '拥有该标签的话题数量',
   `create_time` int(10) unsigned NOT NULL COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_title` (`title`),
+  UNIQUE KEY `idx_slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='标签';
 
 -- ----------------------------
@@ -207,6 +211,7 @@ CREATE TABLE `t_user` (
   `articles_count` int(10) NOT NULL DEFAULT '0' COMMENT '发布的文章数量',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_username` (`username`),
+  UNIQUE KEY `idx_email` (`email`),
   KEY `idx_join_time` (`join_time`),
   KEY `idx_update_time` (`update_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户';

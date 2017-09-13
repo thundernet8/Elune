@@ -1,5 +1,5 @@
 /**
- * Elune - Lightweight Forum Powered by Razor
+ * Elune - Lightweight Forum Powered by Razor.
  * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -17,22 +17,32 @@
  */
 
 
-package com.elune.model;
+package com.elune.utils;
 
-import lombok.Builder;
+import java.time.LocalDateTime;
 
-import java.io.Serializable;
+import static com.elune.constants.Constant.DEFAULT_ZONE_ID;
 
-@Builder
-public class User implements Serializable {
+public final class DateUtil {
 
-    public long id;
+    /**
+     * 获取指定时间的Timestamp
+     *
+     * @return Timestamp(秒)
+     */
+    public static int getTimeStamp() {
 
-    public String username;
+        return getTimeStamp(LocalDateTime.now());
+    }
 
-    public String nickname;
+    /**
+     * 获取指定时间的Timestamp
+     *
+     * @param dateTime 指定时间
+     * @return Timestamp(秒)
+     */
+    public static int getTimeStamp(LocalDateTime dateTime) {
 
-    public String email;
-
-    public int joinTime;
+        return Math.toIntExact(dateTime.atZone(DEFAULT_ZONE_ID).toInstant().toEpochMilli() / 1000);
+    }
 }

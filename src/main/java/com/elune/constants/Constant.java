@@ -20,6 +20,7 @@
 package com.elune.constants;
 
 import java.io.File;
+import java.time.ZoneId;
 
 public interface Constant {
 
@@ -61,4 +62,9 @@ public interface Constant {
     public static String DEFAULT_REDIS_HOST = "localhost";
 
     public static int DEFAULT_REDIS_PORT = 6379;
+
+    /**
+     * System
+     */
+    public static ZoneId DEFAULT_ZONE_ID = ZoneId.of("Asia/Shanghai");
 }

@@ -1,5 +1,5 @@
 /**
- * Elune - Lightweight Forum Powered by Razor
+ * Elune - Lightweight Forum Powered by Razor.
  * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -19,20 +19,18 @@
 
 package com.elune.model;
 
-import lombok.Builder;
+import lombok.*;
 
-import java.io.Serializable;
+@AllArgsConstructor
+@Getter
+@Setter
+public class Pagination<T> {
 
-@Builder
-public class User implements Serializable {
+    private int total;
 
-    public long id;
+    private int page;
 
-    public String username;
+    private int pageSize;
 
-    public String nickname;
-
-    public String email;
-
-    public int joinTime;
+    private T[] items;
 }
