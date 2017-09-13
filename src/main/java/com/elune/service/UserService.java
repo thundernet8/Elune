@@ -40,6 +40,10 @@ public class UserService {
 
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
             UserEntity userEntity = mapper.selectByPrimaryKey(id);
+            if (userEntity == null) {
+
+                return null;
+            }
             return new User(){
                 {
                     id = userEntity.getId();

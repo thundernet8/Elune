@@ -34,5 +34,6 @@ public class GlobalExceptionHandler implements ExceptionHandler {
     public void handle(Exception e, Razor razor) {
 
         System.out.println("Global exception handler: " + e.toString());
+        e.printStackTrace();
     }
 }

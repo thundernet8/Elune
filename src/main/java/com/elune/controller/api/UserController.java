@@ -44,7 +44,7 @@ public class UserController extends Controller {
     }
 
     @Route("{int:id}")
-    public String getBookDetail(int id) {
+    public String getUserDetail(int id) {
 
         User user = userService.getUser(id);
 
