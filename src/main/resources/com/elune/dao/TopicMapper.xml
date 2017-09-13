@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elune.dao.TopicMapper">
+  <resultMap id="BaseResultMap" type="com.elune.entity.TopicEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="cid" jdbcType="INTEGER" property="cid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="author_id" jdbcType="BIGINT" property="authorId" />
+    <result column="is_pinned" jdbcType="TINYINT" property="isPinned" />
+    <result column="is_essence" jdbcType="TINYINT" property="isEssence" />
+    <result column="views_count" jdbcType="INTEGER" property="viewsCount" />
+    <result column="upvotes_count" jdbcType="INTEGER" property="upvotesCount" />
+    <result column="downvotes_count" jdbcType="INTEGER" property="downvotesCount" />
+    <result column="favorites_count" jdbcType="INTEGER" property="favoritesCount" />
+    <result column="posts_count" jdbcType="INTEGER" property="postsCount" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="comment_status" jdbcType="TINYINT" property="comment_status" />
+    <result column="create_time" jdbcType="INTEGER" property="create_time" />
+    <result column="update_time" jdbcType="INTEGER" property="update_time" />
+    <result column="post_time" jdbcType="INTEGER" property="post_time" />
+    <result column="factor" jdbcType="INTEGER" property="factor" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.elune.entity.TopicEntity">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, cid, title, author, author_id, is_pinned, is_essence, views_count, upvotes_count, 
+    downvotes_count, favorites_count, posts_count, status, comment_status, create_time, 
+    update_time, post_time, factor
+  </sql>
+  <sql id="Blob_Column_List">
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.elune.entity.TopicEntityExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_topic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.elune.entity.TopicEntityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_topic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_topic
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_topic
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.elune.entity.TopicEntityExample">
+    delete from t_topic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.elune.entity.TopicEntity">
+    insert into t_topic (id, cid, title, 
+      author, author_id, is_pinned, 
+      is_essence, views_count, upvotes_count, 
+      downvotes_count, favorites_count, posts_count, 
+      status, comment_status, create_time, 
+      update_time, post_time, factor, 
+      content)
+    values (#{id,jdbcType=BIGINT}, #{cid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{author,jdbcType=VARCHAR}, #{authorId,jdbcType=BIGINT}, #{isPinned,jdbcType=TINYINT}, 
+      #{isEssence,jdbcType=TINYINT}, #{viewsCount,jdbcType=INTEGER}, #{upvotesCount,jdbcType=INTEGER}, 
+      #{downvotesCount,jdbcType=INTEGER}, #{favoritesCount,jdbcType=INTEGER}, #{postsCount,jdbcType=INTEGER}, 
+      #{status,jdbcType=TINYINT}, #{comment_status,jdbcType=TINYINT}, #{create_time,jdbcType=INTEGER}, 
+      #{update_time,jdbcType=INTEGER}, #{post_time,jdbcType=INTEGER}, #{factor,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.elune.entity.TopicEntity">
+    insert into t_topic
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="cid != null">
+        cid,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="authorId != null">
+        author_id,
+      </if>
+      <if test="isPinned != null">
+        is_pinned,
+      </if>
+      <if test="isEssence != null">
+        is_essence,
+      </if>
+      <if test="viewsCount != null">
+        views_count,
+      </if>
+      <if test="upvotesCount != null">
+        upvotes_count,
+      </if>
+      <if test="downvotesCount != null">
+        downvotes_count,
+      </if>
+      <if test="favoritesCount != null">
+        favorites_count,
+      </if>
+      <if test="postsCount != null">
+        posts_count,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="comment_status != null">
+        comment_status,
+      </if>
+      <if test="create_time != null">
+        create_time,
+      </if>
+      <if test="update_time != null">
+        update_time,
+      </if>
+      <if test="post_time != null">
+        post_time,
+      </if>
+      <if test="factor != null">
+        factor,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="cid != null">
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="authorId != null">
+        #{authorId,jdbcType=BIGINT},
+      </if>
+      <if test="isPinned != null">
+        #{isPinned,jdbcType=TINYINT},
+      </if>
+      <if test="isEssence != null">
+        #{isEssence,jdbcType=TINYINT},
+      </if>
+      <if test="viewsCount != null">
+        #{viewsCount,jdbcType=INTEGER},
+      </if>
+      <if test="upvotesCount != null">
+        #{upvotesCount,jdbcType=INTEGER},
+      </if>
+      <if test="downvotesCount != null">
+        #{downvotesCount,jdbcType=INTEGER},
+      </if>
+      <if test="favoritesCount != null">
+        #{favoritesCount,jdbcType=INTEGER},
+      </if>
+      <if test="postsCount != null">
+        #{postsCount,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="comment_status != null">
+        #{comment_status,jdbcType=TINYINT},
+      </if>
+      <if test="create_time != null">
+        #{create_time,jdbcType=INTEGER},
+      </if>
+      <if test="update_time != null">
+        #{update_time,jdbcType=INTEGER},
+      </if>
+      <if test="post_time != null">
+        #{post_time,jdbcType=INTEGER},
+      </if>
+      <if test="factor != null">
+        #{factor,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.elune.entity.TopicEntityExample" resultType="java.lang.Long">
+    select count(*) from t_topic
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_topic
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.cid != null">
+        cid = #{record.cid,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.author != null">
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authorId != null">
+        author_id = #{record.authorId,jdbcType=BIGINT},
+      </if>
+      <if test="record.isPinned != null">
+        is_pinned = #{record.isPinned,jdbcType=TINYINT},
+      </if>
+      <if test="record.isEssence != null">
+        is_essence = #{record.isEssence,jdbcType=TINYINT},
+      </if>
+      <if test="record.viewsCount != null">
+        views_count = #{record.viewsCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.upvotesCount != null">
+        upvotes_count = #{record.upvotesCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.downvotesCount != null">
+        downvotes_count = #{record.downvotesCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.favoritesCount != null">
+        favorites_count = #{record.favoritesCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.postsCount != null">
+        posts_count = #{record.postsCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.comment_status != null">
+        comment_status = #{record.comment_status,jdbcType=TINYINT},
+      </if>
+      <if test="record.create_time != null">
+        create_time = #{record.create_time,jdbcType=INTEGER},
+      </if>
+      <if test="record.update_time != null">
+        update_time = #{record.update_time,jdbcType=INTEGER},
+      </if>
+      <if test="record.post_time != null">
+        post_time = #{record.post_time,jdbcType=INTEGER},
+      </if>
+      <if test="record.factor != null">
+        factor = #{record.factor,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update t_topic
+    set id = #{record.id,jdbcType=BIGINT},
+      cid = #{record.cid,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      author_id = #{record.authorId,jdbcType=BIGINT},
+      is_pinned = #{record.isPinned,jdbcType=TINYINT},
+      is_essence = #{record.isEssence,jdbcType=TINYINT},
+      views_count = #{record.viewsCount,jdbcType=INTEGER},
+      upvotes_count = #{record.upvotesCount,jdbcType=INTEGER},
+      downvotes_count = #{record.downvotesCount,jdbcType=INTEGER},
+      favorites_count = #{record.favoritesCount,jdbcType=INTEGER},
+      posts_count = #{record.postsCount,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=TINYINT},
+      comment_status = #{record.comment_status,jdbcType=TINYINT},
+      create_time = #{record.create_time,jdbcType=INTEGER},
+      update_time = #{record.update_time,jdbcType=INTEGER},
+      post_time = #{record.post_time,jdbcType=INTEGER},
+      factor = #{record.factor,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_topic
+    set id = #{record.id,jdbcType=BIGINT},
+      cid = #{record.cid,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      author = #{record.author,jdbcType=VARCHAR},
+      author_id = #{record.authorId,jdbcType=BIGINT},
+      is_pinned = #{record.isPinned,jdbcType=TINYINT},
+      is_essence = #{record.isEssence,jdbcType=TINYINT},
+      views_count = #{record.viewsCount,jdbcType=INTEGER},
+      upvotes_count = #{record.upvotesCount,jdbcType=INTEGER},
+      downvotes_count = #{record.downvotesCount,jdbcType=INTEGER},
+      favorites_count = #{record.favoritesCount,jdbcType=INTEGER},
+      posts_count = #{record.postsCount,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=TINYINT},
+      comment_status = #{record.comment_status,jdbcType=TINYINT},
+      create_time = #{record.create_time,jdbcType=INTEGER},
+      update_time = #{record.update_time,jdbcType=INTEGER},
+      post_time = #{record.post_time,jdbcType=INTEGER},
+      factor = #{record.factor,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.elune.entity.TopicEntity">
+    update t_topic
+    <set>
+      <if test="cid != null">
+        cid = #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="authorId != null">
+        author_id = #{authorId,jdbcType=BIGINT},
+      </if>
+      <if test="isPinned != null">
+        is_pinned = #{isPinned,jdbcType=TINYINT},
+      </if>
+      <if test="isEssence != null">
+        is_essence = #{isEssence,jdbcType=TINYINT},
+      </if>
+      <if test="viewsCount != null">
+        views_count = #{viewsCount,jdbcType=INTEGER},
+      </if>
+      <if test="upvotesCount != null">
+        upvotes_count = #{upvotesCount,jdbcType=INTEGER},
+      </if>
+      <if test="downvotesCount != null">
+        downvotes_count = #{downvotesCount,jdbcType=INTEGER},
+      </if>
+      <if test="favoritesCount != null">
+        favorites_count = #{favoritesCount,jdbcType=INTEGER},
+      </if>
+      <if test="postsCount != null">
+        posts_count = #{postsCount,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="comment_status != null">
+        comment_status = #{comment_status,jdbcType=TINYINT},
+      </if>
+      <if test="create_time != null">
+        create_time = #{create_time,jdbcType=INTEGER},
+      </if>
+      <if test="update_time != null">
+        update_time = #{update_time,jdbcType=INTEGER},
+      </if>
+      <if test="post_time != null">
+        post_time = #{post_time,jdbcType=INTEGER},
+      </if>
+      <if test="factor != null">
+        factor = #{factor,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.elune.entity.TopicEntity">
+    update t_topic
+    set cid = #{cid,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      author_id = #{authorId,jdbcType=BIGINT},
+      is_pinned = #{isPinned,jdbcType=TINYINT},
+      is_essence = #{isEssence,jdbcType=TINYINT},
+      views_count = #{viewsCount,jdbcType=INTEGER},
+      upvotes_count = #{upvotesCount,jdbcType=INTEGER},
+      downvotes_count = #{downvotesCount,jdbcType=INTEGER},
+      favorites_count = #{favoritesCount,jdbcType=INTEGER},
+      posts_count = #{postsCount,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      comment_status = #{comment_status,jdbcType=TINYINT},
+      create_time = #{create_time,jdbcType=INTEGER},
+      update_time = #{update_time,jdbcType=INTEGER},
+      post_time = #{post_time,jdbcType=INTEGER},
+      factor = #{factor,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.elune.entity.TopicEntity">
+    update t_topic
+    set cid = #{cid,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      author_id = #{authorId,jdbcType=BIGINT},
+      is_pinned = #{isPinned,jdbcType=TINYINT},
+      is_essence = #{isEssence,jdbcType=TINYINT},
+      views_count = #{viewsCount,jdbcType=INTEGER},
+      upvotes_count = #{upvotesCount,jdbcType=INTEGER},
+      downvotes_count = #{downvotesCount,jdbcType=INTEGER},
+      favorites_count = #{favoritesCount,jdbcType=INTEGER},
+      posts_count = #{postsCount,jdbcType=INTEGER},
+      status = #{status,jdbcType=TINYINT},
+      comment_status = #{comment_status,jdbcType=TINYINT},
+      create_time = #{create_time,jdbcType=INTEGER},
+      update_time = #{update_time,jdbcType=INTEGER},
+      post_time = #{post_time,jdbcType=INTEGER},
+      factor = #{factor,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
