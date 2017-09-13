@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="slug" jdbcType="VARCHAR" property="slug" />
-    <result column="topic_count" jdbcType="INTEGER" property="topicCount" />
+    <result column="topics_count" jdbcType="INTEGER" property="topicsCount" />
     <result column="create_time" jdbcType="INTEGER" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -67,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, title, slug, topic_count, create_time
+    id, title, slug, topics_count, create_time
   </sql>
   <select id="selectByExample" parameterType="com.elune.entity.TagEntityExample" resultMap="BaseResultMap">
     select
@@ -92,7 +92,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_tag
     where id = #{id,jdbcType=INTEGER}
@@ -108,10 +108,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.elune.entity.TagEntity">
-    insert into t_tag (id, title, slug, 
-      topic_count, create_time)
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR}, 
-      #{topicCount,jdbcType=INTEGER}, #{createTime,jdbcType=INTEGER})
+    insert into t_tag (id, title, slug,
+      topics_count, create_time)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR},
+      #{topicsCount,jdbcType=INTEGER}, #{createTime,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.elune.entity.TagEntity">
     insert into t_tag
@@ -125,8 +125,8 @@
       <if test="slug != null">
         slug,
       </if>
-      <if test="topicCount != null">
-        topic_count,
+      <if test="topicsCount != null">
+        topics_count,
       </if>
       <if test="createTime != null">
         create_time,
@@ -142,8 +142,8 @@
       <if test="slug != null">
         #{slug,jdbcType=VARCHAR},
       </if>
-      <if test="topicCount != null">
-        #{topicCount,jdbcType=INTEGER},
+      <if test="topicsCount != null">
+        #{topicsCount,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=INTEGER},
@@ -168,8 +168,8 @@
       <if test="record.slug != null">
         slug = #{record.slug,jdbcType=VARCHAR},
       </if>
-      <if test="record.topicCount != null">
-        topic_count = #{record.topicCount,jdbcType=INTEGER},
+      <if test="record.topicsCount != null">
+        topics_count = #{record.topicsCount,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=INTEGER},
@@ -184,7 +184,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
       slug = #{record.slug,jdbcType=VARCHAR},
-      topic_count = #{record.topicCount,jdbcType=INTEGER},
+      topics_count = #{record.topicsCount,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -199,8 +199,8 @@
       <if test="slug != null">
         slug = #{slug,jdbcType=VARCHAR},
       </if>
-      <if test="topicCount != null">
-        topic_count = #{topicCount,jdbcType=INTEGER},
+      <if test="topicsCount != null">
+        topics_count = #{topicsCount,jdbcType=INTEGER},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=INTEGER},
@@ -212,7 +212,7 @@
     update t_tag
     set title = #{title,jdbcType=VARCHAR},
       slug = #{slug,jdbcType=VARCHAR},
-      topic_count = #{topicCount,jdbcType=INTEGER},
+      topics_count = #{topicsCount,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

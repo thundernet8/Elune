@@ -74,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, pid, title, description, slug, cover_img, main_color, topics_count, status, create_time, 
+    id, pid, title, description, slug, cover_img, main_color, topics_count, status, create_time,
     update_time, hosts
   </sql>
   <select id="selectByExample" parameterType="com.elune.entity.ChannelEntityExample" resultMap="BaseResultMap">
@@ -100,7 +100,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_channel
     where id = #{id,jdbcType=INTEGER}
@@ -116,14 +116,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.elune.entity.ChannelEntity">
-    insert into t_channel (id, pid, title, 
-      description, slug, cover_img, 
-      main_color, topics_count, status, 
+    insert into t_channel (id, pid, title,
+      description, slug, cover_img,
+      main_color, topics_count, status,
       create_time, update_time, hosts
       )
-    values (#{id,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR}, #{coverImg,jdbcType=VARCHAR}, 
-      #{mainColor,jdbcType=INTEGER}, #{topicsCount,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+      #{description,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR}, #{coverImg,jdbcType=VARCHAR},
+      #{mainColor,jdbcType=INTEGER}, #{topicsCount,jdbcType=INTEGER}, #{status,jdbcType=TINYINT},
       #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER}, #{hosts,jdbcType=VARCHAR}
       )
   </insert>
@@ -325,333 +325,6 @@
       status = #{status,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=INTEGER},
-      hosts = #{hosts,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <resultMap id="BaseResultMap" type="com.elune.entity.ChannelEntity">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="pid" jdbcType="INTEGER" property="pid" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="slug" jdbcType="VARCHAR" property="slug" />
-    <result column="cover_img" jdbcType="VARCHAR" property="cover_img" />
-    <result column="main_color" jdbcType="INTEGER" property="main_color" />
-    <result column="topics_count" jdbcType="INTEGER" property="topics_count" />
-    <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="create_time" jdbcType="INTEGER" property="create_time" />
-    <result column="update_time" jdbcType="INTEGER" property="update_time" />
-    <result column="hosts" jdbcType="VARCHAR" property="hosts" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    id, pid, title, description, slug, cover_img, main_color, topics_count, status, create_time, 
-    update_time, hosts
-  </sql>
-  <select id="selectByExample" parameterType="com.elune.entity.ChannelEntityExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from t_channel
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-    <if test="limit != null">
-      <if test="offset != null">
-        limit ${offset}, ${limit}
-      </if>
-      <if test="offset == null">
-        limit ${limit}
-      </if>
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from t_channel
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from t_channel
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.elune.entity.ChannelEntityExample">
-    delete from t_channel
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.elune.entity.ChannelEntity">
-    insert into t_channel (id, pid, title, 
-      description, slug, cover_img, 
-      main_color, topics_count, status, 
-      create_time, update_time, hosts
-      )
-    values (#{id,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR}, #{cover_img,jdbcType=VARCHAR}, 
-      #{main_color,jdbcType=INTEGER}, #{topics_count,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
-      #{create_time,jdbcType=INTEGER}, #{update_time,jdbcType=INTEGER}, #{hosts,jdbcType=VARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.elune.entity.ChannelEntity">
-    insert into t_channel
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="pid != null">
-        pid,
-      </if>
-      <if test="title != null">
-        title,
-      </if>
-      <if test="description != null">
-        description,
-      </if>
-      <if test="slug != null">
-        slug,
-      </if>
-      <if test="cover_img != null">
-        cover_img,
-      </if>
-      <if test="main_color != null">
-        main_color,
-      </if>
-      <if test="topics_count != null">
-        topics_count,
-      </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="create_time != null">
-        create_time,
-      </if>
-      <if test="update_time != null">
-        update_time,
-      </if>
-      <if test="hosts != null">
-        hosts,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="pid != null">
-        #{pid,jdbcType=INTEGER},
-      </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null">
-        #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="slug != null">
-        #{slug,jdbcType=VARCHAR},
-      </if>
-      <if test="cover_img != null">
-        #{cover_img,jdbcType=VARCHAR},
-      </if>
-      <if test="main_color != null">
-        #{main_color,jdbcType=INTEGER},
-      </if>
-      <if test="topics_count != null">
-        #{topics_count,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=TINYINT},
-      </if>
-      <if test="create_time != null">
-        #{create_time,jdbcType=INTEGER},
-      </if>
-      <if test="update_time != null">
-        #{update_time,jdbcType=INTEGER},
-      </if>
-      <if test="hosts != null">
-        #{hosts,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.elune.entity.ChannelEntityExample" resultType="java.lang.Long">
-    select count(*) from t_channel
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update t_channel
-    <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.pid != null">
-        pid = #{record.pid,jdbcType=INTEGER},
-      </if>
-      <if test="record.title != null">
-        title = #{record.title,jdbcType=VARCHAR},
-      </if>
-      <if test="record.description != null">
-        description = #{record.description,jdbcType=VARCHAR},
-      </if>
-      <if test="record.slug != null">
-        slug = #{record.slug,jdbcType=VARCHAR},
-      </if>
-      <if test="record.cover_img != null">
-        cover_img = #{record.cover_img,jdbcType=VARCHAR},
-      </if>
-      <if test="record.main_color != null">
-        main_color = #{record.main_color,jdbcType=INTEGER},
-      </if>
-      <if test="record.topics_count != null">
-        topics_count = #{record.topics_count,jdbcType=INTEGER},
-      </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=TINYINT},
-      </if>
-      <if test="record.create_time != null">
-        create_time = #{record.create_time,jdbcType=INTEGER},
-      </if>
-      <if test="record.update_time != null">
-        update_time = #{record.update_time,jdbcType=INTEGER},
-      </if>
-      <if test="record.hosts != null">
-        hosts = #{record.hosts,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update t_channel
-    set id = #{record.id,jdbcType=INTEGER},
-      pid = #{record.pid,jdbcType=INTEGER},
-      title = #{record.title,jdbcType=VARCHAR},
-      description = #{record.description,jdbcType=VARCHAR},
-      slug = #{record.slug,jdbcType=VARCHAR},
-      cover_img = #{record.cover_img,jdbcType=VARCHAR},
-      main_color = #{record.main_color,jdbcType=INTEGER},
-      topics_count = #{record.topics_count,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=TINYINT},
-      create_time = #{record.create_time,jdbcType=INTEGER},
-      update_time = #{record.update_time,jdbcType=INTEGER},
-      hosts = #{record.hosts,jdbcType=VARCHAR}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.elune.entity.ChannelEntity">
-    update t_channel
-    <set>
-      <if test="pid != null">
-        pid = #{pid,jdbcType=INTEGER},
-      </if>
-      <if test="title != null">
-        title = #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="description != null">
-        description = #{description,jdbcType=VARCHAR},
-      </if>
-      <if test="slug != null">
-        slug = #{slug,jdbcType=VARCHAR},
-      </if>
-      <if test="cover_img != null">
-        cover_img = #{cover_img,jdbcType=VARCHAR},
-      </if>
-      <if test="main_color != null">
-        main_color = #{main_color,jdbcType=INTEGER},
-      </if>
-      <if test="topics_count != null">
-        topics_count = #{topics_count,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="create_time != null">
-        create_time = #{create_time,jdbcType=INTEGER},
-      </if>
-      <if test="update_time != null">
-        update_time = #{update_time,jdbcType=INTEGER},
-      </if>
-      <if test="hosts != null">
-        hosts = #{hosts,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.elune.entity.ChannelEntity">
-    update t_channel
-    set pid = #{pid,jdbcType=INTEGER},
-      title = #{title,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR},
-      slug = #{slug,jdbcType=VARCHAR},
-      cover_img = #{cover_img,jdbcType=VARCHAR},
-      main_color = #{main_color,jdbcType=INTEGER},
-      topics_count = #{topics_count,jdbcType=INTEGER},
-      status = #{status,jdbcType=TINYINT},
-      create_time = #{create_time,jdbcType=INTEGER},
-      update_time = #{update_time,jdbcType=INTEGER},
       hosts = #{hosts,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>

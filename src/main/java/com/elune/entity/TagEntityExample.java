@@ -324,63 +324,63 @@ public class TagEntityExample {
             return (Criteria) this;
         }
 
-        public Criteria andTopicCountIsNull() {
-            addCriterion("topic_count is null");
+        public Criteria andTopicsCountIsNull() {
+            addCriterion("topics_count is null");
             return (Criteria) this;
         }
 
-        public Criteria andTopicCountIsNotNull() {
-            addCriterion("topic_count is not null");
+        public Criteria andTopicsCountIsNotNull() {
+            addCriterion("topics_count is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTopicCountEqualTo(Integer value) {
-            addCriterion("topic_count =", value, "topicCount");
+        public Criteria andTopicsCountEqualTo(Integer value) {
+            addCriterion("topics_count =", value, "topicsCount");
             return (Criteria) this;
         }
 
-        public Criteria andTopicCountNotEqualTo(Integer value) {
-            addCriterion("topic_count <>", value, "topicCount");
+        public Criteria andTopicsCountNotEqualTo(Integer value) {
+            addCriterion("topics_count <>", value, "topicsCount");
             return (Criteria) this;
         }
 
-        public Criteria andTopicCountGreaterThan(Integer value) {
-            addCriterion("topic_count >", value, "topicCount");
+        public Criteria andTopicsCountGreaterThan(Integer value) {
+            addCriterion("topics_count >", value, "topicsCount");
             return (Criteria) this;
         }
 
-        public Criteria andTopicCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("topic_count >=", value, "topicCount");
+        public Criteria andTopicsCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("topics_count >=", value, "topicsCount");
             return (Criteria) this;
         }
 
-        public Criteria andTopicCountLessThan(Integer value) {
-            addCriterion("topic_count <", value, "topicCount");
+        public Criteria andTopicsCountLessThan(Integer value) {
+            addCriterion("topics_count <", value, "topicsCount");
             return (Criteria) this;
         }
 
-        public Criteria andTopicCountLessThanOrEqualTo(Integer value) {
-            addCriterion("topic_count <=", value, "topicCount");
+        public Criteria andTopicsCountLessThanOrEqualTo(Integer value) {
+            addCriterion("topics_count <=", value, "topicsCount");
             return (Criteria) this;
         }
 
-        public Criteria andTopicCountIn(List<Integer> values) {
-            addCriterion("topic_count in", values, "topicCount");
+        public Criteria andTopicsCountIn(List<Integer> values) {
+            addCriterion("topics_count in", values, "topicsCount");
             return (Criteria) this;
         }
 
-        public Criteria andTopicCountNotIn(List<Integer> values) {
-            addCriterion("topic_count not in", values, "topicCount");
+        public Criteria andTopicsCountNotIn(List<Integer> values) {
+            addCriterion("topics_count not in", values, "topicsCount");
             return (Criteria) this;
         }
 
-        public Criteria andTopicCountBetween(Integer value1, Integer value2) {
-            addCriterion("topic_count between", value1, value2, "topicCount");
+        public Criteria andTopicsCountBetween(Integer value1, Integer value2) {
+            addCriterion("topics_count between", value1, value2, "topicsCount");
             return (Criteria) this;
         }
 
-        public Criteria andTopicCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("topic_count not between", value1, value2, "topicCount");
+        public Criteria andTopicsCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("topics_count not between", value1, value2, "topicsCount");
             return (Criteria) this;
         }
 

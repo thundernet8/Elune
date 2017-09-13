@@ -1,9 +1,28 @@
+/**
+ * Elune - Lightweight Forum Powered by Razor.
+ * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
+ * <p>
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * <p>
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * <p>
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
 package com.elune.entity;
 
 import java.io.Serializable;
 
 /**
- * @author 
+ * @author Touchumind
  */
 public class TagEntity implements Serializable {
     private Integer id;
@@ -21,7 +40,7 @@ public class TagEntity implements Serializable {
     /**
      * 拥有该标签的话题数量
      */
-    private Integer topicCount;
+    private Integer topicsCount;
 
     /**
      * 创建时间
@@ -54,12 +73,12 @@ public class TagEntity implements Serializable {
         this.slug = slug;
     }
 
-    public Integer getTopicCount() {
-        return topicCount;
+    public Integer getTopicsCount() {
+        return topicsCount;
     }
 
-    public void setTopicCount(Integer topicCount) {
-        this.topicCount = topicCount;
+    public void setTopicsCount(Integer topicsCount) {
+        this.topicsCount = topicsCount;
     }
 
     public Integer getCreateTime() {
@@ -85,7 +104,7 @@ public class TagEntity implements Serializable {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle()))
             && (this.getSlug() == null ? other.getSlug() == null : this.getSlug().equals(other.getSlug()))
-            && (this.getTopicCount() == null ? other.getTopicCount() == null : this.getTopicCount().equals(other.getTopicCount()))
+            && (this.getTopicsCount() == null ? other.getTopicsCount() == null : this.getTopicsCount().equals(other.getTopicsCount()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()));
     }
 
@@ -96,7 +115,7 @@ public class TagEntity implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getTitle() == null) ? 0 : getTitle().hashCode());
         result = prime * result + ((getSlug() == null) ? 0 : getSlug().hashCode());
-        result = prime * result + ((getTopicCount() == null) ? 0 : getTopicCount().hashCode());
+        result = prime * result + ((getTopicsCount() == null) ? 0 : getTopicsCount().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         return result;
     }
@@ -110,7 +129,7 @@ public class TagEntity implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", title=").append(title);
         sb.append(", slug=").append(slug);
-        sb.append(", topicCount=").append(topicCount);
+        sb.append(", topicsCount=").append(topicsCount);
         sb.append(", createTime=").append(createTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

@@ -32,8 +32,36 @@
   <component name="ChangeListManager">
     <list default="true" id="7a4f5e58-9593-469f-bcb0-caa629988c30" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Elune.iml" afterPath="$PROJECT_DIR$/Elune.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/sql/elune.sql" afterPath="$PROJECT_DIR$/sql/elune.sql" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/dao/ChannelMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/dao/ChannelMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/dao/FavoriteMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/dao/FavoriteMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/dao/NotificationMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/dao/NotificationMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/dao/OpenMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/dao/OpenMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/dao/OptionMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/dao/OptionMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/dao/PostMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/dao/PostMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/dao/TagMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/dao/TagMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/dao/TokenMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/dao/TokenMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/dao/TopicMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/dao/TopicMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/dao/UserLogMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/dao/UserLogMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/dao/UserMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/dao/UserMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/dao/UserMetaMapper.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/dao/UserMetaMapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/entity/ChannelEntity.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/entity/ChannelEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/entity/FavoriteEntity.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/entity/FavoriteEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/entity/NotificationEntity.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/entity/NotificationEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/entity/OpenEntity.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/entity/OpenEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/entity/OptionEntity.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/entity/OptionEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/entity/PostEntity.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/entity/PostEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/entity/TagEntity.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/entity/TagEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/entity/TagEntityExample.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/entity/TagEntityExample.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/entity/TokenEntity.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/entity/TokenEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/entity/TopicEntity.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/entity/TopicEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/entity/UserEntity.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/entity/UserEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/entity/UserlogEntity.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/entity/UserlogEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/elune/entity/UsermetaEntity.java" afterPath="$PROJECT_DIR$/src/main/java/com/elune/entity/UsermetaEntity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/com/elune/dao/ChannelMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/com/elune/dao/ChannelMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/com/elune/dao/TagMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/com/elune/dao/TagMapper.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/com/elune/dao/UserMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/com/elune/dao/UserMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/com/elune/dao/UserMetaMapper.xml" afterPath="$PROJECT_DIR$/src/main/resources/com/elune/dao/UserMetaMapper.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -54,70 +82,142 @@
     <expand>
       <path>
         <item name="" type="eadb38e5:DatabaseStructure$Root" />
-        <item name="MySQL - elune@localhost" type="e3449647:DbNodeDescriptor" />
+        <item name="elune@localhost" type="e3449647:DbNodeDescriptor" />
+      </path>
+      <path>
+        <item name="" type="eadb38e5:DatabaseStructure$Root" />
+        <item name="elune@localhost" type="e3449647:DbNodeDescriptor" />
+        <item name="elune" type="e3449647:DbNodeDescriptor" />
+      </path>
+      <path>
+        <item name="" type="eadb38e5:DatabaseStructure$Root" />
+        <item name="elune@localhost" type="e3449647:DbNodeDescriptor" />
+        <item name="elune" type="e3449647:DbNodeDescriptor" />
+        <item name="t_tag" type="e3449647:DbNodeDescriptor" />
       </path>
     </expand>
     <select />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
+      <file leaf-file-name="NotificationEntity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/NotificationEntity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="46" column="37" lean-forward="false" selection-start-line="46" selection-start-column="27" selection-end-line="46" selection-end-column="37" />
+            <state relative-caret-position="0">
+              <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserMapper.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/resources/com/elune/dao/UserMapper.xml">
+      <file leaf-file-name="FavoriteEntity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/FavoriteEntity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="444">
-              <caret line="392" column="9" lean-forward="false" selection-start-line="392" selection-start-column="9" selection-end-line="392" selection-end-column="9" />
+            <state relative-caret-position="192">
+              <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ChannelEntity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/ChannelEntity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="192">
+              <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="elune.sql" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sql/elune.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3192">
+              <caret line="133" column="9" lean-forward="false" selection-start-line="133" selection-start-column="9" selection-end-line="133" selection-end-column="9" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TagMapper.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dao/TagMapper.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="168">
+              <caret line="26" column="17" lean-forward="false" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TagEntity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/TagEntity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="346">
+              <caret line="129" column="44" lean-forward="true" selection-start-line="129" selection-start-column="44" selection-end-line="129" selection-end-column="44" />
               <folding>
-                <element signature="n#resultMap#0;n#mapper#0;n#!!top" expanded="false" />
-                <element signature="n#sql#0;n#mapper#0;n#!!top" expanded="false" />
-                <element signature="n#sql#1;n#mapper#0;n#!!top" expanded="false" />
-                <element signature="n#sql#2;n#mapper#0;n#!!top" expanded="false" />
-                <element signature="n#select#0;n#mapper#0;n#!!top" expanded="false" />
-                <element signature="n#select#1;n#mapper#0;n#!!top" expanded="false" />
-                <element signature="n#delete#0;n#mapper#0;n#!!top" expanded="false" />
-                <element signature="n#delete#1;n#mapper#0;n#!!top" expanded="false" />
-                <element signature="n#insert#0;n#mapper#0;n#!!top" expanded="false" />
-                <element signature="n#insert#1;n#mapper#0;n#!!top" expanded="false" />
-                <element signature="n#select#2;n#mapper#0;n#!!top" expanded="false" />
-                <element signature="n#update#0;n#mapper#0;n#!!top" expanded="false" />
-                <marker date="1505281379000" expanded="true" signature="4590:4690" ph="select from t_user" />
-                <marker date="1505281379000" expanded="true" signature="4773:4828" ph="delete from " />
-                <marker date="1505281379000" expanded="true" signature="4928:4946" ph="delete from " />
-                <marker date="1505281379000" expanded="true" signature="5122:5829" ph="insert into t_user... " />
-                <marker date="1505281379000" expanded="true" signature="8554:8581" ph="select count... t_user" />
-                <marker date="1505281379000" expanded="true" signature="10679:11533" ph="update t_use... " />
-                <marker date="1505281379000" expanded="true" signature="11740:13233" ph="update t_use... " />
-                <marker date="1505281379000" expanded="true" signature="13329:14074" ph="update t_use... " />
+                <element signature="e#1650#1651#0" expanded="true" />
+                <element signature="e#1684#1685#0" expanded="true" />
+                <element signature="e#1739#1740#0" expanded="true" />
+                <element signature="e#1785#1786#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserMapper.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dao/UserMapper.java">
+      <file leaf-file-name="TagEntityExample.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/TagEntityExample.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="192">
-              <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+            <state relative-caret-position="7128">
+              <caret line="326" column="33" lean-forward="false" selection-start-line="326" selection-start-column="33" selection-end-line="326" selection-end-column="33" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="elune_config.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/target/elune_config.xml">
+      <file leaf-file-name="TagMapper.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/resources/com/elune/dao/TagMapper.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="9" column="38" lean-forward="false" selection-start-line="9" selection-start-column="38" selection-end-line="9" selection-end-column="38" />
+            <state relative-caret-position="264">
+              <caret line="11" column="11" lean-forward="true" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
+              <folding>
+                <marker date="1505305837000" expanded="true" signature="3693:3793" ph="select from t_tag" />
+                <marker date="1505305837000" expanded="true" signature="3879:3934" ph="delete from " />
+                <marker date="1505305837000" expanded="true" signature="4033:4050" ph="delete from " />
+                <marker date="1505305837000" expanded="true" signature="4225:4396" ph="insert into t_tag... " />
+                <marker date="1505305837000" expanded="true" signature="4225:4453" ph="insert into t_tag... " />
+                <marker date="1505305837000" expanded="true" signature="5545:5571" ph="select count... t_tag" />
+                <marker date="1505305837000" expanded="true" signature="6473:6742" ph="update t_tag... " />
+                <marker date="1505305837000" expanded="true" signature="6948:7399" ph="update t_tag... " />
+                <marker date="1505305837000" expanded="true" signature="7494:7731" ph="update t_tag... " />
+                <marker date="1505305837000" expanded="true" signature="7618:7731" ph="update t_tag... " />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="d3c058b0-cd5e-4631-bf7a-36ba96e94c5b.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.idea/dataSources/d3c058b0-cd5e-4631-bf7a-36ba96e94c5b.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="212">
+              <caret line="34" column="43" lean-forward="false" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="43" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-5616">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <marker date="1505306768000" expanded="true" signature="83206:83247" ph="..." />
+                <marker date="1505306768000" expanded="true" signature="83206:83265" ph="..." />
+                <marker date="1505306768000" expanded="true" signature="83206:83278" ph="..." />
+                <marker date="1505306768000" expanded="true" signature="83206:83293" ph="..." />
+                <marker date="1505306768000" expanded="true" signature="83206:83230" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -143,7 +243,14 @@
       <find>selectByPrimaryKey</find>
       <find>Reflections</find>
       <find>BaseResultMap</find>
+      <find>topic_</find>
+      <find>topic_count</find>
+      <find>topic</find>
+      <find>topicCount</find>
     </findStrings>
+    <replaceStrings>
+      <replace>topicsCount</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -156,32 +263,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/fedapp/App.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/WEB-INF/templates/inc/layout.html" />
-        <option value="$PROJECT_DIR$/src/main/resources/WEB-INF/templates/inc/header.html" />
-        <option value="$PROJECT_DIR$/src/main/resources/WEB-INF/templates/404.htm" />
-        <option value="$PROJECT_DIR$/src/main/resources/WWW/assets/css/app.css" />
-        <option value="$PROJECT_DIR$/src/main/resources/WWW/assets/js/vender.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/WWW/assets/js/app.js" />
-        <option value="$PROJECT_DIR$/src/main/resources/WEB-INF/templates/inc/header.htm" />
-        <option value="$MAVEN_REPOSITORY$/com/fedepot/razor-mvc/0.0.6-SNAPSHOT/razor-mvc-0.0.6-SNAPSHOT.jar!/com/fedepot/env/Env.class" />
-        <option value="$PROJECT_DIR$/src/main/resources/WEB-INF/app.xml" />
-        <option value="$PROJECT_DIR$/src/main/resources/WEB-INF/templates/inc/layout.htm" />
-        <option value="$PROJECT_DIR$/WWW/src/layout.htm.html" />
-        <option value="$MAVEN_REPOSITORY$/com/fedepot/razor-mvc/0.0.6-SNAPSHOT/razor-mvc-0.0.6-SNAPSHOT.jar!/com/fedepot/server/StaticFileHandler.class" />
-        <option value="$PROJECT_DIR$/src/main/resources/WEB-INF/templates/index.htm" />
-        <option value="$PROJECT_DIR$/src/main/java/com/elune/init/AppLoader.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/elune/App.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/elune/controller/HomeController.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/log4j.xml" />
-        <option value="$PROJECT_DIR$/src/main/resources/WEB-INF/templates/admin.htm" />
-        <option value="$PROJECT_DIR$/src/main/java/com/elune/controller/MainController.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/elune/dao/service/BookService.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/elune/cache/README.md" />
-        <option value="$PROJECT_DIR$/src/main/java/com/elune/dao/DBManager.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/elune/dao/mapper/BookMapper.java" />
-        <option value="$PROJECT_DIR$/.travis.yml" />
-        <option value="$PROJECT_DIR$/LICENSE" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/.editorconfig" />
         <option value="$PROJECT_DIR$/src/main/java/com/elune/dal/DBManager.java" />
@@ -195,18 +276,44 @@
         <option value="$PROJECT_DIR$/src/main/java/com/elune/dao/UserMapper2.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/elune/dao/UserEntityMapper.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/elune/model/User.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/elune/entity/UserEntity.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/elune/controller/api/BookController.java" />
-        <option value="$PROJECT_DIR$/sql/elune.sql" />
-        <option value="$PROJECT_DIR$/src/main/java/com/elune/dao/UserMapper.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/elune/controller/api/UserController.java" />
         <option value="$PROJECT_DIR$/target/classes/com/elune/dao/UserMapper.xml" />
         <option value="$PROJECT_DIR$/src/main/java/com/elune/exception/GlobalExceptionHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/elune/service/UserService.java" />
         <option value="$MAVEN_REPOSITORY$/com/fedepot/razor-mvc/0.0.7-SNAPSHOT/razor-mvc-0.0.7-SNAPSHOT.jar!/com/fedepot/Razor.class" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/resources/com/elune/dao/UserMapper.xml" />
         <option value="$PROJECT_DIR$/target/elune_config.xml" />
+        <option value="$PROJECT_DIR$/src/main/resources/com/elune/dao/ChannelMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/resources/com/elune/dao/UserMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/resources/com/elune/dao/UserMetaMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/dao/ChannelMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/dao/FavoriteMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/dao/NotificationMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/dao/OpenMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/dao/OptionMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/dao/PostMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/dao/TagMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/dao/TopicMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/dao/TokenMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/dao/UserLogMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/dao/UserMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/dao/UserMetaMapper.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/entity/ChannelEntity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/entity/UsermetaEntity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/entity/UserlogEntity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/entity/UserEntity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/entity/TopicEntity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/entity/TokenEntity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/entity/PostEntity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/entity/OptionEntity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/entity/OpenEntity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/entity/NotificationEntity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/entity/FavoriteEntity.java" />
+        <option value="$PROJECT_DIR$/sql/elune.sql" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/entity/TagEntityExample.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/com/elune/dao/TagMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/elune/entity/TagEntity.java" />
       </list>
     </option>
   </component>
@@ -230,10 +337,15 @@
       </MavenImportingSettings>
     </option>
   </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/WWW/node_modules" />
+  </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
+    <option name="x" value="1280" />
+    <option name="y" value="-181" />
+    <option name="width" value="2560" />
+    <option name="height" value="1440" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -252,6 +364,8 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="AndroidView" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -259,6 +373,17 @@
             <path>
               <item name="Elune" type="b2602c69:ProjectViewProjectNode" />
               <item name="Elune" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Elune" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Elune" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Elune" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Elune" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
+              <item name="dataSources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Elune" type="b2602c69:ProjectViewProjectNode" />
@@ -317,7 +442,25 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="elune" type="462c0819:PsiDirectoryNode" />
+              <item name="dal" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Elune" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Elune" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="elune" type="462c0819:PsiDirectoryNode" />
               <item name="dao" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Elune" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Elune" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="elune" type="462c0819:PsiDirectoryNode" />
+              <item name="entity" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Elune" type="b2602c69:ProjectViewProjectNode" />
@@ -381,20 +524,33 @@
               <item name="target" type="462c0819:PsiDirectoryNode" />
               <item name="classes" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="Elune" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Elune" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+              <item name="classes" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Elune" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Elune" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+              <item name="classes" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="elune" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
-      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="google-java-format.settings" />
+    <property name="settings.editor.selected.configurable" value="Mybatis" />
     <property name="nodejs_interpreter_path" value="/usr/local/bin/node" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="add_unversioned_files" value="$PROJECT_DIR$/target/elune_config.xml&#10;/Users/WXQ/Desktop/Elune/logs/sql.log&#10;/Users/WXQ/Desktop/Elune/target/elune_config.xml&#10;/Users/ezbuy/Desktop/Elune/target/classes/com/elune/dao/mapper/BookMapper.xml&#10;/Users/ezbuy/Desktop/Elune/target/classes/com/elune/dao/UserMapper.xml&#10;/Users/WXQ/Desktop/Elune/target/classes/com/elune/dao/mapper/BookMapper.class" />
+    <property name="add_unversioned_files" value="$PROJECT_DIR$/logs/sql.log&#10;/Users/WXQ/Desktop/Elune/.idea/dataSources/d3c058b0-cd5e-4631-bf7a-36ba96e94c5b.xml&#10;/Users/WXQ/Desktop/Elune/target/elune_config.xml&#10;/Users/ezbuy/Desktop/Elune/target/classes/com/elune/dao/mapper/BookMapper.xml&#10;/Users/ezbuy/Desktop/Elune/target/classes/com/elune/dao/UserMapper.xml&#10;/Users/WXQ/Desktop/Elune/target/classes/com/elune/dao/mapper/BookMapper.class" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
@@ -576,44 +732,48 @@
       <workItem from="1505278072303" duration="100000" />
       <workItem from="1505278532543" duration="90000" />
       <workItem from="1505281325431" duration="216000" />
+      <workItem from="1505304716044" duration="1268000" />
+      <workItem from="1505306067115" duration="122000" />
+      <workItem from="1505306217180" duration="557000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="85579000" />
+    <option name="totallyTimeSpent" value="87526000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="1280" y="-181" width="2560" height="1440" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32406288" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3234641" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TunnelliJ" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39540508" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3095526" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39452258" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30940044" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2932761" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32960597" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19019139" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TeamCity" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32938564" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293461" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32716507" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.43694142" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.43671355" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="TeamCity" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32938564" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="TunnelliJ" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32769045" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -657,239 +817,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/resources/WEB-INF/app.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="696">
-          <caret line="29" column="33" lean-forward="false" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logs/sql.log.2017-09-09" />
-    <entry file="file://$PROJECT_DIR$/src/main/resources/log4j.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1560">
-          <caret line="65" column="40" lean-forward="false" selection-start-line="65" selection-start-column="40" selection-end-line="65" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logs/sql.log" />
-    <entry file="file://$PROJECT_DIR$/src/main/resources/WEB-INF/templates/index.htm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="3" column="13" lean-forward="false" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/WEB-INF/templates/admin.htm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="10" column="60" lean-forward="false" selection-start-line="10" selection-start-column="60" selection-end-line="10" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/controller/MainController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="107" column="11" lean-forward="false" selection-start-line="107" selection-start-column="11" selection-end-line="107" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dao/DataAccessManager.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/resources/WEB-INF/templates/inc/layout.htm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/utils/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="0">
-            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/common/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="0">
-            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/cache/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="0">
-            <caret line="0" column="31" lean-forward="false" selection-start-line="0" selection-start-column="31" selection-end-line="0" selection-end-column="31" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/target/classes/com/elune/dao/mapper/BookMapper.class" />
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mybatis/mybatis/3.4.5/mybatis-3.4.5.jar!/org/apache/ibatis/annotations/Mapper.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="18" column="18" lean-forward="false" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mybatis/mybatis/3.4.5/mybatis-3.4.5.jar!/org/apache/ibatis/session/SqlSessionFactoryBuilder.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1776">
-          <caret line="86" column="29" lean-forward="false" selection-start-line="86" selection-start-column="29" selection-end-line="86" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/mybatis/mybatis/3.4.5/mybatis-3.4.5.jar!/org/apache/ibatis/session/Configuration.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-9552">
-          <caret line="134" column="11" lean-forward="false" selection-start-line="134" selection-start-column="11" selection-end-line="134" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/target/classes/com/elune/dao/mapper/BookMapper.xml" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/event/README.md" />
-    <entry file="file://$PROJECT_DIR$/.travis.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="9" column="54" lean-forward="false" selection-start-line="9" selection-start-column="54" selection-end-line="9" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/LICENSE">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="3" column="60" lean-forward="false" selection-start-line="3" selection-start-column="60" selection-end-line="3" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="120">
-            <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.editorconfig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="16" column="15" lean-forward="false" selection-start-line="16" selection-start-column="15" selection-end-line="16" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/model/bo/BookBo.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/constants/EventType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="21" column="26" lean-forward="false" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="48">
-            <caret line="2" column="19" lean-forward="false" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/model/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="0">
-            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dao/UserMapper2.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/BookEntity.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/UserEntityExample.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/com/elune/dao/BookMapper.xml" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/service/BookService.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/model/User.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="25" column="15" lean-forward="false" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/UserEntity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="6" column="2" lean-forward="false" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/339892ca-55bb-487b-9a4e-fc6ba8038ae4/console.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sql/elune.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4671">
-          <caret line="244" column="27" lean-forward="false" selection-start-line="244" selection-start-column="27" selection-end-line="244" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/target/classes/com/elune/dao/UserMapper.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/reflections/reflections/0.9.11/reflections-0.9.11-sources.jar!/org/reflections/scanners/AbstractScanner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="269">
-          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/App.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
-          <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/init/AppLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="57" column="0" lean-forward="false" selection-start-line="57" selection-start-column="0" selection-end-line="57" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dal/DBManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="65" column="0" lean-forward="false" selection-start-line="65" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/com/fedepot/razor-mvc/0.0.7-SNAPSHOT/razor-mvc-0.0.7-SNAPSHOT.jar!/com/fedepot/ioc/Ioc.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="582">
@@ -945,16 +872,137 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
+        <state relative-caret-position="0">
           <caret line="46" column="37" lean-forward="false" selection-start-line="46" selection-start-column="27" selection-end-line="46" selection-end-column="37" />
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/elune/dao/ChannelMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1116">
+          <caret line="330" column="9" lean-forward="false" selection-start-line="330" selection-start-column="9" selection-end-line="330" selection-end-column="9" />
+          <folding>
+            <marker date="1505304863000" expanded="true" signature="4281:4385" ph="select from t_channel" />
+            <marker date="1505304863000" expanded="true" signature="4471:4530" ph="delete from " />
+            <marker date="1505304863000" expanded="true" signature="4633:4654" ph="delete from " />
+            <marker date="1505304863000" expanded="true" signature="4833:5378" ph="insert into t_channel... " />
+            <marker date="1505304863000" expanded="true" signature="7519:7549" ph="select count... t_channel" />
+            <marker date="1505304863000" expanded="true" signature="9216:9862" ph="update t_cha... " />
+            <marker date="1505304863000" expanded="true" signature="10072:11190" ph="update t_cha... " />
+            <marker date="1505304863000" expanded="true" signature="11289:11854" ph="update t_cha... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/elune/dao/FavoriteMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="3" column="30" lean-forward="false" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="30" />
+          <folding>
+            <marker date="1505304536000" expanded="true" signature="3766:3871" ph="select from t_favorite" />
+            <marker date="1505304536000" expanded="true" signature="3954:4013" ph="delete from " />
+            <marker date="1505304536000" expanded="true" signature="4117:4139" ph="delete from " />
+            <marker date="1505304536000" expanded="true" signature="4319:4590" ph="insert into t_favorite... " />
+            <marker date="1505304536000" expanded="true" signature="5813:5844" ph="select count... t_favorite" />
+            <marker date="1505304536000" expanded="true" signature="6835:7145" ph="update t_fav... " />
+            <marker date="1505304536000" expanded="true" signature="7356:7882" ph="update t_fav... " />
+            <marker date="1505304536000" expanded="true" signature="7982:8253" ph="update t_fav... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/elune/dao/NotificationMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="3" column="30" lean-forward="false" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="30" />
+          <folding>
+            <marker date="1505304536000" expanded="true" signature="4661:4817" ph="select , fro... " />
+            <marker date="1505304536000" expanded="true" signature="4900:4963" ph="delete from " />
+            <marker date="1505304536000" expanded="true" signature="5071:5097" ph="delete from " />
+            <marker date="1505304536000" expanded="true" signature="5281:5677" ph="insert into t_notification... " />
+            <marker date="1505304536000" expanded="true" signature="7331:7366" ph="select count... t_notification" />
+            <marker date="1505304536000" expanded="true" signature="8678:9141" ph="update t_not... " />
+            <marker date="1505304536000" expanded="true" signature="9312:9719" ph="update t_not... " />
+            <marker date="1505304536000" expanded="true" signature="9934:10730" ph="update t_not... " />
+            <marker date="1505304536000" expanded="true" signature="10843:11246" ph="update t_not... " />
+            <marker date="1505304536000" expanded="true" signature="11350:11704" ph="update t_not... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/elune/dao/OpenMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="3" column="30" lean-forward="false" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/elune/dao/OptionMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="3" column="30" lean-forward="false" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/elune/dao/PostMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="3" column="30" lean-forward="false" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/elune/dao/TokenMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="3" column="30" lean-forward="false" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="30" />
+          <folding>
+            <marker date="1505304536000" expanded="true" signature="3840:3943" ph="select from t_token" />
+            <marker date="1505304536000" expanded="true" signature="4029:4086" ph="delete from " />
+            <marker date="1505304536000" expanded="true" signature="4187:4206" ph="delete from " />
+            <marker date="1505304536000" expanded="true" signature="4383:4692" ph="insert into t_token... " />
+            <marker date="1505304536000" expanded="true" signature="6057:6085" ph="select count... t_token" />
+            <marker date="1505304536000" expanded="true" signature="7184:7546" ph="update t_tok... " />
+            <marker date="1505304536000" expanded="true" signature="7754:8374" ph="update t_tok... " />
+            <marker date="1505304536000" expanded="true" signature="8471:8787" ph="update t_tok... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/elune/dao/TopicMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="3" column="30" lean-forward="false" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/elune/dao/UserLogMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="3" column="30" lean-forward="false" selection-start-line="3" selection-start-column="17" selection-end-line="3" selection-end-column="30" />
+          <folding>
+            <marker date="1505304536000" expanded="true" signature="4539:4690" ph="select , fro... " />
+            <marker date="1505304536000" expanded="true" signature="4773:4831" ph="delete from " />
+            <marker date="1505304536000" expanded="true" signature="4934:4955" ph="delete from " />
+            <marker date="1505304536000" expanded="true" signature="5143:5472" ph="insert into t_userlog... " />
+            <marker date="1505304536000" expanded="true" signature="6952:6982" ph="select count... t_userlog" />
+            <marker date="1505304536000" expanded="true" signature="8166:8562" ph="update t_use... " />
+            <marker date="1505304536000" expanded="true" signature="8733:9023" ph="update t_use... " />
+            <marker date="1505304536000" expanded="true" signature="9242:9924" ph="update t_use... " />
+            <marker date="1505304536000" expanded="true" signature="10041:10384" ph="update t_use... " />
+            <marker date="1505304536000" expanded="true" signature="10483:10734" ph="update t_use... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/com/elune/dao/UserMapper.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="444">
-          <caret line="392" column="9" lean-forward="false" selection-start-line="392" selection-start-column="9" selection-end-line="392" selection-end-column="9" />
+        <state relative-caret-position="1092">
+          <caret line="391" column="11" lean-forward="false" selection-start-line="391" selection-start-column="11" selection-end-line="391" selection-end-column="11" />
           <folding>
             <element signature="n#resultMap#0;n#mapper#0;n#!!top" expanded="false" />
             <element signature="n#sql#0;n#mapper#0;n#!!top" expanded="false" />
@@ -968,23 +1016,34 @@
             <element signature="n#insert#1;n#mapper#0;n#!!top" expanded="false" />
             <element signature="n#select#2;n#mapper#0;n#!!top" expanded="false" />
             <element signature="n#update#0;n#mapper#0;n#!!top" expanded="false" />
-            <marker date="1505281379000" expanded="true" signature="4590:4690" ph="select from t_user" />
-            <marker date="1505281379000" expanded="true" signature="4773:4828" ph="delete from " />
-            <marker date="1505281379000" expanded="true" signature="4928:4946" ph="delete from " />
-            <marker date="1505281379000" expanded="true" signature="5122:5829" ph="insert into t_user... " />
-            <marker date="1505281379000" expanded="true" signature="8554:8581" ph="select count... t_user" />
-            <marker date="1505281379000" expanded="true" signature="10679:11533" ph="update t_use... " />
-            <marker date="1505281379000" expanded="true" signature="11740:13233" ph="update t_use... " />
-            <marker date="1505281379000" expanded="true" signature="13329:14074" ph="update t_use... " />
+            <marker date="1505304988000" expanded="true" signature="4590:4690" ph="select from t_user" />
+            <marker date="1505304988000" expanded="true" signature="4773:4828" ph="delete from " />
+            <marker date="1505304988000" expanded="true" signature="4928:4946" ph="delete from " />
+            <marker date="1505304988000" expanded="true" signature="5122:5829" ph="insert into t_user... " />
+            <marker date="1505304988000" expanded="true" signature="8554:8581" ph="select count... t_user" />
+            <marker date="1505304988000" expanded="true" signature="10679:11533" ph="update t_use... " />
+            <marker date="1505304988000" expanded="true" signature="11740:13233" ph="update t_use... " />
+            <marker date="1505304988000" expanded="true" signature="13329:14074" ph="update t_use... " />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dao/UserMapper.java">
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/elune/dao/UserMetaMapper.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="1092">
+          <caret line="240" column="11" lean-forward="false" selection-start-line="240" selection-start-column="11" selection-end-line="240" selection-end-column="11" />
+          <folding>
+            <marker date="1505305006000" expanded="true" signature="4236:4387" ph="select , fro... " />
+            <marker date="1505305006000" expanded="true" signature="4470:4529" ph="delete from " />
+            <marker date="1505305006000" expanded="true" signature="4633:4655" ph="delete from " />
+            <marker date="1505305006000" expanded="true" signature="4835:5008" ph="insert into t_usermeta... " />
+            <marker date="1505305006000" expanded="true" signature="5921:5952" ph="select count... t_usermeta" />
+            <marker date="1505305006000" expanded="true" signature="6725:6923" ph="update t_use... " />
+            <marker date="1505305006000" expanded="true" signature="7094:7240" ph="update t_use... " />
+            <marker date="1505305006000" expanded="true" signature="7451:7778" ph="update t_use... " />
+            <marker date="1505305006000" expanded="true" signature="7887:8060" ph="update t_use... " />
+            <marker date="1505305006000" expanded="true" signature="8160:8288" ph="update t_use... " />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -993,6 +1052,259 @@
         <state relative-caret-position="216">
           <caret line="9" column="38" lean-forward="false" selection-start-line="9" selection-start-column="38" selection-end-line="9" selection-end-column="38" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dal/DBManager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dao/ChannelMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dao/FavoriteMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dao/NotificationMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dao/OpenMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dao/OptionMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dao/PostMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dao/TopicMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dao/TokenMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dao/UserLogMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dao/UserMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dao/UserMetaMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/UsermetaEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="21" column="23" lean-forward="false" selection-start-line="21" selection-start-column="23" selection-end-line="21" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/UserlogEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="11" selection-end-line="24" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/UserEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/TopicEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/TokenEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/PostEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/OptionEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/OpenEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/NotificationEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/FavoriteEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/ChannelEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="24" column="21" lean-forward="false" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sql/elune.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3192">
+          <caret line="133" column="9" lean-forward="false" selection-start-line="133" selection-start-column="9" selection-end-line="133" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/TagEntityExample.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7128">
+          <caret line="326" column="33" lean-forward="false" selection-start-line="326" selection-start-column="33" selection-end-line="326" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/dao/TagMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="26" column="17" lean-forward="false" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/dataSources.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/dataSources/d3c058b0-cd5e-4631-bf7a-36ba96e94c5b.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="34" column="43" lean-forward="false" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5616">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1505306768000" expanded="true" signature="83206:83247" ph="..." />
+            <marker date="1505306768000" expanded="true" signature="83206:83265" ph="..." />
+            <marker date="1505306768000" expanded="true" signature="83206:83278" ph="..." />
+            <marker date="1505306768000" expanded="true" signature="83206:83293" ph="..." />
+            <marker date="1505306768000" expanded="true" signature="83206:83230" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/com/elune/dao/TagMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="11" column="11" lean-forward="true" selection-start-line="11" selection-start-column="11" selection-end-line="11" selection-end-column="11" />
+          <folding>
+            <marker date="1505305837000" expanded="true" signature="3693:3793" ph="select from t_tag" />
+            <marker date="1505305837000" expanded="true" signature="3879:3934" ph="delete from " />
+            <marker date="1505305837000" expanded="true" signature="4033:4050" ph="delete from " />
+            <marker date="1505305837000" expanded="true" signature="4225:4396" ph="insert into t_tag... " />
+            <marker date="1505305837000" expanded="true" signature="4225:4453" ph="insert into t_tag... " />
+            <marker date="1505305837000" expanded="true" signature="5545:5571" ph="select count... t_tag" />
+            <marker date="1505305837000" expanded="true" signature="6473:6742" ph="update t_tag... " />
+            <marker date="1505305837000" expanded="true" signature="6948:7399" ph="update t_tag... " />
+            <marker date="1505305837000" expanded="true" signature="7494:7731" ph="update t_tag... " />
+            <marker date="1505305837000" expanded="true" signature="7618:7731" ph="update t_tag... " />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/elune/entity/TagEntity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="346">
+          <caret line="129" column="44" lean-forward="true" selection-start-line="129" selection-start-column="44" selection-end-line="129" selection-end-column="44" />
+          <folding>
+            <element signature="e#1650#1651#0" expanded="true" />
+            <element signature="e#1684#1685#0" expanded="true" />
+            <element signature="e#1739#1740#0" expanded="true" />
+            <element signature="e#1785#1786#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

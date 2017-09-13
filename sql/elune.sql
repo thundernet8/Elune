@@ -131,7 +131,7 @@ CREATE TABLE `t_tag` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(30) NOT NULL COMMENT '标签名称',
   `slug` varchar(30) NOT NULL COMMENT '英文简写',
-  `topic_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '拥有该标签的话题数量',
+  `topics_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '拥有该标签的话题数量',
   `create_time` int(10) unsigned NOT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='标签';
