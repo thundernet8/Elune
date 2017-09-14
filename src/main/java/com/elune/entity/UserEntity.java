@@ -19,7 +19,10 @@
 
 package com.elune.entity;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -27,6 +30,8 @@ import java.io.Serializable;
  * @author Touchumind
  */
 @Builder
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserEntity implements Serializable {
     private Long id;
 
@@ -53,7 +58,10 @@ public class UserEntity implements Serializable {
      */
     private Integer lastSeen;
 
-    private Boolean status;
+    /**
+     * 用户状态 0-未激活 1-正常 10-删除
+     */
+    private Byte status;
 
     private String bio;
 
@@ -153,11 +161,11 @@ public class UserEntity implements Serializable {
         this.lastSeen = lastSeen;
     }
 
-    public Boolean getStatus() {
+    public Byte getStatus() {
         return status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(Byte status) {
         this.status = status;
     }
 

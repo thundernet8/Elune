@@ -21,10 +21,13 @@ package com.elune.dao;
 
 import com.elune.entity.UserEntity;
 import com.elune.entity.UserEntityExample;
-import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface UserMapper {
+
     long countByExample(UserEntityExample example);
 
     int deleteByExample(UserEntityExample example);
@@ -46,4 +49,9 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(UserEntity record);
 
     int updateByPrimaryKey(UserEntity record);
+
+    ////////////
+    UserEntity selectByUsername(String username);
+
+    UserEntity selectByEmail(String email);
 }

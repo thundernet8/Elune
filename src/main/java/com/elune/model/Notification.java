@@ -19,7 +19,9 @@
 
 package com.elune.model;
 
-public class Notification {
+import java.io.Serializable;
+
+public class Notification implements Serializable {
 
     // TODO
 }

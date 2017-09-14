@@ -21,10 +21,12 @@ package com.elune.model;
 
 import lombok.*;
 
+import java.io.Serializable;
+
 @AllArgsConstructor
 @Getter
 @Setter
-public class Pagination<T> {
+public class Pagination<T> implements Serializable {
 
     private int total;
 

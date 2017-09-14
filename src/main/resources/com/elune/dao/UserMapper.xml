@@ -10,7 +10,7 @@
     <result column="url" jdbcType="VARCHAR" property="url" />
     <result column="join_time" jdbcType="INTEGER" property="joinTime" />
     <result column="last_seen" jdbcType="INTEGER" property="lastSeen" />
-    <result column="status" jdbcType="BIT" property="status" />
+    <result column="status" jdbcType="TINYINT" property="status" />
     <result column="bio" jdbcType="VARCHAR" property="bio" />
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="update_time" jdbcType="INTEGER" property="updateTime" />
@@ -109,6 +109,18 @@
     from t_user
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="selectByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      from t_user
+      where username = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByEmail" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_user
+    where email = #{id,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_user
     where id = #{id,jdbcType=BIGINT}
@@ -128,7 +140,7 @@
       articles_count)
     values (#{id,jdbcType=BIGINT}, #{password,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR},
       #{nickname,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR},
-      #{joinTime,jdbcType=INTEGER}, #{lastSeen,jdbcType=INTEGER}, #{status,jdbcType=BIT},
+      #{joinTime,jdbcType=INTEGER}, #{lastSeen,jdbcType=INTEGER}, #{status,jdbcType=TINYINT},
       #{bio,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{updateTime,jdbcType=INTEGER},
       #{roleId,jdbcType=TINYINT}, #{topicsCount,jdbcType=INTEGER}, #{postsCount,jdbcType=INTEGER},
       #{articlesCount,jdbcType=INTEGER})
@@ -211,7 +223,7 @@
         #{lastSeen,jdbcType=INTEGER},
       </if>
       <if test="status != null">
-        #{status,jdbcType=BIT},
+        #{status,jdbcType=TINYINT},
       </if>
       <if test="bio != null">
         #{bio,jdbcType=VARCHAR},
@@ -270,7 +282,7 @@
         last_seen = #{record.lastSeen,jdbcType=INTEGER},
       </if>
       <if test="record.status != null">
-        status = #{record.status,jdbcType=BIT},
+        status = #{record.status,jdbcType=TINYINT},
       </if>
       <if test="record.bio != null">
         bio = #{record.bio,jdbcType=VARCHAR},
@@ -308,7 +320,7 @@
       url = #{record.url,jdbcType=VARCHAR},
       join_time = #{record.joinTime,jdbcType=INTEGER},
       last_seen = #{record.lastSeen,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=BIT},
+      status = #{record.status,jdbcType=TINYINT},
       bio = #{record.bio,jdbcType=VARCHAR},
       avatar = #{record.avatar,jdbcType=VARCHAR},
       update_time = #{record.updateTime,jdbcType=INTEGER},
@@ -345,7 +357,7 @@
         last_seen = #{lastSeen,jdbcType=INTEGER},
       </if>
       <if test="status != null">
-        status = #{status,jdbcType=BIT},
+        status = #{status,jdbcType=TINYINT},
       </if>
       <if test="bio != null">
         bio = #{bio,jdbcType=VARCHAR},
@@ -380,7 +392,7 @@
       url = #{url,jdbcType=VARCHAR},
       join_time = #{joinTime,jdbcType=INTEGER},
       last_seen = #{lastSeen,jdbcType=INTEGER},
-      status = #{status,jdbcType=BIT},
+      status = #{status,jdbcType=TINYINT},
       bio = #{bio,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
       update_time = #{updateTime,jdbcType=INTEGER},

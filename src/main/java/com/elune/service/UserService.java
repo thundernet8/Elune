@@ -29,8 +29,6 @@ public interface UserService {
 
     LoginUser signin(LoginModel loginModel) throws Exception;
 
-    void signout(long uid) throws Exception;
-
     User getUser(long id);
 
     User getUserByName(String username);

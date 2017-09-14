@@ -201,7 +201,7 @@ CREATE TABLE `t_user` (
   `url` varchar(100) NOT NULL DEFAULT '' COMMENT '用户个人主页',
   `join_time` int(10) NOT NULL DEFAULT '0' COMMENT '注册时间',
   `last_seen` int(10) NOT NULL DEFAULT '0' COMMENT '上次登录等操作时间',
-  `status` tinyint(1) NOT NULL DEFAULT '0',
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '用户状态 0-未激活 1-正常 10-删除',
   `bio` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   `avatar` varchar(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '用户头像地址',
   `update_time` int(10) NOT NULL DEFAULT '0' COMMENT '记录更新时间',

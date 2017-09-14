@@ -19,6 +19,7 @@
 
 package com.elune.service.impl;
 
+import com.elune.constants.UserStatus;
 import com.elune.dal.DBManager;
 import com.elune.dao.UserMapper;
 import com.elune.entity.UserEntity;
@@ -45,7 +46,56 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public LoginUser signin(LoginModel loginModel) throws Exception {
-        return null;
+
+        String username = loginModel.username;
+        String password = loginModel.password;
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+
+            UserEntity userEntity;
+            if (StringUtil.isEmail(username)) {
+
+                userEntity = mapper.selectByEmail(username);
+            } else {
+
+                userEntity = mapper.selectByUsername(username);
+            }
+
+            if (userEntity == null) {
+
+                throw new HttpException("用户名错误", 404);
+            }
+
+            String md5Pass = EncryptUtil.md5(password);
+            if (!userEntity.getPassword().equals(md5Pass)) {
+
+                throw new HttpException("密码错误", 400);
+            }
+
+            if (userEntity.getStatus() == UserStatus.DELETE) {
+
+                throw new HttpException("你的账户已禁用", 403);
+            }
+
+            // TODO login hooks
+            // TODO update last seen
+            // TODO update usermeta for login info
+
+            return LoginUser.builder().id(userEntity.getId()).username(userEntity.getUsername()).nickname(userEntity.getNickname()).email(userEntity.getEmail()).joinTime(userEntity.getJoinTime()).build();
+        } catch (Exception e) {
+
+            log.error("User {} Login failed", loginModel.username, e);
+
+            if (!(e instanceof HttpException)) {
+
+                throw new Exception("登录失败");
+            } else {
+
+                throw e;
+            }
+        }
     }
 
     @Override
@@ -86,22 +136,17 @@ public class UserServiceImpl implements UserService {
                 int uid = mapper.insertSelective(userEntity);
                 sqlSession.commit();
 
+                // TODO send verify email(event queue)
+
                 return User.builder().id(uid).username(username).nickname(username).email(email).joinTime(joinTime).build();
             } catch (Exception e) {
 
                 log.error("Insert user failed", e);
                 errMsg = e.getMessage();
-
-                throw new Exception(errMsg);
             }
         }
 
         throw new HttpException(errMsg, 400);
-    }
-
-    @Override
-    public void signout(long uid) throws Exception {
-
     }
 
     @Override

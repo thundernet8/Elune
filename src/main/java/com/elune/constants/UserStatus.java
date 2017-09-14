@@ -1,5 +1,5 @@
 /**
- * Elune - Lightweight Forum Powered by Razor.
+ * Elune - Lightweight Forum Powered by Razor
  * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -17,18 +17,13 @@
  */
 
 
-package com.elune.utils;
+package com.elune.constants;
 
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
+public interface UserStatus {
 
-public final class StringUtil {
+    Byte UNACTIVE = 0;
 
-    public static boolean isEmail(String email) {
+    Byte NORMAL = 1;
 
-        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
-        Pattern p = Pattern.compile(ePattern);
-        Matcher m = p.matcher(email);
-        return m.matches();
-    }
+    Byte DELETE = 10;
 }

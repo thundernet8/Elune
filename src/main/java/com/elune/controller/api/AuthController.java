@@ -33,6 +33,9 @@ import com.fedepot.mvc.annotation.RoutePrefix;
 import com.fedepot.mvc.controller.APIController;
 import com.fedepot.mvc.http.Session;
 
+import java.util.HashMap;
+import java.util.Map;
+
 // TODO csrf header verify
 @RoutePrefix("api")
 public class AuthController extends APIController{
@@ -47,8 +50,14 @@ public class AuthController extends APIController{
         try {
 
             LoginUser user = userService.signin(loginModel);
-            Succeed(user);
-            // TODO session绑定
+            Session session = Request().session();
+            session.addAttribute("uid", user.id);
+            session.addAttribute("username", user.username);
+            session.addAttribute("email", user.email);
+            Map<String, Object> resp = new HashMap<>();
+            resp.put("user", user);
+            resp.put("msg", "登录成功");
+            Succeed(resp);
         } catch (Exception e) {
 
             Fail(e);
@@ -62,7 +71,10 @@ public class AuthController extends APIController{
         try{
 
             User user = userService.signup(registerModel);
-            Succeed(user);
+            Map<String, Object> resp = new HashMap<>();
+            resp.put("user", user);
+            resp.put("msg", "注册成功, 请检查你的邮箱并点击激活链接完成账户激活");
+            Succeed(resp);
         } catch (Exception e) {
 
             Fail(e);
@@ -76,9 +88,8 @@ public class AuthController extends APIController{
         try{
 
             Session session = Request().session();
-            long uid = (long)session.attribute("uid");
-            userService.signout(uid);
-            Succeed("");
+            session.attributes().clear();
+            Succeed("注销成功");
         } catch (Exception e) {
 
             Fail(e);
