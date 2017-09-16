@@ -1,5 +1,5 @@
 /**
- * Elune - Lightweight Forum Powered by Razor
+ * Elune - Lightweight Forum Powered by Razor.
  * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -17,23 +17,27 @@
  */
 
 
-package com.elune.exception;
+package com.elune.model;
 
-import com.fedepot.Razor;
-import com.fedepot.exception.ExceptionHandler;
+import lombok.Builder;
 
-/**
- * Global exception handler for netty channel handler chain
- *
- * @author Touchumind
- * @since 0.0.1
- */
-public class GlobalExceptionHandler implements ExceptionHandler {
+import java.io.Serializable;
 
-    @Override
-    public void handle(Exception e, Razor razor) {
+@Builder
+public class LoginUser implements Serializable {
+    // TODO
 
-        System.out.println("Global exception handler: " + e.toString());
-        e.printStackTrace();
-    }
+    public long id;
+
+    public String username;
+
+    public String nickname;
+
+    public String email;
+
+    public int joinTime;
+
+    public int unreadCount;
+
+    public Pagination<Notification> unreadNotifications;
 }

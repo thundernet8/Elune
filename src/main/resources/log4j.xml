@@ -34,7 +34,7 @@
     </appender>
 
     <appender name="sqlappender" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="file" value="logs/sql.log" />
+        <param name="File" value="logs/sql.log" />
         <param name="append" value="true" />
         <param name="encoding" value="UTF-8" />
         <param name="threshold" value="DEBUG" />
@@ -59,6 +59,11 @@
     </logger>
 
     <logger name="java.sql.PreparedStatement">
+        <level value="debug" />
+        <appender-ref ref="sqlappender" />
+    </logger>
+
+    <logger name="com.elune.dao.mapper">
         <level value="debug" />
         <appender-ref ref="sqlappender" />
     </logger>

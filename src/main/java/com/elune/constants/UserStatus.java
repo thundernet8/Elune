@@ -17,23 +17,13 @@
  */
 
 
-package com.elune.exception;
+package com.elune.constants;
 
-import com.fedepot.Razor;
-import com.fedepot.exception.ExceptionHandler;
+public interface UserStatus {
 
-/**
- * Global exception handler for netty channel handler chain
- *
- * @author Touchumind
- * @since 0.0.1
- */
-public class GlobalExceptionHandler implements ExceptionHandler {
+    Byte UNACTIVE = 0;
 
-    @Override
-    public void handle(Exception e, Razor razor) {
+    Byte NORMAL = 1;
 
-        System.out.println("Global exception handler: " + e.toString());
-        e.printStackTrace();
-    }
+    Byte DELETE = 10;
 }

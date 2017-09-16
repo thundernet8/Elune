@@ -17,23 +17,22 @@
  */
 
 
-package com.elune.exception;
+package com.elune.model;
 
-import com.fedepot.Razor;
-import com.fedepot.exception.ExceptionHandler;
+import lombok.Builder;
 
-/**
- * Global exception handler for netty channel handler chain
- *
- * @author Touchumind
- * @since 0.0.1
- */
-public class GlobalExceptionHandler implements ExceptionHandler {
+import java.io.Serializable;
 
-    @Override
-    public void handle(Exception e, Razor razor) {
+@Builder
+public class User implements Serializable {
 
-        System.out.println("Global exception handler: " + e.toString());
-        e.printStackTrace();
-    }
+    public long id;
+
+    public String username;
+
+    public String nickname;
+
+    public String email;
+
+    public int joinTime;
 }

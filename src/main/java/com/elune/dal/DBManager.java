@@ -21,7 +21,7 @@ package com.elune.dal;
 
 import com.elune.configuration.AppConfiguration;
 
-import com.fedepot.ioc.annotation.Inject;
+import com.fedepot.ioc.annotation.Service;
 import org.apache.ibatis.datasource.pooled.PooledDataSource;
 import org.apache.ibatis.mapping.Environment;
 import org.apache.ibatis.session.Configuration;
@@ -33,9 +33,9 @@ import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
 
 import javax.sql.DataSource;
 
-import static com.elune.Constant.*;
+import static com.elune.constants.Constant.*;
 
-@Inject(sington = true)
+@Service(sington = true)
 public final class DBManager {
 
     private AppConfiguration appConfig;
@@ -63,7 +63,7 @@ public final class DBManager {
         Environment environment = new Environment(isDev ? "development" : "production", transactionFactory, dataSource);
         configuration = new Configuration(environment);
 
-        configuration.addMappers(DBManager.class.getPackage().getName().concat(".mapper"));
+        configuration.addMappers("com.elune.dao");
 
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
     }

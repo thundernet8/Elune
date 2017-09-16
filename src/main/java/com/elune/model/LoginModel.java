@@ -1,5 +1,5 @@
 /**
- * Elune - Lightweight Forum Powered by Razor
+ * Elune - Lightweight Forum Powered by Razor.
  * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -17,23 +17,14 @@
  */
 
 
-package com.elune.exception;
-
-import com.fedepot.Razor;
-import com.fedepot.exception.ExceptionHandler;
+package com.elune.model;
 
 /**
- * Global exception handler for netty channel handler chain
- *
- * @author Touchumind
- * @since 0.0.1
+ * 用户登录请求体模型
  */
-public class GlobalExceptionHandler implements ExceptionHandler {
+public class LoginModel {
 
-    @Override
-    public void handle(Exception e, Razor razor) {
+    public String username;
 
-        System.out.println("Global exception handler: " + e.toString());
-        e.printStackTrace();
-    }
+    public String password;
 }

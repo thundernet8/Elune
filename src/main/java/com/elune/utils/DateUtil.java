@@ -1,5 +1,5 @@
 /**
- * Elune - Lightweight Forum Powered by Razor
+ * Elune - Lightweight Forum Powered by Razor.
  * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -17,23 +17,32 @@
  */
 
 
-package com.elune.exception;
+package com.elune.utils;
 
-import com.fedepot.Razor;
-import com.fedepot.exception.ExceptionHandler;
+import java.time.LocalDateTime;
 
-/**
- * Global exception handler for netty channel handler chain
- *
- * @author Touchumind
- * @since 0.0.1
- */
-public class GlobalExceptionHandler implements ExceptionHandler {
+import static com.elune.constants.Constant.DEFAULT_ZONE_ID;
 
-    @Override
-    public void handle(Exception e, Razor razor) {
+public final class DateUtil {
 
-        System.out.println("Global exception handler: " + e.toString());
-        e.printStackTrace();
+    /**
+     * 获取指定时间的Timestamp
+     *
+     * @return Timestamp(秒)
+     */
+    public static int getTimeStamp() {
+
+        return getTimeStamp(LocalDateTime.now());
+    }
+
+    /**
+     * 获取指定时间的Timestamp
+     *
+     * @param dateTime 指定时间
+     * @return Timestamp(秒)
+     */
+    public static int getTimeStamp(LocalDateTime dateTime) {
+
+        return Math.toIntExact(dateTime.atZone(DEFAULT_ZONE_ID).toInstant().toEpochMilli() / 1000);
     }
 }

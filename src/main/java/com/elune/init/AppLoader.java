@@ -20,7 +20,7 @@
 package com.elune.init;
 
 import com.elune.App;
-import com.elune.Constant;
+import com.elune.constants.Constant;
 
 import com.elune.configuration.ConfigurationFactory;
 import com.fedepot.Razor;

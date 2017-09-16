@@ -12,8 +12,12 @@ trim_trailing_whitespace = true
 [*.{js,jsx,css,less,scss,.xml}]
 indent_size = 4
 
+[*.xml]
+indent_size = 2
+
 # Markdown files
 [*.md]
+indent_size = 2
 
 # Trailing whitespaces are significant in Markdown.
 trim_trailing_whitespace = false

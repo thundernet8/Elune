@@ -27,7 +27,7 @@ import javax.xml.parsers.*;
 import java.io.*;
 import java.util.*;
 
-import static com.elune.Constant.*;
+import static com.elune.constants.Constant.*;
 
 /**
  * Parse app configuration xml to configuration entity
