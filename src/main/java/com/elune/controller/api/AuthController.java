@@ -117,7 +117,7 @@ public class AuthController extends APIController{
         try{
 
             Session session = Request().session();
-            session.attributes().clear();
+            session.clearAttributes();
             Succeed("注销成功");
         } catch (Exception e) {
 
