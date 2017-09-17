@@ -24,6 +24,7 @@ import com.elune.constants.Constant;
 
 import com.elune.configuration.ConfigurationFactory;
 import com.fedepot.Razor;
+import com.fedepot.mvc.middleware.CorsMiddleware;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,6 +66,9 @@ public final class AppLoader {
         razor.webRoot(rootFolder.concat(File.separator).concat("WWW/dist"));
         log.info("---------------------------------------------------------------------------------------------------");
         log.info("Use Web Root: {}", rootFolder.concat(File.separator).concat("WWW/dist"));
+
+        // Cors
+        razor.use(new CorsMiddleware("http://localhost:9001", "https://elune.fuli.news"));
 
         appLoader.loadPlugins();
         appLoader.loadThemes();
