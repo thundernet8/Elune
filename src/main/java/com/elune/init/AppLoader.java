@@ -38,6 +38,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
+import static com.elune.constants.Constant.*;
+
 /**
  * Application loader
  *
@@ -68,7 +70,8 @@ public final class AppLoader {
         log.info("Use Web Root: {}", rootFolder.concat(File.separator).concat("WWW/dist"));
 
         // Cors
-        razor.use(new CorsMiddleware("http://localhost:9001", "http://127.0.0.1:9001", "http://localhost:9002", "http://127.0.0.1:9002", "https://elune.fuli.news"));
+        String[] whitelist = (String[])app.getConfiguration().getObject(CONFIG_KEY_ORIGIN_WHITELIST).orElse(new String[]{});
+        razor.use(new CorsMiddleware(whitelist));
 
         appLoader.loadPlugins();
         appLoader.loadThemes();

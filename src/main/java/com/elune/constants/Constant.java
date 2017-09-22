@@ -50,6 +50,8 @@ public interface Constant {
 
     public static String CONFIG_KEY_APP_DEV_MODE = "app.env.mode.dev";
 
+    public static String CONFIG_KEY_ORIGIN_WHITELIST = "app.env.origin.whitelist";
+
     /**
      * Default values
      */

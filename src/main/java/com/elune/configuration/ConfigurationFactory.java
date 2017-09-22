@@ -132,6 +132,25 @@ public class ConfigurationFactory {
             }
         }
 
+        // Origin whitelist
+        NodeList originNodes = doc.getElementsByTagName("origins");
+        if (originNodes.getLength() > 0) {
+
+            Element ele = (Element)originNodes.item(0);
+            NodeList origins = ele.getElementsByTagName("origin");
+            List<String> whitelist = new ArrayList<>();
+
+            for (int i=0; i<origins.getLength(); i++) {
+
+                Node node = origins.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    whitelist.add(node.getTextContent());
+                }
+            }
+
+            properties.put(CONFIG_KEY_ORIGIN_WHITELIST, whitelist.toArray());
+        }
+
         // Environment
         NodeList envNodes = doc.getElementsByTagName("development");
         if (envNodes.getLength() > 0) {

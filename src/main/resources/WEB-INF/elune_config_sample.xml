@@ -19,5 +19,13 @@
         </redis>
     </database>
 
+    <!-- Origin whitelist for cors -->
+    <origins>
+        <origin>http://localhost:9001</origin>
+        <origin>http://localhost:9002</origin>
+        <origin>http://127.0.0.1:9001</origin>
+        <origin>http://127.0.0.1:9002</origin>
+    </origins>
+
     <development>true</development>
 </app>
