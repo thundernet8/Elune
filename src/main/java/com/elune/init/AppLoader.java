@@ -37,6 +37,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.stream.Stream;
 
 import static com.elune.constants.Constant.*;
 
@@ -70,8 +71,11 @@ public final class AppLoader {
         log.info("Use Web Root: {}", rootFolder.concat(File.separator).concat("WWW/dist"));
 
         // Cors
-        String[] whitelist = (String[])app.getConfiguration().getObject(CONFIG_KEY_ORIGIN_WHITELIST).orElse(new String[]{});
-        razor.use(new CorsMiddleware(whitelist));
+        Object whitelist = app.getConfiguration().getObject(CONFIG_KEY_ORIGIN_WHITELIST).orElse(new String[0]);
+        if (whitelist instanceof Object[]) {
+
+            razor.use(new CorsMiddleware(Stream.of((Object[])whitelist).toArray(String[]::new)));
+        }
 
         appLoader.loadPlugins();
         appLoader.loadThemes();
