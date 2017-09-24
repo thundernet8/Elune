@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : utf-8
 
- Date: 09/14/2017 00:42:08 AM
+ Date: 09/25/2017 00:32:25 AM
 */
 
 SET NAMES utf8;
@@ -166,7 +166,9 @@ CREATE TABLE `t_topic` (
   `title` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '话题标题',
   `author` varchar(60) NOT NULL DEFAULT '' COMMENT '作者用户名',
   `author_id` bigint(20) unsigned NOT NULL COMMENT '作者ID',
-  `content` longtext CHARACTER SET utf8mb4 NOT NULL COMMENT '帖子正文',
+  `content` longtext CHARACTER SET utf8mb4 NOT NULL COMMENT '帖子正文(纯文本)',
+  `content_html` longtext CHARACTER SET utf8mb4 NOT NULL COMMENT '帖子内容(Html)',
+  `content_raw` longtext CHARACTER SET utf8mb4 NOT NULL COMMENT '帖子内容(DraftJS编辑器原始数据)',
   `is_pinned` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否置顶 0 - 否 1 - 是',
   `is_essence` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否精华帖 0 - 否 1 - 是',
   `views_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '阅读数',
@@ -201,7 +203,7 @@ CREATE TABLE `t_user` (
   `url` varchar(100) NOT NULL DEFAULT '' COMMENT '用户个人主页',
   `join_time` int(10) NOT NULL DEFAULT '0' COMMENT '注册时间',
   `last_seen` int(10) NOT NULL DEFAULT '0' COMMENT '上次登录等操作时间',
-  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '用户状态 0-未激活 1-正常 10-删除',
+  `status` tinyint(1) NOT NULL DEFAULT '0',
   `bio` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   `avatar` varchar(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '用户头像地址',
   `update_time` int(10) NOT NULL DEFAULT '0' COMMENT '记录更新时间',
@@ -214,7 +216,7 @@ CREATE TABLE `t_user` (
   UNIQUE KEY `idx_email` (`email`),
   KEY `idx_join_time` (`join_time`),
   KEY `idx_update_time` (`update_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='用户';
 
 -- ----------------------------
 --  Table structure for `t_userlog`
