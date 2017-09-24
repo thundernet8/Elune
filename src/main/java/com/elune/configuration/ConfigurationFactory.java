@@ -151,6 +151,20 @@ public class ConfigurationFactory {
             properties.put(CONFIG_KEY_ORIGIN_WHITELIST, whitelist.toArray());
         }
 
+        // Resource relative path
+        NodeList resPathNodes = doc.getElementsByTagName("resource");
+        String resRelativePath = "";
+        if (resPathNodes.getLength() > 0) {
+
+            Element ele = (Element)resPathNodes.item(0);
+            resRelativePath = ele.getTextContent();
+        }
+        if (resRelativePath.isEmpty()) {
+
+            resRelativePath = "Resources";
+        }
+        properties.put(CONFIG_KEY_RESOURCE_RELATIVE_PATH, resRelativePath);
+
         // Environment
         NodeList envNodes = doc.getElementsByTagName("development");
         if (envNodes.getLength() > 0) {
