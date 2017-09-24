@@ -16,7 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package com.elune.entity;
 
 import java.io.Serializable;
@@ -90,32 +89,27 @@ public class TopicEntity implements Serializable {
     /**
      * 评论状态 0 - 锁定禁止评论 1 - 正常
      */
-    private Byte comment_status;
+    private Byte commentStatus;
 
     /**
      * 创建时间
      */
-    private Integer create_time;
+    private Integer createTime;
 
     /**
      * 更新时间
      */
-    private Integer update_time;
+    private Integer updateTime;
 
     /**
      * 最后回复时间
      */
-    private Integer post_time;
+    private Integer postTime;
 
     /**
      * 帖子权重因子
      */
     private Integer factor;
-
-    /**
-     * 帖子正文
-     */
-    private String content;
 
     private static final long serialVersionUID = 1L;
 
@@ -223,36 +217,36 @@ public class TopicEntity implements Serializable {
         this.status = status;
     }
 
-    public Byte getComment_status() {
-        return comment_status;
+    public Byte getCommentStatus() {
+        return commentStatus;
     }
 
-    public void setComment_status(Byte comment_status) {
-        this.comment_status = comment_status;
+    public void setCommentStatus(Byte commentStatus) {
+        this.commentStatus = commentStatus;
     }
 
-    public Integer getCreate_time() {
-        return create_time;
+    public Integer getCreateTime() {
+        return createTime;
     }
 
-    public void setCreate_time(Integer create_time) {
-        this.create_time = create_time;
+    public void setCreateTime(Integer createTime) {
+        this.createTime = createTime;
     }
 
-    public Integer getUpdate_time() {
-        return update_time;
+    public Integer getUpdateTime() {
+        return updateTime;
     }
 
-    public void setUpdate_time(Integer update_time) {
-        this.update_time = update_time;
+    public void setUpdateTime(Integer updateTime) {
+        this.updateTime = updateTime;
     }
 
-    public Integer getPost_time() {
-        return post_time;
+    public Integer getPostTime() {
+        return postTime;
     }
 
-    public void setPost_time(Integer post_time) {
-        this.post_time = post_time;
+    public void setPostTime(Integer postTime) {
+        this.postTime = postTime;
     }
 
     public Integer getFactor() {
@@ -261,14 +255,6 @@ public class TopicEntity implements Serializable {
 
     public void setFactor(Integer factor) {
         this.factor = factor;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     @Override
@@ -284,24 +270,35 @@ public class TopicEntity implements Serializable {
         }
         TopicEntity other = (TopicEntity) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getCid() == null ? other.getCid() == null : this.getCid().equals(other.getCid()))
-            && (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle()))
-            && (this.getAuthor() == null ? other.getAuthor() == null : this.getAuthor().equals(other.getAuthor()))
-            && (this.getAuthorId() == null ? other.getAuthorId() == null : this.getAuthorId().equals(other.getAuthorId()))
-            && (this.getIsPinned() == null ? other.getIsPinned() == null : this.getIsPinned().equals(other.getIsPinned()))
-            && (this.getIsEssence() == null ? other.getIsEssence() == null : this.getIsEssence().equals(other.getIsEssence()))
-            && (this.getViewsCount() == null ? other.getViewsCount() == null : this.getViewsCount().equals(other.getViewsCount()))
-            && (this.getUpvotesCount() == null ? other.getUpvotesCount() == null : this.getUpvotesCount().equals(other.getUpvotesCount()))
-            && (this.getDownvotesCount() == null ? other.getDownvotesCount() == null : this.getDownvotesCount().equals(other.getDownvotesCount()))
-            && (this.getFavoritesCount() == null ? other.getFavoritesCount() == null : this.getFavoritesCount().equals(other.getFavoritesCount()))
-            && (this.getPostsCount() == null ? other.getPostsCount() == null : this.getPostsCount().equals(other.getPostsCount()))
-            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-            && (this.getComment_status() == null ? other.getComment_status() == null : this.getComment_status().equals(other.getComment_status()))
-            && (this.getCreate_time() == null ? other.getCreate_time() == null : this.getCreate_time().equals(other.getCreate_time()))
-            && (this.getUpdate_time() == null ? other.getUpdate_time() == null : this.getUpdate_time().equals(other.getUpdate_time()))
-            && (this.getPost_time() == null ? other.getPost_time() == null : this.getPost_time().equals(other.getPost_time()))
-            && (this.getFactor() == null ? other.getFactor() == null : this.getFactor().equals(other.getFactor()))
-            && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()));
+                && (this.getCid() == null ? other.getCid() == null : this.getCid().equals(other.getCid()))
+                && (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle()))
+                && (this.getAuthor() == null ? other.getAuthor() == null : this.getAuthor().equals(other.getAuthor()))
+                && (this.getAuthorId() == null ? other.getAuthorId() == null
+                        : this.getAuthorId().equals(other.getAuthorId()))
+                && (this.getIsPinned() == null ? other.getIsPinned() == null
+                        : this.getIsPinned().equals(other.getIsPinned()))
+                && (this.getIsEssence() == null ? other.getIsEssence() == null
+                        : this.getIsEssence().equals(other.getIsEssence()))
+                && (this.getViewsCount() == null ? other.getViewsCount() == null
+                        : this.getViewsCount().equals(other.getViewsCount()))
+                && (this.getUpvotesCount() == null ? other.getUpvotesCount() == null
+                        : this.getUpvotesCount().equals(other.getUpvotesCount()))
+                && (this.getDownvotesCount() == null ? other.getDownvotesCount() == null
+                        : this.getDownvotesCount().equals(other.getDownvotesCount()))
+                && (this.getFavoritesCount() == null ? other.getFavoritesCount() == null
+                        : this.getFavoritesCount().equals(other.getFavoritesCount()))
+                && (this.getPostsCount() == null ? other.getPostsCount() == null
+                        : this.getPostsCount().equals(other.getPostsCount()))
+                && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+                && (this.getCommentStatus() == null ? other.getCommentStatus() == null
+                        : this.getCommentStatus().equals(other.getCommentStatus()))
+                && (this.getCreateTime() == null ? other.getCreateTime() == null
+                        : this.getCreateTime().equals(other.getCreateTime()))
+                && (this.getUpdateTime() == null ? other.getUpdateTime() == null
+                        : this.getUpdateTime().equals(other.getUpdateTime()))
+                && (this.getPostTime() == null ? other.getPostTime() == null
+                        : this.getPostTime().equals(other.getPostTime()))
+                && (this.getFactor() == null ? other.getFactor() == null : this.getFactor().equals(other.getFactor()));
     }
 
     @Override
@@ -321,12 +318,11 @@ public class TopicEntity implements Serializable {
         result = prime * result + ((getFavoritesCount() == null) ? 0 : getFavoritesCount().hashCode());
         result = prime * result + ((getPostsCount() == null) ? 0 : getPostsCount().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
-        result = prime * result + ((getComment_status() == null) ? 0 : getComment_status().hashCode());
-        result = prime * result + ((getCreate_time() == null) ? 0 : getCreate_time().hashCode());
-        result = prime * result + ((getUpdate_time() == null) ? 0 : getUpdate_time().hashCode());
-        result = prime * result + ((getPost_time() == null) ? 0 : getPost_time().hashCode());
+        result = prime * result + ((getCommentStatus() == null) ? 0 : getCommentStatus().hashCode());
+        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
+        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getPostTime() == null) ? 0 : getPostTime().hashCode());
         result = prime * result + ((getFactor() == null) ? 0 : getFactor().hashCode());
-        result = prime * result + ((getContent() == null) ? 0 : getContent().hashCode());
         return result;
     }
 
@@ -349,12 +345,11 @@ public class TopicEntity implements Serializable {
         sb.append(", favoritesCount=").append(favoritesCount);
         sb.append(", postsCount=").append(postsCount);
         sb.append(", status=").append(status);
-        sb.append(", comment_status=").append(comment_status);
-        sb.append(", create_time=").append(create_time);
-        sb.append(", update_time=").append(update_time);
-        sb.append(", post_time=").append(post_time);
+        sb.append(", commentStatus=").append(commentStatus);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", updateTime=").append(updateTime);
+        sb.append(", postTime=").append(postTime);
         sb.append(", factor=").append(factor);
-        sb.append(", content=").append(content);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

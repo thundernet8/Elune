@@ -15,14 +15,16 @@
     <result column="favorites_count" jdbcType="INTEGER" property="favoritesCount" />
     <result column="posts_count" jdbcType="INTEGER" property="postsCount" />
     <result column="status" jdbcType="TINYINT" property="status" />
-    <result column="comment_status" jdbcType="TINYINT" property="comment_status" />
-    <result column="create_time" jdbcType="INTEGER" property="create_time" />
-    <result column="update_time" jdbcType="INTEGER" property="update_time" />
-    <result column="post_time" jdbcType="INTEGER" property="post_time" />
+    <result column="comment_status" jdbcType="TINYINT" property="commentStatus" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+    <result column="update_time" jdbcType="INTEGER" property="updateTime" />
+    <result column="post_time" jdbcType="INTEGER" property="postTime" />
     <result column="factor" jdbcType="INTEGER" property="factor" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.elune.entity.TopicEntity">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.elune.entity.TopicEntityWithBLOBs">
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="content_html" jdbcType="LONGVARCHAR" property="contentHtml" />
+    <result column="content_raw" jdbcType="LONGVARCHAR" property="contentRaw" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -88,7 +90,7 @@
     update_time, post_time, factor
   </sql>
   <sql id="Blob_Column_List">
-    content
+    content, content_html, content_raw
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="com.elune.entity.TopicEntityExample" resultMap="ResultMapWithBLOBs">
     select
@@ -146,23 +148,25 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.elune.entity.TopicEntity">
+  <insert id="insert" parameterType="com.elune.entity.TopicEntityWithBLOBs">
     insert into t_topic (id, cid, title, 
       author, author_id, is_pinned, 
       is_essence, views_count, upvotes_count, 
       downvotes_count, favorites_count, posts_count, 
       status, comment_status, create_time, 
       update_time, post_time, factor, 
-      content)
+      content, content_html, content_raw
+      )
     values (#{id,jdbcType=BIGINT}, #{cid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
       #{author,jdbcType=VARCHAR}, #{authorId,jdbcType=BIGINT}, #{isPinned,jdbcType=TINYINT}, 
       #{isEssence,jdbcType=TINYINT}, #{viewsCount,jdbcType=INTEGER}, #{upvotesCount,jdbcType=INTEGER}, 
       #{downvotesCount,jdbcType=INTEGER}, #{favoritesCount,jdbcType=INTEGER}, #{postsCount,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT}, #{comment_status,jdbcType=TINYINT}, #{create_time,jdbcType=INTEGER}, 
-      #{update_time,jdbcType=INTEGER}, #{post_time,jdbcType=INTEGER}, #{factor,jdbcType=INTEGER}, 
-      #{content,jdbcType=LONGVARCHAR})
+      #{status,jdbcType=TINYINT}, #{commentStatus,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=INTEGER}, #{postTime,jdbcType=INTEGER}, #{factor,jdbcType=INTEGER}, 
+      #{content,jdbcType=LONGVARCHAR}, #{contentHtml,jdbcType=LONGVARCHAR}, #{contentRaw,jdbcType=LONGVARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.elune.entity.TopicEntity">
+  <insert id="insertSelective" parameterType="com.elune.entity.TopicEntityWithBLOBs">
     insert into t_topic
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -204,16 +208,16 @@
       <if test="status != null">
         status,
       </if>
-      <if test="comment_status != null">
+      <if test="commentStatus != null">
         comment_status,
       </if>
-      <if test="create_time != null">
+      <if test="createTime != null">
         create_time,
       </if>
-      <if test="update_time != null">
+      <if test="updateTime != null">
         update_time,
       </if>
-      <if test="post_time != null">
+      <if test="postTime != null">
         post_time,
       </if>
       <if test="factor != null">
@@ -221,6 +225,12 @@
       </if>
       <if test="content != null">
         content,
+      </if>
+      <if test="contentHtml != null">
+        content_html,
+      </if>
+      <if test="contentRaw != null">
+        content_raw,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -263,23 +273,29 @@
       <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
-      <if test="comment_status != null">
-        #{comment_status,jdbcType=TINYINT},
+      <if test="commentStatus != null">
+        #{commentStatus,jdbcType=TINYINT},
       </if>
-      <if test="create_time != null">
-        #{create_time,jdbcType=INTEGER},
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
       </if>
-      <if test="update_time != null">
-        #{update_time,jdbcType=INTEGER},
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=INTEGER},
       </if>
-      <if test="post_time != null">
-        #{post_time,jdbcType=INTEGER},
+      <if test="postTime != null">
+        #{postTime,jdbcType=INTEGER},
       </if>
       <if test="factor != null">
         #{factor,jdbcType=INTEGER},
       </if>
       <if test="content != null">
         #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="contentHtml != null">
+        #{contentHtml,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="contentRaw != null">
+        #{contentRaw,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -331,23 +347,29 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=TINYINT},
       </if>
-      <if test="record.comment_status != null">
-        comment_status = #{record.comment_status,jdbcType=TINYINT},
+      <if test="record.commentStatus != null">
+        comment_status = #{record.commentStatus,jdbcType=TINYINT},
       </if>
-      <if test="record.create_time != null">
-        create_time = #{record.create_time,jdbcType=INTEGER},
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=INTEGER},
       </if>
-      <if test="record.update_time != null">
-        update_time = #{record.update_time,jdbcType=INTEGER},
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=INTEGER},
       </if>
-      <if test="record.post_time != null">
-        post_time = #{record.post_time,jdbcType=INTEGER},
+      <if test="record.postTime != null">
+        post_time = #{record.postTime,jdbcType=INTEGER},
       </if>
       <if test="record.factor != null">
         factor = #{record.factor,jdbcType=INTEGER},
       </if>
       <if test="record.content != null">
         content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.contentHtml != null">
+        content_html = #{record.contentHtml,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.contentRaw != null">
+        content_raw = #{record.contentRaw,jdbcType=LONGVARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -369,12 +391,14 @@
       favorites_count = #{record.favoritesCount,jdbcType=INTEGER},
       posts_count = #{record.postsCount,jdbcType=INTEGER},
       status = #{record.status,jdbcType=TINYINT},
-      comment_status = #{record.comment_status,jdbcType=TINYINT},
-      create_time = #{record.create_time,jdbcType=INTEGER},
-      update_time = #{record.update_time,jdbcType=INTEGER},
-      post_time = #{record.post_time,jdbcType=INTEGER},
+      comment_status = #{record.commentStatus,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=INTEGER},
+      post_time = #{record.postTime,jdbcType=INTEGER},
       factor = #{record.factor,jdbcType=INTEGER},
-      content = #{record.content,jdbcType=LONGVARCHAR}
+      content = #{record.content,jdbcType=LONGVARCHAR},
+      content_html = #{record.contentHtml,jdbcType=LONGVARCHAR},
+      content_raw = #{record.contentRaw,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -394,16 +418,16 @@
       favorites_count = #{record.favoritesCount,jdbcType=INTEGER},
       posts_count = #{record.postsCount,jdbcType=INTEGER},
       status = #{record.status,jdbcType=TINYINT},
-      comment_status = #{record.comment_status,jdbcType=TINYINT},
-      create_time = #{record.create_time,jdbcType=INTEGER},
-      update_time = #{record.update_time,jdbcType=INTEGER},
-      post_time = #{record.post_time,jdbcType=INTEGER},
+      comment_status = #{record.commentStatus,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=INTEGER},
+      post_time = #{record.postTime,jdbcType=INTEGER},
       factor = #{record.factor,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.elune.entity.TopicEntity">
+  <update id="updateByPrimaryKeySelective" parameterType="com.elune.entity.TopicEntityWithBLOBs">
     update t_topic
     <set>
       <if test="cid != null">
@@ -442,17 +466,17 @@
       <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
-      <if test="comment_status != null">
-        comment_status = #{comment_status,jdbcType=TINYINT},
+      <if test="commentStatus != null">
+        comment_status = #{commentStatus,jdbcType=TINYINT},
       </if>
-      <if test="create_time != null">
-        create_time = #{create_time,jdbcType=INTEGER},
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
       </if>
-      <if test="update_time != null">
-        update_time = #{update_time,jdbcType=INTEGER},
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=INTEGER},
       </if>
-      <if test="post_time != null">
-        post_time = #{post_time,jdbcType=INTEGER},
+      <if test="postTime != null">
+        post_time = #{postTime,jdbcType=INTEGER},
       </if>
       <if test="factor != null">
         factor = #{factor,jdbcType=INTEGER},
@@ -460,10 +484,16 @@
       <if test="content != null">
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
+      <if test="contentHtml != null">
+        content_html = #{contentHtml,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="contentRaw != null">
+        content_raw = #{contentRaw,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.elune.entity.TopicEntity">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.elune.entity.TopicEntityWithBLOBs">
     update t_topic
     set cid = #{cid,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
@@ -477,12 +507,14 @@
       favorites_count = #{favoritesCount,jdbcType=INTEGER},
       posts_count = #{postsCount,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT},
-      comment_status = #{comment_status,jdbcType=TINYINT},
-      create_time = #{create_time,jdbcType=INTEGER},
-      update_time = #{update_time,jdbcType=INTEGER},
-      post_time = #{post_time,jdbcType=INTEGER},
+      comment_status = #{commentStatus,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER},
+      post_time = #{postTime,jdbcType=INTEGER},
       factor = #{factor,jdbcType=INTEGER},
-      content = #{content,jdbcType=LONGVARCHAR}
+      content = #{content,jdbcType=LONGVARCHAR},
+      content_html = #{contentHtml,jdbcType=LONGVARCHAR},
+      content_raw = #{contentRaw,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.elune.entity.TopicEntity">
@@ -499,10 +531,10 @@
       favorites_count = #{favoritesCount,jdbcType=INTEGER},
       posts_count = #{postsCount,jdbcType=INTEGER},
       status = #{status,jdbcType=TINYINT},
-      comment_status = #{comment_status,jdbcType=TINYINT},
-      create_time = #{create_time,jdbcType=INTEGER},
-      update_time = #{update_time,jdbcType=INTEGER},
-      post_time = #{post_time,jdbcType=INTEGER},
+      comment_status = #{commentStatus,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=INTEGER},
+      post_time = #{postTime,jdbcType=INTEGER},
       factor = #{factor,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>

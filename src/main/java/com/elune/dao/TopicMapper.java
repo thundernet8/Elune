@@ -16,11 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package com.elune.dao;
 
 import com.elune.entity.TopicEntity;
 import com.elune.entity.TopicEntityExample;
+import com.elune.entity.TopicEntityWithBLOBs;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -31,25 +31,27 @@ public interface TopicMapper {
 
     int deleteByPrimaryKey(Long id);
 
-    int insert(TopicEntity record);
+    int insert(TopicEntityWithBLOBs record);
 
-    int insertSelective(TopicEntity record);
+    int insertSelective(TopicEntityWithBLOBs record);
 
-    List<TopicEntity> selectByExampleWithBLOBs(TopicEntityExample example);
+    List<TopicEntityWithBLOBs> selectByExampleWithBLOBs(TopicEntityExample example);
 
     List<TopicEntity> selectByExample(TopicEntityExample example);
 
-    TopicEntity selectByPrimaryKey(Long id);
+    TopicEntityWithBLOBs selectByPrimaryKey(Long id);
 
-    int updateByExampleSelective(@Param("record") TopicEntity record, @Param("example") TopicEntityExample example);
+    int updateByExampleSelective(@Param("record") TopicEntityWithBLOBs record,
+            @Param("example") TopicEntityExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") TopicEntity record, @Param("example") TopicEntityExample example);
+    int updateByExampleWithBLOBs(@Param("record") TopicEntityWithBLOBs record,
+            @Param("example") TopicEntityExample example);
 
     int updateByExample(@Param("record") TopicEntity record, @Param("example") TopicEntityExample example);
 
-    int updateByPrimaryKeySelective(TopicEntity record);
+    int updateByPrimaryKeySelective(TopicEntityWithBLOBs record);
 
-    int updateByPrimaryKeyWithBLOBs(TopicEntity record);
+    int updateByPrimaryKeyWithBLOBs(TopicEntityWithBLOBs record);
 
     int updateByPrimaryKey(TopicEntity record);
 }
