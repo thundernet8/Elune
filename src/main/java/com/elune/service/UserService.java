@@ -23,6 +23,9 @@ import com.elune.model.*;
 
 import java.util.Map;
 
+/**
+ * @author Touchumind
+ */
 public interface UserService {
 
     User signup(RegisterModel registerModel) throws Exception;
