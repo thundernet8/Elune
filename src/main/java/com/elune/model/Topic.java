@@ -19,7 +19,7 @@
 
 package com.elune.model;
 
-import com.elune.entity.TopicEntityWithBLOBs;
+import com.elune.entity.TopicEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +27,7 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.util.List;
 
-public class Topic extends TopicEntityWithBLOBs implements Serializable {
+public class Topic extends TopicEntity implements Serializable {
 
     @Getter
     @Setter
