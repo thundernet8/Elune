@@ -314,73 +314,73 @@ public class TopicEntityExample {
             return (Criteria) this;
         }
 
-        public Criteria andAuthorIsNull() {
-            addCriterion("author is null");
+        public Criteria andAuthorNameIsNull() {
+            addCriterion("author_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorIsNotNull() {
-            addCriterion("author is not null");
+        public Criteria andAuthorNameIsNotNull() {
+            addCriterion("author_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorEqualTo(String value) {
-            addCriterion("author =", value, "author");
+        public Criteria andAuthorNameEqualTo(String value) {
+            addCriterion("author_name =", value, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorNotEqualTo(String value) {
-            addCriterion("author <>", value, "author");
+        public Criteria andAuthorNameNotEqualTo(String value) {
+            addCriterion("author_name <>", value, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorGreaterThan(String value) {
-            addCriterion("author >", value, "author");
+        public Criteria andAuthorNameGreaterThan(String value) {
+            addCriterion("author_name >", value, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorGreaterThanOrEqualTo(String value) {
-            addCriterion("author >=", value, "author");
+        public Criteria andAuthorNameGreaterThanOrEqualTo(String value) {
+            addCriterion("author_name >=", value, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorLessThan(String value) {
-            addCriterion("author <", value, "author");
+        public Criteria andAuthorNameLessThan(String value) {
+            addCriterion("author_name <", value, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorLessThanOrEqualTo(String value) {
-            addCriterion("author <=", value, "author");
+        public Criteria andAuthorNameLessThanOrEqualTo(String value) {
+            addCriterion("author_name <=", value, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorLike(String value) {
-            addCriterion("author like", value, "author");
+        public Criteria andAuthorNameLike(String value) {
+            addCriterion("author_name like", value, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorNotLike(String value) {
-            addCriterion("author not like", value, "author");
+        public Criteria andAuthorNameNotLike(String value) {
+            addCriterion("author_name not like", value, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorIn(List<String> values) {
-            addCriterion("author in", values, "author");
+        public Criteria andAuthorNameIn(List<String> values) {
+            addCriterion("author_name in", values, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorNotIn(List<String> values) {
-            addCriterion("author not in", values, "author");
+        public Criteria andAuthorNameNotIn(List<String> values) {
+            addCriterion("author_name not in", values, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorBetween(String value1, String value2) {
-            addCriterion("author between", value1, value2, "author");
+        public Criteria andAuthorNameBetween(String value1, String value2) {
+            addCriterion("author_name between", value1, value2, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorNotBetween(String value1, String value2) {
-            addCriterion("author not between", value1, value2, "author");
+        public Criteria andAuthorNameNotBetween(String value1, String value2) {
+            addCriterion("author_name not between", value1, value2, "authorName");
             return (Criteria) this;
         }
 

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * @author
+ * @author Touchumind
  */
 @Builder
 @NoArgsConstructor(access = AccessLevel.PUBLIC)

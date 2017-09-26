@@ -164,7 +164,7 @@ CREATE TABLE `t_topic` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `cid` int(10) NOT NULL COMMENT '所属频道',
   `title` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '话题标题',
-  `author` varchar(60) NOT NULL DEFAULT '' COMMENT '作者用户名',
+  `author_name` varchar(60) NOT NULL DEFAULT '' COMMENT '作者用户名',
   `author_id` bigint(20) unsigned NOT NULL COMMENT '作者ID',
   `content` longtext CHARACTER SET utf8mb4 NOT NULL COMMENT '帖子正文(纯文本)',
   `content_html` longtext CHARACTER SET utf8mb4 NOT NULL COMMENT '帖子内容(Html)',

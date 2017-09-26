@@ -39,7 +39,7 @@ public class TopicEntity implements Serializable {
     /**
      * 作者用户名
      */
-    private String author;
+    private String author_name;
 
     /**
      * 作者ID
@@ -137,12 +137,12 @@ public class TopicEntity implements Serializable {
         this.title = title;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getAuthorName() {
+        return author_name;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthorName(String author_name) {
+        this.author_name = author_name;
     }
 
     public Long getAuthorId() {
@@ -272,7 +272,7 @@ public class TopicEntity implements Serializable {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
                 && (this.getCid() == null ? other.getCid() == null : this.getCid().equals(other.getCid()))
                 && (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle()))
-                && (this.getAuthor() == null ? other.getAuthor() == null : this.getAuthor().equals(other.getAuthor()))
+                && (this.getAuthorName() == null ? other.getAuthorName() == null : this.getAuthorName().equals(other.getAuthorName()))
                 && (this.getAuthorId() == null ? other.getAuthorId() == null
                         : this.getAuthorId().equals(other.getAuthorId()))
                 && (this.getIsPinned() == null ? other.getIsPinned() == null
@@ -308,7 +308,7 @@ public class TopicEntity implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getCid() == null) ? 0 : getCid().hashCode());
         result = prime * result + ((getTitle() == null) ? 0 : getTitle().hashCode());
-        result = prime * result + ((getAuthor() == null) ? 0 : getAuthor().hashCode());
+        result = prime * result + ((getAuthorName() == null) ? 0 : getAuthorName().hashCode());
         result = prime * result + ((getAuthorId() == null) ? 0 : getAuthorId().hashCode());
         result = prime * result + ((getIsPinned() == null) ? 0 : getIsPinned().hashCode());
         result = prime * result + ((getIsEssence() == null) ? 0 : getIsEssence().hashCode());
@@ -335,7 +335,7 @@ public class TopicEntity implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", cid=").append(cid);
         sb.append(", title=").append(title);
-        sb.append(", author=").append(author);
+        sb.append(", author=").append(author_name);
         sb.append(", authorId=").append(authorId);
         sb.append(", isPinned=").append(isPinned);
         sb.append(", isEssence=").append(isEssence);

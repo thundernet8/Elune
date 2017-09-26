@@ -5,7 +5,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="cid" jdbcType="INTEGER" property="cid" />
     <result column="title" jdbcType="VARCHAR" property="title" />
-    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="author_name" jdbcType="VARCHAR" property="authorName" />
     <result column="author_id" jdbcType="BIGINT" property="authorId" />
     <result column="is_pinned" jdbcType="TINYINT" property="isPinned" />
     <result column="is_essence" jdbcType="TINYINT" property="isEssence" />
@@ -85,8 +85,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cid, title, author, author_id, is_pinned, is_essence, views_count, upvotes_count, 
-    downvotes_count, favorites_count, posts_count, status, comment_status, create_time, 
+    id, cid, title, author_name, author_id, is_pinned, is_essence, views_count, upvotes_count,
+    downvotes_count, favorites_count, posts_count, status, comment_status, create_time,
     update_time, post_time, factor
   </sql>
   <sql id="Blob_Column_List">
@@ -131,7 +131,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -149,20 +149,20 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.elune.entity.TopicEntityWithBLOBs">
-    insert into t_topic (id, cid, title, 
-      author, author_id, is_pinned, 
-      is_essence, views_count, upvotes_count, 
-      downvotes_count, favorites_count, posts_count, 
-      status, comment_status, create_time, 
-      update_time, post_time, factor, 
+    insert into t_topic (id, cid, title,
+      author_name, author_id, is_pinned,
+      is_essence, views_count, upvotes_count,
+      downvotes_count, favorites_count, posts_count,
+      status, comment_status, create_time,
+      update_time, post_time, factor,
       content, content_html, content_raw
       )
-    values (#{id,jdbcType=BIGINT}, #{cid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
-      #{author,jdbcType=VARCHAR}, #{authorId,jdbcType=BIGINT}, #{isPinned,jdbcType=TINYINT}, 
-      #{isEssence,jdbcType=TINYINT}, #{viewsCount,jdbcType=INTEGER}, #{upvotesCount,jdbcType=INTEGER}, 
-      #{downvotesCount,jdbcType=INTEGER}, #{favoritesCount,jdbcType=INTEGER}, #{postsCount,jdbcType=INTEGER}, 
-      #{status,jdbcType=TINYINT}, #{commentStatus,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=INTEGER}, #{postTime,jdbcType=INTEGER}, #{factor,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=BIGINT}, #{cid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+      #{authorName,jdbcType=VARCHAR}, #{authorId,jdbcType=BIGINT}, #{isPinned,jdbcType=TINYINT},
+      #{isEssence,jdbcType=TINYINT}, #{viewsCount,jdbcType=INTEGER}, #{upvotesCount,jdbcType=INTEGER},
+      #{downvotesCount,jdbcType=INTEGER}, #{favoritesCount,jdbcType=INTEGER}, #{postsCount,jdbcType=INTEGER},
+      #{status,jdbcType=TINYINT}, #{commentStatus,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER},
+      #{updateTime,jdbcType=INTEGER}, #{postTime,jdbcType=INTEGER}, #{factor,jdbcType=INTEGER},
       #{content,jdbcType=LONGVARCHAR}, #{contentHtml,jdbcType=LONGVARCHAR}, #{contentRaw,jdbcType=LONGVARCHAR}
       )
   </insert>
@@ -178,8 +178,8 @@
       <if test="title != null">
         title,
       </if>
-      <if test="author != null">
-        author,
+      <if test="authorName != null">
+        author_name,
       </if>
       <if test="authorId != null">
         author_id,
@@ -243,8 +243,8 @@
       <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="author != null">
-        #{author,jdbcType=VARCHAR},
+      <if test="authorName != null">
+        #{authorName,jdbcType=VARCHAR},
       </if>
       <if test="authorId != null">
         #{authorId,jdbcType=BIGINT},
@@ -317,8 +317,8 @@
       <if test="record.title != null">
         title = #{record.title,jdbcType=VARCHAR},
       </if>
-      <if test="record.author != null">
-        author = #{record.author,jdbcType=VARCHAR},
+      <if test="record.authorName != null">
+        author_name = #{record.authorName,jdbcType=VARCHAR},
       </if>
       <if test="record.authorId != null">
         author_id = #{record.authorId,jdbcType=BIGINT},
@@ -381,7 +381,7 @@
     set id = #{record.id,jdbcType=BIGINT},
       cid = #{record.cid,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
-      author = #{record.author,jdbcType=VARCHAR},
+      author_name = #{record.authorName,jdbcType=VARCHAR},
       author_id = #{record.authorId,jdbcType=BIGINT},
       is_pinned = #{record.isPinned,jdbcType=TINYINT},
       is_essence = #{record.isEssence,jdbcType=TINYINT},
@@ -408,7 +408,7 @@
     set id = #{record.id,jdbcType=BIGINT},
       cid = #{record.cid,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
-      author = #{record.author,jdbcType=VARCHAR},
+      author_name = #{record.authorName,jdbcType=VARCHAR},
       author_id = #{record.authorId,jdbcType=BIGINT},
       is_pinned = #{record.isPinned,jdbcType=TINYINT},
       is_essence = #{record.isEssence,jdbcType=TINYINT},
@@ -436,8 +436,8 @@
       <if test="title != null">
         title = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="author != null">
-        author = #{author,jdbcType=VARCHAR},
+      <if test="authorName != null">
+        author_name = #{authorName,jdbcType=VARCHAR},
       </if>
       <if test="authorId != null">
         author_id = #{authorId,jdbcType=BIGINT},
@@ -497,7 +497,7 @@
     update t_topic
     set cid = #{cid,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
-      author = #{author,jdbcType=VARCHAR},
+      author_name = #{authorName,jdbcType=VARCHAR},
       author_id = #{authorId,jdbcType=BIGINT},
       is_pinned = #{isPinned,jdbcType=TINYINT},
       is_essence = #{isEssence,jdbcType=TINYINT},
@@ -521,7 +521,7 @@
     update t_topic
     set cid = #{cid,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},
-      author = #{author,jdbcType=VARCHAR},
+      author_name = #{authorName,jdbcType=VARCHAR},
       author_id = #{authorId,jdbcType=BIGINT},
       is_pinned = #{isPinned,jdbcType=TINYINT},
       is_essence = #{isEssence,jdbcType=TINYINT},
