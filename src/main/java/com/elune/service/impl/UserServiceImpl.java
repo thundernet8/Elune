@@ -133,7 +133,8 @@ public class UserServiceImpl implements UserService {
                 int joinTime = DateUtil.getTimeStamp();
 
                 UserEntity userEntity = UserEntity.builder().username(username).nickname(username).password(md5Pass).email(email).joinTime(joinTime).build();
-                int uid = mapper.insertSelective(userEntity);
+                mapper.insertSelective(userEntity);
+                long uid = userEntity.getId();
                 sqlSession.commit();
 
                 // TODO send verify email(event queue)

@@ -117,7 +117,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -135,16 +135,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.elune.entity.NotificationEntity">
-    insert into t_notification (id, type, title, 
-      status, create_time, from, 
+    insert into t_notification (id, type, title,
+      status, create_time, from,
       to, event_id, content
       )
-    values (#{id,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, #{title,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER}, #{from,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, #{title,jdbcType=VARCHAR},
+      #{status,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER}, #{from,jdbcType=VARCHAR},
       #{to,jdbcType=VARCHAR}, #{eventId,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.elune.entity.NotificationEntity">
+  <insert id="insertSelective" parameterType="com.elune.entity.NotificationEntity" useGeneratedKeys="true" keyProperty="id">
     insert into t_notification
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

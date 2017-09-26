@@ -127,7 +127,7 @@
       #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER}, #{hosts,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.elune.entity.ChannelEntity">
+  <insert id="insertSelective" parameterType="com.elune.entity.ChannelEntity" useGeneratedKeys="true" keyProperty="id">
     insert into t_channel
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

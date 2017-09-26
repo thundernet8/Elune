@@ -94,7 +94,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_token
     where id = #{id,jdbcType=INTEGER}
@@ -110,14 +110,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.elune.entity.TokenEntity">
-    insert into t_token (id, uid, token, 
-      type, status, create_time, 
+    insert into t_token (id, uid, token,
+      type, status, create_time,
       expiry_time)
-    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=BIGINT}, #{token,jdbcType=VARCHAR}, 
-      #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=BIGINT}, #{token,jdbcType=VARCHAR},
+      #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER},
       #{expiryTime,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.elune.entity.TokenEntity">
+  <insert id="insertSelective" parameterType="com.elune.entity.TokenEntity" useGeneratedKeys="true" keyProperty="id">
     insert into t_token
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

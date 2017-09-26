@@ -135,7 +135,7 @@
     values (#{id,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT}, #{key,jdbcType=VARCHAR}, #{value,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.elune.entity.UsermetaEntity">
+  <insert id="insertSelective" parameterType="com.elune.entity.UsermetaEntity" useGeneratedKeys="true" keyProperty="id">
     insert into t_usermeta
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

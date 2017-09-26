@@ -145,7 +145,7 @@
       #{roleId,jdbcType=TINYINT}, #{topicsCount,jdbcType=INTEGER}, #{postsCount,jdbcType=INTEGER},
       #{articlesCount,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.elune.entity.UserEntity">
+  <insert id="insertSelective" parameterType="com.elune.entity.UserEntity" useGeneratedKeys="true" keyProperty="id">
     insert into t_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

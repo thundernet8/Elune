@@ -116,7 +116,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -134,14 +134,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.elune.entity.UserlogEntityWithBLOBs">
-    insert into t_userlog (id, uid, type, 
-      ip, ua, create_time, 
+    insert into t_userlog (id, uid, type,
+      ip, ua, create_time,
       before, after)
-    values (#{id,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, 
-      #{ip,jdbcType=VARCHAR}, #{ua,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT}, #{type,jdbcType=TINYINT},
+      #{ip,jdbcType=VARCHAR}, #{ua,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER},
       #{before,jdbcType=LONGVARCHAR}, #{after,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.elune.entity.UserlogEntityWithBLOBs">
+  <insert id="insertSelective" parameterType="com.elune.entity.UserlogEntityWithBLOBs" useGeneratedKeys="true" keyProperty="id">
     insert into t_userlog
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

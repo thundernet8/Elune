@@ -113,7 +113,7 @@
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR},
       #{topicsCount,jdbcType=INTEGER}, #{createTime,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.elune.entity.TagEntity">
+  <insert id="insertSelective" parameterType="com.elune.entity.TagEntity" useGeneratedKeys="true" keyProperty="id">
     insert into t_tag
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

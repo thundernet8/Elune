@@ -166,7 +166,7 @@
       #{content,jdbcType=LONGVARCHAR}, #{contentHtml,jdbcType=LONGVARCHAR}, #{contentRaw,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.elune.entity.TopicEntityWithBLOBs">
+  <insert id="insertSelective" parameterType="com.elune.entity.TopicEntityWithBLOBs" useGeneratedKeys="true" keyProperty="id">
     insert into t_topic
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
