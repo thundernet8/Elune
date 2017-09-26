@@ -1,29 +1,18 @@
-/**
- * Elune - Lightweight Forum Powered by Razor.
- * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
- * <p>
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-
 package com.elune.entity;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 /**
  * @author Touchumind
  */
+@Builder
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserlogEntity implements Serializable {
     private Long id;
 
@@ -39,6 +28,16 @@ public class UserlogEntity implements Serializable {
     private String ua;
 
     private Integer createTime;
+
+    /**
+     * 操作之前的值
+     */
+    private String before;
+
+    /**
+     * 操作之后的值
+     */
+    private String after;
 
     private static final long serialVersionUID = 1L;
 
@@ -90,6 +89,22 @@ public class UserlogEntity implements Serializable {
         this.createTime = createTime;
     }
 
+    public String getBefore() {
+        return before;
+    }
+
+    public void setBefore(String before) {
+        this.before = before;
+    }
+
+    public String getAfter() {
+        return after;
+    }
+
+    public void setAfter(String after) {
+        this.after = after;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -107,7 +122,9 @@ public class UserlogEntity implements Serializable {
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
             && (this.getIp() == null ? other.getIp() == null : this.getIp().equals(other.getIp()))
             && (this.getUa() == null ? other.getUa() == null : this.getUa().equals(other.getUa()))
-            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()));
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getBefore() == null ? other.getBefore() == null : this.getBefore().equals(other.getBefore()))
+            && (this.getAfter() == null ? other.getAfter() == null : this.getAfter().equals(other.getAfter()));
     }
 
     @Override
@@ -120,6 +137,8 @@ public class UserlogEntity implements Serializable {
         result = prime * result + ((getIp() == null) ? 0 : getIp().hashCode());
         result = prime * result + ((getUa() == null) ? 0 : getUa().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
+        result = prime * result + ((getBefore() == null) ? 0 : getBefore().hashCode());
+        result = prime * result + ((getAfter() == null) ? 0 : getAfter().hashCode());
         return result;
     }
 
@@ -135,6 +154,8 @@ public class UserlogEntity implements Serializable {
         sb.append(", ip=").append(ip);
         sb.append(", ua=").append(ua);
         sb.append(", createTime=").append(createTime);
+        sb.append(", before=").append(before);
+        sb.append(", after=").append(after);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

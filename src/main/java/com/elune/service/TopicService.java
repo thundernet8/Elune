@@ -19,6 +19,7 @@
 
 package com.elune.service;
 
+import com.elune.entity.UserEntity;
 import com.elune.model.*;
 
 /**
@@ -28,9 +29,9 @@ public interface TopicService {
 
     Topic getTopic(long id);
 
-    int createTopic(TopicCreationModel topicCreationModel);
+    long createTopic(UserEntity author, TopicCreationModel topicCreationModel);
 
-    boolean updateTopic(TopicCreationModel topicUpdateModel);
+    boolean updateTopic(TopicUpdateModel topicUpdateModel);
 
     boolean pinTopic(long id);
 

@@ -21,9 +21,10 @@ package com.elune.service.impl;
 
 import com.elune.dal.DBManager;
 import com.elune.dao.TopicMapper;
-import com.elune.entity.TopicEntityWithBLOBs;
+import com.elune.entity.*;
 import com.elune.model.*;
 import com.elune.service.TopicService;
+import com.elune.utils.DateUtil;
 import com.elune.utils.DozerMapperUtil;
 
 import com.fedepot.ioc.annotation.FromService;
@@ -44,7 +45,7 @@ public class TopicServiceImpl implements TopicService {
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
-            TopicEntityWithBLOBs topicEntity = mapper.selectByPrimaryKey(id);
+            TopicEntity topicEntity = mapper.selectByPrimaryKey(id);
             if (topicEntity == null) {
 
                 return null;
@@ -58,13 +59,38 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public int createTopic(TopicCreationModel topicCreationModel) {
-        return 0;
+    public long createTopic(UserEntity author, TopicCreationModel topicCreationModel) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
+
+            TopicEntity topicEntity = TopicEntity.builder().cid(topicCreationModel.channelId).title(topicCreationModel.title).authorName(author.getUsername()).authorId(author.getId()).content(topicCreationModel.content).contentHtml(topicCreationModel.contentHtml).contentRaw(topicCreationModel.contentRaw).createTime(DateUtil.getTimeStamp()).build();
+            mapper.insertSelective(topicEntity);
+            sqlSession.commit();
+
+            return topicEntity.getId();
+
+        } catch (Exception e) {
+
+            log.error("Insert topic failed", e);
+            throw e;
+        }
     }
 
     @Override
-    public boolean updateTopic(TopicCreationModel topicUpdateModel) {
-        return false;
+    public boolean updateTopic(TopicUpdateModel topicUpdateModel) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
+            TopicEntity topicEntity = TopicEntity.builder().id(topicUpdateModel.id).title(topicUpdateModel.title).content(topicUpdateModel.content).contentHtml(topicUpdateModel.contentHtml).contentRaw(topicUpdateModel.contentRaw).updateTime(DateUtil.getTimeStamp()).build();
+            int update = mapper.updateByPrimaryKeySelective(topicEntity);
+            sqlSession.commit();
+
+            return update > 0;
+        }
+
     }
 
     @Override

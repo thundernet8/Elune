@@ -38,7 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 // TODO csrf header verify
-@RoutePrefix("api")
+@RoutePrefix("api/v1")
 public class AuthController extends APIController{
 
     @FromService

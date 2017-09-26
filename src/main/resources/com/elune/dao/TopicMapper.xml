@@ -21,7 +21,7 @@
     <result column="post_time" jdbcType="INTEGER" property="postTime" />
     <result column="factor" jdbcType="INTEGER" property="factor" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.elune.entity.TopicEntityWithBLOBs">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.elune.entity.TopicEntity">
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
     <result column="content_html" jdbcType="LONGVARCHAR" property="contentHtml" />
     <result column="content_raw" jdbcType="LONGVARCHAR" property="contentRaw" />
@@ -85,8 +85,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, cid, title, author_name, author_id, is_pinned, is_essence, views_count, upvotes_count,
-    downvotes_count, favorites_count, posts_count, status, comment_status, create_time,
+    id, cid, title, author_name, author_id, is_pinned, is_essence, views_count, upvotes_count, 
+    downvotes_count, favorites_count, posts_count, status, comment_status, create_time, 
     update_time, post_time, factor
   </sql>
   <sql id="Blob_Column_List">
@@ -131,7 +131,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
-    select
+    select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -148,30 +148,31 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.elune.entity.TopicEntityWithBLOBs">
-    insert into t_topic (id, cid, title,
-      author_name, author_id, is_pinned,
-      is_essence, views_count, upvotes_count,
-      downvotes_count, favorites_count, posts_count,
-      status, comment_status, create_time,
-      update_time, post_time, factor,
-      content, content_html, content_raw
-      )
-    values (#{id,jdbcType=BIGINT}, #{cid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
-      #{authorName,jdbcType=VARCHAR}, #{authorId,jdbcType=BIGINT}, #{isPinned,jdbcType=TINYINT},
-      #{isEssence,jdbcType=TINYINT}, #{viewsCount,jdbcType=INTEGER}, #{upvotesCount,jdbcType=INTEGER},
-      #{downvotesCount,jdbcType=INTEGER}, #{favoritesCount,jdbcType=INTEGER}, #{postsCount,jdbcType=INTEGER},
-      #{status,jdbcType=TINYINT}, #{commentStatus,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER},
-      #{updateTime,jdbcType=INTEGER}, #{postTime,jdbcType=INTEGER}, #{factor,jdbcType=INTEGER},
-      #{content,jdbcType=LONGVARCHAR}, #{contentHtml,jdbcType=LONGVARCHAR}, #{contentRaw,jdbcType=LONGVARCHAR}
-      )
+  <insert id="insert" parameterType="com.elune.entity.TopicEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_topic (cid, title, author_name, 
+      author_id, is_pinned, is_essence, 
+      views_count, upvotes_count, downvotes_count, 
+      favorites_count, posts_count, status, 
+      comment_status, create_time, update_time, 
+      post_time, factor, content, 
+      content_html, content_raw)
+    values (#{cid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{authorName,jdbcType=VARCHAR}, 
+      #{authorId,jdbcType=BIGINT}, #{isPinned,jdbcType=TINYINT}, #{isEssence,jdbcType=TINYINT}, 
+      #{viewsCount,jdbcType=INTEGER}, #{upvotesCount,jdbcType=INTEGER}, #{downvotesCount,jdbcType=INTEGER}, 
+      #{favoritesCount,jdbcType=INTEGER}, #{postsCount,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
+      #{commentStatus,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER}, 
+      #{postTime,jdbcType=INTEGER}, #{factor,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}, 
+      #{contentHtml,jdbcType=LONGVARCHAR}, #{contentRaw,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.elune.entity.TopicEntityWithBLOBs" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.elune.entity.TopicEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_topic
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="cid != null">
         cid,
       </if>
@@ -234,9 +235,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="cid != null">
         #{cid,jdbcType=INTEGER},
       </if>
@@ -427,7 +425,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.elune.entity.TopicEntityWithBLOBs">
+  <update id="updateByPrimaryKeySelective" parameterType="com.elune.entity.TopicEntity">
     update t_topic
     <set>
       <if test="cid != null">
@@ -493,7 +491,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.elune.entity.TopicEntityWithBLOBs">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.elune.entity.TopicEntity">
     update t_topic
     set cid = #{cid,jdbcType=INTEGER},
       title = #{title,jdbcType=VARCHAR},

@@ -200,4 +200,14 @@ public class UserServiceImpl implements UserService {
             return User.builder().id(userEntity.getId()).username(userEntity.getUsername()).nickname(userEntity.getNickname()).email(userEntity.getEmail()).joinTime(userEntity.getJoinTime()).build();
         }
     }
+
+    @Override
+    public UserEntity getUserEntity(long id) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            return mapper.selectByPrimaryKey(id);
+        }
+    }
 }

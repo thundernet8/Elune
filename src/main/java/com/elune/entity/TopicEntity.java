@@ -1,28 +1,18 @@
-/**
- * Elune - Lightweight Forum Powered by Razor.
- * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
- * <p>
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package com.elune.entity;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 /**
  * @author Touchumind
  */
+@Builder
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class TopicEntity implements Serializable {
     private Long id;
 
@@ -39,7 +29,7 @@ public class TopicEntity implements Serializable {
     /**
      * 作者用户名
      */
-    private String author_name;
+    private String authorName;
 
     /**
      * 作者ID
@@ -111,6 +101,21 @@ public class TopicEntity implements Serializable {
      */
     private Integer factor;
 
+    /**
+     * 帖子正文(纯文本)
+     */
+    private String content;
+
+    /**
+     * 帖子内容(Html)
+     */
+    private String contentHtml;
+
+    /**
+     * 帖子内容(DraftJS编辑器原始数据)
+     */
+    private String contentRaw;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -138,11 +143,11 @@ public class TopicEntity implements Serializable {
     }
 
     public String getAuthorName() {
-        return author_name;
+        return authorName;
     }
 
-    public void setAuthorName(String author_name) {
-        this.author_name = author_name;
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
     public Long getAuthorId() {
@@ -257,6 +262,30 @@ public class TopicEntity implements Serializable {
         this.factor = factor;
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getContentHtml() {
+        return contentHtml;
+    }
+
+    public void setContentHtml(String contentHtml) {
+        this.contentHtml = contentHtml;
+    }
+
+    public String getContentRaw() {
+        return contentRaw;
+    }
+
+    public void setContentRaw(String contentRaw) {
+        this.contentRaw = contentRaw;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -270,35 +299,26 @@ public class TopicEntity implements Serializable {
         }
         TopicEntity other = (TopicEntity) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-                && (this.getCid() == null ? other.getCid() == null : this.getCid().equals(other.getCid()))
-                && (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle()))
-                && (this.getAuthorName() == null ? other.getAuthorName() == null : this.getAuthorName().equals(other.getAuthorName()))
-                && (this.getAuthorId() == null ? other.getAuthorId() == null
-                        : this.getAuthorId().equals(other.getAuthorId()))
-                && (this.getIsPinned() == null ? other.getIsPinned() == null
-                        : this.getIsPinned().equals(other.getIsPinned()))
-                && (this.getIsEssence() == null ? other.getIsEssence() == null
-                        : this.getIsEssence().equals(other.getIsEssence()))
-                && (this.getViewsCount() == null ? other.getViewsCount() == null
-                        : this.getViewsCount().equals(other.getViewsCount()))
-                && (this.getUpvotesCount() == null ? other.getUpvotesCount() == null
-                        : this.getUpvotesCount().equals(other.getUpvotesCount()))
-                && (this.getDownvotesCount() == null ? other.getDownvotesCount() == null
-                        : this.getDownvotesCount().equals(other.getDownvotesCount()))
-                && (this.getFavoritesCount() == null ? other.getFavoritesCount() == null
-                        : this.getFavoritesCount().equals(other.getFavoritesCount()))
-                && (this.getPostsCount() == null ? other.getPostsCount() == null
-                        : this.getPostsCount().equals(other.getPostsCount()))
-                && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
-                && (this.getCommentStatus() == null ? other.getCommentStatus() == null
-                        : this.getCommentStatus().equals(other.getCommentStatus()))
-                && (this.getCreateTime() == null ? other.getCreateTime() == null
-                        : this.getCreateTime().equals(other.getCreateTime()))
-                && (this.getUpdateTime() == null ? other.getUpdateTime() == null
-                        : this.getUpdateTime().equals(other.getUpdateTime()))
-                && (this.getPostTime() == null ? other.getPostTime() == null
-                        : this.getPostTime().equals(other.getPostTime()))
-                && (this.getFactor() == null ? other.getFactor() == null : this.getFactor().equals(other.getFactor()));
+            && (this.getCid() == null ? other.getCid() == null : this.getCid().equals(other.getCid()))
+            && (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle()))
+            && (this.getAuthorName() == null ? other.getAuthorName() == null : this.getAuthorName().equals(other.getAuthorName()))
+            && (this.getAuthorId() == null ? other.getAuthorId() == null : this.getAuthorId().equals(other.getAuthorId()))
+            && (this.getIsPinned() == null ? other.getIsPinned() == null : this.getIsPinned().equals(other.getIsPinned()))
+            && (this.getIsEssence() == null ? other.getIsEssence() == null : this.getIsEssence().equals(other.getIsEssence()))
+            && (this.getViewsCount() == null ? other.getViewsCount() == null : this.getViewsCount().equals(other.getViewsCount()))
+            && (this.getUpvotesCount() == null ? other.getUpvotesCount() == null : this.getUpvotesCount().equals(other.getUpvotesCount()))
+            && (this.getDownvotesCount() == null ? other.getDownvotesCount() == null : this.getDownvotesCount().equals(other.getDownvotesCount()))
+            && (this.getFavoritesCount() == null ? other.getFavoritesCount() == null : this.getFavoritesCount().equals(other.getFavoritesCount()))
+            && (this.getPostsCount() == null ? other.getPostsCount() == null : this.getPostsCount().equals(other.getPostsCount()))
+            && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
+            && (this.getCommentStatus() == null ? other.getCommentStatus() == null : this.getCommentStatus().equals(other.getCommentStatus()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getPostTime() == null ? other.getPostTime() == null : this.getPostTime().equals(other.getPostTime()))
+            && (this.getFactor() == null ? other.getFactor() == null : this.getFactor().equals(other.getFactor()))
+            && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()))
+            && (this.getContentHtml() == null ? other.getContentHtml() == null : this.getContentHtml().equals(other.getContentHtml()))
+            && (this.getContentRaw() == null ? other.getContentRaw() == null : this.getContentRaw().equals(other.getContentRaw()));
     }
 
     @Override
@@ -323,6 +343,9 @@ public class TopicEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getPostTime() == null) ? 0 : getPostTime().hashCode());
         result = prime * result + ((getFactor() == null) ? 0 : getFactor().hashCode());
+        result = prime * result + ((getContent() == null) ? 0 : getContent().hashCode());
+        result = prime * result + ((getContentHtml() == null) ? 0 : getContentHtml().hashCode());
+        result = prime * result + ((getContentRaw() == null) ? 0 : getContentRaw().hashCode());
         return result;
     }
 
@@ -335,7 +358,7 @@ public class TopicEntity implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", cid=").append(cid);
         sb.append(", title=").append(title);
-        sb.append(", author=").append(author_name);
+        sb.append(", authorName=").append(authorName);
         sb.append(", authorId=").append(authorId);
         sb.append(", isPinned=").append(isPinned);
         sb.append(", isEssence=").append(isEssence);
@@ -350,6 +373,9 @@ public class TopicEntity implements Serializable {
         sb.append(", updateTime=").append(updateTime);
         sb.append(", postTime=").append(postTime);
         sb.append(", factor=").append(factor);
+        sb.append(", content=").append(content);
+        sb.append(", contentHtml=").append(contentHtml);
+        sb.append(", contentRaw=").append(contentRaw);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
