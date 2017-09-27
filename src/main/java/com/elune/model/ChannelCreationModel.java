@@ -1,5 +1,5 @@
 /**
- * Elune - Lightweight Forum Powered by Razor.
+ * Elune - Lightweight Forum Powered by Razor
  * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -19,23 +19,23 @@
 
 package com.elune.model;
 
-import com.elune.entity.ChannelEntity;
+/**
+ * 管理员请求创建频道的数据模型
+ */
+public class ChannelCreationModel {
 
-import lombok.Getter;
-import lombok.Setter;
+    public long parentId;
 
-import java.io.Serializable;
+    public String title;
 
-public class Channel extends ChannelEntity implements Serializable {
+    public String description;
 
-    @Getter
-    @Setter
-    private String link;
+    public String slug;
 
-    @Getter
-    @Setter
+    public String coverImg;
+
     /**
-     * 16进制颜色值(e.g #fafafa)
+     * 16进制颜色值 e.g #fafafa
      */
-    private String color;
+    public String mainColor;
 }

@@ -1,5 +1,5 @@
 /**
- * Elune - Lightweight Forum Powered by Razor.
+ * Elune - Lightweight Forum Powered by Razor
  * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -17,25 +17,37 @@
  */
 
 
-package com.elune.model;
+package com.elune.service;
 
-import com.elune.entity.ChannelEntity;
+import com.elune.model.*;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.util.List;
 
-import java.io.Serializable;
+/**
+ * @author Touchumind
+ */
+public interface ChannelService {
 
-public class Channel extends ChannelEntity implements Serializable {
+    Channel getChannel(int id);
 
-    @Getter
-    @Setter
-    private String link;
+    int createChannel(ChannelCreationModel channelCreationModel);
 
-    @Getter
-    @Setter
+    boolean updateChannel(ChannelUpdateModel channelUpdateModel);
+
+    boolean deleteChannel(int id);
+
     /**
-     * 16进制颜色值(e.g #fafafa)
+     * 更新频道的帖子数量
+     *
+     * @param id 频道ID
+     * @param increase 变动值，为负则减少计数
+     * @return 更新成功返回True
      */
-    private String color;
+    boolean updateTopicCount(int id, int increase);
+
+    boolean addChannelHost(int[] hosts);
+
+    boolean removeChannelHost(int[] hosts);
+
+    List<Channel> getAllChannels();
 }

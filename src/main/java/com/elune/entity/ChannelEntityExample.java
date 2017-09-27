@@ -1,8 +1,15 @@
 package com.elune.entity;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ChannelEntityExample {
     protected String orderByClause;
 
