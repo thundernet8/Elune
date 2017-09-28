@@ -54,6 +54,10 @@ public interface Constant {
 
     String CONFIG_KEY_RESOURCE_RELATIVE_PATH = "app.env.resource.path";
 
+    String CONFIG_KEY_CONTENT_ABS_PATH = "app.env.content.abspath";
+
+    String CONFIG_KEY_SITE_HOME = "app.env.site.home";
+
     /**
      * Default values
      */

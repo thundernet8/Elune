@@ -69,10 +69,13 @@ public final class AppLoader {
         String resPath = app.getConfiguration().get(CONFIG_KEY_RESOURCE_RELATIVE_PATH, "Resources");
         razor.webRoot(rootFolder.concat(File.separator).concat(resPath));
         razor.mapStatic("assets", "core/assets");
+
+        String contentAbsPath = rootFolder.concat(File.separator).concat(resPath).concat("/content");
+        app.getConfiguration().set(CONFIG_KEY_CONTENT_ABS_PATH, contentAbsPath);
         log.info("---------------------------------------------------------------------------------------------------");
         log.info("Use Web Root: {}", rootFolder.concat(File.separator).concat(resPath));
         log.info("Use Assets Root: {}", rootFolder.concat(File.separator).concat(resPath).concat("/core/assets"));
-        log.info("Use Content Root: {}", rootFolder.concat(File.separator).concat(resPath).concat("/content"));
+        log.info("Use Content Root: {}", contentAbsPath);
 
         // Cors
         Object whitelist = app.getConfiguration().getObject(CONFIG_KEY_ORIGIN_WHITELIST).orElse(new String[0]);

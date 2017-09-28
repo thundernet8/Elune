@@ -173,6 +173,24 @@ public class ConfigurationFactory {
             properties.put(CONFIG_KEY_APP_DEV_MODE, !(ele.getTextContent().equals("false")));
         }
 
+        // Site properties
+        NodeList siteNodes = doc.getElementsByTagName("site");
+        if (siteNodes.getLength() > 0) {
+
+            Element ele = (Element)siteNodes.item(0);
+            NodeList props = ele.getElementsByTagName("property");
+            for (int j=0; j<props.getLength(); j++) {
+                Element propEle = (Element)props.item(j);
+                String name = propEle.getAttribute("name");
+                switch (name) {
+
+                    case "home":
+                        properties.put(CONFIG_KEY_SITE_HOME, propEle.getTextContent());
+                        break;
+                }
+            }
+        }
+
 
         return properties;
     }

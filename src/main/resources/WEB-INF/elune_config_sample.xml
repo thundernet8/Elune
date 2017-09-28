@@ -31,4 +31,9 @@
     <resource>Resources</resource>
 
     <development>true</development>
+
+    <!-- Site Properties -->
+    <site>
+        <property name="home">http://localhost</property>
+    </site>
 </app>
