@@ -113,7 +113,10 @@
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR},
       #{topicsCount,jdbcType=INTEGER}, #{createTime,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.elune.entity.TagEntity" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.elune.entity.TagEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_tag
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

@@ -127,7 +127,10 @@
       #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER}, #{hosts,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.elune.entity.ChannelEntity" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.elune.entity.ChannelEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_channel
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

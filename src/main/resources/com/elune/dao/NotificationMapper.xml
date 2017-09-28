@@ -144,7 +144,10 @@
       #{to,jdbcType=VARCHAR}, #{eventId,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.elune.entity.NotificationEntity" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.elune.entity.NotificationEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_notification
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

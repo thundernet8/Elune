@@ -148,7 +148,10 @@
       #{ip,jdbcType=VARCHAR}, #{ua,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT},
       #{createTime,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.elune.entity.PostEntity" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.elune.entity.PostEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_post
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

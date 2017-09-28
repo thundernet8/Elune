@@ -135,7 +135,10 @@
     values (#{id,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT}, #{key,jdbcType=VARCHAR}, #{value,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.elune.entity.UsermetaEntity" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.elune.entity.UsermetaEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_usermeta
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
