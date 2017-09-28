@@ -76,6 +76,9 @@
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>1.8</target>
+                    <excludes>
+                        <exclude>**/*.md</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             <plugin>
@@ -206,8 +209,14 @@
           <artifactId>dozer-core</artifactId>
           <version>6.1.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+        <dependency>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+          <version>1.2</version>
+        </dependency>
 
-        <!-- Test -->
+      <!-- Test -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

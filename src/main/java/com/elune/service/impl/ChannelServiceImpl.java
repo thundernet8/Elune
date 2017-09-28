@@ -30,6 +30,8 @@ import com.fedepot.ioc.annotation.FromService;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ChannelServiceImpl implements ChannelService {
@@ -94,7 +96,9 @@ public class ChannelServiceImpl implements ChannelService {
 
             ChannelMapper mapper = sqlSession.getMapper(ChannelMapper.class);
 
-            ChannelEntityExample channelEntityExample = ChannelEntityExample.builder().offset(0).limit(100).orderByClause("id ASC").build();
+            ChannelEntityExample channelEntityExample = ChannelEntityExample.builder().oredCriteria(new ArrayList<>()).offset(0).limit(100).orderByClause("id ASC").build();
+            Byte normalStatus = 1;
+            channelEntityExample.or().andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
             List<ChannelEntity> channelEntities = mapper.selectByExample(channelEntityExample);
             List<Channel> channels = new ArrayList<>();
 
@@ -102,6 +106,7 @@ public class ChannelServiceImpl implements ChannelService {
                 Channel channel = DozerMapperUtil.map(channelEntity, Channel.class);
                 channel.setLink("/channel/".concat(channel.getSlug()));
                 channel.setColor("#".concat(Integer.toHexString(channel.getMainColor())));
+                channels.add(channel);
 
             });
 
