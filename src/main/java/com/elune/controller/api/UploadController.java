@@ -20,6 +20,7 @@
 package com.elune.controller.api;
 
 import com.elune.configuration.AppConfiguration;
+import com.elune.utils.EncryptUtil;
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.ForInject;
 import com.fedepot.ioc.annotation.FromService;
@@ -27,11 +28,18 @@ import com.fedepot.mvc.annotation.*;
 import com.fedepot.mvc.controller.APIController;
 import com.fedepot.mvc.http.FormFile;
 import com.fedepot.mvc.http.Session;
+import com.fedepot.util.DateKit;
+import org.apache.commons.io.FileUtils;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.Map;
+import java.io.File;
+import java.io.IOException;
+import java.time.Instant;
+import java.util.*;
 
 import static com.elune.constants.Constant.*;
 
+@Slf4j
 @RoutePrefix("api/v1/upload")
 public class UploadController extends APIController{
 
@@ -55,6 +63,83 @@ public class UploadController extends APIController{
         if (uid < 1) {
 
             throw new HttpException("尚未登录, 不能上传图片", 401);
+        }
+
+        String dateStr = DateKit.getDateString(Date.from(Instant.now()), "yyyy/MM/dd");
+        String basePath = contentAbsPath.concat(File.separator).concat("images").concat(File.separator).concat(dateStr);
+        String baseUrl = imageBaseUrl.concat(dateStr).concat("/");
+
+        List<String> imageUrls = new ArrayList<>();
+        Iterator<Map.Entry<String, FormFile>> iterator = files.entrySet().iterator();
+        try {
+            while (iterator.hasNext()) {
+
+                Map.Entry<String, FormFile> entry = iterator.next();
+                String imageUrl = saveImage(basePath, baseUrl, entry.getValue());
+                imageUrls.add(imageUrl);
+            }
+
+            Map<String, Object> resp = new HashMap<>();
+            resp.put("result", imageUrls);
+            resp.put("msg", "图片上传成功");
+            Succeed(resp);
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
+
+    @HttpPost
+    @Route("avatars")
+    public void uploadAvatar(@FormFiles Map<String, FormFile> files) {
+
+        Session session = Request().session();
+        long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+        if (uid < 1) {
+
+            throw new HttpException("尚未登录, 不能上传头像", 401);
+        }
+
+        String basePath = contentAbsPath.concat(File.separator).concat("images").concat(File.separator).concat("avatars");
+        String baseUrl = imageBaseUrl.concat("avatars/");
+
+        try {
+            Map.Entry<String, FormFile> entry = files.entrySet().iterator().next();
+            String imageUrl = saveImage(basePath, baseUrl, entry.getValue());
+
+            Map<String, Object> resp = new HashMap<>();
+            resp.put("result", imageUrl);
+            resp.put("msg", "头像上传成功");
+
+            Succeed(resp);
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
+
+    private String saveImage(String basePath, String baseUrl, FormFile formFile) throws Exception {
+
+        String md5 = EncryptUtil.md5(formFile.getData());
+        String fileName = formFile.getFileName();
+        String ext = "";
+        int index = fileName.lastIndexOf('.');
+
+        if (index >= 0 && index != fileName.length() - 1) {
+
+            ext = fileName.substring(index);
+        }
+        String filePath = basePath.concat(File.separator).concat(md5).concat(ext);
+        String fullUrl = baseUrl.concat(md5).concat(ext);
+
+        try {
+
+            FileUtils.writeByteArrayToFile(new File(filePath), formFile.getData());
+            return fullUrl;
+        } catch (IOException e) {
+
+            log.error("Write image file {} failed", formFile.getFileName(), e);
+            throw e;
         }
     }
 }
