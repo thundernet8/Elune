@@ -11,9 +11,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.2" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.16.18" level="project" />
-    <orderEntry type="library" name="Maven: com.fedepot:razor-mvc:0.0.8-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: com.fedepot:razor-mvc:0.0.8" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.1" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-all:4.1.14.Final" level="project" />
     <orderEntry type="library" name="Maven: org.jtwig:jtwig-core:5.86.0.RELEASE" level="project" />

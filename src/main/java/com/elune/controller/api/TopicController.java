@@ -53,19 +53,19 @@ public class TopicController extends APIController {
             long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
             if (uid < 1) {
 
-                throw new HttpException("你必须登录才能创建话题", 200);
+                throw new HttpException("你必须登录才能创建话题", 401);
             }
 
             UserEntity author = userService.getUserEntity(uid);
 
             if (author == null) {
 
-                throw new HttpException("你必须登录才能创建话题", 200);
+                throw new HttpException("你必须登录才能创建话题", 401);
             }
 
             if (author.getStatus() != 1) {
 
-                throw new HttpException("你没有权限创建话题(账户未激活或已禁用)", 200);
+                throw new HttpException("你没有权限创建话题(账户未激活或已禁用)", 403);
             }
 
             long createResult = topicService.createTopic(author, topicCreationModel);
