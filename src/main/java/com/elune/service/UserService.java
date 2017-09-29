@@ -19,10 +19,14 @@
 
 package com.elune.service;
 
+import com.elune.entity.UserEntity;
 import com.elune.model.*;
 
 import java.util.Map;
 
+/**
+ * @author Touchumind
+ */
 public interface UserService {
 
     User signup(RegisterModel registerModel) throws Exception;
@@ -30,6 +34,8 @@ public interface UserService {
     LoginUser signin(LoginModel loginModel) throws Exception;
 
     User getUser(long id);
+
+    UserEntity getUserEntity(long id);
 
     User getUserByName(String username);
 

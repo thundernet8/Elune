@@ -4,21 +4,21 @@
  Source Server         : MySql
  Source Server Type    : MySQL
  Source Server Version : 50719
- Source Host           : localhost
- Source Database       : elune
+ Source Host           : localhost:3306
+ Source Schema         : elune
 
  Target Server Type    : MySQL
  Target Server Version : 50719
- File Encoding         : utf-8
+ File Encoding         : 65001
 
- Date: 09/14/2017 00:42:08 AM
+ Date: 27/09/2017 13:36:20
 */
 
-SET NAMES utf8;
+SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
---  Table structure for `t_channel`
+-- Table structure for t_channel
 -- ----------------------------
 DROP TABLE IF EXISTS `t_channel`;
 CREATE TABLE `t_channel` (
@@ -40,10 +40,21 @@ CREATE TABLE `t_channel` (
   KEY `idx_create_time` (`create_time`),
   KEY `idx_update_time` (`update_time`),
   KEY `idx_pid` (`pid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='频道(板块)';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='频道(板块)';
 
 -- ----------------------------
---  Table structure for `t_favorite`
+-- Records of t_channel
+-- ----------------------------
+BEGIN;
+INSERT INTO `t_channel` VALUES (1, 0, '其他', '未定义频道', 'mars', NULL, 15265011, 0, 1, 1506486895, 0, '');
+INSERT INTO `t_channel` VALUES (2, 0, '开发', 'Elune Forum开发相关', 'dev', NULL, 4767619, 0, 1, 1506486895, 0, '');
+INSERT INTO `t_channel` VALUES (3, 0, '支持', 'Elune Forum使用问题反馈支持', 'support', NULL, 5018577, 0, 1, 1506486895, 0, '');
+INSERT INTO `t_channel` VALUES (4, 0, '测试', '测试发布话题专用频道', 'test', NULL, 11836812, 0, 1, 1506486895, 0, '');
+INSERT INTO `t_channel` VALUES (5, 1, '灌水', '灌水闲聊休闲区', 'relax', NULL, 14081770, 0, 1, 1506486895, 0, '');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for t_favorite
 -- ----------------------------
 DROP TABLE IF EXISTS `t_favorite`;
 CREATE TABLE `t_favorite` (
@@ -57,7 +68,7 @@ CREATE TABLE `t_favorite` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='收藏/关注/喜欢操作集合';
 
 -- ----------------------------
---  Table structure for `t_notification`
+-- Table structure for t_notification
 -- ----------------------------
 DROP TABLE IF EXISTS `t_notification`;
 CREATE TABLE `t_notification` (
@@ -76,7 +87,7 @@ CREATE TABLE `t_notification` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='站内提醒';
 
 -- ----------------------------
---  Table structure for `t_open`
+-- Table structure for t_open
 -- ----------------------------
 DROP TABLE IF EXISTS `t_open`;
 CREATE TABLE `t_open` (
@@ -91,7 +102,7 @@ CREATE TABLE `t_open` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='第三方平台连接信息';
 
 -- ----------------------------
---  Table structure for `t_option`
+-- Table structure for t_option
 -- ----------------------------
 DROP TABLE IF EXISTS `t_option`;
 CREATE TABLE `t_option` (
@@ -103,7 +114,7 @@ CREATE TABLE `t_option` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
---  Table structure for `t_post`
+-- Table structure for t_post
 -- ----------------------------
 DROP TABLE IF EXISTS `t_post`;
 CREATE TABLE `t_post` (
@@ -126,7 +137,7 @@ CREATE TABLE `t_post` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评论回复';
 
 -- ----------------------------
---  Table structure for `t_tag`
+-- Table structure for t_tag
 -- ----------------------------
 DROP TABLE IF EXISTS `t_tag`;
 CREATE TABLE `t_tag` (
@@ -141,7 +152,7 @@ CREATE TABLE `t_tag` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='标签';
 
 -- ----------------------------
---  Table structure for `t_token`
+-- Table structure for t_token
 -- ----------------------------
 DROP TABLE IF EXISTS `t_token`;
 CREATE TABLE `t_token` (
@@ -157,16 +168,18 @@ CREATE TABLE `t_token` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='临时性的一些验证Token';
 
 -- ----------------------------
---  Table structure for `t_topic`
+-- Table structure for t_topic
 -- ----------------------------
 DROP TABLE IF EXISTS `t_topic`;
 CREATE TABLE `t_topic` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `cid` int(10) NOT NULL COMMENT '所属频道',
   `title` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '话题标题',
-  `author` varchar(60) NOT NULL DEFAULT '' COMMENT '作者用户名',
+  `author_name` varchar(60) NOT NULL DEFAULT '' COMMENT '作者用户名',
   `author_id` bigint(20) unsigned NOT NULL COMMENT '作者ID',
-  `content` longtext CHARACTER SET utf8mb4 NOT NULL COMMENT '帖子正文',
+  `content` longtext CHARACTER SET utf8mb4 NOT NULL COMMENT '帖子正文(纯文本)',
+  `content_html` longtext CHARACTER SET utf8mb4 NOT NULL COMMENT '帖子内容(Html)',
+  `content_raw` longtext CHARACTER SET utf8mb4 NOT NULL COMMENT '帖子内容(DraftJS编辑器原始数据)',
   `is_pinned` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否置顶 0 - 否 1 - 是',
   `is_essence` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否精华帖 0 - 否 1 - 是',
   `views_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '阅读数',
@@ -189,7 +202,7 @@ CREATE TABLE `t_topic` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='话题';
 
 -- ----------------------------
---  Table structure for `t_user`
+-- Table structure for t_user
 -- ----------------------------
 DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user` (
@@ -201,7 +214,7 @@ CREATE TABLE `t_user` (
   `url` varchar(100) NOT NULL DEFAULT '' COMMENT '用户个人主页',
   `join_time` int(10) NOT NULL DEFAULT '0' COMMENT '注册时间',
   `last_seen` int(10) NOT NULL DEFAULT '0' COMMENT '上次登录等操作时间',
-  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '用户状态 0-未激活 1-正常 10-删除',
+  `status` tinyint(1) NOT NULL DEFAULT '0',
   `bio` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   `avatar` varchar(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '用户头像地址',
   `update_time` int(10) NOT NULL DEFAULT '0' COMMENT '记录更新时间',
@@ -214,10 +227,17 @@ CREATE TABLE `t_user` (
   UNIQUE KEY `idx_email` (`email`),
   KEY `idx_join_time` (`join_time`),
   KEY `idx_update_time` (`update_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='用户';
 
 -- ----------------------------
---  Table structure for `t_userlog`
+-- Records of t_user
+-- ----------------------------
+BEGIN;
+INSERT INTO `t_user` VALUES (14, '6468b605280ed4c63ec169e2d3a1f865', 'thundernet8', 'thundernet8', '813920477@qq.com', '', 1506404634, 0, 0, '', '', 0, 10, 0, 0, 0);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for t_userlog
 -- ----------------------------
 DROP TABLE IF EXISTS `t_userlog`;
 CREATE TABLE `t_userlog` (
@@ -235,7 +255,7 @@ CREATE TABLE `t_userlog` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户操作日志';
 
 -- ----------------------------
---  Table structure for `t_usermeta`
+-- Table structure for t_usermeta
 -- ----------------------------
 DROP TABLE IF EXISTS `t_usermeta`;
 CREATE TABLE `t_usermeta` (

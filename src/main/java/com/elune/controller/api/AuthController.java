@@ -25,6 +25,7 @@ import com.elune.model.RegisterModel;
 import com.elune.model.User;
 import com.elune.service.UserService;
 
+import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.mvc.annotation.FromBody;
 import com.fedepot.mvc.annotation.HttpPost;
@@ -37,11 +38,39 @@ import java.util.HashMap;
 import java.util.Map;
 
 // TODO csrf header verify
-@RoutePrefix("api")
+@RoutePrefix("api/v1")
 public class AuthController extends APIController{
 
     @FromService
     private UserService userService;
+
+    @HttpPost
+    @Route("user/me")
+    public void checkMe() {
+
+        try {
+
+            Session session = Request().session();
+            long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+            if (uid < 1) {
+
+                throw new HttpException("尚未登录", 200);
+            }
+
+            User user = userService.getUser(uid);
+
+            session.addAttribute("uid", user.id);
+            session.addAttribute("username", user.username);
+            session.addAttribute("email", user.email);
+            Map<String, Object> resp = new HashMap<>();
+            resp.put("result", user);
+            resp.put("msg", "获取用户信息成功");
+            Succeed(resp);
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
 
     @HttpPost
     @Route("signin")
@@ -55,7 +84,7 @@ public class AuthController extends APIController{
             session.addAttribute("username", user.username);
             session.addAttribute("email", user.email);
             Map<String, Object> resp = new HashMap<>();
-            resp.put("user", user);
+            resp.put("result", user);
             resp.put("msg", "登录成功");
             Succeed(resp);
         } catch (Exception e) {
@@ -71,8 +100,12 @@ public class AuthController extends APIController{
         try{
 
             User user = userService.signup(registerModel);
+            Session session = Request().session();
+            session.addAttribute("uid", user.id);
+            session.addAttribute("username", user.username);
+            session.addAttribute("email", user.email);
             Map<String, Object> resp = new HashMap<>();
-            resp.put("user", user);
+            resp.put("result", user);
             resp.put("msg", "注册成功, 请检查你的邮箱并点击激活链接完成账户激活");
             Succeed(resp);
         } catch (Exception e) {
@@ -88,7 +121,7 @@ public class AuthController extends APIController{
         try{
 
             Session session = Request().session();
-            session.attributes().clear();
+            session.clearAttributes();
             Succeed("注销成功");
         } catch (Exception e) {
 

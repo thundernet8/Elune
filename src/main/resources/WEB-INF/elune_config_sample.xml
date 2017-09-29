@@ -19,5 +19,21 @@
         </redis>
     </database>
 
+    <!-- Origin whitelist for cors -->
+    <origins>
+        <origin>http://localhost:9001</origin>
+        <origin>http://localhost:9002</origin>
+        <origin>http://127.0.0.1:9001</origin>
+        <origin>http://127.0.0.1:9002</origin>
+    </origins>
+
+    <!-- Out resources folder, to save static assets for web app of elune and user generated content(e.g uploaded images). Use a path value here that is relative to the running jar parent folder -->
+    <resource>Resources</resource>
+
     <development>true</development>
+
+    <!-- Site Properties -->
+    <site>
+        <property name="home">http://localhost</property>
+    </site>
 </app>

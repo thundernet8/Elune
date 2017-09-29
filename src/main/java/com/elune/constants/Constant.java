@@ -27,44 +27,52 @@ public interface Constant {
     /**
      * Root folder, for running a packaged jar file, it will be the folder contain this jar; for source code running, it will be the target folder contains compiled classes folder.
      */
-    public static String ROOT_FOLDER = new File(Constant.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParentFile().getAbsolutePath();
+    String ROOT_FOLDER = new File(Constant.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getParentFile().getAbsolutePath();
 
     /**
      * Configuration keys
      */
-    public static String CONFIG_KEY_MYSQL_HOST = "app.db.mysql.host";
+    String CONFIG_KEY_MYSQL_HOST = "app.db.mysql.host";
 
-    public static String CONFIG_KEY_MYSQL_PORT = "app.db.mysql.port";
+    String CONFIG_KEY_MYSQL_PORT = "app.db.mysql.port";
 
-    public static String CONFIG_KEY_MYSQL_USER = "app.db.mysql.user";
+    String CONFIG_KEY_MYSQL_USER = "app.db.mysql.user";
 
-    public static String CONFIG_KEY_MYSQL_PASS = "app.db.mysql.pass";
+    String CONFIG_KEY_MYSQL_PASS = "app.db.mysql.pass";
 
-    public static String CONFIG_KEY_MYSQL_DBNAME = "app.db.mysql.name";
+    String CONFIG_KEY_MYSQL_DBNAME = "app.db.mysql.name";
 
-    public static String CONFIG_KEY_REDIS_HOST = "app.db.redis.host";
+    String CONFIG_KEY_REDIS_HOST = "app.db.redis.host";
 
-    public static String CONFIG_KEY_REDIS_PORT = "app.db.redis.port";
+    String CONFIG_KEY_REDIS_PORT = "app.db.redis.port";
 
-    public static String CONFIG_KEY_REDIS_PASS = "app.db.redis.pass";
+    String CONFIG_KEY_REDIS_PASS = "app.db.redis.pass";
 
-    public static String CONFIG_KEY_APP_DEV_MODE = "app.env.mode.dev";
+    String CONFIG_KEY_APP_DEV_MODE = "app.env.mode.dev";
+
+    String CONFIG_KEY_ORIGIN_WHITELIST = "app.env.origin.whitelist";
+
+    String CONFIG_KEY_RESOURCE_RELATIVE_PATH = "app.env.resource.path";
+
+    String CONFIG_KEY_CONTENT_ABS_PATH = "app.env.content.abspath";
+
+    String CONFIG_KEY_SITE_HOME = "app.env.site.home";
 
     /**
      * Default values
      */
-    public static String DEFAULT_MYSQL_HOST = "localhost";
+    String DEFAULT_MYSQL_HOST = "localhost";
 
-    public static int DEFAULT_MYSQL_PORT = 3306;
+    int DEFAULT_MYSQL_PORT = 3306;
 
-    public static String DEFAULT_MEYSQL_DBNAME = "elune";
+    String DEFAULT_MEYSQL_DBNAME = "elune";
 
-    public static String DEFAULT_REDIS_HOST = "localhost";
+    String DEFAULT_REDIS_HOST = "localhost";
 
-    public static int DEFAULT_REDIS_PORT = 6379;
+    int DEFAULT_REDIS_PORT = 6379;
 
     /**
      * System
      */
-    public static ZoneId DEFAULT_ZONE_ID = ZoneId.of("Asia/Shanghai");
+    ZoneId DEFAULT_ZONE_ID = ZoneId.of("Asia/Shanghai");
 }

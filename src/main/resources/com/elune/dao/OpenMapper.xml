@@ -94,7 +94,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_open
     where id = #{id,jdbcType=BIGINT}
@@ -110,14 +110,17 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.elune.entity.OpenEntity">
-    insert into t_open (id, type, uid, 
-      openid, access_token, refresh_token, 
+    insert into t_open (id, type, uid,
+      openid, access_token, refresh_token,
       create_time)
-    values (#{id,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, #{uid,jdbcType=INTEGER}, 
-      #{openid,jdbcType=VARCHAR}, #{accessToken,jdbcType=VARCHAR}, #{refreshToken,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, #{uid,jdbcType=INTEGER},
+      #{openid,jdbcType=VARCHAR}, #{accessToken,jdbcType=VARCHAR}, #{refreshToken,jdbcType=VARCHAR},
       #{createTime,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.elune.entity.OpenEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_open
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

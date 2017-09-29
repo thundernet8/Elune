@@ -93,7 +93,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_favorite
     where id = #{id,jdbcType=BIGINT}
@@ -109,14 +109,17 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.elune.entity.FavoriteEntity">
-    insert into t_favorite (id, uid, type, 
+    insert into t_favorite (id, uid, type,
       event_id, action, create_time
       )
-    values (#{id,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT}, #{type,jdbcType=TINYINT},
       #{eventId,jdbcType=VARCHAR}, #{action,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.elune.entity.FavoriteEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_favorite
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

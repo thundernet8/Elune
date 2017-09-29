@@ -132,12 +132,63 @@ public class ConfigurationFactory {
             }
         }
 
+        // Origin whitelist
+        NodeList originNodes = doc.getElementsByTagName("origins");
+        if (originNodes.getLength() > 0) {
+
+            Element ele = (Element)originNodes.item(0);
+            NodeList origins = ele.getElementsByTagName("origin");
+            List<String> whitelist = new ArrayList<>();
+
+            for (int i=0; i<origins.getLength(); i++) {
+
+                Node node = origins.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    whitelist.add(node.getTextContent());
+                }
+            }
+
+            properties.put(CONFIG_KEY_ORIGIN_WHITELIST, whitelist.toArray());
+        }
+
+        // Resource relative path
+        NodeList resPathNodes = doc.getElementsByTagName("resource");
+        String resRelativePath = "";
+        if (resPathNodes.getLength() > 0) {
+
+            Element ele = (Element)resPathNodes.item(0);
+            resRelativePath = ele.getTextContent();
+        }
+        if (resRelativePath.isEmpty()) {
+
+            resRelativePath = "Resources";
+        }
+        properties.put(CONFIG_KEY_RESOURCE_RELATIVE_PATH, resRelativePath);
+
         // Environment
         NodeList envNodes = doc.getElementsByTagName("development");
         if (envNodes.getLength() > 0) {
 
             Element ele = (Element)envNodes.item(0);
             properties.put(CONFIG_KEY_APP_DEV_MODE, !(ele.getTextContent().equals("false")));
+        }
+
+        // Site properties
+        NodeList siteNodes = doc.getElementsByTagName("site");
+        if (siteNodes.getLength() > 0) {
+
+            Element ele = (Element)siteNodes.item(0);
+            NodeList props = ele.getElementsByTagName("property");
+            for (int j=0; j<props.getLength(); j++) {
+                Element propEle = (Element)props.item(j);
+                String name = propEle.getAttribute("name");
+                switch (name) {
+
+                    case "home":
+                        properties.put(CONFIG_KEY_SITE_HOME, propEle.getTextContent());
+                        break;
+                }
+            }
         }
 
 

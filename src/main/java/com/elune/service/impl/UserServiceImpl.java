@@ -133,7 +133,8 @@ public class UserServiceImpl implements UserService {
                 int joinTime = DateUtil.getTimeStamp();
 
                 UserEntity userEntity = UserEntity.builder().username(username).nickname(username).password(md5Pass).email(email).joinTime(joinTime).build();
-                int uid = mapper.insertSelective(userEntity);
+                mapper.insertSelective(userEntity);
+                long uid = userEntity.getId();
                 sqlSession.commit();
 
                 // TODO send verify email(event queue)
@@ -197,6 +198,16 @@ public class UserServiceImpl implements UserService {
             }
 
             return User.builder().id(userEntity.getId()).username(userEntity.getUsername()).nickname(userEntity.getNickname()).email(userEntity.getEmail()).joinTime(userEntity.getJoinTime()).build();
+        }
+    }
+
+    @Override
+    public UserEntity getUserEntity(long id) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            return mapper.selectByPrimaryKey(id);
         }
     }
 }

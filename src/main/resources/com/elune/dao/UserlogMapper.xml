@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.elune.dao.UserLogMapper">
+<mapper namespace="com.elune.dao.UserlogMapper">
   <resultMap id="BaseResultMap" type="com.elune.entity.UserlogEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="uid" jdbcType="BIGINT" property="uid" />
@@ -9,7 +9,7 @@
     <result column="ua" jdbcType="VARCHAR" property="ua" />
     <result column="create_time" jdbcType="INTEGER" property="createTime" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.elune.entity.UserlogEntityWithBLOBs">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.elune.entity.UserlogEntity">
     <result column="before" jdbcType="LONGVARCHAR" property="before" />
     <result column="after" jdbcType="LONGVARCHAR" property="after" />
   </resultMap>
@@ -133,20 +133,23 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.elune.entity.UserlogEntityWithBLOBs">
-    insert into t_userlog (id, uid, type, 
-      ip, ua, create_time, 
-      before, after)
-    values (#{id,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, 
-      #{ip,jdbcType=VARCHAR}, #{ua,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER}, 
-      #{before,jdbcType=LONGVARCHAR}, #{after,jdbcType=LONGVARCHAR})
+  <insert id="insert" parameterType="com.elune.entity.UserlogEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_userlog (uid, type, ip, 
+      ua, create_time, before, 
+      after)
+    values (#{uid,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, #{ip,jdbcType=VARCHAR}, 
+      #{ua,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER}, #{before,jdbcType=LONGVARCHAR}, 
+      #{after,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.elune.entity.UserlogEntityWithBLOBs">
+  <insert id="insertSelective" parameterType="com.elune.entity.UserlogEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_userlog
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="uid != null">
         uid,
       </if>
@@ -170,9 +173,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="uid != null">
         #{uid,jdbcType=BIGINT},
       </if>
@@ -260,7 +260,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.elune.entity.UserlogEntityWithBLOBs">
+  <update id="updateByPrimaryKeySelective" parameterType="com.elune.entity.UserlogEntity">
     update t_userlog
     <set>
       <if test="uid != null">
@@ -287,7 +287,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.elune.entity.UserlogEntityWithBLOBs">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.elune.entity.UserlogEntity">
     update t_userlog
     set uid = #{uid,jdbcType=BIGINT},
       type = #{type,jdbcType=TINYINT},

@@ -121,7 +121,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -139,16 +139,19 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.elune.entity.PostEntity">
-    insert into t_post (id, tid, pid, author, 
-      author_id, owner, owner_id, 
-      ip, ua, type, status, 
+    insert into t_post (id, tid, pid, author,
+      author_id, owner, owner_id,
+      ip, ua, type, status,
       create_time, content)
-    values (#{id,jdbcType=BIGINT}, #{tid,jdbcType=BIGINT}, #{pid,jdbcType=BIGINT}, #{author,jdbcType=VARCHAR}, 
-      #{authorId,jdbcType=BIGINT}, #{owner,jdbcType=VARCHAR}, #{ownerId,jdbcType=BIGINT}, 
-      #{ip,jdbcType=VARCHAR}, #{ua,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=BIGINT}, #{tid,jdbcType=BIGINT}, #{pid,jdbcType=BIGINT}, #{author,jdbcType=VARCHAR},
+      #{authorId,jdbcType=BIGINT}, #{owner,jdbcType=VARCHAR}, #{ownerId,jdbcType=BIGINT},
+      #{ip,jdbcType=VARCHAR}, #{ua,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT},
       #{createTime,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.elune.entity.PostEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_post
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">

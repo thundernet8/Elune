@@ -112,7 +112,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -130,12 +130,15 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.elune.entity.OptionEntity">
-    insert into t_option (id, name, auto_load, 
+    insert into t_option (id, name, auto_load,
       value)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{autoLoad,jdbcType=TINYINT}, 
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{autoLoad,jdbcType=TINYINT},
       #{value,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.elune.entity.OptionEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into t_option
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
