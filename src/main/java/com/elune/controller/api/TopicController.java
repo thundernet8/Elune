@@ -20,6 +20,8 @@
 package com.elune.controller.api;
 
 import com.elune.entity.UserEntity;
+import com.elune.model.Pagination;
+import com.elune.model.Topic;
 import com.elune.model.TopicCreationModel;
 import com.elune.model.TopicUpdateModel;
 import com.elune.service.TopicService;
@@ -100,6 +102,20 @@ public class TopicController extends APIController {
 
                 throw new Exception("话题更新失败");
             }
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
+
+    @HttpGet
+    @Route("")
+    public void getTopics(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize) {
+
+        try {
+
+            Pagination<Topic> pagination = topicService.getLatestTopics(page, pageSize);
+            Succeed(pagination);
         } catch (Exception e) {
 
             Fail(e);

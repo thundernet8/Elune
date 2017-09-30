@@ -20,6 +20,7 @@
 package com.elune.service.impl;
 
 import com.elune.dal.DBManager;
+import com.elune.dao.ChannelMapper;
 import com.elune.dao.TopicMapper;
 import com.elune.entity.*;
 import com.elune.model.*;
@@ -31,6 +32,10 @@ import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.ioc.annotation.Service;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -165,6 +170,30 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public Pagination<Topic> getLatestTopics(int page, int pageSize) {
-        return null;
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
+
+            TopicEntityExample topicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).offset((page - 1)*pageSize).limit(pageSize).orderByClause("updateTime DESC id DESC").build();
+            Byte normalStatus = 1;
+            topicEntityExample.or().andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
+            List<TopicEntity> topicEntities = mapper.selectByExample(topicEntityExample);
+            List<Topic> topics = new ArrayList<>();
+
+            topicEntities.forEach(topicEntity -> {
+                Topic topic = DozerMapperUtil.map(topicEntity, Topic.class);
+
+                // TODO author/channel/tags
+                topics.add(topic);
+
+            });
+
+            TopicEntityExample countTopicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            countTopicEntityExample.or().andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
+            long total = mapper.countByExample(countTopicEntityExample);
+
+            return new Pagination<>(total, page, pageSize, topics);
+        }
     }
 }
