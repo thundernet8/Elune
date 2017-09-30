@@ -27,13 +27,14 @@ import com.elune.service.ChannelService;
 import com.elune.utils.DozerMapperUtil;
 
 import com.fedepot.ioc.annotation.FromService;
+import com.fedepot.ioc.annotation.Service;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+@Service
 public class ChannelServiceImpl implements ChannelService {
 
     @FromService
@@ -99,18 +100,37 @@ public class ChannelServiceImpl implements ChannelService {
             ChannelEntityExample channelEntityExample = ChannelEntityExample.builder().oredCriteria(new ArrayList<>()).offset(0).limit(100).orderByClause("id ASC").build();
             Byte normalStatus = 1;
             channelEntityExample.or().andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
-            List<ChannelEntity> channelEntities = mapper.selectByExample(channelEntityExample);
-            List<Channel> channels = new ArrayList<>();
 
-            channelEntities.forEach(channelEntity -> {
-                Channel channel = DozerMapperUtil.map(channelEntity, Channel.class);
-                channel.setLink("/channel/".concat(channel.getSlug()));
-                channel.setColor("#".concat(Integer.toHexString(channel.getMainColor())));
-                channels.add(channel);
-
-            });
-
-            return channels;
+            return assembleChannel(mapper.selectByExample(channelEntityExample));
         }
+    }
+
+    @Override
+    public List<Channel> getChannelsByIdList(List<Integer> ids) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            ChannelMapper mapper = sqlSession.getMapper(ChannelMapper.class);
+
+            ChannelEntityExample channelEntityExample = ChannelEntityExample.builder().oredCriteria(new ArrayList<>()).orderByClause("id ASC").build();
+            channelEntityExample.or().andIdIn(ids);
+
+            return assembleChannel(mapper.selectByExample(channelEntityExample));
+        }
+    }
+
+    private List<Channel> assembleChannel(List<ChannelEntity> channelEntities) {
+
+        List<Channel> channels = new ArrayList<>();
+
+        channelEntities.forEach(channelEntity -> {
+            Channel channel = DozerMapperUtil.map(channelEntity, Channel.class);
+            channel.setLink("/channel/".concat(channel.getSlug()));
+            channel.setColor("#".concat(Integer.toHexString(channel.getMainColor())));
+            channels.add(channel);
+
+        });
+
+        return channels;
     }
 }

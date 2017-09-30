@@ -59,9 +59,9 @@ public class AuthController extends APIController{
 
             User user = userService.getUser(uid);
 
-            session.addAttribute("uid", user.id);
-            session.addAttribute("username", user.username);
-            session.addAttribute("email", user.email);
+            session.addAttribute("uid", user.getId());
+            session.addAttribute("username", user.getUsername());
+            session.addAttribute("email", user.getEmail());
             Map<String, Object> resp = new HashMap<>();
             resp.put("result", user);
             resp.put("msg", "获取用户信息成功");
@@ -101,9 +101,9 @@ public class AuthController extends APIController{
 
             User user = userService.signup(registerModel);
             Session session = Request().session();
-            session.addAttribute("uid", user.id);
-            session.addAttribute("username", user.username);
-            session.addAttribute("email", user.email);
+            session.addAttribute("uid", user.getId());
+            session.addAttribute("username", user.getUsername());
+            session.addAttribute("email", user.getEmail());
             Map<String, Object> resp = new HashMap<>();
             resp.put("result", user);
             resp.put("msg", "注册成功, 请检查你的邮箱并点击激活链接完成账户激活");

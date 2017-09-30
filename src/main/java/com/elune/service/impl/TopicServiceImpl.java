@@ -24,7 +24,9 @@ import com.elune.dao.ChannelMapper;
 import com.elune.dao.TopicMapper;
 import com.elune.entity.*;
 import com.elune.model.*;
+import com.elune.service.ChannelService;
 import com.elune.service.TopicService;
+import com.elune.service.UserService;
 import com.elune.utils.DateUtil;
 import com.elune.utils.DozerMapperUtil;
 
@@ -36,6 +38,9 @@ import org.apache.ibatis.session.SqlSession;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -43,6 +48,12 @@ public class TopicServiceImpl implements TopicService {
 
     @FromService
     private DBManager dbManager;
+
+    @FromService
+    private ChannelService channelService;
+
+    @FromService
+    private UserService userService;
 
     @Override
     public Topic getTopic(long id) {
@@ -175,23 +186,34 @@ public class TopicServiceImpl implements TopicService {
 
             TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
 
-            TopicEntityExample topicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).offset((page - 1)*pageSize).limit(pageSize).orderByClause("updateTime DESC id DESC").build();
+            TopicEntityExample topicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).offset((page - 1)*pageSize).limit(pageSize).orderByClause("update_time DESC, id DESC").build();
             Byte normalStatus = 1;
             topicEntityExample.or().andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
             List<TopicEntity> topicEntities = mapper.selectByExample(topicEntityExample);
             List<Topic> topics = new ArrayList<>();
+            List<Integer> channelIds = topicEntities.stream().map(TopicEntity::getCid).distinct().collect(Collectors.toList());
+            Map<Integer, Channel> channelMap = channelService.getChannelsByIdList(channelIds).stream().collect(Collectors.toMap(Channel::getId, Function.identity()));
+
+            List<Long> authorIds = topicEntities.stream().map(TopicEntity::getAuthorId).distinct().collect(Collectors.toList());
+            Map<Long, User> userMap = userService.getUsersByIdList(authorIds).stream().collect(Collectors.toMap(User::getId, Function.identity()));
 
             topicEntities.forEach(topicEntity -> {
                 Topic topic = DozerMapperUtil.map(topicEntity, Topic.class);
+                topic.setChannel(channelMap.get(topicEntity.getCid()));
+                topic.setAuthor(userMap.get(topicEntity.getAuthorId()));
 
-                // TODO author/channel/tags
+                // TODO tags
                 topics.add(topic);
 
             });
 
-            TopicEntityExample countTopicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
-            countTopicEntityExample.or().andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
-            long total = mapper.countByExample(countTopicEntityExample);
+            long total = 0l;
+            if (page == 1) {
+                // 仅在第一页请求查询Total
+                TopicEntityExample countTopicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+                countTopicEntityExample.or().andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
+                total = mapper.countByExample(countTopicEntityExample);
+            }
 
             return new Pagination<>(total, page, pageSize, topics);
         }

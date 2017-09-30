@@ -23,6 +23,7 @@ import com.elune.constants.UserStatus;
 import com.elune.dal.DBManager;
 import com.elune.dao.UserMapper;
 import com.elune.entity.UserEntity;
+import com.elune.entity.UserEntityExample;
 import com.elune.model.*;
 import com.elune.service.UserService;
 import com.elune.utils.DateUtil;
@@ -35,6 +36,8 @@ import com.fedepot.ioc.annotation.Service;
 import org.apache.ibatis.session.SqlSession;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -197,7 +200,7 @@ public class UserServiceImpl implements UserService {
                 return null;
             }
 
-            return User.builder().id(userEntity.getId()).username(userEntity.getUsername()).nickname(userEntity.getNickname()).email(userEntity.getEmail()).joinTime(userEntity.getJoinTime()).build();
+            return assembleUser(userEntity);
         }
     }
 
@@ -209,5 +212,38 @@ public class UserServiceImpl implements UserService {
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
             return mapper.selectByPrimaryKey(id);
         }
+    }
+
+    @Override
+    public List<User> getUsersByIdList(List<Long> ids) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+
+            UserEntityExample userEntityExample = UserEntityExample.builder().oredCriteria(new ArrayList<>()).orderByClause("id ASC").build();
+            userEntityExample.or().andIdIn(ids);
+
+            return assembleUsers(mapper.selectByExample(userEntityExample));
+        }
+    }
+
+
+    private User assembleUser(UserEntity userEntity) {
+
+        // TODO more fields
+        return User.builder().id(userEntity.getId()).username(userEntity.getUsername()).nickname(userEntity.getNickname()).email(userEntity.getEmail()).joinTime(userEntity.getJoinTime()).build();
+    }
+
+    private List<User> assembleUsers(List<UserEntity> userEntities) {
+
+        List<User> users = new ArrayList<>();
+
+        userEntities.forEach(userEntity -> {
+
+            users.add(assembleUser(userEntity));
+        });
+
+        return users;
     }
 }

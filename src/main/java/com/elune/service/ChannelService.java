@@ -50,4 +50,6 @@ public interface ChannelService {
     boolean removeChannelHost(int[] hosts);
 
     List<Channel> getAllChannels();
+
+    List<Channel> getChannelsByIdList(List<Integer> ids);
 }

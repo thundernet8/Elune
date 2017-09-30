@@ -22,6 +22,7 @@ package com.elune.service;
 import com.elune.entity.UserEntity;
 import com.elune.model.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,6 +35,8 @@ public interface UserService {
     LoginUser signin(LoginModel loginModel) throws Exception;
 
     User getUser(long id);
+
+    List<User> getUsersByIdList(List<Long> ids);
 
     UserEntity getUserEntity(long id);
 

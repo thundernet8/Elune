@@ -56,7 +56,7 @@ public class UserController extends Controller {
             message = "User with id " + id + " is not exist";
         } else {
 
-            message = "User detail name " + user.nickname;
+            message = "User detail name " + user.getNickname();
         }
 
         return message;

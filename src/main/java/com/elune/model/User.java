@@ -20,19 +20,23 @@
 package com.elune.model;
 
 import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
 @Builder
+@Getter
+@Setter
 public class User implements Serializable {
 
-    public long id;
+    private long id;
 
-    public String username;
+    private String username;
 
-    public String nickname;
+    private String nickname;
 
-    public String email;
+    private String email;
 
-    public int joinTime;
+    private int joinTime;
 }
