@@ -136,6 +136,16 @@ public class TopicController extends APIController {
                 sb.append(",");
                 sb.append("id ");
                 sb.append(order);
+                if (orderBy.equals("posts_count")) {
+
+                    sb.append(",views_count ");
+                    sb.append(order);
+                }
+                if (orderBy.equals("views_count")) {
+
+                    sb.append(",posts_count ");
+                    sb.append(order);
+                }
                 break;
             default:
                 sb.append("id ");
