@@ -37,6 +37,7 @@ import org.apache.ibatis.session.SqlSession;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -216,6 +217,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUsersByIdList(List<Long> ids) {
+
+        if (ids.size() < 1) {
+
+            return Collections.emptyList();
+        }
 
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 

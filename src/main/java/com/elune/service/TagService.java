@@ -19,55 +19,43 @@
 
 package com.elune.service;
 
-import com.elune.entity.UserEntity;
 import com.elune.model.*;
+
+import java.util.List;
 
 /**
  * @author Touchumind
  */
-public interface TopicService {
+public interface TagService {
 
-    Topic getTopic(long id);
+    Tag getTag(int id);
 
-    long createTopic(UserEntity author, TopicCreationModel topicCreationModel);
+    int createTag(TagCreationModel tagCreationModel);
 
-    boolean updateTopic(TopicUpdateModel topicUpdateModel);
+    List<Integer> createTags(List<TagCreationModel> tagCreationModels);
 
-    boolean pinTopic(long id);
-
-    boolean unpinTopic(long id);
-
-    boolean markTopicEssence(long id);
-
-    boolean unmarkTopicEssence(long id);
-
-    boolean udateTopicViews(long id);
-
-    boolean upvoteTopic(long id);
-
-    boolean downvoteTopic(long id);
-
-    boolean favoriteTopic(long id);
-
-    boolean unfavoriteTopic(long id);
-
-    boolean updateTopicPostsCount(long id);
-
-    boolean lastReplayTopic(long id);
-
-    boolean updateTopicFactor(long id, int factor);
-
-    boolean deleteTopic(long id);
-
-    boolean toggleTopicComment(long id, boolean enable);
+    boolean deleteTag(int id);
 
     /**
-     * 分页查询话题
+     * 更新标签的帖子数量
+     *
+     * @param id 标签ID
+     * @param increase 变动值，为负则减少计数
+     * @return 更新成功返回True
+     */
+    boolean updateTopicCount(int id, int increase);
+
+    /**
+     * 分页查询标签(按最后回复/发布/更新时间降序)
      *
      * @param page 分页
      * @param pageSize 分页大小
      * @param orderClause 查询排序规则
      * @return 分页的话题列表对象
      */
-    Pagination<Topic> getTopics(int page, int pageSize, String orderClause);
+    Pagination<Tag> getTags(int page, int pageSize, String orderClause);
+
+    List<Tag> getTagsByIdList(List<Integer> ids);
+
+    List<Tag> getTopicTags(long topicId);
 }

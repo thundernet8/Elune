@@ -25,6 +25,7 @@ import com.elune.dao.TopicMapper;
 import com.elune.entity.*;
 import com.elune.model.*;
 import com.elune.service.ChannelService;
+import com.elune.service.TagService;
 import com.elune.service.TopicService;
 import com.elune.service.UserService;
 import com.elune.utils.DateUtil;
@@ -51,6 +52,9 @@ public class TopicServiceImpl implements TopicService {
 
     @FromService
     private ChannelService channelService;
+
+    @FromService
+    private TagService tagService;
 
     @FromService
     private UserService userService;
@@ -180,13 +184,13 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public Pagination<Topic> getLatestTopics(int page, int pageSize) {
+    public Pagination<Topic> getTopics(int page, int pageSize, String orderClause) {
 
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
 
-            TopicEntityExample topicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).offset((page - 1)*pageSize).limit(pageSize).orderByClause("update_time DESC, id DESC").build();
+            TopicEntityExample topicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).offset((page - 1)*pageSize).limit(pageSize).orderByClause(orderClause).build();
             Byte normalStatus = 1;
             topicEntityExample.or().andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
             List<TopicEntity> topicEntities = mapper.selectByExample(topicEntityExample);
@@ -201,8 +205,8 @@ public class TopicServiceImpl implements TopicService {
                 Topic topic = DozerMapperUtil.map(topicEntity, Topic.class);
                 topic.setChannel(channelMap.get(topicEntity.getCid()));
                 topic.setAuthor(userMap.get(topicEntity.getAuthorId()));
+                topic.setTags(tagService.getTopicTags(topicEntity.getId()));
 
-                // TODO tags
                 topics.add(topic);
 
             });

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class TagEntityExample {
+public class TagRelationEntityExample {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -20,7 +20,7 @@ public class TagEntityExample {
 
     private Integer offset;
 
-    public TagEntityExample() {
+    public TagRelationEntityExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -140,253 +140,173 @@ public class TagEntityExample {
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Integer value) {
+        public Criteria andIdEqualTo(Long value) {
             addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Integer value) {
+        public Criteria andIdNotEqualTo(Long value) {
             addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Integer value) {
+        public Criteria andIdGreaterThan(Long value) {
             addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andIdGreaterThanOrEqualTo(Long value) {
             addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Integer value) {
+        public Criteria andIdLessThan(Long value) {
             addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Integer value) {
+        public Criteria andIdLessThanOrEqualTo(Long value) {
             addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Integer> values) {
+        public Criteria andIdIn(List<Long> values) {
             addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Integer> values) {
+        public Criteria andIdNotIn(List<Long> values) {
             addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Integer value1, Integer value2) {
+        public Criteria andIdBetween(Long value1, Long value2) {
             addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andIdNotBetween(Long value1, Long value2) {
             addCriterion("id not between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andTitleIsNull() {
-            addCriterion("title is null");
+        public Criteria andTagIdIsNull() {
+            addCriterion("tag_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andTitleIsNotNull() {
-            addCriterion("title is not null");
+        public Criteria andTagIdIsNotNull() {
+            addCriterion("tag_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTitleEqualTo(String value) {
-            addCriterion("title =", value, "title");
+        public Criteria andTagIdEqualTo(Integer value) {
+            addCriterion("tag_id =", value, "tagId");
             return (Criteria) this;
         }
 
-        public Criteria andTitleNotEqualTo(String value) {
-            addCriterion("title <>", value, "title");
+        public Criteria andTagIdNotEqualTo(Integer value) {
+            addCriterion("tag_id <>", value, "tagId");
             return (Criteria) this;
         }
 
-        public Criteria andTitleGreaterThan(String value) {
-            addCriterion("title >", value, "title");
+        public Criteria andTagIdGreaterThan(Integer value) {
+            addCriterion("tag_id >", value, "tagId");
             return (Criteria) this;
         }
 
-        public Criteria andTitleGreaterThanOrEqualTo(String value) {
-            addCriterion("title >=", value, "title");
+        public Criteria andTagIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("tag_id >=", value, "tagId");
             return (Criteria) this;
         }
 
-        public Criteria andTitleLessThan(String value) {
-            addCriterion("title <", value, "title");
+        public Criteria andTagIdLessThan(Integer value) {
+            addCriterion("tag_id <", value, "tagId");
             return (Criteria) this;
         }
 
-        public Criteria andTitleLessThanOrEqualTo(String value) {
-            addCriterion("title <=", value, "title");
+        public Criteria andTagIdLessThanOrEqualTo(Integer value) {
+            addCriterion("tag_id <=", value, "tagId");
             return (Criteria) this;
         }
 
-        public Criteria andTitleLike(String value) {
-            addCriterion("title like", value, "title");
+        public Criteria andTagIdIn(List<Integer> values) {
+            addCriterion("tag_id in", values, "tagId");
             return (Criteria) this;
         }
 
-        public Criteria andTitleNotLike(String value) {
-            addCriterion("title not like", value, "title");
+        public Criteria andTagIdNotIn(List<Integer> values) {
+            addCriterion("tag_id not in", values, "tagId");
             return (Criteria) this;
         }
 
-        public Criteria andTitleIn(List<String> values) {
-            addCriterion("title in", values, "title");
+        public Criteria andTagIdBetween(Integer value1, Integer value2) {
+            addCriterion("tag_id between", value1, value2, "tagId");
             return (Criteria) this;
         }
 
-        public Criteria andTitleNotIn(List<String> values) {
-            addCriterion("title not in", values, "title");
+        public Criteria andTagIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("tag_id not between", value1, value2, "tagId");
             return (Criteria) this;
         }
 
-        public Criteria andTitleBetween(String value1, String value2) {
-            addCriterion("title between", value1, value2, "title");
+        public Criteria andTopicIdIsNull() {
+            addCriterion("topic_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andTitleNotBetween(String value1, String value2) {
-            addCriterion("title not between", value1, value2, "title");
+        public Criteria andTopicIdIsNotNull() {
+            addCriterion("topic_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSlugIsNull() {
-            addCriterion("slug is null");
+        public Criteria andTopicIdEqualTo(Long value) {
+            addCriterion("topic_id =", value, "topicId");
             return (Criteria) this;
         }
 
-        public Criteria andSlugIsNotNull() {
-            addCriterion("slug is not null");
+        public Criteria andTopicIdNotEqualTo(Long value) {
+            addCriterion("topic_id <>", value, "topicId");
             return (Criteria) this;
         }
 
-        public Criteria andSlugEqualTo(String value) {
-            addCriterion("slug =", value, "slug");
+        public Criteria andTopicIdGreaterThan(Long value) {
+            addCriterion("topic_id >", value, "topicId");
             return (Criteria) this;
         }
 
-        public Criteria andSlugNotEqualTo(String value) {
-            addCriterion("slug <>", value, "slug");
+        public Criteria andTopicIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("topic_id >=", value, "topicId");
             return (Criteria) this;
         }
 
-        public Criteria andSlugGreaterThan(String value) {
-            addCriterion("slug >", value, "slug");
+        public Criteria andTopicIdLessThan(Long value) {
+            addCriterion("topic_id <", value, "topicId");
             return (Criteria) this;
         }
 
-        public Criteria andSlugGreaterThanOrEqualTo(String value) {
-            addCriterion("slug >=", value, "slug");
+        public Criteria andTopicIdLessThanOrEqualTo(Long value) {
+            addCriterion("topic_id <=", value, "topicId");
             return (Criteria) this;
         }
 
-        public Criteria andSlugLessThan(String value) {
-            addCriterion("slug <", value, "slug");
+        public Criteria andTopicIdIn(List<Long> values) {
+            addCriterion("topic_id in", values, "topicId");
             return (Criteria) this;
         }
 
-        public Criteria andSlugLessThanOrEqualTo(String value) {
-            addCriterion("slug <=", value, "slug");
+        public Criteria andTopicIdNotIn(List<Long> values) {
+            addCriterion("topic_id not in", values, "topicId");
             return (Criteria) this;
         }
 
-        public Criteria andSlugLike(String value) {
-            addCriterion("slug like", value, "slug");
+        public Criteria andTopicIdBetween(Long value1, Long value2) {
+            addCriterion("topic_id between", value1, value2, "topicId");
             return (Criteria) this;
         }
 
-        public Criteria andSlugNotLike(String value) {
-            addCriterion("slug not like", value, "slug");
-            return (Criteria) this;
-        }
-
-        public Criteria andSlugIn(List<String> values) {
-            addCriterion("slug in", values, "slug");
-            return (Criteria) this;
-        }
-
-        public Criteria andSlugNotIn(List<String> values) {
-            addCriterion("slug not in", values, "slug");
-            return (Criteria) this;
-        }
-
-        public Criteria andSlugBetween(String value1, String value2) {
-            addCriterion("slug between", value1, value2, "slug");
-            return (Criteria) this;
-        }
-
-        public Criteria andSlugNotBetween(String value1, String value2) {
-            addCriterion("slug not between", value1, value2, "slug");
-            return (Criteria) this;
-        }
-
-        public Criteria andTopicsCountIsNull() {
-            addCriterion("topics_count is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTopicsCountIsNotNull() {
-            addCriterion("topics_count is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andTopicsCountEqualTo(Integer value) {
-            addCriterion("topics_count =", value, "topicsCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTopicsCountNotEqualTo(Integer value) {
-            addCriterion("topics_count <>", value, "topicsCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTopicsCountGreaterThan(Integer value) {
-            addCriterion("topics_count >", value, "topicsCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTopicsCountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("topics_count >=", value, "topicsCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTopicsCountLessThan(Integer value) {
-            addCriterion("topics_count <", value, "topicsCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTopicsCountLessThanOrEqualTo(Integer value) {
-            addCriterion("topics_count <=", value, "topicsCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTopicsCountIn(List<Integer> values) {
-            addCriterion("topics_count in", values, "topicsCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTopicsCountNotIn(List<Integer> values) {
-            addCriterion("topics_count not in", values, "topicsCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTopicsCountBetween(Integer value1, Integer value2) {
-            addCriterion("topics_count between", value1, value2, "topicsCount");
-            return (Criteria) this;
-        }
-
-        public Criteria andTopicsCountNotBetween(Integer value1, Integer value2) {
-            addCriterion("topics_count not between", value1, value2, "topicsCount");
+        public Criteria andTopicIdNotBetween(Long value1, Long value2) {
+            addCriterion("topic_id not between", value1, value2, "topicId");
             return (Criteria) this;
         }
 

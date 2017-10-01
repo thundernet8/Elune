@@ -11,7 +11,7 @@
  Target Server Version : 50719
  File Encoding         : 65001
 
- Date: 27/09/2017 13:36:20
+ Date: 01/10/2017 14:51:39
 */
 
 SET NAMES utf8mb4;
@@ -150,6 +150,18 @@ CREATE TABLE `t_tag` (
   UNIQUE KEY `idx_title` (`title`),
   UNIQUE KEY `idx_slug` (`slug`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='标签';
+
+-- ----------------------------
+-- Table structure for t_tagrelation
+-- ----------------------------
+DROP TABLE IF EXISTS `t_tagrelation`;
+CREATE TABLE `t_tagrelation` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `tag_id` int(10) unsigned NOT NULL,
+  `topic_id` bigint(20) unsigned NOT NULL,
+  `create_time` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for t_token

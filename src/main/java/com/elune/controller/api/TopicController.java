@@ -35,6 +35,7 @@ import com.fedepot.mvc.http.Session;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RoutePrefix("api/v1/topics")
 public class TopicController extends APIController {
@@ -110,11 +111,42 @@ public class TopicController extends APIController {
 
     @HttpGet
     @Route("")
-    public void getTopics(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize) {
+    public void getTopics(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize, @QueryParam("order") String order, @QueryParam("orderBy") String orderBy) {
+
+        if (order == null || !(order.toLowerCase().equals("asc"))) {
+
+            order = "DESC";
+        }
+
+        if (orderBy == null) {
+
+            orderBy = "id";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        switch (orderBy) {
+
+            case "update_time":
+            case "post_time":
+            case "posts_count":
+            case "views_count":
+                sb.append(orderBy);
+                sb.append(" ");
+                sb.append(order);
+                sb.append(",");
+                sb.append("id ");
+                sb.append(order);
+                break;
+            default:
+                sb.append("id ");
+                sb.append(order);
+        }
+
+        String orderClause = sb.toString();
 
         try {
 
-            Pagination<Topic> pagination = topicService.getLatestTopics(page, pageSize);
+            Pagination<Topic> pagination = topicService.getTopics(page, pageSize, orderClause);
             Succeed(pagination);
         } catch (Exception e) {
 

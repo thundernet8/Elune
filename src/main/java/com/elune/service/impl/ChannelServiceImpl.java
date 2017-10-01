@@ -108,6 +108,11 @@ public class ChannelServiceImpl implements ChannelService {
     @Override
     public List<Channel> getChannelsByIdList(List<Integer> ids) {
 
+        if (ids.size() < 1) {
+
+            return Collections.emptyList();
+        }
+
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             ChannelMapper mapper = sqlSession.getMapper(ChannelMapper.class);
