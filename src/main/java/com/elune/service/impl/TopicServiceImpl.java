@@ -193,7 +193,7 @@ public class TopicServiceImpl implements TopicService {
             TopicEntityExample topicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).offset((page - 1)*pageSize).limit(pageSize).orderByClause(orderClause).build();
             Byte normalStatus = 1;
             topicEntityExample.or().andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
-            List<TopicEntity> topicEntities = mapper.selectByExample(topicEntityExample);
+            List<TopicEntity> topicEntities = mapper.selectByExampleWithBLOBs(topicEntityExample);
             List<Topic> topics = new ArrayList<>();
             List<Integer> channelIds = topicEntities.stream().map(TopicEntity::getCid).distinct().collect(Collectors.toList());
             Map<Integer, Channel> channelMap = channelService.getChannelsByIdList(channelIds).stream().collect(Collectors.toMap(Channel::getId, Function.identity()));
