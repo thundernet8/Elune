@@ -194,22 +194,7 @@ public class TopicServiceImpl implements TopicService {
             Byte normalStatus = 1;
             topicEntityExample.or().andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
             List<TopicEntity> topicEntities = mapper.selectByExampleWithBLOBs(topicEntityExample);
-            List<Topic> topics = new ArrayList<>();
-            List<Integer> channelIds = topicEntities.stream().map(TopicEntity::getCid).distinct().collect(Collectors.toList());
-            Map<Integer, Channel> channelMap = channelService.getChannelsByIdList(channelIds).stream().collect(Collectors.toMap(Channel::getId, Function.identity()));
-
-            List<Long> authorIds = topicEntities.stream().map(TopicEntity::getAuthorId).distinct().collect(Collectors.toList());
-            Map<Long, User> userMap = userService.getUsersByIdList(authorIds).stream().collect(Collectors.toMap(User::getId, Function.identity()));
-
-            topicEntities.forEach(topicEntity -> {
-                Topic topic = DozerMapperUtil.map(topicEntity, Topic.class);
-                topic.setChannel(channelMap.get(topicEntity.getCid()));
-                topic.setAuthor(userMap.get(topicEntity.getAuthorId()));
-                topic.setTags(tagService.getTopicTags(topicEntity.getId()));
-
-                topics.add(topic);
-
-            });
+            List<Topic> topics = assembleTopics(topicEntities);
 
             long total = 0l;
             if (page == 1) {
@@ -221,5 +206,52 @@ public class TopicServiceImpl implements TopicService {
 
             return new Pagination<>(total, page, pageSize, topics);
         }
+    }
+
+    @Override
+    public Pagination<Topic> getChannelTopics(int page, int pageSize, int channelId, String orderClause) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
+
+            TopicEntityExample topicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).offset((page - 1)*pageSize).limit(pageSize).orderByClause(orderClause).build();
+            Byte normalStatus = 1;
+            topicEntityExample.or().andCidEqualTo(channelId).andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
+            List<TopicEntity> topicEntities = mapper.selectByExampleWithBLOBs(topicEntityExample);
+            List<Topic> topics = assembleTopics(topicEntities);
+
+            long total = 0l;
+            if (page == 1) {
+                // 仅在第一页请求查询Total
+                TopicEntityExample countTopicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+                countTopicEntityExample.or().andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
+                total = mapper.countByExample(countTopicEntityExample);
+            }
+
+            return new Pagination<>(total, page, pageSize, topics);
+        }
+    }
+
+    private List<Topic> assembleTopics(List<TopicEntity> topicEntities) {
+
+        List<Topic> topics = new ArrayList<>();
+        List<Integer> channelIds = topicEntities.stream().map(TopicEntity::getCid).distinct().collect(Collectors.toList());
+        Map<Integer, Channel> channelMap = channelService.getChannelsByIdList(channelIds).stream().collect(Collectors.toMap(Channel::getId, Function.identity()));
+
+        List<Long> authorIds = topicEntities.stream().map(TopicEntity::getAuthorId).distinct().collect(Collectors.toList());
+        Map<Long, User> userMap = userService.getUsersByIdList(authorIds).stream().collect(Collectors.toMap(User::getId, Function.identity()));
+
+        topicEntities.forEach(topicEntity -> {
+            Topic topic = DozerMapperUtil.map(topicEntity, Topic.class);
+            topic.setChannel(channelMap.get(topicEntity.getCid()));
+            topic.setAuthor(userMap.get(topicEntity.getAuthorId()));
+            topic.setTags(tagService.getTopicTags(topicEntity.getId()));
+
+            topics.add(topic);
+
+        });
+
+        return topics;
     }
 }

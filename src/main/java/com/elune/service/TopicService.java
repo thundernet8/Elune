@@ -70,4 +70,6 @@ public interface TopicService {
      * @return 分页的话题列表对象
      */
     Pagination<Topic> getTopics(int page, int pageSize, String orderClause);
+
+    Pagination<Topic> getChannelTopics(int page, int pageSize, int channelId, String orderClause);
 }
