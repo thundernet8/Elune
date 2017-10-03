@@ -111,7 +111,7 @@ public class TopicController extends APIController {
 
     @HttpGet
     @Route("")
-    public void getTopics(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize, @QueryParam("page") String channelId, @QueryParam("order") String order, @QueryParam("orderBy") String orderBy) {
+    public void getTopics(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize, @QueryParam("channelId") String channelId, @QueryParam("order") String order, @QueryParam("orderBy") String orderBy) {
 
         if (order == null || !(order.toLowerCase().equals("asc"))) {
 
