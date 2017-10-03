@@ -61,6 +61,28 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
+    public Channel getChannelBySlug(String slug) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            ChannelMapper mapper = sqlSession.getMapper(ChannelMapper.class);
+
+            ChannelEntityExample channelEntityExample = ChannelEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            Byte normalStatus = 1;
+            channelEntityExample.or().andSlugEqualTo(slug).andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
+
+            List<Channel> channels = assembleChannel(mapper.selectByExample(channelEntityExample));
+
+            if (channels.size() > 0) {
+
+                return channels.get(0);
+            }
+
+            return null;
+        }
+    }
+
+    @Override
     public int createChannel(ChannelCreationModel channelCreationModel) {
         return 0;
     }

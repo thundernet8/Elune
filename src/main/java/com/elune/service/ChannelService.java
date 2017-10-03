@@ -30,6 +30,8 @@ public interface ChannelService {
 
     Channel getChannel(int id);
 
+    Channel getChannelBySlug(String slug);
+
     int createChannel(ChannelCreationModel channelCreationModel);
 
     boolean updateChannel(ChannelUpdateModel channelUpdateModel);
