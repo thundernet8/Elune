@@ -27,3 +27,4 @@ target/
 .idea/
 out/
 /Resources/
+/logs/
