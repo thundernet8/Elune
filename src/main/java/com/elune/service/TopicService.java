@@ -41,7 +41,7 @@ public interface TopicService {
 
     boolean unmarkTopicEssence(long id);
 
-    boolean udateTopicViews(long id);
+    boolean updateTopicViews(long id);
 
     boolean upvoteTopic(long id);
 

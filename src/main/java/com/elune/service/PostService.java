@@ -20,6 +20,7 @@
 package com.elune.service;
 
 import com.elune.entity.PostEntity;
+import com.elune.entity.UserEntity;
 import com.elune.model.*;
 
 /**
@@ -28,4 +29,24 @@ import com.elune.model.*;
 public interface PostService {
 
     Post getPost(long id);
+
+    long createPost(UserEntity author, PostCreationModel postCreationModel);
+
+    boolean upvotePost(long id);
+
+    boolean downvotePost(long id);
+
+    boolean deletePost(long id);
+
+    /**
+     * 分页查询话题
+     *
+     * @param page 分页
+     * @param pageSize 分页大小
+     * @param orderClause 查询排序规则
+     * @return 分页的评论/回复列表对象
+     */
+    Pagination<Post> getPosts(int page, int pageSize, String orderClause);
+
+    Pagination<Post> getTopicPosts(int page, int pageSize, long topicId, String orderClause);
 }

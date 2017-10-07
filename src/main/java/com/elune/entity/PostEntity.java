@@ -1,10 +1,18 @@
 package com.elune.entity;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 /**
- * @author 
+ * @author Touchumind
  */
+@Builder
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PostEntity implements Serializable {
     private Long id;
 
@@ -21,20 +29,30 @@ public class PostEntity implements Serializable {
     /**
      * 评论回复作者
      */
-    private String author;
+    private String authorName;
 
     private Long authorId;
 
     /**
      * 话题作者
      */
-    private String owner;
+    private String topicAuthorName;
 
-    private Long ownerId;
+    private Long topicAuthorId;
 
     private String ip;
 
     private String ua;
+
+    /**
+     * 点赞数
+     */
+    private Integer upvotesCount;
+
+    /**
+     * 点踩数
+     */
+    private Integer downvotesCount;
 
     /**
      * Post类型 1 - 评论 2 - 回复
@@ -92,12 +110,12 @@ public class PostEntity implements Serializable {
         this.pid = pid;
     }
 
-    public String getAuthor() {
-        return author;
+    public String getAuthorName() {
+        return authorName;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
     public Long getAuthorId() {
@@ -108,20 +126,20 @@ public class PostEntity implements Serializable {
         this.authorId = authorId;
     }
 
-    public String getOwner() {
-        return owner;
+    public String getTopicAuthorName() {
+        return topicAuthorName;
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public void setTopicAuthorName(String topicAuthorName) {
+        this.topicAuthorName = topicAuthorName;
     }
 
-    public Long getOwnerId() {
-        return ownerId;
+    public Long getTopicAuthorId() {
+        return topicAuthorId;
     }
 
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
+    public void setTopicAuthorId(Long topicAuthorId) {
+        this.topicAuthorId = topicAuthorId;
     }
 
     public String getIp() {
@@ -138,6 +156,22 @@ public class PostEntity implements Serializable {
 
     public void setUa(String ua) {
         this.ua = ua;
+    }
+
+    public Integer getUpvotesCount() {
+        return upvotesCount;
+    }
+
+    public void setUpvotesCount(Integer upvotesCount) {
+        this.upvotesCount = upvotesCount;
+    }
+
+    public Integer getDownvotesCount() {
+        return downvotesCount;
+    }
+
+    public void setDownvotesCount(Integer downvotesCount) {
+        this.downvotesCount = downvotesCount;
     }
 
     public Byte getType() {
@@ -203,12 +237,14 @@ public class PostEntity implements Serializable {
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getTid() == null ? other.getTid() == null : this.getTid().equals(other.getTid()))
             && (this.getPid() == null ? other.getPid() == null : this.getPid().equals(other.getPid()))
-            && (this.getAuthor() == null ? other.getAuthor() == null : this.getAuthor().equals(other.getAuthor()))
+            && (this.getAuthorName() == null ? other.getAuthorName() == null : this.getAuthorName().equals(other.getAuthorName()))
             && (this.getAuthorId() == null ? other.getAuthorId() == null : this.getAuthorId().equals(other.getAuthorId()))
-            && (this.getOwner() == null ? other.getOwner() == null : this.getOwner().equals(other.getOwner()))
-            && (this.getOwnerId() == null ? other.getOwnerId() == null : this.getOwnerId().equals(other.getOwnerId()))
+            && (this.getTopicAuthorName() == null ? other.getTopicAuthorName() == null : this.getTopicAuthorName().equals(other.getTopicAuthorName()))
+            && (this.getTopicAuthorId() == null ? other.getTopicAuthorId() == null : this.getTopicAuthorId().equals(other.getTopicAuthorId()))
             && (this.getIp() == null ? other.getIp() == null : this.getIp().equals(other.getIp()))
             && (this.getUa() == null ? other.getUa() == null : this.getUa().equals(other.getUa()))
+            && (this.getUpvotesCount() == null ? other.getUpvotesCount() == null : this.getUpvotesCount().equals(other.getUpvotesCount()))
+            && (this.getDownvotesCount() == null ? other.getDownvotesCount() == null : this.getDownvotesCount().equals(other.getDownvotesCount()))
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
@@ -224,12 +260,14 @@ public class PostEntity implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getTid() == null) ? 0 : getTid().hashCode());
         result = prime * result + ((getPid() == null) ? 0 : getPid().hashCode());
-        result = prime * result + ((getAuthor() == null) ? 0 : getAuthor().hashCode());
+        result = prime * result + ((getAuthorName() == null) ? 0 : getAuthorName().hashCode());
         result = prime * result + ((getAuthorId() == null) ? 0 : getAuthorId().hashCode());
-        result = prime * result + ((getOwner() == null) ? 0 : getOwner().hashCode());
-        result = prime * result + ((getOwnerId() == null) ? 0 : getOwnerId().hashCode());
+        result = prime * result + ((getTopicAuthorName() == null) ? 0 : getTopicAuthorName().hashCode());
+        result = prime * result + ((getTopicAuthorId() == null) ? 0 : getTopicAuthorId().hashCode());
         result = prime * result + ((getIp() == null) ? 0 : getIp().hashCode());
         result = prime * result + ((getUa() == null) ? 0 : getUa().hashCode());
+        result = prime * result + ((getUpvotesCount() == null) ? 0 : getUpvotesCount().hashCode());
+        result = prime * result + ((getDownvotesCount() == null) ? 0 : getDownvotesCount().hashCode());
         result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
@@ -248,12 +286,14 @@ public class PostEntity implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", tid=").append(tid);
         sb.append(", pid=").append(pid);
-        sb.append(", author=").append(author);
+        sb.append(", authorName=").append(authorName);
         sb.append(", authorId=").append(authorId);
-        sb.append(", owner=").append(owner);
-        sb.append(", ownerId=").append(ownerId);
+        sb.append(", topicAuthorName=").append(topicAuthorName);
+        sb.append(", topicAuthorId=").append(topicAuthorId);
         sb.append(", ip=").append(ip);
         sb.append(", ua=").append(ua);
+        sb.append(", upvotesCount=").append(upvotesCount);
+        sb.append(", downvotesCount=").append(downvotesCount);
         sb.append(", type=").append(type);
         sb.append(", status=").append(status);
         sb.append(", createTime=").append(createTime);

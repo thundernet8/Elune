@@ -71,10 +71,8 @@ public class TopicServiceImpl implements TopicService {
                 return null;
             }
 
-            Topic topic = DozerMapperUtil.map(topicEntity, Topic.class);
-            // TODO query author/channel/tags entities for topic
+            return assembleTopics(Collections.singletonList(topicEntity)).get(0);
 
-            return topic;
         }
     }
 
@@ -159,7 +157,7 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
-    public boolean udateTopicViews(long id) {
+    public boolean updateTopicViews(long id) {
         return false;
     }
 
@@ -190,9 +188,9 @@ public class TopicServiceImpl implements TopicService {
 
             TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
 
-            TopicEntityExample topicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).offset((page - 1)*pageSize).limit(pageSize).orderByClause(orderClause).build();
+            TopicEntityExample topicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).offset((page - 1) * pageSize).limit(pageSize).orderByClause(orderClause).build();
             Byte normalStatus = 1;
-            topicEntityExample.or().andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
+            topicEntityExample.or().andStatusEqualTo(normalStatus);
             List<TopicEntity> topicEntities = mapper.selectByExampleWithBLOBs(topicEntityExample);
             List<Topic> topics = assembleTopics(topicEntities);
 
@@ -225,7 +223,7 @@ public class TopicServiceImpl implements TopicService {
             if (page == 1) {
                 // 仅在第一页请求查询Total
                 TopicEntityExample countTopicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
-                countTopicEntityExample.or().andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
+                countTopicEntityExample.or().andCidEqualTo(channelId).andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
                 total = mapper.countByExample(countTopicEntityExample);
             }
 
