@@ -17,6 +17,433 @@
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.elune.entity.PostEntity">
     <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    <result column="content_html" jdbcType="LONGVARCHAR" property="contentHtml" />
+    <result column="content_raw" jdbcType="LONGVARCHAR" property="contentRaw" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, tid, pid, author, author_id, owner, owner_id, ip, ua, type, status, create_time
+  </sql>
+  <sql id="Blob_Column_List">
+    content, content_html, content_raw
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.elune.entity.PostEntityExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.elune.entity.PostEntityExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_post
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_post
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.elune.entity.PostEntityExample">
+    delete from t_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.elune.entity.PostEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_post (tid, pid, author, 
+      author_id, owner, owner_id, 
+      ip, ua, type, status, 
+      create_time, content, content_html, 
+      content_raw)
+    values (#{tid,jdbcType=BIGINT}, #{pid,jdbcType=BIGINT}, #{author,jdbcType=VARCHAR}, 
+      #{authorId,jdbcType=BIGINT}, #{owner,jdbcType=VARCHAR}, #{ownerId,jdbcType=BIGINT}, 
+      #{ip,jdbcType=VARCHAR}, #{ua,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}, #{contentHtml,jdbcType=LONGVARCHAR}, 
+      #{contentRaw,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.elune.entity.PostEntity">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_post
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tid != null">
+        tid,
+      </if>
+      <if test="pid != null">
+        pid,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="authorId != null">
+        author_id,
+      </if>
+      <if test="owner != null">
+        owner,
+      </if>
+      <if test="ownerId != null">
+        owner_id,
+      </if>
+      <if test="ip != null">
+        ip,
+      </if>
+      <if test="ua != null">
+        ua,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="contentHtml != null">
+        content_html,
+      </if>
+      <if test="contentRaw != null">
+        content_raw,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tid != null">
+        #{tid,jdbcType=BIGINT},
+      </if>
+      <if test="pid != null">
+        #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="authorId != null">
+        #{authorId,jdbcType=BIGINT},
+      </if>
+      <if test="owner != null">
+        #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null">
+        #{ownerId,jdbcType=BIGINT},
+      </if>
+      <if test="ip != null">
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="ua != null">
+        #{ua,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="contentHtml != null">
+        #{contentHtml,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="contentRaw != null">
+        #{contentRaw,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.elune.entity.PostEntityExample" resultType="java.lang.Long">
+    select count(*) from t_post
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_post
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.tid != null">
+        tid = #{record.tid,jdbcType=BIGINT},
+      </if>
+      <if test="record.pid != null">
+        pid = #{record.pid,jdbcType=BIGINT},
+      </if>
+      <if test="record.author != null">
+        author = #{record.author,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authorId != null">
+        author_id = #{record.authorId,jdbcType=BIGINT},
+      </if>
+      <if test="record.owner != null">
+        owner = #{record.owner,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ownerId != null">
+        owner_id = #{record.ownerId,jdbcType=BIGINT},
+      </if>
+      <if test="record.ip != null">
+        ip = #{record.ip,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ua != null">
+        ua = #{record.ua,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.contentHtml != null">
+        content_html = #{record.contentHtml,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.contentRaw != null">
+        content_raw = #{record.contentRaw,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update t_post
+    set id = #{record.id,jdbcType=BIGINT},
+      tid = #{record.tid,jdbcType=BIGINT},
+      pid = #{record.pid,jdbcType=BIGINT},
+      author = #{record.author,jdbcType=VARCHAR},
+      author_id = #{record.authorId,jdbcType=BIGINT},
+      owner = #{record.owner,jdbcType=VARCHAR},
+      owner_id = #{record.ownerId,jdbcType=BIGINT},
+      ip = #{record.ip,jdbcType=VARCHAR},
+      ua = #{record.ua,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
+      status = #{record.status,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=LONGVARCHAR},
+      content_html = #{record.contentHtml,jdbcType=LONGVARCHAR},
+      content_raw = #{record.contentRaw,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_post
+    set id = #{record.id,jdbcType=BIGINT},
+      tid = #{record.tid,jdbcType=BIGINT},
+      pid = #{record.pid,jdbcType=BIGINT},
+      author = #{record.author,jdbcType=VARCHAR},
+      author_id = #{record.authorId,jdbcType=BIGINT},
+      owner = #{record.owner,jdbcType=VARCHAR},
+      owner_id = #{record.ownerId,jdbcType=BIGINT},
+      ip = #{record.ip,jdbcType=VARCHAR},
+      ua = #{record.ua,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=TINYINT},
+      status = #{record.status,jdbcType=TINYINT},
+      create_time = #{record.createTime,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.elune.entity.PostEntity">
+    update t_post
+    <set>
+      <if test="tid != null">
+        tid = #{tid,jdbcType=BIGINT},
+      </if>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=BIGINT},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="authorId != null">
+        author_id = #{authorId,jdbcType=BIGINT},
+      </if>
+      <if test="owner != null">
+        owner = #{owner,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerId != null">
+        owner_id = #{ownerId,jdbcType=BIGINT},
+      </if>
+      <if test="ip != null">
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="ua != null">
+        ua = #{ua,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=INTEGER},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="contentHtml != null">
+        content_html = #{contentHtml,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="contentRaw != null">
+        content_raw = #{contentRaw,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.elune.entity.PostEntity">
+    update t_post
+    set tid = #{tid,jdbcType=BIGINT},
+      pid = #{pid,jdbcType=BIGINT},
+      author = #{author,jdbcType=VARCHAR},
+      author_id = #{authorId,jdbcType=BIGINT},
+      owner = #{owner,jdbcType=VARCHAR},
+      owner_id = #{ownerId,jdbcType=BIGINT},
+      ip = #{ip,jdbcType=VARCHAR},
+      ua = #{ua,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=INTEGER},
+      content = #{content,jdbcType=LONGVARCHAR},
+      content_html = #{contentHtml,jdbcType=LONGVARCHAR},
+      content_raw = #{contentRaw,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.elune.entity.PostEntity">
+    update t_post
+    set tid = #{tid,jdbcType=BIGINT},
+      pid = #{pid,jdbcType=BIGINT},
+      author = #{author,jdbcType=VARCHAR},
+      author_id = #{authorId,jdbcType=BIGINT},
+      owner = #{owner,jdbcType=VARCHAR},
+      owner_id = #{ownerId,jdbcType=BIGINT},
+      ip = #{ip,jdbcType=VARCHAR},
+      ua = #{ua,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <resultMap id="BaseResultMap" type="com.elune.entity.PostEntity">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="tid" jdbcType="BIGINT" property="tid" />
+    <result column="pid" jdbcType="BIGINT" property="pid" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="author_id" jdbcType="BIGINT" property="authorId" />
+    <result column="owner" jdbcType="VARCHAR" property="owner" />
+    <result column="owner_id" jdbcType="BIGINT" property="ownerId" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="ua" jdbcType="VARCHAR" property="ua" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="create_time" jdbcType="INTEGER" property="createTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.elune.entity.PostEntity">
+    <result column="content" jdbcType="LONGVARCHAR" property="content" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>

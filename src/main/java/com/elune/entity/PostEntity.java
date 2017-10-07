@@ -1,37 +1,10 @@
-/**
- * Elune - Lightweight Forum Powered by Razor.
- * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
- * <p>
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-
 package com.elune.entity;
-
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
 /**
- * @author Touchumind
+ * @author 
  */
-@Builder
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PostEntity implements Serializable {
     private Long id;
 
@@ -79,9 +52,19 @@ public class PostEntity implements Serializable {
     private Integer createTime;
 
     /**
-     * 评论回复内容
+     * 评论回复内容(纯文本)
      */
     private String content;
+
+    /**
+     * 评论回复内容(Html)
+     */
+    private String contentHtml;
+
+    /**
+     * 评论回复内容(DraftJS编辑器原始数据)
+     */
+    private String contentRaw;
 
     private static final long serialVersionUID = 1L;
 
@@ -189,6 +172,22 @@ public class PostEntity implements Serializable {
         this.content = content;
     }
 
+    public String getContentHtml() {
+        return contentHtml;
+    }
+
+    public void setContentHtml(String contentHtml) {
+        this.contentHtml = contentHtml;
+    }
+
+    public String getContentRaw() {
+        return contentRaw;
+    }
+
+    public void setContentRaw(String contentRaw) {
+        this.contentRaw = contentRaw;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -213,7 +212,9 @@ public class PostEntity implements Serializable {
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()));
+            && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()))
+            && (this.getContentHtml() == null ? other.getContentHtml() == null : this.getContentHtml().equals(other.getContentHtml()))
+            && (this.getContentRaw() == null ? other.getContentRaw() == null : this.getContentRaw().equals(other.getContentRaw()));
     }
 
     @Override
@@ -233,6 +234,8 @@ public class PostEntity implements Serializable {
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getContent() == null) ? 0 : getContent().hashCode());
+        result = prime * result + ((getContentHtml() == null) ? 0 : getContentHtml().hashCode());
+        result = prime * result + ((getContentRaw() == null) ? 0 : getContentRaw().hashCode());
         return result;
     }
 
@@ -255,6 +258,8 @@ public class PostEntity implements Serializable {
         sb.append(", status=").append(status);
         sb.append(", createTime=").append(createTime);
         sb.append(", content=").append(content);
+        sb.append(", contentHtml=").append(contentHtml);
+        sb.append(", contentRaw=").append(contentRaw);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
