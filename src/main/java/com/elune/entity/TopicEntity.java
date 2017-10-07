@@ -1,10 +1,18 @@
 package com.elune.entity;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 
 /**
- * @author 
+ * @author Touchumind
  */
+@Builder
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class TopicEntity implements Serializable {
     private Long id;
 
