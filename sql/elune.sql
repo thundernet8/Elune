@@ -213,6 +213,8 @@ CREATE TABLE `t_topic` (
   `create_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
   `update_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
   `post_time` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '最后回复时间',
+  `poster` varchar(60) NOT NULL DEFAULT '' COMMENT '最后回复者用户名',
+  `poster_id` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '最后回复者ID',
   `factor` int(10) unsigned NOT NULL DEFAULT '60' COMMENT '帖子权重因子',
   PRIMARY KEY (`id`),
   KEY `idx_uid` (`author_id`),

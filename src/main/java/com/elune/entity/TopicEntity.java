@@ -1,18 +1,10 @@
 package com.elune.entity;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 
 /**
- * @author Touchumind
+ * @author 
  */
-@Builder
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class TopicEntity implements Serializable {
     private Long id;
 
@@ -95,6 +87,16 @@ public class TopicEntity implements Serializable {
      * 最后回复时间
      */
     private Integer postTime;
+
+    /**
+     * 最后回复者用户名
+     */
+    private String poster;
+
+    /**
+     * 最后回复者ID
+     */
+    private Long posterId;
 
     /**
      * 帖子权重因子
@@ -254,6 +256,22 @@ public class TopicEntity implements Serializable {
         this.postTime = postTime;
     }
 
+    public String getPoster() {
+        return poster;
+    }
+
+    public void setPoster(String poster) {
+        this.poster = poster;
+    }
+
+    public Long getPosterId() {
+        return posterId;
+    }
+
+    public void setPosterId(Long posterId) {
+        this.posterId = posterId;
+    }
+
     public Integer getFactor() {
         return factor;
     }
@@ -315,6 +333,8 @@ public class TopicEntity implements Serializable {
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getPostTime() == null ? other.getPostTime() == null : this.getPostTime().equals(other.getPostTime()))
+            && (this.getPoster() == null ? other.getPoster() == null : this.getPoster().equals(other.getPoster()))
+            && (this.getPosterId() == null ? other.getPosterId() == null : this.getPosterId().equals(other.getPosterId()))
             && (this.getFactor() == null ? other.getFactor() == null : this.getFactor().equals(other.getFactor()))
             && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()))
             && (this.getContentHtml() == null ? other.getContentHtml() == null : this.getContentHtml().equals(other.getContentHtml()))
@@ -342,6 +362,8 @@ public class TopicEntity implements Serializable {
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getPostTime() == null) ? 0 : getPostTime().hashCode());
+        result = prime * result + ((getPoster() == null) ? 0 : getPoster().hashCode());
+        result = prime * result + ((getPosterId() == null) ? 0 : getPosterId().hashCode());
         result = prime * result + ((getFactor() == null) ? 0 : getFactor().hashCode());
         result = prime * result + ((getContent() == null) ? 0 : getContent().hashCode());
         result = prime * result + ((getContentHtml() == null) ? 0 : getContentHtml().hashCode());
@@ -372,6 +394,8 @@ public class TopicEntity implements Serializable {
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
         sb.append(", postTime=").append(postTime);
+        sb.append(", poster=").append(poster);
+        sb.append(", posterId=").append(posterId);
         sb.append(", factor=").append(factor);
         sb.append(", content=").append(content);
         sb.append(", contentHtml=").append(contentHtml);
