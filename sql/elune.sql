@@ -40,17 +40,22 @@ CREATE TABLE `t_channel` (
   KEY `idx_create_time` (`create_time`),
   KEY `idx_update_time` (`update_time`),
   KEY `idx_pid` (`pid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='频道(板块)';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='频道(板块)';
 
 -- ----------------------------
 -- Records of t_channel
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_channel` VALUES (1, 0, '其他', '未定义频道', 'mars', NULL, 15265011, 0, 1, 1506486895, 0, '');
-INSERT INTO `t_channel` VALUES (2, 0, '开发', 'Elune Forum开发相关', 'dev', NULL, 4767619, 0, 1, 1506486895, 0, '');
-INSERT INTO `t_channel` VALUES (3, 0, '支持', 'Elune Forum使用问题反馈支持', 'support', NULL, 5018577, 0, 1, 1506486895, 0, '');
-INSERT INTO `t_channel` VALUES (4, 0, '测试', '测试发布话题专用频道', 'test', NULL, 11836812, 0, 1, 1506486895, 0, '');
-INSERT INTO `t_channel` VALUES (5, 1, '灌水', '灌水闲聊休闲区', 'relax', NULL, 14081770, 0, 1, 1506486895, 0, '');
+INSERT INTO `t_channel` VALUES (1, 0, 'Tint', '关于Tint主题使用问题反馈', 'tint', NULL, 12955875, 0, 1, 1506486895, 0, '');
+INSERT INTO `t_channel` VALUES (2, 0, 'WordPress', 'WordPress相关话题', 'wp', NULL, 3049405, 0, 1, 1506486895, 0, '');
+INSERT INTO `t_channel` VALUES (3, 0, '开发', '关于Elune Forum开发，例如API、结构等', 'dev', NULL, 6802666, 0, 1, 1506486895, 0, '');
+INSERT INTO `t_channel` VALUES (4, 0, '支持', '获取支持，包括使用反馈、安装、开发插件等', 'support', NULL, 16692557, 0, 1, 1506486895, 0, '');
+INSERT INTO `t_channel` VALUES (5, 0, 'UX', '关于Elune Forum的用户体验和界面设计', 'ux', NULL, 9627353, 0, 1, 1506486895, 0, '');
+INSERT INTO `t_channel` VALUES (6, 0, 'FAQ', '常见问题', 'faq', NULL, 10002632, 0, 1, 1506486895, 0, '');
+INSERT INTO `t_channel` VALUES (7, 0, '公告', '站务公告', 'bulletin', NULL, 14862211, 0, 1, 1506486895, 0, '');
+INSERT INTO `t_channel` VALUES (8, 0, '建议', '', 'meta', NULL, 14862211, 0, 1, 16144075, 0, '');
+INSERT INTO `t_channel` VALUES (9, 0, '灌水', '灌水闲聊休闲区', 'relax', NULL, 10066329, 0, 1, 16144075, 0, '');
+INSERT INTO `t_channel` VALUES (10, 0, '其他', '未定义归类频道', 'mars', NULL, 10066278, 0, 1, 16144075, 0, '');
 COMMIT;
 
 -- ----------------------------
