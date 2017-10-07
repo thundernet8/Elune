@@ -53,7 +53,7 @@ INSERT INTO `t_channel` VALUES (4, 0, '支持', '获取支持，包括使用反�
 INSERT INTO `t_channel` VALUES (5, 0, 'UX', '关于Elune Forum的用户体验和界面设计', 'ux', NULL, 9627353, 0, 1, 1506486895, 0, '');
 INSERT INTO `t_channel` VALUES (6, 0, 'FAQ', '常见问题', 'faq', NULL, 10002632, 0, 1, 1506486895, 0, '');
 INSERT INTO `t_channel` VALUES (7, 0, '公告', '站务公告', 'bulletin', NULL, 14862211, 0, 1, 1506486895, 0, '');
-INSERT INTO `t_channel` VALUES (8, 0, '建议', '', 'meta', NULL, 14862211, 0, 1, 16144075, 0, '');
+INSERT INTO `t_channel` VALUES (8, 0, '建议', '', 'meta', NULL, 13670038, 0, 1, 16144075, 0, '');
 INSERT INTO `t_channel` VALUES (9, 0, '灌水', '灌水闲聊休闲区', 'relax', NULL, 10066329, 0, 1, 16144075, 0, '');
 INSERT INTO `t_channel` VALUES (10, 0, '其他', '未定义归类频道', 'mars', NULL, 10066278, 0, 1, 16144075, 0, '');
 COMMIT;
