@@ -84,7 +84,7 @@ public class TopicController extends APIController {
     }
 
     @HttpPost
-    @Route("{int:id}")
+    @Route("{long:id}")
     public void updateTopic(long id, @FromBody TopicUpdateModel topicUpdateModel) {
 
         topicUpdateModel.id = id;
@@ -110,7 +110,7 @@ public class TopicController extends APIController {
     }
 
     @HttpGet
-    @Route("{int:id")
+    @Route("{long:id")
     public void getTopic(long id) {
 
         try {

@@ -44,8 +44,8 @@ public class UserController extends Controller {
     }
 
     @HttpPost
-    @Route("{int:id}")
-    public String getUserDetail(int id) {
+    @Route("{long:id}")
+    public String getUserDetail(long id) {
 
         User user = userService.getUser(id);
 
