@@ -83,7 +83,7 @@ public class TopicController extends APIController {
         }
     }
 
-    @HttpPut
+    @HttpPost
     @Route("{int:id}")
     public void updateTopic(long id, @FromBody TopicUpdateModel topicUpdateModel) {
 
@@ -103,6 +103,20 @@ public class TopicController extends APIController {
 
                 throw new Exception("话题更新失败");
             }
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
+
+    @HttpGet
+    @Route("{int:id")
+    public void getTopic(long id) {
+
+        try {
+
+            Topic topic = topicService.getTopic(id);
+            Succeed(topic);
         } catch (Exception e) {
 
             Fail(e);
