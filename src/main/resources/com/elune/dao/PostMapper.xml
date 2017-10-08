@@ -81,7 +81,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, tid, pid, author_name, author_id, topic_author_name, topic_author_id, ip, ua, 
+    id, tid, pid, author_name, author_id, topic_author_name, topic_author_id, ip, ua,
     upvotes_count, downvotes_count, type, status, create_time
   </sql>
   <sql id="Blob_Column_List">
@@ -126,7 +126,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -147,17 +147,17 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_post (tid, pid, author_name, 
-      author_id, topic_author_name, topic_author_id, 
-      ip, ua, upvotes_count, 
-      downvotes_count, type, status, 
-      create_time, content, content_html, 
+    insert into t_post (tid, pid, author_name,
+      author_id, topic_author_name, topic_author_id,
+      ip, ua, upvotes_count,
+      downvotes_count, type, status,
+      create_time, content, content_html,
       content_raw)
-    values (#{tid,jdbcType=BIGINT}, #{pid,jdbcType=BIGINT}, #{authorName,jdbcType=VARCHAR}, 
-      #{authorId,jdbcType=BIGINT}, #{topicAuthorName,jdbcType=VARCHAR}, #{topicAuthorId,jdbcType=BIGINT}, 
-      #{ip,jdbcType=VARCHAR}, #{ua,jdbcType=VARCHAR}, #{upvotesCount,jdbcType=INTEGER}, 
-      #{downvotesCount,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}, #{contentHtml,jdbcType=LONGVARCHAR}, 
+    values (#{tid,jdbcType=BIGINT}, #{pid,jdbcType=BIGINT}, #{authorName,jdbcType=VARCHAR},
+      #{authorId,jdbcType=BIGINT}, #{topicAuthorName,jdbcType=VARCHAR}, #{topicAuthorId,jdbcType=BIGINT},
+      #{ip,jdbcType=VARCHAR}, #{ua,jdbcType=VARCHAR}, #{upvotesCount,jdbcType=INTEGER},
+      #{downvotesCount,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{status,jdbcType=TINYINT},
+      #{createTime,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}, #{contentHtml,jdbcType=LONGVARCHAR},
       #{contentRaw,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.elune.entity.PostEntity">
@@ -463,6 +463,30 @@
       type = #{type,jdbcType=TINYINT},
       status = #{status,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="increaseByPrimaryKeySelective" parameterType="com.elune.entity.PostEntity">
+    update t_post
+    <set>
+      <if test="upvotesCount != null">
+        upvotes_count = upvotes_count + #{upvotesCount,jdbcType=INTEGER},
+      </if>
+      <if test="downvotesCount != null">
+        downvotes_count = downvotes_count + #{downvotesCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="decreaseByPrimaryKeySelective" parameterType="com.elune.entity.PostEntity">
+    update t_post
+    <set>
+      <if test="upvotesCount != null">
+        upvotes_count = upvotes_count - #{upvotesCount,jdbcType=INTEGER},
+      </if>
+      <if test="downvotesCount != null">
+        downvotes_count = downvotes_count - #{downvotesCount,jdbcType=INTEGER},
+      </if>
+    </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

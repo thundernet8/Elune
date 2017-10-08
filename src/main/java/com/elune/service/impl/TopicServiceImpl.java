@@ -149,8 +149,8 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public boolean downvoteTopic(long id) {
 
-        TopicEntity topicEntity = TopicEntity.builder().upvotesCount(1).build();
-        return decreaseUpdateTopic(topicEntity);
+        TopicEntity topicEntity = TopicEntity.builder().downvotesCount(1).build();
+        return increaseUpdateTopic(topicEntity);
     }
 
     @Override

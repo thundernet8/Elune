@@ -33,4 +33,8 @@ public interface PostMapper {
     int updateByPrimaryKeyWithBLOBs(PostEntity record);
 
     int updateByPrimaryKey(PostEntity record);
+
+    int increaseByPrimaryKeySelective(PostEntity record);
+
+    int decreaseByPrimaryKeySelective(PostEntity record);
 }

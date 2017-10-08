@@ -86,8 +86,14 @@ public class PostServiceImpl implements PostService {
             mapper.insertSelective(postEntity);
             sqlSession.commit();
 
-            topicService.updateTopicPostsCount(postCreationModel.topicId);
-            topicService.lastReplayTopic(postCreationModel.topicId);
+            if (type == Byte.parseByte("1")) {
+
+                // 只有直接评论可以更新话题最后评论时间
+                topicService.lastReplayTopic(postCreationModel.topicId, author);
+            } else {
+
+                topicService.updateTopicPostsCount(postCreationModel.topicId);
+            }
 
             return postEntity.getId();
         } catch (Exception e) {
@@ -99,17 +105,23 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public boolean deletePost(long id) {
-        return false;
+
+        PostEntity postEntity = PostEntity.builder().status(Byte.parseByte("0")).build();
+        return updatePost(postEntity);
     }
 
     @Override
     public boolean upvotePost(long id) {
-        return false;
+
+        PostEntity postEntity = PostEntity.builder().upvotesCount(1).build();
+        return increaseUpdatePost(postEntity);
     }
 
     @Override
     public boolean downvotePost(long id) {
-        return false;
+
+        PostEntity postEntity = PostEntity.builder().downvotesCount(1).build();
+        return increaseUpdatePost(postEntity);
     }
 
     @Override
@@ -178,5 +190,41 @@ public class PostServiceImpl implements PostService {
         });
 
         return posts;
+    }
+
+    private boolean updatePost(PostEntity postEntity) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            PostMapper mapper = sqlSession.getMapper(PostMapper.class);
+            int update = mapper.updateByPrimaryKeySelective(postEntity);
+            sqlSession.commit();
+
+            return update > 0;
+        }
+    }
+
+    private boolean increaseUpdatePost(PostEntity postEntity) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            PostMapper mapper = sqlSession.getMapper(PostMapper.class);
+            int update = mapper.increaseByPrimaryKeySelective(postEntity);
+            sqlSession.commit();
+
+            return update > 0;
+        }
+    }
+
+    private boolean decreaseUpdatePost(PostEntity postEntity) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            PostMapper mapper = sqlSession.getMapper(PostMapper.class);
+            int update = mapper.decreaseByPrimaryKeySelective(postEntity);
+            sqlSession.commit();
+
+            return update > 0;
+        }
     }
 }
