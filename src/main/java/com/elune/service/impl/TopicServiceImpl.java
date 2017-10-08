@@ -87,6 +87,8 @@ public class TopicServiceImpl implements TopicService {
             mapper.insertSelective(topicEntity);
             sqlSession.commit();
 
+            channelService.updateTopicCount(topicCreationModel.channelId, 1);
+
             return topicEntity.getId();
 
         } catch (Exception e) {

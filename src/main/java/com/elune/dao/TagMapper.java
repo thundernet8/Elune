@@ -46,4 +46,10 @@ public interface TagMapper {
     int updateByPrimaryKeySelective(TagEntity record);
 
     int updateByPrimaryKey(TagEntity record);
+
+    int increaseByPrimaryKeySelective(TagEntity record);
+
+    int decreaseByPrimaryKeySelective(TagEntity record);
+
+    List<Integer> batchInsertSelective(List<TagEntity> tagEntities);
 }

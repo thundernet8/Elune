@@ -219,4 +219,60 @@
       create_time = #{createTime,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="increaseByPrimaryKeySelective" parameterType="com.elune.entity.TagEntity">
+    update t_tag
+    <set>
+      <if test="topicsCount != null">
+        topics_count = topics_count + #{topicsCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="decreaseByPrimaryKeySelective" parameterType="com.elune.entity.TagEntity">
+    update t_tag
+    <set>
+      <if test="topicsCount != null">
+        topics_count = topics_count - #{topicsCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="batchInsertSelective" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+    insert into t_tag
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="slug != null">
+        slug,
+      </if>
+      <if test="topicsCount != null">
+        topics_count,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    values
+    <foreach collection="list" item="tag" index="index" separator=",">
+      (<if test="id != null">
+        #{item.id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{item.title,jdbcType=VARCHAR},
+      </if>
+      <if test="slug != null">
+        #{item.slug,jdbcType=VARCHAR},
+      </if>
+      <if test="topicsCount != null">
+        #{item.topicsCount,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{item.createTime,jdbcType=INTEGER},
+      </if>)
+    </foreach>
+  </insert>
 </mapper>
