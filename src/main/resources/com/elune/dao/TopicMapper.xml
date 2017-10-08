@@ -536,4 +536,46 @@
       factor = #{factor,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <update id="increaseByPrimaryKeySelective" parameterType="com.elune.entity.TopicEntity">
+    update t_topic
+    <set>
+      <if test="viewsCount != null">
+        views_count = views_count + #{viewsCount,jdbcType=INTEGER},
+      </if>
+      <if test="upvotesCount != null">
+        upvotes_count = upvotes_count + #{upvotesCount,jdbcType=INTEGER},
+      </if>
+      <if test="downvotesCount != null">
+        downvotes_count = downvotes_count + #{downvotesCount,jdbcType=INTEGER},
+      </if>
+      <if test="favoritesCount != null">
+        favorites_count = favorites_count + #{favoritesCount,jdbcType=INTEGER},
+      </if>
+      <if test="postsCount != null">
+        posts_count = posts_count + #{postsCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="decreaseByPrimaryKeySelective" parameterType="com.elune.entity.TopicEntity">
+    update t_topic
+    <set>
+      <if test="viewsCount != null">
+        views_count = views_count - #{viewsCount,jdbcType=INTEGER},
+      </if>
+      <if test="upvotesCount != null">
+        upvotes_count = upvotes_count - #{upvotesCount,jdbcType=INTEGER},
+      </if>
+      <if test="downvotesCount != null">
+        downvotes_count = downvotes_count - #{downvotesCount,jdbcType=INTEGER},
+      </if>
+      <if test="favoritesCount != null">
+        favorites_count = favorites_count - #{favoritesCount,jdbcType=INTEGER},
+      </if>
+      <if test="postsCount != null">
+        posts_count = posts_count - #{postsCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
 </mapper>

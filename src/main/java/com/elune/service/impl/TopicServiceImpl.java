@@ -113,72 +113,100 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public boolean pinTopic(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().isPinned(Byte.parseByte("1")).build();
+        return updateTopic(topicEntity);
     }
 
     @Override
     public boolean unpinTopic(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().isPinned(Byte.parseByte("0")).build();
+        return updateTopic(topicEntity);
     }
 
     @Override
     public boolean markTopicEssence(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().isEssence(Byte.parseByte("1")).build();
+        return updateTopic(topicEntity);
     }
 
     @Override
     public boolean unmarkTopicEssence(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().isEssence(Byte.parseByte("0")).build();
+        return updateTopic(topicEntity);
     }
 
     @Override
     public boolean upvoteTopic(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().upvotesCount(1).build();
+        return increaseUpdateTopic(topicEntity);
     }
 
     @Override
     public boolean downvoteTopic(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().upvotesCount(1).build();
+        return decreaseUpdateTopic(topicEntity);
     }
 
     @Override
     public boolean favoriteTopic(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().favoritesCount(1).build();
+        return increaseUpdateTopic(topicEntity);
     }
 
     @Override
     public boolean unfavoriteTopic(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().favoritesCount(1).build();
+        return decreaseUpdateTopic(topicEntity);
     }
 
     @Override
     public boolean updateTopicPostsCount(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().postsCount(1).build();
+        return increaseUpdateTopic(topicEntity);
     }
 
     @Override
     public boolean updateTopicViews(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().viewsCount(1).build();
+        return increaseUpdateTopic(topicEntity);
     }
 
     @Override
     public boolean updateTopicFactor(long id, int factor) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().factor(factor).build();
+        return updateTopic(topicEntity);
     }
 
     @Override
-    public boolean lastReplayTopic(long id) {
-        return false;
+    public boolean lastReplayTopic(long id, UserEntity author) {
+
+        TopicEntity topicEntity = TopicEntity.builder().postTime(DateUtil.getTimeStamp()).poster(author.getUsername()).posterId(author.getId()).build();
+        return updateTopic(topicEntity) && updateTopicPostsCount(id);
     }
 
     @Override
     public boolean toggleTopicComment(long id, boolean enable) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().commentStatus(Byte.parseByte(Boolean.toString(enable))).build();
+        return updateTopic(topicEntity);
     }
 
     @Override
     public boolean deleteTopic(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().status(Byte.parseByte("0")).build();
+        return updateTopic(topicEntity);
     }
 
     @Override
@@ -251,5 +279,41 @@ public class TopicServiceImpl implements TopicService {
         });
 
         return topics;
+    }
+
+    private boolean updateTopic(TopicEntity topicEntity) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
+            int update = mapper.updateByPrimaryKeySelective(topicEntity);
+            sqlSession.commit();
+
+            return update > 0;
+        }
+    }
+
+    private boolean increaseUpdateTopic(TopicEntity topicEntity) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
+            int update = mapper.increaseByPrimaryKeySelective(topicEntity);
+            sqlSession.commit();
+
+            return update > 0;
+        }
+    }
+
+    private boolean decreaseUpdateTopic(TopicEntity topicEntity) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
+            int update = mapper.decreaseByPrimaryKeySelective(topicEntity);
+            sqlSession.commit();
+
+            return update > 0;
+        }
     }
 }

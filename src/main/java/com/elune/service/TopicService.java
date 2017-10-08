@@ -53,7 +53,7 @@ public interface TopicService {
 
     boolean updateTopicPostsCount(long id);
 
-    boolean lastReplayTopic(long id);
+    boolean lastReplayTopic(long id, UserEntity author);
 
     boolean updateTopicFactor(long id, int factor);
 
