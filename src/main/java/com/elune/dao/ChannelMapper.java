@@ -22,6 +22,7 @@ package com.elune.dao;
 import com.elune.entity.ChannelEntity;
 import com.elune.entity.ChannelEntityExample;
 
+import com.elune.model.Channel;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -48,4 +49,8 @@ public interface ChannelMapper {
     int updateByPrimaryKeySelective(ChannelEntity record);
 
     int updateByPrimaryKey(ChannelEntity record);
+
+    int increaseByPrimaryKeySelective(ChannelEntity record);
+
+    int decreaseByPrimaryKeySelective(ChannelEntity record);
 }

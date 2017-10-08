@@ -47,9 +47,7 @@ public interface ChannelService {
      */
     boolean updateTopicCount(int id, int increase);
 
-    boolean addChannelHost(int[] hosts);
-
-    boolean removeChannelHost(int[] hosts);
+    boolean updateChannelHost(int[] hosts);
 
     List<Channel> getAllChannels();
 

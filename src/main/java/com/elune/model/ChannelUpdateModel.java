@@ -21,5 +21,5 @@ package com.elune.model;
 
 public class ChannelUpdateModel extends ChannelCreationModel{
 
-    public long id;
+    public int id;
 }
