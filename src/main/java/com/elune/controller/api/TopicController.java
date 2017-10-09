@@ -110,7 +110,7 @@ public class TopicController extends APIController {
     }
 
     @HttpGet
-    @Route("{long:id")
+    @Route("{long:id}")
     public void getTopic(long id) {
 
         try {
