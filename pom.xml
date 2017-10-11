@@ -49,6 +49,7 @@
         <mybatis.version>3.4.5</mybatis.version>
         <reflections.version>0.9.11</reflections.version>
         <mysql.driver.version>6.0.6</mysql.driver.version>
+        <jedis.version>2.9.0</jedis.version>
         <project.scm.id>github</project.scm.id>
     </properties>
 
@@ -183,8 +184,14 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.driver.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+        <dependency>
+          <groupId>redis.clients</groupId>
+          <artifactId>jedis</artifactId>
+          <version>${jedis.version}</version>
+        </dependency>
 
-        <!-- Log -->
+      <!-- Log -->
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
         <dependency>
             <groupId>org.slf4j</groupId>

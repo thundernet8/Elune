@@ -19,7 +19,13 @@
 
 package com.elune.mq;
 
+import com.elune.dal.RedisManager;
+import com.fedepot.ioc.annotation.FromService;
+
 public class RedisMQ implements MessageQueue {
+
+    @FromService
+    private RedisManager redisManager;
 
     @Override
     public void publish(String topic, String message) {
