@@ -49,7 +49,7 @@ public interface MessageQueue {
      *
      * @param topic 消息所属话题分类
      */
-    void delay(String topic);
+    void delay(String topic, String message);
 
     /**
      * 资源释放
@@ -69,4 +69,8 @@ public interface MessageQueue {
      * @param consumer
      */
     void registerConsumer(Consumer consumer);
+
+    void cancelProducer(Producer producer);
+
+    void cancelConsumer(Consumer consumer);
 }

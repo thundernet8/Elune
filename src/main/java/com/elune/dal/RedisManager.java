@@ -53,7 +53,7 @@ public final class RedisManager {
 
         // 设置空闲连接数
         config.setMaxIdle(10);
-        config.setMinIdle(1);
+        config.setMinIdle(5);
 
         // 创建连接池
         pool = new JedisPool(config, appConfig.get(CONFIG_KEY_REDIS_HOST, "127.0.0.1"), appConfig.getInt(CONFIG_KEY_REDIS_PORT, 6379), Protocol.DEFAULT_TIMEOUT, appConfig.get(CONFIG_KEY_REDIS_PASS, ""));

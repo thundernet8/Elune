@@ -17,32 +17,25 @@
  */
 
 
-package com.elune.mq;
+package com.elune.task;
 
-public class Producer {
 
-    private MessageQueue messageQueue;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
-    private String topic;
+@Getter
+@Setter
+@Builder
+public class MailTask {
 
-    public Producer(MessageQueue messageQueue, String topic) {
+    private String from;
 
-        this.messageQueue = messageQueue;
-        this.topic = topic;
+    private String senderName;
 
-        messageQueue.registerProducer(this);
-    }
+    private String to;
 
-    public void produce(String message) {
+    private String title;
 
-        if (messageQueue != null) {
-
-            messageQueue.publish(topic, message);
-        }
-    }
-
-    public void down() {
-
-        this.messageQueue = null;
-    }
+    private String content;
 }

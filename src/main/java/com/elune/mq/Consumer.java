@@ -28,8 +28,6 @@ public class Consumer {
 
     private String topic;
 
-    private boolean running = false;
-
     private final List<Callback> callbacks = new ArrayList<>();
 
     public Consumer(MessageQueue messageQueue, String topic) {
@@ -47,11 +45,9 @@ public class Consumer {
 
     public void up() {
 
-        running = true;
-
         new Thread(() -> {
 
-            while (running) {
+            while (messageQueue != null) {
 
                 String message = messageQueue.read(topic);
                 if (message != null) {
@@ -66,19 +62,19 @@ public class Consumer {
                         messageQueue.next(topic);
                     } catch (Exception e) {
 
-                        messageQueue.delay(topic);
+                        messageQueue.delay(topic, message);
                     }
 
                 } else {
                     waitForMessages();
                 }
             }
-        });
+        }).start();
     }
 
     public void down() {
 
-        this.running = false;
+        this.messageQueue = null;
     }
 
     private void waitForMessages() {

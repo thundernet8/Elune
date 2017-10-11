@@ -20,22 +20,46 @@
 package com.elune.mq;
 
 import com.elune.dal.RedisManager;
-import com.fedepot.ioc.annotation.FromService;
 
+import com.fedepot.ioc.annotation.ForInject;
+import com.fedepot.ioc.annotation.Service;
+import redis.clients.jedis.Jedis;
+
+import java.util.HashMap;
+import java.util.Map;
+
+
+@Service(sington = true)
 public class RedisMQ implements MessageQueue {
 
-    @FromService
     private RedisManager redisManager;
+
+    private final Map<Producer, Producer> producers = new HashMap<>();
+
+    private final Map<Consumer, Consumer> consumers = new HashMap<>();
+
+    @ForInject
+    public RedisMQ(RedisManager redisManager) {
+
+        this.redisManager = redisManager;
+    }
 
     @Override
     public void publish(String topic, String message) {
 
+        Jedis jedis = redisManager.getJedis();
+        jedis.lpush(topic, message);
+        redisManager.retureRes(jedis);
     }
 
     @Override
     public String read(String topic) {
 
-        return "";
+        Jedis jedis = redisManager.getJedis();
+        String message = jedis.rpop(topic);
+        redisManager.retureRes(jedis);
+
+        return message;
     }
 
     @Override
@@ -44,22 +68,41 @@ public class RedisMQ implements MessageQueue {
     }
 
     @Override
-    public void delay(String topic) {
+    public void delay(String topic, String message) {
 
+        publish(topic, message);
     }
 
     @Override
     public void dispose() {
 
+        producers.keySet().forEach(Producer::down);
+        consumers.keySet().forEach(Consumer::down);
     }
 
     @Override
     public void registerProducer(Producer producer) {
 
+        producers.put(producer, producer);
     }
 
     @Override
     public void registerConsumer(Consumer consumer) {
 
+        consumers.put(consumer, consumer);
+    }
+
+    @Override
+    public void cancelProducer(Producer producer) {
+
+        producers.remove(producer);
+        producer.down();
+    }
+
+    @Override
+    public void cancelConsumer(Consumer consumer) {
+
+        consumers.remove(consumer);
+        consumer.down();
     }
 }

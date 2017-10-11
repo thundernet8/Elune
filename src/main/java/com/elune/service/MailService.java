@@ -17,32 +17,11 @@
  */
 
 
-package com.elune.mq;
+package com.elune.service;
 
-public class Producer {
+public interface MailService {
 
-    private MessageQueue messageQueue;
+    void sendMail(String from, String senderName, String to, String title, String content);
 
-    private String topic;
-
-    public Producer(MessageQueue messageQueue, String topic) {
-
-        this.messageQueue = messageQueue;
-        this.topic = topic;
-
-        messageQueue.registerProducer(this);
-    }
-
-    public void produce(String message) {
-
-        if (messageQueue != null) {
-
-            messageQueue.publish(topic, message);
-        }
-    }
-
-    public void down() {
-
-        this.messageQueue = null;
-    }
+    void sendMail(String to, String title, String content);
 }
