@@ -21,7 +21,7 @@ package com.elune.service;
 
 public interface MailService {
 
-    void sendMail(String from, String senderName, String to, String title, String content);
+    void sendMail(String from, String senderName, String to, String receiverName, String title, String content);
 
-    void sendMail(String to, String title, String content);
+    void sendMail(String to, String receiverName, String title, String content);
 }

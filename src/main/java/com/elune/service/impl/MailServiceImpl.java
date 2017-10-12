@@ -19,6 +19,7 @@
 
 package com.elune.service.impl;
 
+import com.elune.configuration.AppConfiguration;
 import com.elune.mq.Consumer;
 import com.elune.mq.MessageQueue;
 import com.elune.mq.Producer;
@@ -30,6 +31,13 @@ import com.fedepot.ioc.annotation.Service;
 import com.fedepot.mvc.json.GsonFactory;
 import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
+import org.simplejavamail.email.Email;
+import org.simplejavamail.email.EmailBuilder;
+import org.simplejavamail.mailer.Mailer;
+import org.simplejavamail.mailer.config.ServerConfig;
+import org.simplejavamail.mailer.config.TransportStrategy;
+
+import static com.elune.constants.Constant.*;
 
 @Slf4j
 @Service(sington = true)
@@ -37,8 +45,15 @@ public class MailServiceImpl implements MailService {
 
     private Producer producer;
 
+    private AppConfiguration appConfig;
+
+    private Mailer mailer;
+
     @ForInject
-    public MailServiceImpl(MessageQueue messageQueue) {
+    public MailServiceImpl(MessageQueue messageQueue, AppConfiguration appConfig) {
+
+        this.appConfig = appConfig;
+        this.initMailer();
 
         String topic = "QUEUETOPIC::SENDMAIL";
         producer = new Producer(messageQueue, topic);
@@ -55,7 +70,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void sendMail(String from, String senderName, String to, String title, String content) {
+    public void sendMail(String from, String senderName, String to, String receiverName, String title, String content) {
 
         log.info("Send mail task produced on thread: T{}", Thread.currentThread().getId());
 
@@ -65,12 +80,12 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void sendMail(String to, String title, String content) {
+    public void sendMail(String to, String receiverName, String title, String content) {
 
         // TODO query default from and senderName
         String from = "";
         String senderName = "";
-        sendMail(from, senderName, to, title, content);
+        sendMail(from, senderName, to, receiverName, title, content);
     }
 
     private void executeMailTask(MailTask mailTask) {
@@ -78,6 +93,25 @@ public class MailServiceImpl implements MailService {
         // TODO
         log.info("------------------------execute queue task------------------------");
         log.info("Send mail task consumed on thread: T{}", Thread.currentThread().getId());
-        System.out.println(mailTask.getTitle());
+
+        Email email = new EmailBuilder()
+            .from(mailTask.getSenderName(), mailTask.getFrom())
+            .to(mailTask.getTo(), mailTask.getReceiverName())
+            .subject(mailTask.getTitle())
+            .text(mailTask.getContent())
+            .build();
+
+        mailer.sendMail(email);
+    }
+
+    private void initMailer() {
+
+        String host = appConfig.get(CONFIG_KEY_SMTP_HOST, "");
+        int port = appConfig.getInt(CONFIG_KEY_SMTP_PORT, 465);
+        String secure = appConfig.get(CONFIG_KEY_SMTP_SECURE, "tls");
+        String username = appConfig.get(CONFIG_KEY_SMTP_USERNAME, "");
+        String password = appConfig.get(CONFIG_KEY_SMTP_PASS, "");
+
+        this.mailer = new Mailer(new ServerConfig(host, port, username, password), TransportStrategy.valueOf(secure));
     }
 }

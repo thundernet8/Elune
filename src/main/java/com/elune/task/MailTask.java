@@ -35,6 +35,8 @@ public class MailTask {
 
     private String to;
 
+    private String receiverName;
+
     private String title;
 
     private String content;
