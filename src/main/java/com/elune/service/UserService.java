@@ -70,6 +70,8 @@ public interface UserService {
      */
     int getUnReadCount(long uid);
 
+    boolean activate(String token);
+
 
     /**
      * 分页查询站内提醒

@@ -27,10 +27,7 @@ import com.elune.service.UserService;
 
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
-import com.fedepot.mvc.annotation.FromBody;
-import com.fedepot.mvc.annotation.HttpPost;
-import com.fedepot.mvc.annotation.Route;
-import com.fedepot.mvc.annotation.RoutePrefix;
+import com.fedepot.mvc.annotation.*;
 import com.fedepot.mvc.controller.APIController;
 import com.fedepot.mvc.http.Session;
 
@@ -123,6 +120,19 @@ public class AuthController extends APIController{
             Session session = Request().session();
             session.clearAttributes();
             Succeed("注销成功");
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
+
+    @HttpPost
+    @Route("active")
+    public void active(@QueryParam("token") String token) {
+
+        try {
+
+            Succeed(userService.activate(token));
         } catch (Exception e) {
 
             Fail(e);

@@ -155,7 +155,7 @@ public class UserServiceImpl implements UserService {
                 sqlSession.commit();
 
                 // 发送验证激活邮件
-                String cacheKey = StringUtil.genRandString(10);
+                String cacheKey = StringUtil.genRandString(32);
                 cache.add(cacheKey, uid, 600);
                 String link = appConfiguration.get(Constant.CONFIG_KEY_SITE_HOME, "").concat("/activation?token=").concat(cacheKey);
                 mailService.sendMail(email, username, "请激活您的账户", "感谢您注册Elune. 请访问下方链接激活您的账户." + link);
@@ -194,6 +194,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean updateInfo(Map<String, Object> info) {
         return false;
+    }
+
+    @Override
+    public boolean activate(String token) {
+
+        long uid = Long.valueOf((String)cache.get(token).orElse("0"));
+
+        return uid != 0 && updateUser(UserEntity.builder().id(uid).status(Byte.valueOf("1")).build());
     }
 
     @Override
@@ -248,6 +256,18 @@ public class UserServiceImpl implements UserService {
             userEntityExample.or().andIdIn(ids);
 
             return assembleUsers(mapper.selectByExample(userEntityExample));
+        }
+    }
+
+    private boolean updateUser(UserEntity userEntity) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            int update = mapper.updateByPrimaryKeySelective(userEntity);
+            sqlSession.commit();
+
+            return update > 0;
         }
     }
 
