@@ -114,6 +114,15 @@ public class MainController extends Controller {
     }
 
     /**
+     * 账户激活页面
+     */
+    @Route("activation")
+    public void activation() {
+
+        View("index.htm");
+    }
+
+    /**
      * 管理后台
      */
     @Route("admin")

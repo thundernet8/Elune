@@ -19,6 +19,7 @@
 
 package com.elune.utils;
 
+import java.util.Random;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -30,5 +31,31 @@ public final class StringUtil {
         Pattern p = Pattern.compile(ePattern);
         Matcher m = p.matcher(email);
         return m.matches();
+    }
+
+    public static String genRandString(int length, String characters) {
+
+        char[] text = new char[length];
+        for (int i = 0; i < length; i++) {
+
+            text[i] = characters.charAt(new Random().nextInt(characters.length()));
+        }
+
+        return new String(text);
+    }
+
+    public static String genRandString(int length) {
+
+        return genRandString(length, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
+    }
+
+    public static String genRandNumbericString(int length) {
+
+        return genRandString(length, "0123456789");
+    }
+
+    public static String genRandLatinString(int length) {
+
+        return genRandString(length, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
     }
 }

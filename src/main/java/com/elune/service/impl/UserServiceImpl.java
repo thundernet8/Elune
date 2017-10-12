@@ -19,17 +19,22 @@
 
 package com.elune.service.impl;
 
+import com.elune.configuration.AppConfiguration;
+import com.elune.constants.Constant;
 import com.elune.constants.UserStatus;
 import com.elune.dal.DBManager;
 import com.elune.dao.UserMapper;
 import com.elune.entity.UserEntity;
 import com.elune.entity.UserEntityExample;
 import com.elune.model.*;
+import com.elune.service.MailService;
 import com.elune.service.UserService;
 import com.elune.utils.DateUtil;
 import com.elune.utils.EncryptUtil;
 import com.elune.utils.StringUtil;
 
+import com.fedepot.cache.Cache;
+import com.fedepot.cache.Ehcache;
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.ioc.annotation.Service;
@@ -47,6 +52,14 @@ public class UserServiceImpl implements UserService {
 
     @FromService
     private DBManager dbManager;
+
+    @FromService
+    private MailService mailService;
+
+    @FromService
+    private AppConfiguration appConfiguration;
+
+    private final Cache cache = Ehcache.newInstance("_USER_ACTIVATION_");
 
     @Override
     public LoginUser signin(LoginModel loginModel) throws Exception {
@@ -141,7 +154,11 @@ public class UserServiceImpl implements UserService {
                 long uid = userEntity.getId();
                 sqlSession.commit();
 
-                // TODO send verify email(event queue)
+                // 发送验证激活邮件
+                String cacheKey = StringUtil.genRandString(10);
+                cache.add(cacheKey, uid, 600);
+                String link = appConfiguration.get(Constant.CONFIG_KEY_SITE_HOME, "").concat("/activation?token=").concat(cacheKey);
+                mailService.sendMail(email, username, "请激活您的账户", "感谢您注册Elune. 请访问下方链接激活您的账户." + link);
 
                 return User.builder().id(uid).username(username).nickname(username).email(email).joinTime(joinTime).build();
             } catch (Exception e) {
