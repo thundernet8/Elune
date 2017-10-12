@@ -83,8 +83,8 @@ public class MailServiceImpl implements MailService {
     public void sendMail(String to, String receiverName, String title, String content) {
 
         // TODO query default from and senderName
-        String from = "";
-        String senderName = "";
+        String from = appConfig.get(CONFIG_KEY_SMTP_USERNAME, "");
+        String senderName = "Elune";
         sendMail(from, senderName, to, receiverName, title, content);
     }
 
@@ -94,14 +94,22 @@ public class MailServiceImpl implements MailService {
         log.info("------------------------execute queue task------------------------");
         log.info("Send mail task consumed on thread: T{}", Thread.currentThread().getId());
 
-        Email email = new EmailBuilder()
-            .from(mailTask.getSenderName(), mailTask.getFrom())
-            .to(mailTask.getTo(), mailTask.getReceiverName())
-            .subject(mailTask.getTitle())
-            .text(mailTask.getContent())
-            .build();
+        log.info(mailTask.getTitle());
 
-        mailer.sendMail(email);
+        try {
+
+            Email email = new EmailBuilder()
+                .from(mailTask.getSenderName(), mailTask.getFrom())
+                .to(mailTask.getReceiverName(), mailTask.getTo())
+                .subject(mailTask.getTitle())
+                .text(mailTask.getContent())
+                .build();
+            mailer.sendMail(email);
+        } catch (Exception e) {
+
+            log.error("send mail error", e);
+            e.printStackTrace();
+        }
     }
 
     private void initMailer() {
@@ -112,6 +120,17 @@ public class MailServiceImpl implements MailService {
         String username = appConfig.get(CONFIG_KEY_SMTP_USERNAME, "");
         String password = appConfig.get(CONFIG_KEY_SMTP_PASS, "");
 
-        this.mailer = new Mailer(new ServerConfig(host, port, username, password), TransportStrategy.valueOf(secure));
+        TransportStrategy transportStrategy = TransportStrategy.SMTP_PLAIN;
+        if (secure.toLowerCase().equals("tls")) {
+
+            transportStrategy = TransportStrategy.SMTP_TLS;
+        } else if (secure.toLowerCase().equals("ssl")) {
+
+            transportStrategy = TransportStrategy.SMTP_SSL;
+        }
+
+        mailer = new Mailer(new ServerConfig(host, port, username, password), transportStrategy);
+        mailer.setSessionTimeout(30000);
+//        mailer.setDebug(appConfig.getBool(CONFIG_KEY_APP_DEV_MODE, false));
     }
 }

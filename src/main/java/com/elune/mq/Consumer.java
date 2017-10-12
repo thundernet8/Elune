@@ -62,6 +62,7 @@ public class Consumer {
                         messageQueue.next(topic);
                     } catch (Exception e) {
 
+                        e.printStackTrace();
                         messageQueue.delay(topic, message);
                     }
 
