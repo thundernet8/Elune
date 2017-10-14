@@ -250,13 +250,13 @@ CREATE TABLE `t_user` (
   UNIQUE KEY `idx_email` (`email`),
   KEY `idx_join_time` (`join_time`),
   KEY `idx_update_time` (`update_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='用户';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户';
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_user` VALUES (14, '6468b605280ed4c63ec169e2d3a1f865', 'thundernet8', 'thundernet8', '813920477@qq.com', '', 1506404634, 0, 1, '', '', 0, 10, 0, 0, 0);
+INSERT INTO `t_user` VALUES (1, '6468b605280ed4c63ec169e2d3a1f865', 'thundernet8', 'thundernet8', '813920477@qq.com', '', 1506404634, 0, 1, '', '', 0, 10, 0, 0, 0);
 COMMIT;
 
 -- ----------------------------
