@@ -19,10 +19,7 @@
 
 package com.elune.controller.api;
 
-import com.elune.model.LoginModel;
-import com.elune.model.LoginUser;
-import com.elune.model.RegisterModel;
-import com.elune.model.User;
+import com.elune.model.*;
 import com.elune.service.UserService;
 
 import com.fedepot.exception.HttpException;
@@ -127,12 +124,25 @@ public class AuthController extends APIController{
     }
 
     @HttpPost
-    @Route("active")
-    public void active(@QueryParam("token") String token) {
+    @Route("activate")
+    public void activate(@QueryParam("token") String token) {
 
         try {
 
             Succeed(userService.activate(token));
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
+
+    @HttpPost
+    @Route("reactivate")
+    public void reActivate(@FromBody ReActivationModel reActivationModel) {
+
+        try {
+
+            Succeed(userService.reActivate(reActivationModel.email));
         } catch (Exception e) {
 
             Fail(e);

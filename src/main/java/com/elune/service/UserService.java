@@ -72,6 +72,14 @@ public interface UserService {
 
     boolean activate(String token);
 
+    /**
+     * 重新发送账户激活链接邮件
+     *
+     * @param email 账户的邮箱
+     * @return 成功则true
+     */
+    boolean reActivate(String email);
+
 
     /**
      * 分页查询站内提醒

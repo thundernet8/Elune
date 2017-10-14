@@ -154,13 +154,12 @@ public class UserServiceImpl implements UserService {
                 long uid = userEntity.getId();
                 sqlSession.commit();
 
-                // 发送验证激活邮件
-                String cacheKey = StringUtil.genRandString(32);
-                cache.add(cacheKey, uid, 600);
-                String link = appConfiguration.get(Constant.CONFIG_KEY_SITE_HOME, "").concat("/activation?token=").concat(cacheKey);
-                mailService.sendMail(email, username, "请激活您的账户", "感谢您注册Elune. 请访问下方链接激活您的账户." + link);
+                User user = User.builder().id(uid).username(username).nickname(username).email(email).joinTime(joinTime).build();
 
-                return User.builder().id(uid).username(username).nickname(username).email(email).joinTime(joinTime).build();
+                // 发送验证激活邮件
+                sendActivationEmail(user);
+
+                return user;
             } catch (Exception e) {
 
                 log.error("Insert user failed", e);
@@ -178,7 +177,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByEmail(String email) {
-        return null;
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            UserEntity userEntity = mapper.selectByEmail(email);
+            if (userEntity == null) {
+
+                return null;
+            }
+
+            return assembleUser(userEntity);
+        }
     }
 
     @Override
@@ -202,6 +212,20 @@ public class UserServiceImpl implements UserService {
         long uid = Long.valueOf((String)cache.get(token).orElse("0"));
 
         return uid != 0 && updateUser(UserEntity.builder().id(uid).status(Byte.valueOf("1")).build());
+    }
+
+    @Override
+    public boolean reActivate(String email) {
+
+        User user = getUserByEmail(email);
+        if (user == null) {
+
+            return false;
+        }
+
+        sendActivationEmail(user);
+
+        return true;
     }
 
     @Override
@@ -288,5 +312,13 @@ public class UserServiceImpl implements UserService {
         });
 
         return users;
+    }
+
+    private void sendActivationEmail(User user) {
+
+        String cacheKey = StringUtil.genRandString(32);
+        cache.add(cacheKey, user.getId(), 600);
+        String link = appConfiguration.get(Constant.CONFIG_KEY_SITE_HOME, "").concat("/activation?token=").concat(cacheKey);
+        mailService.sendMail(user.getEmail(), user.getUsername(), "请激活您的账户", "感谢您注册Elune. 请访问下方链接激活您的账户." + link);
     }
 }
