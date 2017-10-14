@@ -209,7 +209,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean activate(String token) {
 
-        long uid = Long.valueOf((String)cache.get(token).orElse("0"));
+        long uid = (long)cache.get(token).orElse(0l);
 
         return uid != 0 && updateUser(UserEntity.builder().id(uid).status(Byte.valueOf("1")).build());
     }
