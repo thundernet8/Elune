@@ -58,6 +58,8 @@ public interface Constant {
 
     String CONFIG_KEY_SITE_HOME = "app.env.site.home";
 
+    String CONFIG_KEY_SITE_FRONTEND_HOME = "app.env.site.frontend.home";
+
     String CONFIG_KEY_SMTP_HOST = "app.env.smtp.host";
 
     String CONFIG_KEY_SMTP_PORT = "app.env.smtp.port";

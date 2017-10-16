@@ -97,6 +97,10 @@ public class PostServiceImpl implements PostService {
 
             // 对提及的用户发送邮件通知(TODO 添加用户notification)
             Arrays.stream(postCreationModel.mentions).forEach(mention -> {
+                if (mention.equals(author.getUsername())) {
+                    return;
+                }
+
                 User mentionUser = userService.getUserByName(mention);
                 if (mentionUser != null) {
                     mailService.sendMail(mentionUser.getEmail(), mentionUser.getNickname(), "Elune - ".concat(author.getNickname()).concat("在回复中提到了你"), postCreationModel.content);

@@ -34,7 +34,8 @@
 
     <!-- Site Properties -->
     <site>
-        <property name="home">http://localhost</property>
+        <property name="home">http://localhost:9000</property>
+        <property name="frontend">http://localhost:9001</property>
     </site>
 
     <!-- SMTP -->

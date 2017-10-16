@@ -187,6 +187,10 @@ public class ConfigurationFactory {
                     case "home":
                         properties.put(CONFIG_KEY_SITE_HOME, propEle.getTextContent());
                         break;
+
+                    case "frontend":
+                        properties.put(CONFIG_KEY_SITE_FRONTEND_HOME, propEle.getTextContent());
+                        break;
                 }
             }
         }

@@ -56,7 +56,7 @@ public final class RedisManager {
         config.setMinIdle(5);
 
         // 创建连接池
-        pool = new JedisPool(config, appConfig.get(CONFIG_KEY_REDIS_HOST, "127.0.0.1"), appConfig.getInt(CONFIG_KEY_REDIS_PORT, 6379), Protocol.DEFAULT_TIMEOUT, appConfig.get(CONFIG_KEY_REDIS_PASS, ""));
+        pool = new JedisPool(config, appConfig.get(CONFIG_KEY_REDIS_HOST, DEFAULT_REDIS_HOST), appConfig.getInt(CONFIG_KEY_REDIS_PORT, DEFAULT_REDIS_PORT), Protocol.DEFAULT_TIMEOUT, appConfig.get(CONFIG_KEY_REDIS_PASS, ""));
     }
 
     private void poolInit() {
