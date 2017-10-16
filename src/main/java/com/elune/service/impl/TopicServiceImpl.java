@@ -116,98 +116,98 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public boolean pinTopic(long id) {
 
-        TopicEntity topicEntity = TopicEntity.builder().isPinned(Byte.parseByte("1")).build();
+        TopicEntity topicEntity = TopicEntity.builder().id(id).isPinned(Byte.parseByte("1")).build();
         return updateTopic(topicEntity);
     }
 
     @Override
     public boolean unpinTopic(long id) {
 
-        TopicEntity topicEntity = TopicEntity.builder().isPinned(Byte.parseByte("0")).build();
+        TopicEntity topicEntity = TopicEntity.builder().id(id).isPinned(Byte.parseByte("0")).build();
         return updateTopic(topicEntity);
     }
 
     @Override
     public boolean markTopicEssence(long id) {
 
-        TopicEntity topicEntity = TopicEntity.builder().isEssence(Byte.parseByte("1")).build();
+        TopicEntity topicEntity = TopicEntity.builder().id(id).isEssence(Byte.parseByte("1")).build();
         return updateTopic(topicEntity);
     }
 
     @Override
     public boolean unmarkTopicEssence(long id) {
 
-        TopicEntity topicEntity = TopicEntity.builder().isEssence(Byte.parseByte("0")).build();
+        TopicEntity topicEntity = TopicEntity.builder().id(id).isEssence(Byte.parseByte("0")).build();
         return updateTopic(topicEntity);
     }
 
     @Override
     public boolean upvoteTopic(long id) {
 
-        TopicEntity topicEntity = TopicEntity.builder().upvotesCount(1).build();
+        TopicEntity topicEntity = TopicEntity.builder().id(id).upvotesCount(1).build();
         return increaseUpdateTopic(topicEntity);
     }
 
     @Override
     public boolean downvoteTopic(long id) {
 
-        TopicEntity topicEntity = TopicEntity.builder().downvotesCount(1).build();
+        TopicEntity topicEntity = TopicEntity.builder().id(id).downvotesCount(1).build();
         return increaseUpdateTopic(topicEntity);
     }
 
     @Override
     public boolean favoriteTopic(long id) {
 
-        TopicEntity topicEntity = TopicEntity.builder().favoritesCount(1).build();
+        TopicEntity topicEntity = TopicEntity.builder().id(id).favoritesCount(1).build();
         return increaseUpdateTopic(topicEntity);
     }
 
     @Override
     public boolean unfavoriteTopic(long id) {
 
-        TopicEntity topicEntity = TopicEntity.builder().favoritesCount(1).build();
+        TopicEntity topicEntity = TopicEntity.builder().id(id).favoritesCount(1).build();
         return decreaseUpdateTopic(topicEntity);
     }
 
     @Override
     public boolean updateTopicPostsCount(long id) {
 
-        TopicEntity topicEntity = TopicEntity.builder().postsCount(1).build();
+        TopicEntity topicEntity = TopicEntity.builder().id(id).postsCount(1).build();
         return increaseUpdateTopic(topicEntity);
     }
 
     @Override
     public boolean updateTopicViews(long id) {
 
-        TopicEntity topicEntity = TopicEntity.builder().viewsCount(1).build();
+        TopicEntity topicEntity = TopicEntity.builder().id(id).viewsCount(1).build();
         return increaseUpdateTopic(topicEntity);
     }
 
     @Override
     public boolean updateTopicFactor(long id, int factor) {
 
-        TopicEntity topicEntity = TopicEntity.builder().factor(factor).build();
+        TopicEntity topicEntity = TopicEntity.builder().id(id).factor(factor).build();
         return updateTopic(topicEntity);
     }
 
     @Override
     public boolean lastReplayTopic(long id, UserEntity author) {
 
-        TopicEntity topicEntity = TopicEntity.builder().postTime(DateUtil.getTimeStamp()).poster(author.getUsername()).posterId(author.getId()).build();
+        TopicEntity topicEntity = TopicEntity.builder().id(id).postTime(DateUtil.getTimeStamp()).poster(author.getUsername()).posterId(author.getId()).build();
         return updateTopic(topicEntity) && updateTopicPostsCount(id);
     }
 
     @Override
     public boolean toggleTopicComment(long id, boolean enable) {
 
-        TopicEntity topicEntity = TopicEntity.builder().commentStatus(Byte.parseByte(Boolean.toString(enable))).build();
+        TopicEntity topicEntity = TopicEntity.builder().id(id).commentStatus(Byte.parseByte(Boolean.toString(enable))).build();
         return updateTopic(topicEntity);
     }
 
     @Override
     public boolean deleteTopic(long id) {
 
-        TopicEntity topicEntity = TopicEntity.builder().status(Byte.parseByte("0")).build();
+        TopicEntity topicEntity = TopicEntity.builder().id(id).status(Byte.parseByte("0")).build();
         return updateTopic(topicEntity);
     }
 

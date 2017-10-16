@@ -118,21 +118,21 @@ public class ChannelServiceImpl implements ChannelService {
     @Override
     public boolean updateTopicCount(int id, int increase) {
 
-        ChannelEntity channelEntity = ChannelEntity.builder().topicsCount(Math.abs(increase)).build();
+        ChannelEntity channelEntity = ChannelEntity.builder().id(id).topicsCount(Math.abs(increase)).build();
         return increase < 0 ? decreaseUpdateChannel(channelEntity) : increaseUpdateChannel(channelEntity);
     }
 
     @Override
-    public boolean updateChannelHost(int[] hosts) {
+    public boolean updateChannelHost(int id, int[] hosts) {
 
-        ChannelEntity channelEntity = ChannelEntity.builder().hosts(Arrays.stream(hosts).mapToObj(Integer::toString).collect(Collectors.joining(","))).build();
+        ChannelEntity channelEntity = ChannelEntity.builder().id(id).hosts(Arrays.stream(hosts).mapToObj(Integer::toString).collect(Collectors.joining(","))).build();
         return updateChannel(channelEntity);
     }
 
     @Override
     public boolean deleteChannel(int id) {
 
-        ChannelEntity channelEntity = ChannelEntity.builder().status(Byte.parseByte("0")).build();
+        ChannelEntity channelEntity = ChannelEntity.builder().id(id).status(Byte.parseByte("0")).build();
         return updateChannel(channelEntity);
     }
 

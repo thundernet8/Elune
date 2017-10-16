@@ -103,8 +103,8 @@ public class TagServiceImpl implements TagService{
     @Override
     public boolean updateTopicCount(int id, int increase) {
 
-        TagEntity tagEntity = TagEntity.builder().topicsCount(Math.abs(increase)).build();
-        return increase < 0 ? decreaseUpdateChannel(tagEntity) : increaseUpdateChannel(tagEntity);
+        TagEntity tagEntity = TagEntity.builder().id(id).topicsCount(Math.abs(increase)).build();
+        return increase < 0 ? decreaseUpdateTag(tagEntity) : increaseUpdateTag(tagEntity);
     }
 
     @Override
@@ -159,6 +159,7 @@ public class TagServiceImpl implements TagService{
             TagRelationMapper tagRelationMapper = sqlSession.getMapper(TagRelationMapper.class);
 
             TagRelationEntityExample entityExample = TagRelationEntityExample.builder().oredCriteria(new ArrayList<>()).distinct(true).build();
+            entityExample.or().andTopicIdEqualTo(topicId);
 
             List<Integer> tagIds = tagRelationMapper.selectByExample(entityExample).stream().map(TagRelationEntity::getTagId).distinct().collect(Collectors.toList());
 
@@ -192,7 +193,7 @@ public class TagServiceImpl implements TagService{
         }
     }
 
-    private boolean increaseUpdateChannel(TagEntity tagEntity) {
+    private boolean increaseUpdateTag(TagEntity tagEntity) {
 
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
@@ -204,7 +205,7 @@ public class TagServiceImpl implements TagService{
         }
     }
 
-    private boolean decreaseUpdateChannel(TagEntity tagEntity) {
+    private boolean decreaseUpdateTag(TagEntity tagEntity) {
 
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 

@@ -118,21 +118,21 @@ public class PostServiceImpl implements PostService {
     @Override
     public boolean deletePost(long id) {
 
-        PostEntity postEntity = PostEntity.builder().status(Byte.parseByte("0")).build();
+        PostEntity postEntity = PostEntity.builder().id(id).status(Byte.parseByte("0")).build();
         return updatePost(postEntity);
     }
 
     @Override
     public boolean upvotePost(long id) {
 
-        PostEntity postEntity = PostEntity.builder().upvotesCount(1).build();
+        PostEntity postEntity = PostEntity.builder().id(id).upvotesCount(1).build();
         return increaseUpdatePost(postEntity);
     }
 
     @Override
     public boolean downvotePost(long id) {
 
-        PostEntity postEntity = PostEntity.builder().downvotesCount(1).build();
+        PostEntity postEntity = PostEntity.builder().id(id).downvotesCount(1).build();
         return increaseUpdatePost(postEntity);
     }
 
