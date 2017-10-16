@@ -24,8 +24,6 @@ package com.elune.model;
  */
 public class PostCreationModel {
 
-    public String title;
-
     public Long topicId;
 
     public Long parentId;
@@ -43,4 +41,6 @@ public class PostCreationModel {
     public String contentHtml;
 
     public String contentRaw;
+
+    public String[] mentions;
 }

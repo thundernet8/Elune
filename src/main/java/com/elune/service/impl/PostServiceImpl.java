@@ -32,10 +32,7 @@ import com.fedepot.ioc.annotation.Service;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -51,6 +48,9 @@ public class PostServiceImpl implements PostService {
 
     @FromService
     private TopicService topicService;
+
+    @FromService
+    private MailService mailService;
 
     @Override
     public Post getPost(long id) {
@@ -94,6 +94,14 @@ public class PostServiceImpl implements PostService {
 
                 topicService.updateTopicPostsCount(postCreationModel.topicId);
             }
+
+            // 对提及的用户发送邮件通知(TODO 添加用户notification)
+            Arrays.stream(postCreationModel.mentions).forEach(mention -> {
+                User mentionUser = userService.getUserByName(mention);
+                if (mentionUser != null) {
+                    mailService.sendMail(mentionUser.getEmail(), mentionUser.getNickname(), "Elune - ".concat(author.getNickname()).concat("在回复中提到了你"), postCreationModel.content);
+                }
+            });
 
             return postEntity.getId();
         } catch (Exception e) {
