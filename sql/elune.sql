@@ -3,15 +3,15 @@
 
  Source Server         : MySql
  Source Server Type    : MySQL
- Source Server Version : 50719
+ Source Server Version : 50557
  Source Host           : localhost:3306
  Source Schema         : elune
 
  Target Server Type    : MySQL
- Target Server Version : 50719
+ Target Server Version : 50557
  File Encoding         : 65001
 
- Date: 01/10/2017 14:51:39
+ Date: 17/10/2017 14:26:21
 */
 
 SET NAMES utf8mb4;
@@ -143,7 +143,17 @@ CREATE TABLE `t_post` (
   PRIMARY KEY (`id`),
   KEY `idx_tid` (`tid`),
   KEY `idx_create_time` (`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评论回复';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='评论回复';
+
+-- ----------------------------
+-- Records of t_post
+-- ----------------------------
+BEGIN;
+INSERT INTO `t_post` VALUES (1, 1, 0, 'thundernet8', 1, 'thundernet8', 1, '207.226.143.125', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36', '@thundernet8#0 first comment.', '<p><a href=\"#thread\" class=\"wysiwyg-mention\" data-mention data-value=\"thundernet8#0\">@thundernet8#0</a> first comment.</p>\n', '{\"entityMap\":{\"0\":{\"type\":\"MENTION\",\"mutability\":\"IMMUTABLE\",\"data\":{\"text\":\"@thundernet8#0\",\"value\":\"thundernet8#0\",\"url\":\"#thread\"}}},\"blocks\":[{\"key\":\"ob2h\",\"text\":\"@thundernet8#0 first comment.\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[{\"offset\":0,\"length\":14,\"key\":0}],\"data\":{}}]}', 0, 0, 1, 1, 1508104654);
+INSERT INTO `t_post` VALUES (2, 1, 0, 'thundernet8', 1, 'thundernet8', 1, '218.82.163.155', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36', '@thundernet8#1 reply comment', '<p><a href=\"#post-1\" class=\"wysiwyg-mention\" data-mention data-value=\"thundernet8#1\">@thundernet8#1</a> reply comment</p>\n', '{\"entityMap\":{\"0\":{\"type\":\"MENTION\",\"mutability\":\"IMMUTABLE\",\"data\":{\"text\":\"@thundernet8#1\",\"value\":\"thundernet8#1\",\"url\":\"#post-1\"}}},\"blocks\":[{\"key\":\"ob2h\",\"text\":\"@thundernet8#1 reply comment\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[{\"offset\":0,\"length\":14,\"key\":0}],\"data\":{}}]}', 0, 0, 1, 1, 1508130932);
+INSERT INTO `t_post` VALUES (3, 1, 0, 'thundernet8', 1, 'thundernet8', 1, '218.82.163.155', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36', '\n \nimage test', '<p></p>\n<img src=\"https://elune.fuli.news/content/images/2017/10/16/28579a029c88a9d4fd0ad6edbb01d38b.jpg\" alt=\"undefined\" style=\"float:none;height: auto;width: auto\"/>\n<p>image test</p>\n', '{\"entityMap\":{\"0\":{\"type\":\"IMAGE\",\"mutability\":\"MUTABLE\",\"data\":{\"src\":\"https://elune.fuli.news/content/images/2017/10/16/28579a029c88a9d4fd0ad6edbb01d38b.jpg\",\"height\":\"auto\",\"width\":\"auto\"}}},\"blocks\":[{\"key\":\"4i59u\",\"text\":\"\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"aja80\",\"text\":\" \",\"type\":\"atomic\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[{\"offset\":0,\"length\":1,\"key\":0}],\"data\":{}},{\"key\":\"b7i3v\",\"text\":\"image test\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}]}', 0, 0, 1, 1, 1508132192);
+INSERT INTO `t_post` VALUES (4, 1, 0, 'tonglvdou', 2, 'thundernet8', 1, '36.102.83.200', 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.110 Safari/537.36', '感觉好高级的样子！！！', '<p>感觉好高级的样子！！！</p>\n', '{\"entityMap\":{},\"blocks\":[{\"key\":\"5j1cm\",\"text\":\"感觉好高级的样子！！！\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}]}', 0, 0, 1, 1, 1508135992);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for t_tag
@@ -222,7 +232,14 @@ CREATE TABLE `t_topic` (
   KEY `idx_post_time` (`post_time`),
   KEY `idx_create_update_time` (`create_time`,`update_time`) USING BTREE,
   KEY `idx_status` (`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='话题';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='话题';
+
+-- ----------------------------
+-- Records of t_topic
+-- ----------------------------
+BEGIN;
+INSERT INTO `t_topic` VALUES (1, 7, '关于Elune Forum', 'thundernet8', 1, 'Elune Forum是一个交流社区，在这里可以讨论Tint主题，WordPress使用开发，网站建设或者是闲聊非政治反动色情的不限分类话题。\n目前网站正在开发中：\n前台使用React + Element\n后台使用Java + 个人开发的MVC框架Razor\nJenkins + Github实现持续集成\n如果有任何问题，请选择相关分类发表您的话题', '<p>Elune Forum是一个交流社区，在这里可以讨论Tint主题，WordPress使用开发，网站建设或者是闲聊非政治反动色情的不限分类话题。</p>\n<p>目前网站正在开发中：</p>\n<ul>\n<li>前台使用React + Element</li>\n<li>后台使用Java + 个人开发的MVC框架Razor</li>\n<li>Jenkins + Github实现持续集成</li>\n</ul>\n<p>如果有任何问题，请选择相关分类发表您的话题</p>\n', '{\"entityMap\":{},\"blocks\":[{\"key\":\"3mlo8\",\"text\":\"Elune Forum是一个交流社区，在这里可以讨论Tint主题，WordPress使用开发，网站建设或者是闲聊非政治反动色情的不限分类话题。\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"8db1a\",\"text\":\"目前网站正在开发中：\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"454mu\",\"text\":\"前台使用React + Element\",\"type\":\"unordered-list-item\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"kfp9\",\"text\":\"后台使用Java + 个人开发的MVC框架Razor\",\"type\":\"unordered-list-item\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"2kijr\",\"text\":\"Jenkins + Github实现持续集成\",\"type\":\"unordered-list-item\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"a1eub\",\"text\":\"如果有任何问题，请选择相关分类发表您的话题\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}]}', 0, 0, 0, 0, 0, 0, 9, 1, 1, 1507966726, 0, 1508192136, 'thundernet8', 1, 60);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for t_user
@@ -250,13 +267,14 @@ CREATE TABLE `t_user` (
   UNIQUE KEY `idx_email` (`email`),
   KEY `idx_join_time` (`join_time`),
   KEY `idx_update_time` (`update_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户';
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
 BEGIN;
 INSERT INTO `t_user` VALUES (1, '6468b605280ed4c63ec169e2d3a1f865', 'thundernet8', 'thundernet8', '813920477@qq.com', '', 1506404634, 0, 1, '', '', 0, 10, 0, 0, 0);
+INSERT INTO `t_user` VALUES (2, '5af6f93785dc69d2604812a9e5c601c6', 'tonglvdou', 'tonglvdou', '475511371@qq.com', '', 1508135884, 0, 1, '', '', 0, 10, 0, 0, 0);
 COMMIT;
 
 -- ----------------------------
