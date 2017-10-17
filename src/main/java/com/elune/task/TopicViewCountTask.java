@@ -32,13 +32,8 @@ public class TopicViewCountTask {
 
     private int views;
 
-    /**
-     * 此次View计数写入redis的时间
-     */
-    private int writeTime;
-
     public String getKey() {
 
-        return "topic_view_count_".concat(topicId);
+        return "tvc_".concat(topicId);
     }
 }

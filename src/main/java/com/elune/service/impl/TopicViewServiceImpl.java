@@ -68,7 +68,7 @@ public class TopicViewServiceImpl implements TopicViewService {
     @Override
     public void increaseViews(long topicId, int count) {
 
-        TopicViewCountTask task = TopicViewCountTask.builder().topicId(Long.toString(topicId)).views(count).writeTime(0).build();
+        TopicViewCountTask task = TopicViewCountTask.builder().topicId(Long.toString(topicId)).views(count).build();
         producer.produce(GsonFactory.getGson().toJson(task));
     }
 
@@ -80,28 +80,19 @@ public class TopicViewServiceImpl implements TopicViewService {
 
     private void executeTask(TopicViewCountTask task) {
 
-        if (task.getWriteTime() == 0) {
+        Jedis jedis = redisManager.getJedis();
+        String cacheValue = jedis.get(task.getKey());
+        int count = cacheValue == null ? 0 : Integer.valueOf(cacheValue);
 
-            Jedis jedis = redisManager.getJedis();
+        if (count < 10) {
+
             jedis.incrBy(task.getKey(), task.getViews());
-            redisManager.retureRes(jedis);
-            task.setWriteTime(DateUtil.getTimeStamp());
-            producer.produce(GsonFactory.getGson().toJson(task));
         } else {
-            int now = DateUtil.getTimeStamp();
-            if (now - task.getWriteTime() > 60) {
 
-                Jedis jedis = redisManager.getJedis();
-                String cacheValue = jedis.get(task.getKey());
-                int count = cacheValue == null ? 0 : Integer.valueOf(cacheValue);
-                jedis.del(task.getKey());
-                redisManager.retureRes(jedis);
-
-                topicService.updateTopicViews(Long.valueOf(task.getTopicId()), count);
-            } else {
-
-                producer.produce(GsonFactory.getGson().toJson(task));
-            }
+            jedis.del(task.getKey());
+            topicService.updateTopicViews(Long.valueOf(task.getTopicId()), count + task.getViews());
         }
+
+        redisManager.retureRes(jedis);
     }
 }
