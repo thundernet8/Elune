@@ -56,7 +56,7 @@ public final class DBManager {
         String dbUser = appConfig.get(CONFIG_KEY_MYSQL_USER, "");
         String dbPass = appConfig.get(CONFIG_KEY_MYSQL_PASS, "");
         String dbDriver = "com.mysql.cj.jdbc.Driver";
-        String connString = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName + "?autoReconnect=true&useSSL=false&useUnicode=true&characterEncoding=utf8mb4";
+        String connString = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName + "?autoReconnect=true&useSSL=false&useUnicode=true";
 
         DataSource dataSource = new PooledDataSource(dbDriver, connString, dbUser, dbPass);
         TransactionFactory transactionFactory = new JdbcTransactionFactory();
