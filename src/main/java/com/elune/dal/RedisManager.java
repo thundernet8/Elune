@@ -52,8 +52,8 @@ public final class RedisManager {
         config.setMaxWaitMillis(1000);
 
         // 设置空闲连接数
-        config.setMaxIdle(10);
-        config.setMinIdle(5);
+        config.setMaxIdle(20);
+        config.setMinIdle(10);
 
         // 创建连接池
         pool = new JedisPool(config, appConfig.get(CONFIG_KEY_REDIS_HOST, DEFAULT_REDIS_HOST), appConfig.getInt(CONFIG_KEY_REDIS_PORT, DEFAULT_REDIS_PORT), Protocol.DEFAULT_TIMEOUT, appConfig.get(CONFIG_KEY_REDIS_PASS, ""));

@@ -82,7 +82,9 @@ public class TopicViewServiceImpl implements TopicViewService {
 
         if (task.getWriteTime() == 0) {
 
-            redisManager.getJedis().incrBy(task.getKey(), task.getViews());
+            Jedis jedis = redisManager.getJedis();
+            jedis.incrBy(task.getKey(), task.getViews());
+            redisManager.retureRes(jedis);
             task.setWriteTime(DateUtil.getTimeStamp());
             producer.produce(GsonFactory.getGson().toJson(task));
         } else {
