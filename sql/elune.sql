@@ -11,7 +11,7 @@
  Target Server Version : 50557
  File Encoding         : 65001
 
- Date: 17/10/2017 14:26:21
+ Date: 17/10/2017 14:58:45
 */
 
 SET NAMES utf8mb4;
@@ -126,15 +126,15 @@ CREATE TABLE `t_post` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `tid` bigint(20) unsigned NOT NULL COMMENT '话题ID',
   `pid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '父级Post ID',
-  `author_name` varchar(60) CHARACTER SET utf8mb4 NOT NULL COMMENT '评论回复作者',
+  `author_name` varchar(60) NOT NULL COMMENT '评论回复作者',
   `author_id` bigint(20) unsigned NOT NULL,
-  `topic_author_name` varchar(60) CHARACTER SET utf8mb4 NOT NULL COMMENT '话题作者',
+  `topic_author_name` varchar(60) NOT NULL COMMENT '话题作者',
   `topic_author_id` bigint(20) unsigned NOT NULL,
   `ip` varchar(64) DEFAULT NULL,
   `ua` varchar(200) DEFAULT NULL,
-  `content` text CHARACTER SET utf8mb4 NOT NULL COMMENT '评论回复内容(纯文本)',
-  `content_html` text CHARACTER SET utf8mb4 NOT NULL COMMENT '评论回复内容(Html)',
-  `content_raw` text CHARACTER SET utf8mb4 NOT NULL COMMENT '评论回复内容(DraftJS编辑器原始数据)',
+  `content` text NOT NULL COMMENT '评论回复内容(纯文本)',
+  `content_html` text NOT NULL COMMENT '评论回复内容(Html)',
+  `content_raw` text NOT NULL COMMENT '评论回复内容(DraftJS编辑器原始数据)',
   `upvotes_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '点赞数',
   `downvotes_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '点踩数',
   `type` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'Post类型 1 - 评论 2 - 回复',
@@ -205,12 +205,12 @@ DROP TABLE IF EXISTS `t_topic`;
 CREATE TABLE `t_topic` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `cid` int(10) NOT NULL COMMENT '所属频道',
-  `title` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '话题标题',
+  `title` varchar(255) NOT NULL DEFAULT '' COMMENT '话题标题',
   `author_name` varchar(60) NOT NULL DEFAULT '' COMMENT '作者用户名',
   `author_id` bigint(20) unsigned NOT NULL COMMENT '作者ID',
-  `content` longtext CHARACTER SET utf8mb4 NOT NULL COMMENT '帖子正文(纯文本)',
-  `content_html` longtext CHARACTER SET utf8mb4 NOT NULL COMMENT '帖子内容(Html)',
-  `content_raw` longtext CHARACTER SET utf8mb4 NOT NULL COMMENT '帖子内容(DraftJS编辑器原始数据)',
+  `content` longtext NOT NULL COMMENT '帖子正文(纯文本)',
+  `content_html` longtext NOT NULL COMMENT '帖子内容(Html)',
+  `content_raw` longtext NOT NULL COMMENT '帖子内容(DraftJS编辑器原始数据)',
   `is_pinned` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否置顶 0 - 否 1 - 是',
   `is_essence` tinyint(4) NOT NULL DEFAULT '0' COMMENT '是否精华帖 0 - 否 1 - 是',
   `views_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '阅读数',
@@ -238,7 +238,7 @@ CREATE TABLE `t_topic` (
 -- Records of t_topic
 -- ----------------------------
 BEGIN;
-INSERT INTO `t_topic` VALUES (1, 7, '关于Elune Forum', 'thundernet8', 1, 'Elune Forum是一个交流社区，在这里可以讨论Tint主题，WordPress使用开发，网站建设或者是闲聊非政治反动色情的不限分类话题。\n目前网站正在开发中：\n前台使用React + Element\n后台使用Java + 个人开发的MVC框架Razor\nJenkins + Github实现持续集成\n如果有任何问题，请选择相关分类发表您的话题', '<p>Elune Forum是一个交流社区，在这里可以讨论Tint主题，WordPress使用开发，网站建设或者是闲聊非政治反动色情的不限分类话题。</p>\n<p>目前网站正在开发中：</p>\n<ul>\n<li>前台使用React + Element</li>\n<li>后台使用Java + 个人开发的MVC框架Razor</li>\n<li>Jenkins + Github实现持续集成</li>\n</ul>\n<p>如果有任何问题，请选择相关分类发表您的话题</p>\n', '{\"entityMap\":{},\"blocks\":[{\"key\":\"3mlo8\",\"text\":\"Elune Forum是一个交流社区，在这里可以讨论Tint主题，WordPress使用开发，网站建设或者是闲聊非政治反动色情的不限分类话题。\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"8db1a\",\"text\":\"目前网站正在开发中：\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"454mu\",\"text\":\"前台使用React + Element\",\"type\":\"unordered-list-item\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"kfp9\",\"text\":\"后台使用Java + 个人开发的MVC框架Razor\",\"type\":\"unordered-list-item\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"2kijr\",\"text\":\"Jenkins + Github实现持续集成\",\"type\":\"unordered-list-item\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"a1eub\",\"text\":\"如果有任何问题，请选择相关分类发表您的话题\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}]}', 0, 0, 0, 0, 0, 0, 9, 1, 1, 1507966726, 0, 1508192136, 'thundernet8', 1, 60);
+INSERT INTO `t_topic` VALUES (1, 7, '关于Elune Forum', 'thundernet8', 1, 'Elune Forum是一个交流社区，在这里可以讨论Tint主题，WordPress使用开发，网站建设或者是闲聊非政治反动色情的不限分类话题。\n目前网站正在开发中：\n前台使用React + Element\n后台使用Java + 个人开发的MVC框架Razor\nJenkins + Github实现持续集成\n如果有任何问题，请选择相关分类发表您的话题', '<p>Elune Forum是一个交流社区，在这里可以讨论Tint主题，WordPress使用开发，网站建设或者是闲聊非政治反动色情的不限分类话题。</p>\n<p>目前网站正在开发中：</p>\n<ul>\n<li>前台使用React + Element</li>\n<li>后台使用Java + 个人开发的MVC框架Razor</li>\n<li>Jenkins + Github实现持续集成</li>\n</ul>\n<p>如果有任何问题，请选择相关分类发表您的话题</p>\n', '{\"entityMap\":{},\"blocks\":[{\"key\":\"3mlo8\",\"text\":\"Elune Forum是一个交流社区，在这里可以讨论Tint主题，WordPress使用开发，网站建设或者是闲聊非政治反动色情的不限分类话题。\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"8db1a\",\"text\":\"目前网站正在开发中：\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"454mu\",\"text\":\"前台使用React + Element\",\"type\":\"unordered-list-item\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"kfp9\",\"text\":\"后台使用Java + 个人开发的MVC框架Razor\",\"type\":\"unordered-list-item\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"2kijr\",\"text\":\"Jenkins + Github实现持续集成\",\"type\":\"unordered-list-item\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}},{\"key\":\"a1eub\",\"text\":\"如果有任何问题，请选择相关分类发表您的话题\",\"type\":\"unstyled\",\"depth\":0,\"inlineStyleRanges\":[],\"entityRanges\":[],\"data\":{}}]}', 0, 0, 0, 0, 0, 0, 4, 1, 1, 1507966726, 0, 1508135992, 'tonglvdou', 2, 60);
 COMMIT;
 
 -- ----------------------------

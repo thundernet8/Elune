@@ -179,7 +179,13 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public boolean updateTopicViews(long id) {
 
-        TopicEntity topicEntity = TopicEntity.builder().id(id).viewsCount(1).build();
+        return updateTopicViews(id, 1);
+    }
+
+    @Override
+    public boolean updateTopicViews(long id, int count) {
+
+        TopicEntity topicEntity = TopicEntity.builder().id(id).viewsCount(count).build();
         return increaseUpdateTopic(topicEntity);
     }
 

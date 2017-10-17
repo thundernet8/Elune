@@ -90,7 +90,6 @@ public class MailServiceImpl implements MailService {
 
     private void executeMailTask(MailTask mailTask) {
 
-        // TODO
         log.info("------------------------execute queue task------------------------");
         log.info("Send mail task consumed on thread: T{}", Thread.currentThread().getId());
 

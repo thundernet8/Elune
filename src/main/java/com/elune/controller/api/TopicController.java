@@ -26,6 +26,7 @@ import com.elune.model.TopicCreationModel;
 import com.elune.model.TopicUpdateModel;
 import com.elune.service.TopicService;
 
+import com.elune.service.TopicViewService;
 import com.elune.service.UserService;
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
@@ -45,6 +46,9 @@ public class TopicController extends APIController {
 
     @FromService
     private UserService userService;
+
+    @FromService
+    private TopicViewService topicViewService;
 
     @HttpPost
     @Route("")
@@ -112,6 +116,13 @@ public class TopicController extends APIController {
     @HttpGet
     @Route("{long:id}")
     public void getTopic(long id) {
+
+        try {
+
+            topicViewService.increaseViews(id);
+        } catch (Exception e) {
+            // ignore
+        }
 
         try {
 

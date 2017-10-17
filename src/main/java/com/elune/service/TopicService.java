@@ -43,6 +43,8 @@ public interface TopicService {
 
     boolean updateTopicViews(long id);
 
+    boolean updateTopicViews(long id, int count);
+
     boolean upvoteTopic(long id);
 
     boolean downvoteTopic(long id);
