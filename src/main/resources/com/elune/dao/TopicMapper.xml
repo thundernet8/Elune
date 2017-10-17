@@ -19,6 +19,8 @@
     <result column="create_time" jdbcType="INTEGER" property="createTime" />
     <result column="update_time" jdbcType="INTEGER" property="updateTime" />
     <result column="post_time" jdbcType="INTEGER" property="postTime" />
+    <result column="poster" jdbcType="VARCHAR" property="poster" />
+    <result column="poster_id" jdbcType="BIGINT" property="posterId" />
     <result column="factor" jdbcType="INTEGER" property="factor" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.elune.entity.TopicEntity">
@@ -87,7 +89,7 @@
   <sql id="Base_Column_List">
     id, cid, title, author_name, author_id, is_pinned, is_essence, views_count, upvotes_count,
     downvotes_count, favorites_count, posts_count, status, comment_status, create_time,
-    update_time, post_time, factor
+    update_time, post_time, poster, poster_id, factor
   </sql>
   <sql id="Blob_Column_List">
     content, content_html, content_raw
@@ -157,15 +159,17 @@
       views_count, upvotes_count, downvotes_count,
       favorites_count, posts_count, status,
       comment_status, create_time, update_time,
-      post_time, factor, content,
-      content_html, content_raw)
+      post_time, poster, poster_id,
+      factor, content, content_html,
+      content_raw)
     values (#{cid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{authorName,jdbcType=VARCHAR},
       #{authorId,jdbcType=BIGINT}, #{isPinned,jdbcType=TINYINT}, #{isEssence,jdbcType=TINYINT},
       #{viewsCount,jdbcType=INTEGER}, #{upvotesCount,jdbcType=INTEGER}, #{downvotesCount,jdbcType=INTEGER},
       #{favoritesCount,jdbcType=INTEGER}, #{postsCount,jdbcType=INTEGER}, #{status,jdbcType=TINYINT},
       #{commentStatus,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER}, #{updateTime,jdbcType=INTEGER},
-      #{postTime,jdbcType=INTEGER}, #{factor,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR},
-      #{contentHtml,jdbcType=LONGVARCHAR}, #{contentRaw,jdbcType=LONGVARCHAR})
+      #{postTime,jdbcType=INTEGER}, #{poster,jdbcType=VARCHAR}, #{posterId,jdbcType=BIGINT},
+      #{factor,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR}, #{contentHtml,jdbcType=LONGVARCHAR},
+      #{contentRaw,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.elune.entity.TopicEntity">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -220,6 +224,12 @@
       </if>
       <if test="postTime != null">
         post_time,
+      </if>
+      <if test="poster != null">
+        poster,
+      </if>
+      <if test="posterId != null">
+        poster_id,
       </if>
       <if test="factor != null">
         factor,
@@ -282,6 +292,12 @@
       </if>
       <if test="postTime != null">
         #{postTime,jdbcType=INTEGER},
+      </if>
+      <if test="poster != null">
+        #{poster,jdbcType=VARCHAR},
+      </if>
+      <if test="posterId != null">
+        #{posterId,jdbcType=BIGINT},
       </if>
       <if test="factor != null">
         #{factor,jdbcType=INTEGER},
@@ -357,6 +373,12 @@
       <if test="record.postTime != null">
         post_time = #{record.postTime,jdbcType=INTEGER},
       </if>
+      <if test="record.poster != null">
+        poster = #{record.poster,jdbcType=VARCHAR},
+      </if>
+      <if test="record.posterId != null">
+        poster_id = #{record.posterId,jdbcType=BIGINT},
+      </if>
       <if test="record.factor != null">
         factor = #{record.factor,jdbcType=INTEGER},
       </if>
@@ -393,6 +415,8 @@
       create_time = #{record.createTime,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=INTEGER},
       post_time = #{record.postTime,jdbcType=INTEGER},
+      poster = #{record.poster,jdbcType=VARCHAR},
+      poster_id = #{record.posterId,jdbcType=BIGINT},
       factor = #{record.factor,jdbcType=INTEGER},
       content = #{record.content,jdbcType=LONGVARCHAR},
       content_html = #{record.contentHtml,jdbcType=LONGVARCHAR},
@@ -420,6 +444,8 @@
       create_time = #{record.createTime,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=INTEGER},
       post_time = #{record.postTime,jdbcType=INTEGER},
+      poster = #{record.poster,jdbcType=VARCHAR},
+      poster_id = #{record.posterId,jdbcType=BIGINT},
       factor = #{record.factor,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -476,6 +502,12 @@
       <if test="postTime != null">
         post_time = #{postTime,jdbcType=INTEGER},
       </if>
+      <if test="poster != null">
+        poster = #{poster,jdbcType=VARCHAR},
+      </if>
+      <if test="posterId != null">
+        poster_id = #{posterId,jdbcType=BIGINT},
+      </if>
       <if test="factor != null">
         factor = #{factor,jdbcType=INTEGER},
       </if>
@@ -509,6 +541,8 @@
       create_time = #{createTime,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=INTEGER},
       post_time = #{postTime,jdbcType=INTEGER},
+      poster = #{poster,jdbcType=VARCHAR},
+      poster_id = #{posterId,jdbcType=BIGINT},
       factor = #{factor,jdbcType=INTEGER},
       content = #{content,jdbcType=LONGVARCHAR},
       content_html = #{contentHtml,jdbcType=LONGVARCHAR},
@@ -533,6 +567,8 @@
       create_time = #{createTime,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=INTEGER},
       post_time = #{postTime,jdbcType=INTEGER},
+      poster = #{poster,jdbcType=VARCHAR},
+      poster_id = #{posterId,jdbcType=BIGINT},
       factor = #{factor,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
