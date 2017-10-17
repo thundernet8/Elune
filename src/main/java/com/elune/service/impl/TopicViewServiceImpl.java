@@ -92,7 +92,8 @@ public class TopicViewServiceImpl implements TopicViewService {
             if (now - task.getWriteTime() > 60) {
 
                 Jedis jedis = redisManager.getJedis();
-                int count = Integer.valueOf(jedis.get(task.getKey()));
+                String cacheValue = jedis.get(task.getKey());
+                int count = cacheValue == null ? 0 : Integer.valueOf(cacheValue);
                 jedis.del(task.getKey());
                 redisManager.retureRes(jedis);
 
