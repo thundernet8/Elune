@@ -19,9 +19,7 @@
 
 package com.elune.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -32,6 +30,8 @@ import java.io.Serializable;
 @Builder
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class NamedUser extends User implements Serializable {
 
     private Pagination<Post> mentions;

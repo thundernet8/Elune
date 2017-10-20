@@ -19,15 +19,15 @@
 
 package com.elune.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 
 @Builder
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class LoginUser extends User implements Serializable {
 
     private int unreadCount;

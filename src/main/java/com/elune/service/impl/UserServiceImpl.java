@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
                 throw new HttpException("密码错误", 400);
             }
 
-            if (userEntity.getStatus() == UserStatus.DELETE) {
+            if (userEntity.getStatus().equals(UserStatus.DELETE)) {
 
                 throw new HttpException("你的账户已禁用", 403);
             }
