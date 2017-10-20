@@ -25,30 +25,28 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
+/**
+ * 访问用户主页请求的用户信息模型
+ */
+
 @Builder
 @Getter
 @Setter
-public class User implements Serializable {
+public class NamedUser extends User implements Serializable {
 
-    private long id;
+    private Pagination<Post> mentions;
 
-    private String username;
+    private Pagination<Topic> topics;
 
-    private String nickname;
+    private Pagination<Post> posts;
 
-    private String email;
+    /**
+     * 当前是否在线
+     */
+    private boolean online;
 
-    private int joinTime;
-
-    private int lastSeen;
-
-    private byte status;
-
-    private String bio;
-
-    private String avatar;
-
-    private String url;
-
-    private byte roleId;
+    /**
+     * 最后活跃时间
+     */
+    private int lastActive;
 }

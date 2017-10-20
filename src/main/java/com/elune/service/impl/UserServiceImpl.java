@@ -30,6 +30,7 @@ import com.elune.model.*;
 import com.elune.service.MailService;
 import com.elune.service.UserService;
 import com.elune.utils.DateUtil;
+import com.elune.utils.DozerMapperUtil;
 import com.elune.utils.EncryptUtil;
 import com.elune.utils.StringUtil;
 
@@ -100,7 +101,10 @@ public class UserServiceImpl implements UserService {
             // TODO update last seen
             // TODO update usermeta for login info
 
-            return LoginUser.builder().id(userEntity.getId()).username(userEntity.getUsername()).nickname(userEntity.getNickname()).email(userEntity.getEmail()).joinTime(userEntity.getJoinTime()).build();
+            LoginUser loginUser = DozerMapperUtil.map(userEntity, LoginUser.class);
+
+            // TODO add notifications field
+            return loginUser;
         } catch (Exception e) {
 
             log.error("User {} Login failed", loginModel.username, e);
@@ -172,7 +176,32 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByName(String username) {
-        return null;
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            UserEntity userEntity = mapper.selectByUsername(username);
+            if (userEntity == null) {
+
+                return null;
+            }
+
+            return assembleUser(userEntity);
+        }
+    }
+
+    @Override
+    public NamedUser getNamedUser(String username) {
+
+        User user = getUserByName(username);
+        if (user == null) {
+
+            return null;
+        }
+
+        NamedUser namedUser = DozerMapperUtil.map(user, NamedUser.class);
+        // TODO add more info
+        return namedUser;
     }
 
     @Override
@@ -298,8 +327,7 @@ public class UserServiceImpl implements UserService {
 
     private User assembleUser(UserEntity userEntity) {
 
-        // TODO more fields
-        return User.builder().id(userEntity.getId()).username(userEntity.getUsername()).nickname(userEntity.getNickname()).email(userEntity.getEmail()).joinTime(userEntity.getJoinTime()).build();
+        return DozerMapperUtil.map(userEntity, User.class);
     }
 
     private List<User> assembleUsers(List<UserEntity> userEntities) {

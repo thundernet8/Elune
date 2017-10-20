@@ -84,7 +84,7 @@ public class TopicViewServiceImpl implements TopicViewService {
         String cacheValue = jedis.get(task.getKey());
         int count = cacheValue == null ? 0 : Integer.valueOf(cacheValue);
 
-        if (count < 10) {
+        if (count < 2) {
 
             jedis.incrBy(task.getKey(), task.getViews());
         } else {

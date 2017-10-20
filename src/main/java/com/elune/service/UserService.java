@@ -44,6 +44,8 @@ public interface UserService {
 
     User getUserByEmail(String email);
 
+    NamedUser getNamedUser(String username);
+
     Map<String, Object> getUserInfo(long uid);
 
     /**
