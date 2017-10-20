@@ -155,10 +155,9 @@ public class UserServiceImpl implements UserService {
 
                 UserEntity userEntity = UserEntity.builder().username(username).nickname(username).password(md5Pass).email(email).joinTime(joinTime).build();
                 mapper.insertSelective(userEntity);
-                long uid = userEntity.getId();
                 sqlSession.commit();
 
-                User user = User.builder().id(uid).username(username).nickname(username).email(email).joinTime(joinTime).build();
+                User user = DozerMapperUtil.map(userEntity, User.class);
 
                 // 发送验证激活邮件
                 sendActivationEmail(user);

@@ -74,9 +74,9 @@ public class AuthController extends APIController{
 
             LoginUser user = userService.signin(loginModel);
             Session session = Request().session();
-            session.addAttribute("uid", user.id);
-            session.addAttribute("username", user.username);
-            session.addAttribute("email", user.email);
+            session.addAttribute("uid", user.getId());
+            session.addAttribute("username", user.getUsername());
+            session.addAttribute("email", user.getEmail());
             Map<String, Object> resp = new HashMap<>();
             resp.put("result", user);
             resp.put("msg", "登录成功");
