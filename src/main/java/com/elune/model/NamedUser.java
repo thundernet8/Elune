@@ -49,9 +49,4 @@ public class NamedUser extends User implements Serializable {
      * 当前是否在线
      */
     private boolean online;
-
-    /**
-     * 最后活跃时间
-     */
-    private int lastSeen;
 }
