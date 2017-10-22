@@ -75,6 +75,7 @@ public class UserController extends APIController {
             NamedUser namedUser = userService.getNamedUser(username);
             namedUser.setTopicsCount(topicService.countTopicsByAuthor(namedUser.getId()));
             namedUser.setPostsCount(postService.countPostsByAuthor(namedUser.getId()));
+            namedUser.setEmail(""); // 隐藏邮箱
             Succeed(namedUser);
         } catch (Exception e) {
 
