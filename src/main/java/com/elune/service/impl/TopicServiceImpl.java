@@ -211,6 +211,19 @@ public class TopicServiceImpl implements TopicService {
     }
 
     @Override
+    public long countTopicsByAuthor(long authorId) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
+            TopicEntityExample topicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            topicEntityExample.or().andAuthorIdEqualTo(authorId).andStatusEqualTo(Byte.valueOf("1"));
+
+            return mapper.countByExample(topicEntityExample);
+        }
+    }
+
+    @Override
     public boolean deleteTopic(long id) {
 
         TopicEntity topicEntity = TopicEntity.builder().id(id).status(Byte.parseByte("0")).build();

@@ -162,6 +162,19 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public long countPostsByAuthor(long authorId) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            PostMapper mapper = sqlSession.getMapper(PostMapper.class);
+            PostEntityExample postEntityExample = PostEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            postEntityExample.or().andAuthorIdEqualTo(authorId).andStatusEqualTo(Byte.valueOf("1"));
+
+            return mapper.countByExample(postEntityExample);
+        }
+    }
+
+    @Override
     public Pagination<Post> getTopicPosts(int page, int pageSize, long topicId, String orderClause) {
 
         try (SqlSession sqlSession = dbManager.getSqlSession()) {

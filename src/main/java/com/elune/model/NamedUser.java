@@ -34,11 +34,11 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class NamedUser extends User implements Serializable {
 
-    private Pagination<Post> mentions;
+    private long mentions;
 
-    private Pagination<Topic> topics;
+    private long topics;
 
-    private Pagination<Post> posts;
+    private long posts;
 
     /**
      * 当前是否在线

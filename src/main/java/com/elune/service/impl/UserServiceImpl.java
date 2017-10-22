@@ -28,6 +28,8 @@ import com.elune.entity.UserEntity;
 import com.elune.entity.UserEntityExample;
 import com.elune.model.*;
 import com.elune.service.MailService;
+import com.elune.service.PostService;
+import com.elune.service.TopicService;
 import com.elune.service.UserService;
 import com.elune.utils.DateUtil;
 import com.elune.utils.DozerMapperUtil;
@@ -56,6 +58,12 @@ public class UserServiceImpl implements UserService {
 
     @FromService
     private MailService mailService;
+
+    @FromService
+    private TopicService topicService;
+
+    @FromService
+    private PostService postService;
 
     @FromService
     private AppConfiguration appConfiguration;
@@ -199,6 +207,8 @@ public class UserServiceImpl implements UserService {
         }
 
         NamedUser namedUser = DozerMapperUtil.map(user, NamedUser.class);
+        namedUser.setTopics(topicService.countTopicsByAuthor(user.getId()));
+        namedUser.setPosts(postService.countPostsByAuthor(user.getId()));
         // TODO add more info
         return namedUser;
     }

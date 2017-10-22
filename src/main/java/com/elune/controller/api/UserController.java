@@ -20,6 +20,7 @@
 package com.elune.controller.api;
 
 import com.elune.dal.DBManager;
+import com.elune.model.NamedUser;
 import com.elune.model.User;
 import com.elune.service.UserService;
 
@@ -28,10 +29,10 @@ import com.fedepot.mvc.annotation.FromBody;
 import com.fedepot.mvc.annotation.HttpPost;
 import com.fedepot.mvc.annotation.Route;
 import com.fedepot.mvc.annotation.RoutePrefix;
-import com.fedepot.mvc.controller.Controller;
+import com.fedepot.mvc.controller.APIController;
 
-@RoutePrefix("api/users")
-public class UserController extends Controller {
+@RoutePrefix("api/v1/users")
+public class UserController extends APIController {
 
     private DBManager dbManager;
 
@@ -45,20 +46,30 @@ public class UserController extends Controller {
 
     @HttpPost
     @Route("{long:id}")
-    public String getUserDetail(long id) {
+    public void getUserDetail(long id) {
 
-        User user = userService.getUser(id);
+        try {
 
-        String message;
+            User user = userService.getUser(id);
+            Succeed(user);
+        } catch (Exception e) {
 
-        if (user == null) {
-
-            message = "User with id " + id + " is not exist";
-        } else {
-
-            message = "User detail name " + user.getNickname();
+            Fail(e);
         }
 
-        return message;
+    }
+
+    @HttpPost
+    @Route("name/{:username}")
+    public void getNamedUser(String username) {
+
+        try {
+
+            NamedUser namedUser = userService.getNamedUser(username);
+            Succeed(namedUser);
+        } catch (Exception e) {
+
+            Fail(e);
+        }
     }
 }

@@ -63,6 +63,8 @@ public interface TopicService {
 
     boolean toggleTopicComment(long id, boolean enable);
 
+    long countTopicsByAuthor(long authorId);
+
     /**
      * 分页查询话题
      *

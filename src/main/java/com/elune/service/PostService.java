@@ -38,6 +38,8 @@ public interface PostService {
 
     boolean deletePost(long id);
 
+    long countPostsByAuthor(long authorId);
+
     /**
      * 分页查询话题
      *
