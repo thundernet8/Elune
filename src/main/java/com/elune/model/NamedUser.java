@@ -36,9 +36,14 @@ public class NamedUser extends User implements Serializable {
 
     private long mentions;
 
-    private long topics;
+    private long topicsCount;
 
-    private long posts;
+    private long postsCount;
+
+    /**
+     * 只对当前用户自己返回的收藏话题计数
+     */
+    private long favoritesCount;
 
     /**
      * 当前是否在线
@@ -48,5 +53,5 @@ public class NamedUser extends User implements Serializable {
     /**
      * 最后活跃时间
      */
-    private int lastActive;
+    private int lastSeen;
 }
