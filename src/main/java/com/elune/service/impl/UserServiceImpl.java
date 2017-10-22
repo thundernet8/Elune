@@ -60,12 +60,6 @@ public class UserServiceImpl implements UserService {
     private MailService mailService;
 
     @FromService
-    private TopicService topicService;
-
-    @FromService
-    private PostService postService;
-
-    @FromService
     private AppConfiguration appConfiguration;
 
     private final Cache cache = Ehcache.newInstance("_USER_ACTIVATION_");
@@ -207,8 +201,7 @@ public class UserServiceImpl implements UserService {
         }
 
         NamedUser namedUser = DozerMapperUtil.map(user, NamedUser.class);
-        namedUser.setTopics(topicService.countTopicsByAuthor(user.getId()));
-        namedUser.setPosts(postService.countPostsByAuthor(user.getId()));
+
         // TODO add more info
         return namedUser;
     }

@@ -22,10 +22,11 @@ package com.elune.controller.api;
 import com.elune.dal.DBManager;
 import com.elune.model.NamedUser;
 import com.elune.model.User;
+import com.elune.service.PostService;
+import com.elune.service.TopicService;
 import com.elune.service.UserService;
 
 import com.fedepot.ioc.annotation.FromService;
-import com.fedepot.mvc.annotation.FromBody;
 import com.fedepot.mvc.annotation.HttpPost;
 import com.fedepot.mvc.annotation.Route;
 import com.fedepot.mvc.annotation.RoutePrefix;
@@ -38,6 +39,12 @@ public class UserController extends APIController {
 
     @FromService
     private UserService userService;
+
+    @FromService
+    private TopicService topicService;
+
+    @FromService
+    private PostService postService;
 
     public UserController(DBManager dbManager) {
 
@@ -66,6 +73,8 @@ public class UserController extends APIController {
         try {
 
             NamedUser namedUser = userService.getNamedUser(username);
+            namedUser.setTopicsCount(topicService.countTopicsByAuthor(namedUser.getId()));
+            namedUser.setPostsCount(postService.countPostsByAuthor(namedUser.getId()));
             Succeed(namedUser);
         } catch (Exception e) {
 
