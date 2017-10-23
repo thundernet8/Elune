@@ -86,14 +86,7 @@ public class PostServiceImpl implements PostService {
             mapper.insertSelective(postEntity);
             sqlSession.commit();
 
-            if (type == Byte.parseByte("1")) {
-
-                // 只有直接评论可以更新话题最后评论时间
-                topicService.lastReplayTopic(postCreationModel.topicId, author);
-            } else {
-
-                topicService.updateTopicPostsCount(postCreationModel.topicId);
-            }
+            topicService.lastReplayTopic(postCreationModel.topicId, author);
 
             // 对提及的用户发送邮件通知(TODO 添加用户notification)
             Arrays.stream(postCreationModel.mentions).forEach(mention -> {
