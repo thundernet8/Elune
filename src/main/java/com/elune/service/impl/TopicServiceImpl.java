@@ -280,6 +280,31 @@ public class TopicServiceImpl implements TopicService {
         }
     }
 
+    @Override
+    public Pagination<Topic> getUserTopics(int page, int pageSize, long authorId, String orderClause) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
+
+            TopicEntityExample topicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).offset((page - 1)*pageSize).limit(pageSize).orderByClause(orderClause).build();
+            Byte normalStatus = 1;
+            topicEntityExample.or().andAuthorIdEqualTo(authorId).andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
+            List<TopicEntity> topicEntities = mapper.selectByExampleWithBLOBs(topicEntityExample);
+            List<Topic> topics = assembleTopics(topicEntities);
+
+            long total = 0l;
+            if (page == 1) {
+                // 仅在第一页请求查询Total
+                TopicEntityExample countTopicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+                countTopicEntityExample.or().andAuthorIdEqualTo(authorId).andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
+                total = mapper.countByExample(countTopicEntityExample);
+            }
+
+            return new Pagination<>(total, page, pageSize, topics);
+        }
+    }
+
     private List<Topic> assembleTopics(List<TopicEntity> topicEntities) {
 
         List<Topic> topics = new ArrayList<>();

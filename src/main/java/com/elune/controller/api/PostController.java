@@ -86,7 +86,7 @@ public class PostController extends APIController {
 
     @HttpGet
     @Route("")
-    public void getPosts(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize, @QueryParam("topicId") String topicId, @QueryParam("order") String order, @QueryParam("orderBy") String orderBy) {
+    public void getPosts(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize, @QueryParam("topicId") String topicId, @QueryParam("authorId") String authorId, @QueryParam("order") String order, @QueryParam("orderBy") String orderBy) {
 
         if (order == null || !(order.toLowerCase().equals("asc"))) {
 
@@ -107,7 +107,14 @@ public class PostController extends APIController {
 
         try {
 
-            Pagination<Post> pagination = topicId == null ? postService.getPosts(page, pageSize, orderClause) : postService.getTopicPosts(page, pageSize, Integer.valueOf(topicId), orderClause);
+            Pagination<Post> pagination;
+            if (authorId != null) {
+                pagination = postService.getUserPosts(page, pageSize, Long.valueOf(authorId), orderClause);
+            } else if (topicId != null) {
+                pagination = postService.getTopicPosts(page, pageSize, Integer.valueOf(topicId), orderClause);
+            } else {
+                pagination = postService.getPosts(page, pageSize, orderClause);
+            }
             Succeed(pagination);
         } catch (Exception e) {
 

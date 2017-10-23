@@ -192,6 +192,31 @@ public class PostServiceImpl implements PostService {
         }
     }
 
+    @Override
+    public Pagination<Post> getUserPosts(int page, int pageSize, long authorId, String orderClause) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            PostMapper mapper = sqlSession.getMapper(PostMapper.class);
+
+            PostEntityExample postEntityExample = PostEntityExample.builder().oredCriteria(new ArrayList<>()).offset((page - 1) * pageSize).limit(pageSize).orderByClause(orderClause).build();
+            Byte normalStatus = 1;
+            postEntityExample.or().andAuthorIdEqualTo(authorId).andStatusEqualTo(normalStatus);
+            List<PostEntity> postEntities = mapper.selectByExampleWithBLOBs(postEntityExample);
+            List<Post> posts = assemblePosts(postEntities);
+
+            long total = 0l;
+            if (page == 1) {
+                // 仅第一页查询Total
+                PostEntityExample countPostEntityExample = PostEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+                countPostEntityExample.or().andAuthorIdEqualTo(authorId).andStatusEqualTo(normalStatus);
+                total = mapper.countByExample(countPostEntityExample);
+            }
+
+            return new Pagination<>(total, page ,pageSize, posts);
+        }
+    }
+
     private List<Post> assemblePosts(List<PostEntity> postEntities) {
 
         List<Post> posts = new ArrayList<>();

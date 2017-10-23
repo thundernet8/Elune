@@ -136,7 +136,7 @@ public class TopicController extends APIController {
 
     @HttpGet
     @Route("")
-    public void getTopics(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize, @QueryParam("channelId") String channelId, @QueryParam("order") String order, @QueryParam("orderBy") String orderBy) {
+    public void getTopics(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize, @QueryParam("channelId") String channelId, @QueryParam("authorId") String authorId, @QueryParam("order") String order, @QueryParam("orderBy") String orderBy) {
 
         if (order == null || !(order.toLowerCase().equals("asc"))) {
 
@@ -181,7 +181,15 @@ public class TopicController extends APIController {
 
         try {
 
-            Pagination<Topic> pagination = channelId == null ? topicService.getTopics(page, pageSize, orderClause) : topicService.getChannelTopics(page, pageSize, Integer.valueOf(channelId), orderClause);
+            Pagination<Topic> pagination;
+
+            if (authorId != null){
+                pagination = topicService.getUserTopics(page, pageSize, Long.valueOf(authorId), orderClause);
+            } else if (channelId != null) {
+                pagination = topicService.getChannelTopics(page, pageSize, Integer.valueOf(channelId), orderClause);
+            } else {
+                pagination = topicService.getTopics(page, pageSize, orderClause);
+            }
             Succeed(pagination);
         } catch (Exception e) {
 

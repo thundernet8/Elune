@@ -51,4 +51,6 @@ public interface PostService {
     Pagination<Post> getPosts(int page, int pageSize, String orderClause);
 
     Pagination<Post> getTopicPosts(int page, int pageSize, long topicId, String orderClause);
+
+    Pagination<Post> getUserPosts(int page, int pageSize, long authorId, String orderClause);
 }

@@ -76,4 +76,6 @@ public interface TopicService {
     Pagination<Topic> getTopics(int page, int pageSize, String orderClause);
 
     Pagination<Topic> getChannelTopics(int page, int pageSize, int channelId, String orderClause);
+
+    Pagination<Topic> getUserTopics(int page, int pageSize, long authorId, String orderClause);
 }
