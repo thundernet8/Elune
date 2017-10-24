@@ -141,7 +141,8 @@ public class TagServiceImpl implements TagService{
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             TagMapper tagMapper = sqlSession.getMapper(TagMapper.class);
-            TagEntityExample tagEntityExample = TagEntityExample.builder().build();
+            TagEntityExample tagEntityExample = TagEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            tagEntityExample.or().andIdIn(ids);
             return tagMapper.selectByExample(tagEntityExample).stream().map(x -> {
                 Tag tag = DozerMapperUtil.map(x, Tag.class);
                 tag.setLink("/tag/".concat(tag.getSlug()));

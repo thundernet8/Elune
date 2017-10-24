@@ -32,6 +32,9 @@ import com.fedepot.mvc.controller.APIController;
 
 import java.util.List;
 
+/**
+ * @author Touchumind
+ */
 @RoutePrefix("api/v1/channels")
 public class ChannelController extends APIController {
 

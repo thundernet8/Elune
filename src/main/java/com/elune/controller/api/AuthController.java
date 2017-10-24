@@ -31,6 +31,9 @@ import com.fedepot.mvc.http.Session;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Touchumind
+ */
 // TODO csrf header verify
 @RoutePrefix("api/v1")
 public class AuthController extends APIController{
@@ -56,7 +59,7 @@ public class AuthController extends APIController{
             session.addAttribute("uid", user.getId());
             session.addAttribute("username", user.getUsername());
             session.addAttribute("email", user.getEmail());
-            Map<String, Object> resp = new HashMap<>();
+            Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", user);
             resp.put("msg", "获取用户信息成功");
             Succeed(resp);
@@ -77,7 +80,7 @@ public class AuthController extends APIController{
             session.addAttribute("uid", user.getId());
             session.addAttribute("username", user.getUsername());
             session.addAttribute("email", user.getEmail());
-            Map<String, Object> resp = new HashMap<>();
+            Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", user);
             resp.put("msg", "登录成功");
             Succeed(resp);
@@ -98,7 +101,7 @@ public class AuthController extends APIController{
             session.addAttribute("uid", user.getId());
             session.addAttribute("username", user.getUsername());
             session.addAttribute("email", user.getEmail());
-            Map<String, Object> resp = new HashMap<>();
+            Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", user);
             resp.put("msg", "注册成功, 请检查你的邮箱并点击激活链接完成账户激活");
             Succeed(resp);

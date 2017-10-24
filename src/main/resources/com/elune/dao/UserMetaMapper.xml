@@ -5,9 +5,7 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="uid" jdbcType="BIGINT" property="uid" />
     <result column="key" jdbcType="VARCHAR" property="key" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.elune.entity.UsermetaEntity">
-    <result column="value" jdbcType="LONGVARCHAR" property="value" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,27 +66,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, uid, key
+    id, uid, key, value
   </sql>
-  <sql id="Blob_Column_List">
-    value
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.elune.entity.UsermetaEntityExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from t_usermeta
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="com.elune.entity.UsermetaEntityExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -111,11 +90,9 @@
       </if>
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
-    select
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from t_usermeta
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -130,9 +107,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.elune.entity.UsermetaEntity">
-    insert into t_usermeta (id, uid, key, value
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_usermeta (uid, key, value
       )
-    values (#{id,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT}, #{key,jdbcType=VARCHAR}, #{value,jdbcType=LONGVARCHAR}
+    values (#{uid,jdbcType=BIGINT}, #{key,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.elune.entity.UsermetaEntity">
@@ -141,9 +121,6 @@
     </selectKey>
     insert into t_usermeta
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="uid != null">
         uid,
       </if>
@@ -155,9 +132,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="uid != null">
         #{uid,jdbcType=BIGINT},
       </if>
@@ -165,7 +139,7 @@
         #{key,jdbcType=VARCHAR},
       </if>
       <if test="value != null">
-        #{value,jdbcType=LONGVARCHAR},
+        #{value,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -188,19 +162,9 @@
         key = #{record.key,jdbcType=VARCHAR},
       </if>
       <if test="record.value != null">
-        value = #{record.value,jdbcType=LONGVARCHAR},
+        value = #{record.value,jdbcType=VARCHAR},
       </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update t_usermeta
-    set id = #{record.id,jdbcType=BIGINT},
-      uid = #{record.uid,jdbcType=BIGINT},
-      key = #{record.key,jdbcType=VARCHAR},
-      value = #{record.value,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -209,7 +173,8 @@
     update t_usermeta
     set id = #{record.id,jdbcType=BIGINT},
       uid = #{record.uid,jdbcType=BIGINT},
-      key = #{record.key,jdbcType=VARCHAR}
+      key = #{record.key,jdbcType=VARCHAR},
+      value = #{record.value,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -224,22 +189,16 @@
         key = #{key,jdbcType=VARCHAR},
       </if>
       <if test="value != null">
-        value = #{value,jdbcType=LONGVARCHAR},
+        value = #{value,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.elune.entity.UsermetaEntity">
-    update t_usermeta
-    set uid = #{uid,jdbcType=BIGINT},
-      key = #{key,jdbcType=VARCHAR},
-      value = #{value,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.elune.entity.UsermetaEntity">
     update t_usermeta
     set uid = #{uid,jdbcType=BIGINT},
-      key = #{key,jdbcType=VARCHAR}
+      key = #{key,jdbcType=VARCHAR},
+      value = #{value,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

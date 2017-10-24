@@ -40,7 +40,7 @@ public class MainController extends Controller {
 
         String des = "Configuration factory Ok";
 
-        Map<String, Object> model = new HashMap<>();
+        Map<String, Object> model = new HashMap<>(2);
 
         model.put("name", name);
         model.put("des", des);

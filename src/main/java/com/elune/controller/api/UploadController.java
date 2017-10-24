@@ -39,6 +39,9 @@ import java.util.*;
 
 import static com.elune.constants.Constant.*;
 
+/**
+ * @author Touchumind
+ */
 @Slf4j
 @RoutePrefix("api/v1/upload")
 public class UploadController extends APIController{

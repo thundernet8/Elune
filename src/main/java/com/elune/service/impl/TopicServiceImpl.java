@@ -43,6 +43,9 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * @author Touchumind
+ */
 @Service
 @Slf4j
 public class TopicServiceImpl implements TopicService {
@@ -243,7 +246,7 @@ public class TopicServiceImpl implements TopicService {
             List<TopicEntity> topicEntities = mapper.selectByExampleWithBLOBs(topicEntityExample);
             List<Topic> topics = assembleTopics(topicEntities);
 
-            long total = 0l;
+            long total = 0L;
             if (page == 1) {
                 // 仅在第一页请求查询Total
                 TopicEntityExample countTopicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
@@ -268,7 +271,7 @@ public class TopicServiceImpl implements TopicService {
             List<TopicEntity> topicEntities = mapper.selectByExampleWithBLOBs(topicEntityExample);
             List<Topic> topics = assembleTopics(topicEntities);
 
-            long total = 0l;
+            long total = 0L;
             if (page == 1) {
                 // 仅在第一页请求查询Total
                 TopicEntityExample countTopicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
@@ -293,7 +296,7 @@ public class TopicServiceImpl implements TopicService {
             List<TopicEntity> topicEntities = mapper.selectByExampleWithBLOBs(topicEntityExample);
             List<Topic> topics = assembleTopics(topicEntities);
 
-            long total = 0l;
+            long total = 0L;
             if (page == 1) {
                 // 仅在第一页请求查询Total
                 TopicEntityExample countTopicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
@@ -302,6 +305,23 @@ public class TopicServiceImpl implements TopicService {
             }
 
             return new Pagination<>(total, page, pageSize, topics);
+        }
+    }
+
+    @Override
+    public List<Topic> getTopicsByIdList(List<Long> ids) {
+
+        if (ids.size() < 1) {
+
+            return Collections.emptyList();
+        }
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            TopicMapper topicMapper = sqlSession.getMapper(TopicMapper.class);
+            TopicEntityExample topicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            topicEntityExample.or().andIdIn(ids);
+            return assembleTopics(new ArrayList<>(topicMapper.selectByExample(topicEntityExample)));
         }
     }
 

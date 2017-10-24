@@ -32,6 +32,9 @@ import com.fedepot.mvc.annotation.Route;
 import com.fedepot.mvc.annotation.RoutePrefix;
 import com.fedepot.mvc.controller.APIController;
 
+/**
+ * @author Touchumind
+ */
 @RoutePrefix("api/v1/users")
 public class UserController extends APIController {
 

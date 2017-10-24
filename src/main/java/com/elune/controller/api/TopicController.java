@@ -38,6 +38,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * @author Touchumind
+ */
 @RoutePrefix("api/v1/topics")
 public class TopicController extends APIController {
 

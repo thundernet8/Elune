@@ -22,6 +22,8 @@ package com.elune.service;
 import com.elune.entity.UserEntity;
 import com.elune.model.*;
 
+import java.util.List;
+
 /**
  * @author Touchumind
  */
@@ -78,4 +80,6 @@ public interface TopicService {
     Pagination<Topic> getChannelTopics(int page, int pageSize, int channelId, String orderClause);
 
     Pagination<Topic> getUserTopics(int page, int pageSize, long authorId, String orderClause);
+
+    List<Topic> getTopicsByIdList(List<Long> ids);
 }

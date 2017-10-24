@@ -35,6 +35,9 @@ import com.fedepot.mvc.http.Session;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Touchumind
+ */
 @RoutePrefix("api/v1/posts")
 public class PostController extends APIController {
 
