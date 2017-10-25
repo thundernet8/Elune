@@ -234,7 +234,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean updateInfo(Map<String, Object> info) {
-        return false;
+
+        UserEntity userEntity = UserEntity.builder().id((Long)info.get("id")).build();
+        Object nickname = info.get("nickname");
+        if (nickname != null) {
+            userEntity.setNickname((String)nickname);
+        }
+        Object url = info.get("url");
+        if (url != null) {
+            userEntity.setUrl((String)url);
+        }
+        Object bio = info.get("bio");
+        if (bio != null) {
+            userEntity.setBio((String)bio);
+        }
+        Object avatar = info.get("avatar");
+        if (avatar != null) {
+            userEntity.setAvatar((String)avatar);
+        }
+        userEntity.setUpdateTime(DateUtil.getTimeStamp());
+
+        return updateUser(userEntity);
     }
 
     @Override
