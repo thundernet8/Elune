@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="com.elune.entity.UsermetaEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="uid" jdbcType="BIGINT" property="uid" />
-    <result column="key" jdbcType="VARCHAR" property="key" />
-    <result column="value" jdbcType="VARCHAR" property="value" />
+    <result column="meta_key" jdbcType="VARCHAR" property="metaKey" />
+    <result column="meta_value" jdbcType="VARCHAR" property="metaValue" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, uid, key, value
+    id, uid, meta_key, meta_value
   </sql>
   <select id="selectByExample" parameterType="com.elune.entity.UsermetaEntityExample" resultMap="BaseResultMap">
     select
@@ -107,39 +107,39 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.elune.entity.UsermetaEntity">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into t_usermeta (uid, key, value
-      )
-    values (#{uid,jdbcType=BIGINT}, #{key,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}
-      )
+    insert into t_usermeta (id, uid, meta_key, 
+      meta_value)
+    values (#{id,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT}, #{metaKey,jdbcType=VARCHAR}, 
+      #{metaValue,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.elune.entity.UsermetaEntity">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into t_usermeta
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="uid != null">
         uid,
       </if>
-      <if test="key != null">
-        key,
+      <if test="metaKey != null">
+        meta_key,
       </if>
-      <if test="value != null">
-        value,
+      <if test="metaValue != null">
+        meta_value,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
       <if test="uid != null">
         #{uid,jdbcType=BIGINT},
       </if>
-      <if test="key != null">
-        #{key,jdbcType=VARCHAR},
+      <if test="metaKey != null">
+        #{metaKey,jdbcType=VARCHAR},
       </if>
-      <if test="value != null">
-        #{value,jdbcType=VARCHAR},
+      <if test="metaValue != null">
+        #{metaValue,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -158,11 +158,11 @@
       <if test="record.uid != null">
         uid = #{record.uid,jdbcType=BIGINT},
       </if>
-      <if test="record.key != null">
-        key = #{record.key,jdbcType=VARCHAR},
+      <if test="record.metaKey != null">
+        meta_key = #{record.metaKey,jdbcType=VARCHAR},
       </if>
-      <if test="record.value != null">
-        value = #{record.value,jdbcType=VARCHAR},
+      <if test="record.metaValue != null">
+        meta_value = #{record.metaValue,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -173,8 +173,8 @@
     update t_usermeta
     set id = #{record.id,jdbcType=BIGINT},
       uid = #{record.uid,jdbcType=BIGINT},
-      key = #{record.key,jdbcType=VARCHAR},
-      value = #{record.value,jdbcType=VARCHAR}
+      meta_key = #{record.metaKey,jdbcType=VARCHAR},
+      meta_value = #{record.metaValue,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -185,11 +185,11 @@
       <if test="uid != null">
         uid = #{uid,jdbcType=BIGINT},
       </if>
-      <if test="key != null">
-        key = #{key,jdbcType=VARCHAR},
+      <if test="metaKey != null">
+        meta_key = #{metaKey,jdbcType=VARCHAR},
       </if>
-      <if test="value != null">
-        value = #{value,jdbcType=VARCHAR},
+      <if test="metaValue != null">
+        meta_value = #{metaValue,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -197,8 +197,8 @@
   <update id="updateByPrimaryKey" parameterType="com.elune.entity.UsermetaEntity">
     update t_usermeta
     set uid = #{uid,jdbcType=BIGINT},
-      key = #{key,jdbcType=VARCHAR},
-      value = #{value,jdbcType=VARCHAR}
+      meta_key = #{metaKey,jdbcType=VARCHAR},
+      meta_value = #{metaValue,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -85,7 +85,7 @@ public class UserMetaServiceImpl implements UserMetaService {
 
             UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
             UsermetaEntityExample entityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).build();
-            entityExample.or().andKeyEqualTo(usermetaEntity.getKey()).andUidEqualTo(usermetaEntity.getUid()).andValueEqualTo(usermetaEntity.getValue());
+            entityExample.or().andMetaKeyEqualTo(usermetaEntity.getMetaKey()).andUidEqualTo(usermetaEntity.getUid()).andMetaValueEqualTo(usermetaEntity.getMetaValue());
             return mapper.deleteByExample(entityExample) > 0;
         }
     }
@@ -96,16 +96,16 @@ public class UserMetaServiceImpl implements UserMetaService {
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
-            UsermetaEntityExample usermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).distinct(true).offset((page - 1) * pageSize).limit(pageSize).orderByClause("ID DESC").build();
-            usermetaEntityExample.or().andKeyEqualTo("favorites");
-            List<Long> topicIds = mapper.selectByExample(usermetaEntityExample).stream().map(x -> Long.valueOf(x.getValue())).collect(Collectors.toList());
+            UsermetaEntityExample usermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).distinct(true).offset((page - 1) * pageSize).limit(pageSize).orderByClause("id DESC").build();
+            usermetaEntityExample.or().andMetaKeyEqualTo("favorites");
+            List<Long> topicIds = mapper.selectByExample(usermetaEntityExample).stream().map(x -> Long.valueOf(x.getMetaValue())).collect(Collectors.toList());
             List<Topic> topics = topicService.getTopicsByIdList(topicIds);
 
             long total = 0L;
             if (page == 1) {
                 // 仅在第一页请求查询Total
                 UsermetaEntityExample countUsermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).distinct(true).build();
-                countUsermetaEntityExample.or().andKeyEqualTo("favorites");
+                countUsermetaEntityExample.or().andMetaKeyEqualTo("favorites");
                 total = mapper.countByExample(countUsermetaEntityExample);
             }
 
@@ -124,7 +124,7 @@ public class UserMetaServiceImpl implements UserMetaService {
                 return true;
             }
 
-            return this.createUsermeta(UsermetaEntity.builder().key("favorites").value(String.valueOf(topicId)).uid(userId).build()) > 0 && topicService.favoriteTopic(topicId);
+            return this.createUsermeta(UsermetaEntity.builder().metaKey("favorites").metaValue(String.valueOf(topicId)).uid(userId).build()) > 0 && topicService.favoriteTopic(topicId);
         }
     }
 
@@ -132,7 +132,7 @@ public class UserMetaServiceImpl implements UserMetaService {
     public boolean unfavoriteTopic(long userId, long topicId) {
 
         topicService.unfavoriteTopic(topicId);
-        return deleteUsermeta(UsermetaEntity.builder().key("favorites").value(String.valueOf(topicId)).uid(userId).build());
+        return deleteUsermeta(UsermetaEntity.builder().metaKey("favorites").metaValue(String.valueOf(topicId)).uid(userId).build());
     }
 
     private long countMetas(long userId, String key, String value) {
@@ -141,7 +141,7 @@ public class UserMetaServiceImpl implements UserMetaService {
 
             UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
             UsermetaEntityExample usermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).build();
-            usermetaEntityExample.or().andKeyEqualTo(key).andUidEqualTo(userId).andValueEqualTo(value);
+            usermetaEntityExample.or().andMetaKeyEqualTo(key).andUidEqualTo(userId).andMetaValueEqualTo(value);
 
             return mapper.countByExample(usermetaEntityExample);
         }
