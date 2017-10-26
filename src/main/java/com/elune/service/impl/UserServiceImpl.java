@@ -57,9 +57,6 @@ public class UserServiceImpl implements UserService {
     private MailService mailService;
 
     @FromService
-    private UserMetaService userMetaService;
-
-    @FromService
     private AppConfiguration appConfiguration;
 
     private final Cache cache = Ehcache.newInstance("_USER_ACTIVATION_");
@@ -310,9 +307,6 @@ public class UserServiceImpl implements UserService {
 
         User user = getUser(id);
         LoginUser loginUser = DozerMapperUtil.map(user, LoginUser.class);
-
-        loginUser.setFavoriteTopicIds(userMetaService.getFavoriteIds(id));
-        // TODO more fields
 
         return loginUser;
     }

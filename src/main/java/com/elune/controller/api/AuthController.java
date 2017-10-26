@@ -20,6 +20,7 @@
 package com.elune.controller.api;
 
 import com.elune.model.*;
+import com.elune.service.UserMetaService;
 import com.elune.service.UserService;
 
 import com.fedepot.exception.HttpException;
@@ -41,6 +42,9 @@ public class AuthController extends APIController{
     @FromService
     private UserService userService;
 
+    @FromService
+    private UserMetaService userMetaService;
+
     @HttpPost
     @Route("user/me")
     public void checkMe() {
@@ -54,7 +58,8 @@ public class AuthController extends APIController{
                 throw new HttpException("尚未登录", 200);
             }
 
-            User user = userService.getUser(uid);
+            LoginUser user = userService.getLoginUser(uid);
+            user.setFavoriteTopicIds(userMetaService.getFavoriteIds(uid));
 
             session.addAttribute("uid", user.getId());
             session.addAttribute("username", user.getUsername());
