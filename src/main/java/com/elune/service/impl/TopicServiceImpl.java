@@ -321,7 +321,7 @@ public class TopicServiceImpl implements TopicService {
             TopicMapper topicMapper = sqlSession.getMapper(TopicMapper.class);
             TopicEntityExample topicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
             topicEntityExample.or().andIdIn(ids);
-            return assembleTopics(new ArrayList<>(topicMapper.selectByExample(topicEntityExample)));
+            return assembleTopics(new ArrayList<>(topicMapper.selectByExampleWithBLOBs(topicEntityExample)));
         }
     }
 

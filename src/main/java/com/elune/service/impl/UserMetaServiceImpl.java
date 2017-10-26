@@ -96,9 +96,7 @@ public class UserMetaServiceImpl implements UserMetaService {
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
-            UsermetaEntityExample usermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).distinct(true).offset((page - 1) * pageSize).limit(pageSize).orderByClause("id DESC").build();
-            usermetaEntityExample.or().andMetaKeyEqualTo("favorites");
-            List<Long> topicIds = mapper.selectByExample(usermetaEntityExample).stream().map(x -> Long.valueOf(x.getMetaValue())).collect(Collectors.toList());
+            List<Long> topicIds = getFavoriteIds(uid);
             List<Topic> topics = topicService.getTopicsByIdList(topicIds);
 
             long total = 0L;
@@ -110,6 +108,19 @@ public class UserMetaServiceImpl implements UserMetaService {
             }
 
             return new Pagination<>(total, page, pageSize, topics);
+
+        }
+    }
+
+    @Override
+    public List<Long> getFavoriteIds(long uid) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
+            UsermetaEntityExample usermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).distinct(true).orderByClause("id DESC").build();
+            usermetaEntityExample.or().andMetaKeyEqualTo("favorites");
+            return mapper.selectByExample(usermetaEntityExample).stream().map(x -> Long.valueOf(x.getMetaValue())).collect(Collectors.toList());
 
         }
     }

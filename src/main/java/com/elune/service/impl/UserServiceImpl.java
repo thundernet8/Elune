@@ -27,10 +27,7 @@ import com.elune.dao.UserMapper;
 import com.elune.entity.UserEntity;
 import com.elune.entity.UserEntityExample;
 import com.elune.model.*;
-import com.elune.service.MailService;
-import com.elune.service.PostService;
-import com.elune.service.TopicService;
-import com.elune.service.UserService;
+import com.elune.service.*;
 import com.elune.utils.DateUtil;
 import com.elune.utils.DozerMapperUtil;
 import com.elune.utils.EncryptUtil;
@@ -58,6 +55,9 @@ public class UserServiceImpl implements UserService {
 
     @FromService
     private MailService mailService;
+
+    @FromService
+    private UserMetaService userMetaService;
 
     @FromService
     private AppConfiguration appConfiguration;
@@ -303,6 +303,18 @@ public class UserServiceImpl implements UserService {
 
             return assembleUser(userEntity);
         }
+    }
+
+    @Override
+    public LoginUser getLoginUser(long id) {
+
+        User user = getUser(id);
+        LoginUser loginUser = DozerMapperUtil.map(user, LoginUser.class);
+
+        loginUser.setFavoriteTopicIds(userMetaService.getFavoriteIds(id));
+        // TODO more fields
+
+        return loginUser;
     }
 
     @Override

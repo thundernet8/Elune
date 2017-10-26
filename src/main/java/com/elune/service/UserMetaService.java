@@ -23,6 +23,8 @@ import com.elune.entity.UsermetaEntity;
 import com.elune.model.Pagination;
 import com.elune.model.Topic;
 
+import java.util.List;
+
 /**
  * @author Touchumind
  */
@@ -35,6 +37,8 @@ public interface UserMetaService {
     boolean deleteUsermeta(UsermetaEntity usermetaEntity);
 
     Pagination<Topic> getFavorites(long uid, int page, int pageSize);
+
+    List<Long> getFavoriteIds(long uid);
 
     boolean favoriteTopic(long userId, long topicId);
 

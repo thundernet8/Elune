@@ -36,6 +36,8 @@ public interface UserService {
 
     User getUser(long id);
 
+    LoginUser getLoginUser(long id);
+
     List<User> getUsersByIdList(List<Long> ids);
 
     UserEntity getUserEntity(long id);

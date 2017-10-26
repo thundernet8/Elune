@@ -22,6 +22,7 @@ package com.elune.model;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Builder
 @Getter
@@ -33,4 +34,6 @@ public class LoginUser extends User implements Serializable {
     private int unreadCount;
 
     private Pagination<Notification> unreadNotifications;
+
+    private List<Long> favoriteTopicIds;
 }
