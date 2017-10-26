@@ -26,12 +26,17 @@ import com.elune.service.TopicService;
 import com.elune.service.UserMetaService;
 import com.elune.service.UserService;
 
+import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.mvc.annotation.FromBody;
 import com.fedepot.mvc.annotation.HttpPost;
 import com.fedepot.mvc.annotation.Route;
 import com.fedepot.mvc.annotation.RoutePrefix;
 import com.fedepot.mvc.controller.APIController;
+import com.fedepot.mvc.http.Session;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Touchumind
@@ -87,6 +92,30 @@ public class UserController extends APIController {
             Succeed(namedUser);
         } catch (Exception e) {
 
+            Fail(e);
+        }
+    }
+
+    @HttpPost
+    @Route("profile")
+    public void updateUserProfile(@FromBody UserProfileSetting userProfileSetting) {
+
+        Session session = Request().session();
+        long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+        if (uid < 1) {
+
+            throw new HttpException("尚未登录, 不能更新资料", 401);
+        }
+
+        try {
+
+            Map<String, Object> updateInfo = new HashMap<>(2);
+            updateInfo.put("id", uid);
+            updateInfo.put("nickname", userProfileSetting.nickname);
+            updateInfo.put("url", userProfileSetting.url);
+            updateInfo.put("bio", userProfileSetting.bio);
+            Succeed(userService.updateInfo(updateInfo));
+        } catch (Exception e) {
             Fail(e);
         }
     }
