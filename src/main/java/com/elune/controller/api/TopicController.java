@@ -27,6 +27,7 @@ import com.elune.model.TopicUpdateModel;
 import com.elune.service.TopicService;
 
 import com.elune.service.TopicViewService;
+import com.elune.service.UserMetaService;
 import com.elune.service.UserService;
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
@@ -52,6 +53,9 @@ public class TopicController extends APIController {
 
     @FromService
     private TopicViewService topicViewService;
+
+    @FromService
+    private UserMetaService userMetaService;
 
     @HttpPost
     @Route("")
@@ -196,6 +200,46 @@ public class TopicController extends APIController {
             Succeed(pagination);
         } catch (Exception e) {
 
+            Fail(e);
+        }
+    }
+
+    @HttpPost
+    @Route("{long:id}/favorites")
+    public void favoriteTopic(long id) {
+
+        Session session = Request().session();
+        long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+        if (uid < 1) {
+
+            throw new HttpException("你必须登录才能收藏话题", 401);
+        }
+
+        try {
+
+            boolean result = topicService.favoriteTopic(id) && userMetaService.favoriteTopic(uid, id);
+            Succeed(result);
+        } catch (Exception e) {
+            Fail(e);
+        }
+    }
+
+    @HttpDelete
+    @Route("{long:id}/favorites")
+    public void unFavoriteTopic(long id) {
+
+        Session session = Request().session();
+        long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+        if (uid < 1) {
+
+            throw new HttpException("你必须登录才能取消收藏话题", 401);
+        }
+
+        try {
+
+            boolean result = topicService.unfavoriteTopic(id) && userMetaService.unfavoriteTopic(uid, id);
+            Succeed(result);
+        } catch (Exception e) {
             Fail(e);
         }
     }
