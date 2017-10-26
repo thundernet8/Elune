@@ -24,6 +24,10 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
+/**
+ * @author Touchumind
+ */
+
 @Getter
 @Setter
 public class User implements Serializable {

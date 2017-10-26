@@ -23,6 +23,7 @@ import com.elune.dal.DBManager;
 import com.elune.model.*;
 import com.elune.service.PostService;
 import com.elune.service.TopicService;
+import com.elune.service.UserMetaService;
 import com.elune.service.UserService;
 
 import com.fedepot.ioc.annotation.FromService;
@@ -39,6 +40,9 @@ import com.fedepot.mvc.controller.APIController;
 public class UserController extends APIController {
 
     private DBManager dbManager;
+
+    @FromService
+    private UserMetaService userMetaService;
 
     @FromService
     private UserService userService;
@@ -78,6 +82,7 @@ public class UserController extends APIController {
             NamedUser namedUser = userService.getNamedUser(namedUserFetchModel.username);
             namedUser.setTopicsCount(topicService.countTopicsByAuthor(namedUser.getId()));
             namedUser.setPostsCount(postService.countPostsByAuthor(namedUser.getId()));
+            namedUser.setFavoritesCount(userMetaService.countFavorites(namedUser.getId()));
             namedUser.setEmail("");
             Succeed(namedUser);
         } catch (Exception e) {

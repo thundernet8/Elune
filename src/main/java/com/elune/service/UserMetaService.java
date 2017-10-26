@@ -40,6 +40,8 @@ public interface UserMetaService {
 
     List<Long> getFavoriteIds(long uid);
 
+    Long countFavorites(long uid);
+
     boolean favoriteTopic(long userId, long topicId);
 
     boolean unfavoriteTopic(long userId, long topicId);

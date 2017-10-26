@@ -126,6 +126,19 @@ public class UserMetaServiceImpl implements UserMetaService {
     }
 
     @Override
+    public Long countFavorites(long uid) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
+            UsermetaEntityExample usermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).distinct(true).orderByClause("id DESC").build();
+            usermetaEntityExample.or().andMetaKeyEqualTo("favorites");
+            return mapper.countByExample(usermetaEntityExample);
+
+        }
+    }
+
+    @Override
     public boolean favoriteTopic(long userId, long topicId) {
 
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
