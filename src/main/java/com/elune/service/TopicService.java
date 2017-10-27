@@ -49,6 +49,8 @@ public interface TopicService {
 
     boolean upvoteTopic(long id);
 
+    boolean cancelUpvoteTopic(long id);
+
     boolean downvoteTopic(long id);
 
     boolean favoriteTopic(long id);

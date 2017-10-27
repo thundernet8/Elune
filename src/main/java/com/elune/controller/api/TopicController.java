@@ -243,4 +243,44 @@ public class TopicController extends APIController {
             Fail(e);
         }
     }
+
+    @HttpPost
+    @Route("{long:id}/likes")
+    public void likeTopic(long id) {
+
+        Session session = Request().session();
+        long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+        if (uid < 1) {
+
+            throw new HttpException("你必须登录才能点赞话题", 401);
+        }
+
+        try {
+
+            boolean result = topicService.upvoteTopic(id);
+            Succeed(result);
+        } catch (Exception e) {
+            Fail(e);
+        }
+    }
+
+    @HttpDelete
+    @Route("{long:id}/likes")
+    public void unLikeTopic(long id) {
+
+        Session session = Request().session();
+        long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+        if (uid < 1) {
+
+            throw new HttpException("你必须登录才能取消点赞话题", 401);
+        }
+
+        try {
+
+            boolean result = topicService.cancelUpvoteTopic(id);
+            Succeed(result);
+        } catch (Exception e) {
+            Fail(e);
+        }
+    }
 }
