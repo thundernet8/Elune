@@ -217,7 +217,7 @@ public class TopicController extends APIController {
 
         try {
 
-            boolean result = topicService.favoriteTopic(id) && userMetaService.favoriteTopic(uid, id);
+            boolean result = userMetaService.favoriteTopic(uid, id) && topicService.favoriteTopic(id);
             Succeed(result);
         } catch (Exception e) {
             Fail(e);
@@ -237,7 +237,7 @@ public class TopicController extends APIController {
 
         try {
 
-            boolean result = topicService.unfavoriteTopic(id) && userMetaService.unfavoriteTopic(uid, id);
+            boolean result = userMetaService.unfavoriteTopic(uid, id) && topicService.unfavoriteTopic(id);
             Succeed(result);
         } catch (Exception e) {
             Fail(e);

@@ -148,14 +148,13 @@ public class UserMetaServiceImpl implements UserMetaService {
                 return true;
             }
 
-            return this.createUsermeta(UsermetaEntity.builder().metaKey("favorites").metaValue(String.valueOf(topicId)).uid(userId).build()) > 0 && topicService.favoriteTopic(topicId);
+            return this.createUsermeta(UsermetaEntity.builder().metaKey("favorites").metaValue(String.valueOf(topicId)).uid(userId).build()) > 0;
         }
     }
 
     @Override
     public boolean unfavoriteTopic(long userId, long topicId) {
 
-        topicService.unfavoriteTopic(topicId);
         return deleteUsermeta(UsermetaEntity.builder().metaKey("favorites").metaValue(String.valueOf(topicId)).uid(userId).build());
     }
 

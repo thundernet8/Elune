@@ -21,7 +21,6 @@ package com.elune.controller.api;
 
 import com.elune.dal.DBManager;
 
-import com.elune.model.FavoriteCreationModel;
 import com.elune.service.UserMetaService;
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
@@ -59,46 +58,6 @@ public class UserMetaController extends APIController {
             }
 
             Succeed(userMetaService.getFavorites(uid, page, pageSize));
-        } catch (Exception e) {
-
-            Fail(e);
-        }
-    }
-
-    @HttpPost
-    @Route("favorites")
-    public void addFavorites(@FromBody FavoriteCreationModel favoriteCreationModel) {
-
-        try {
-
-            Session session = Request().session();
-            long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
-
-            if (uid < 1) {
-                throw new HttpException("尚未登录", 401);
-            }
-
-            Succeed(userMetaService.favoriteTopic(uid, favoriteCreationModel.topicId));
-        } catch (Exception e) {
-
-            Fail(e);
-        }
-    }
-
-    @HttpDelete
-    @Route("favorites/{long:id}")
-    public void deleteFavorite(long id) {
-
-        try {
-
-            Session session = Request().session();
-            long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
-
-            if (uid < 1) {
-                throw new HttpException("尚未登录", 401);
-            }
-
-            Succeed(userMetaService.unfavoriteTopic(uid, id));
         } catch (Exception e) {
 
             Fail(e);
