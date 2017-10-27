@@ -240,39 +240,19 @@
   <insert id="batchInsertSelective" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
     insert into t_tag
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="title != null">
         title,
-      </if>
-      <if test="slug != null">
         slug,
-      </if>
-      <if test="topicsCount != null">
         topics_count,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
+        create_time
     </trim>
     values
-    <foreach collection="list" item="tag" index="index" separator=",">
-      (<if test="id != null">
-        #{item.id,jdbcType=INTEGER},
-      </if>
-      <if test="title != null">
+    <foreach collection="list" item="item" index="index" separator=",">
+      (
         #{item.title,jdbcType=VARCHAR},
-      </if>
-      <if test="slug != null">
         #{item.slug,jdbcType=VARCHAR},
-      </if>
-      <if test="topicsCount != null">
         #{item.topicsCount,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null">
-        #{item.createTime,jdbcType=INTEGER},
-      </if>)
+        #{item.createTime,jdbcType=INTEGER}
+      )
     </foreach>
   </insert>
 </mapper>

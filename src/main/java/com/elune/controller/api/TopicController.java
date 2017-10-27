@@ -20,24 +20,16 @@
 package com.elune.controller.api;
 
 import com.elune.entity.UserEntity;
-import com.elune.model.Pagination;
-import com.elune.model.Topic;
-import com.elune.model.TopicCreationModel;
-import com.elune.model.TopicUpdateModel;
-import com.elune.service.TopicService;
+import com.elune.model.*;
+import com.elune.service.*;
 
-import com.elune.service.TopicViewService;
-import com.elune.service.UserMetaService;
-import com.elune.service.UserService;
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.mvc.annotation.*;
 import com.fedepot.mvc.controller.APIController;
 import com.fedepot.mvc.http.Session;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Touchumind
@@ -56,6 +48,9 @@ public class TopicController extends APIController {
 
     @FromService
     private UserMetaService userMetaService;
+
+    @FromService
+    private TagService tagService;
 
     @HttpPost
     @Route("")
@@ -279,6 +274,24 @@ public class TopicController extends APIController {
 
             boolean result = topicService.cancelUpvoteTopic(id);
             Succeed(result);
+        } catch (Exception e) {
+            Fail(e);
+        }
+    }
+
+    @HttpPost
+    @Route("tags")
+    public void createTags() {
+
+        try {
+            List<TagCreationModel> tags = new ArrayList<>();
+            TagCreationModel tag1 = new TagCreationModel();
+            tag1.title = "tag1";
+            tag1.slug = "tag2";
+            tag1.topicsCount = 1;
+            tag1.createTime = 1;
+            tags.add(tag1);
+            Succeed(tagService.createTags(tags));
         } catch (Exception e) {
             Fail(e);
         }

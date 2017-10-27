@@ -77,7 +77,7 @@ public class TagServiceImpl implements TagService{
         List<TagEntity> tagEntities = new ArrayList<>();
         tagCreationModels.forEach(tagCreationModel -> {
 
-            TagEntity tagEntity = TagEntity.builder().title(tagCreationModel.title).slug(tagCreationModel.slug).createTime(now).build();
+            TagEntity tagEntity = TagEntity.builder().title(tagCreationModel.title).slug(tagCreationModel.slug).topicsCount(1).createTime(now).build();
             tagEntities.add(tagEntity);
         });
 
