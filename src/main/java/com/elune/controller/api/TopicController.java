@@ -23,11 +23,14 @@ import com.elune.entity.UserEntity;
 import com.elune.model.*;
 import com.elune.service.*;
 
+import com.elune.utils.StringUtil;
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.mvc.annotation.*;
 import com.fedepot.mvc.controller.APIController;
 import com.fedepot.mvc.http.Session;
+import com.hankcs.hanlp.HanLP;
+import com.hankcs.hanlp.dictionary.py.Pinyin;
 
 import java.util.*;
 
@@ -79,7 +82,11 @@ public class TopicController extends APIController {
 
             long createResult = topicService.createTopic(author, topicCreationModel);
 
-            Map<String, Object> resp = new HashMap<>();
+            // 创建标签
+            List<TagCreationModel> tags = StringUtil.getTagsFromContent(topicCreationModel.content, 5);
+            tagService.createTags(tags, createResult);
+
+            Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", createResult);
             resp.put("msg", "话题创建成功");
             Succeed(resp);
@@ -274,26 +281,6 @@ public class TopicController extends APIController {
 
             boolean result = topicService.cancelUpvoteTopic(id);
             Succeed(result);
-        } catch (Exception e) {
-            Fail(e);
-        }
-    }
-
-    @HttpPost
-    @Route("tags")
-    public void createTags() {
-
-        try {
-            List<TagCreationModel> tags = new ArrayList<>();
-            TagCreationModel tag1 = new TagCreationModel();
-            tag1.title = "tag5";
-            tag1.slug = "tagslug";
-            TagCreationModel tag2 = new TagCreationModel();
-            tag2.title = "tag6";
-            tag2.slug = "tagslug";
-            tags.add(tag1);
-            tags.add(tag2);
-            Succeed(tagService.createTags(tags, 1));
         } catch (Exception e) {
             Fail(e);
         }

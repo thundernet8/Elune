@@ -19,11 +19,19 @@
 
 package com.elune.utils;
 
+import com.elune.model.TagCreationModel;
+import com.hankcs.hanlp.HanLP;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.stream.Collectors;
 
 public final class StringUtil {
+
+    private static Pattern chinesePattern = Pattern.compile("[\\u4E00-\\u9FBF]+");
 
     public static boolean isEmail(String email) {
 
@@ -57,5 +65,24 @@ public final class StringUtil {
     public static String genRandLatinString(int length) {
 
         return genRandString(length, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    }
+
+    public static boolean hasChineseByReg(String str) {
+
+        return str != null && chinesePattern.matcher(str).find();
+    }
+
+    public static List<TagCreationModel> getTagsFromContent(String content, int count) {
+
+        List<String> tagTitles = HanLP.extractKeyword(content, count).stream().distinct().collect(Collectors.toList());
+        List<TagCreationModel> tagCreationModels = new ArrayList<>(tagTitles.size());
+        tagTitles.forEach(title -> {
+            TagCreationModel model = new TagCreationModel();
+            model.title = title;
+            model.slug = hasChineseByReg(title) ? HanLP.convertToPinyinString(title, "", false) : title;
+            tagCreationModels.add(model);
+        });
+
+        return tagCreationModels;
     }
 }
