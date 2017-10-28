@@ -24,6 +24,7 @@ import com.elune.dao.TagMapper;
 import com.elune.dao.TagRelationMapper;
 import com.elune.entity.*;
 import com.elune.model.*;
+import com.elune.service.TagRelationService;
 import com.elune.service.TagService;
 import com.elune.utils.DateUtil;
 import com.elune.utils.DozerMapperUtil;
@@ -45,6 +46,9 @@ public class TagServiceImpl implements TagService{
     @FromService
     private DBManager dbManager;
 
+    @FromService
+    private TagRelationService tagRelationService;
+
     @Override
     public Tag getTag(int id) {
 
@@ -65,13 +69,13 @@ public class TagServiceImpl implements TagService{
     }
 
     @Override
-    public int createTag(TagCreationModel tagCreationModel) {
+    public int createTag(TagCreationModel tagCreationModel, long topicId) {
 
-        return createTags(Collections.singletonList(tagCreationModel)).get(0);
+        return createTags(Collections.singletonList(tagCreationModel), topicId).get(0);
     }
 
     @Override
-    public List<Integer> createTags(List<TagCreationModel> tagCreationModels) {
+    public List<Integer> createTags(List<TagCreationModel> tagCreationModels, long topicId) {
 
         Integer now = DateUtil.getTimeStamp();
         List<TagEntity> tagEntities = new ArrayList<>();
@@ -84,10 +88,14 @@ public class TagServiceImpl implements TagService{
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             TagMapper mapper = sqlSession.getMapper(TagMapper.class);
-            mapper.batchInsertSelective(tagEntities);
+            tagEntities.forEach(mapper::insertOrUpdateSelective);
             sqlSession.commit();
 
-            return tagEntities.stream().map(TagEntity::getId).collect(Collectors.toList());
+            List<Integer> ids = tagEntities.stream().map(TagEntity::getId).collect(Collectors.toList());
+
+            tagRelationService.createTagRelations(topicId, ids);
+
+            return ids;
         } catch (Exception e) {
 
             log.error("Batch insert tags failed", e);

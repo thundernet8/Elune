@@ -201,4 +201,20 @@
       create_time = #{createTime,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <insert id="batchInsertSelective" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+    insert into t_tagrelation
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      tag_id,
+      topic_id,
+      create_time
+    </trim>
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (
+      #{item.tagId,jdbcType=INTEGER},
+      #{item.topicId,jdbcType=BIGINT},
+      #{item.createTime,jdbcType=INTEGER}
+      )
+    </foreach>
+  </insert>
 </mapper>

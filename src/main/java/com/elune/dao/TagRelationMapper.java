@@ -27,4 +27,6 @@ public interface TagRelationMapper {
     int updateByPrimaryKeySelective(TagRelationEntity record);
 
     int updateByPrimaryKey(TagRelationEntity record);
+
+    void batchInsertSelective(List<TagRelationEntity> tagRelationEntities);
 }

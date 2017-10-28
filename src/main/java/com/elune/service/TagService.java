@@ -30,9 +30,9 @@ public interface TagService {
 
     Tag getTag(int id);
 
-    int createTag(TagCreationModel tagCreationModel);
+    int createTag(TagCreationModel tagCreationModel, long topicId);
 
-    List<Integer> createTags(List<TagCreationModel> tagCreationModels);
+    List<Integer> createTags(List<TagCreationModel> tagCreationModels, long topicId);
 
     boolean deleteTag(int id);
 

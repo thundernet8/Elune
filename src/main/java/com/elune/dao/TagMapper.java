@@ -52,4 +52,6 @@ public interface TagMapper {
     int decreaseByPrimaryKeySelective(TagEntity record);
 
     void batchInsertSelective(List<TagEntity> tagEntities);
+
+    int insertOrUpdateSelective(TagEntity tagEntity);
 }

@@ -286,12 +286,14 @@ public class TopicController extends APIController {
         try {
             List<TagCreationModel> tags = new ArrayList<>();
             TagCreationModel tag1 = new TagCreationModel();
-            tag1.title = "tag1";
-            tag1.slug = "tag2";
-            tag1.topicsCount = 1;
-            tag1.createTime = 1;
+            tag1.title = "tag5";
+            tag1.slug = "tagslug";
+            TagCreationModel tag2 = new TagCreationModel();
+            tag2.title = "tag6";
+            tag2.slug = "tagslug";
             tags.add(tag1);
-            Succeed(tagService.createTags(tags));
+            tags.add(tag2);
+            Succeed(tagService.createTags(tags, 1));
         } catch (Exception e) {
             Fail(e);
         }

@@ -255,4 +255,42 @@
       )
     </foreach>
   </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.elune.entity.TagEntity" useGeneratedKeys="true" keyProperty="id">
+    insert into t_tag
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="slug != null">
+        slug,
+      </if>
+      <if test="topicsCount != null">
+        topics_count,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="slug != null">
+        #{slug,jdbcType=VARCHAR},
+      </if>
+      <if test="topicsCount != null">
+        #{topicsCount,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+    on duplicate key update id = LAST_INSERT_ID(id), topics_count = topics_count + 1
+  </insert>
 </mapper>
