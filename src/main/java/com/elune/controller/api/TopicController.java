@@ -23,6 +23,7 @@ import com.elune.entity.UserEntity;
 import com.elune.model.*;
 import com.elune.service.*;
 
+import com.elune.utils.DateUtil;
 import com.elune.utils.StringUtil;
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
@@ -104,11 +105,36 @@ public class TopicController extends APIController {
 
         try {
 
+            Session session = Request().session();
+            long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+            if (uid < 1) {
+
+                throw new HttpException("你必须登录才能更新话题", 401);
+            }
+
+            UserEntity user = userService.getUserEntity(uid);
+
+            if (user == null || user.getStatus().equals(Byte.valueOf("0")) || user.getRoleId() > 10) {
+
+                throw new HttpException("你没有权限更新话题", 403);
+            }
+
+            Topic topic = topicService.getTopic(id);
+            if (topic == null || topic.getStatus().equals(Byte.valueOf("0"))) {
+
+                throw new Exception("话题不存在");
+            }
+
+            if (user.getRoleId() > 2 && DateUtil.getTimeStamp() - topic.getCreateTime() > 3600) {
+
+                throw new Exception("话题创建超过1小时，不能重新编辑");
+            }
+
             boolean updateResult = topicService.updateTopic(topicUpdateModel);
 
             if (updateResult) {
 
-                Map<String, Object> resp = new HashMap<>();
+                Map<String, Object> resp = new HashMap<>(2);
                 resp.put("result", true);
                 resp.put("msg", "话题更新成功");
                 Succeed(resp);

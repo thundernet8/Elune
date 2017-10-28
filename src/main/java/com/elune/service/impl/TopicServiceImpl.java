@@ -107,7 +107,7 @@ public class TopicServiceImpl implements TopicService {
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
-            TopicEntity topicEntity = TopicEntity.builder().id(topicUpdateModel.id).title(topicUpdateModel.title).content(topicUpdateModel.content).contentHtml(topicUpdateModel.contentHtml).contentRaw(topicUpdateModel.contentRaw).updateTime(DateUtil.getTimeStamp()).build();
+            TopicEntity topicEntity = TopicEntity.builder().id(topicUpdateModel.id).title(topicUpdateModel.title).cid(topicUpdateModel.channelId).content(topicUpdateModel.content).contentHtml(topicUpdateModel.contentHtml).contentRaw(topicUpdateModel.contentRaw).updateTime(DateUtil.getTimeStamp()).build();
             int update = mapper.updateByPrimaryKeySelective(topicEntity);
             sqlSession.commit();
 
