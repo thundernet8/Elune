@@ -142,14 +142,15 @@ public class UserController extends APIController {
             int balance = balanceMeta != null ? Integer.valueOf(balanceMeta.getMetaValue()) : 0;
             Random random = new Random(DateUtil.getTimeStamp() % 50);
 
-            int newBalance = balance + random.nextInt(50) + 1;
+            int change = random.nextInt(50) + 1;
+            int newBalance = balance + change;
 
             userMetaService.createOrUpdateUsermeta(uid, "balance", Integer.toString(newBalance));
             userMetaService.createOrUpdateUsermeta(uid, "dailySign", Integer.toString(DateUtil.getTimeStamp()));
 
             Map<String, Object> resp = new HashMap<>(2);
             resp.put("msg", "签到成功, 获得 " + newBalance + " 铜币");
-            resp.put("result", newBalance);
+            resp.put("result", change);
             Succeed(resp);
         } catch (Exception e) {
 
