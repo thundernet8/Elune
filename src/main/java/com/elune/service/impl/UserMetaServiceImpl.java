@@ -117,7 +117,7 @@ public class UserMetaServiceImpl implements UserMetaService {
 
             UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
             UsermetaEntityExample usermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).distinct(true).orderByClause("id DESC").build();
-            usermetaEntityExample.or().andMetaKeyEqualTo(metaKey);
+            usermetaEntityExample.or().andUidEqualTo(uid).andMetaKeyEqualTo(metaKey);
 
             return mapper.selectByExample(usermetaEntityExample);
         }
@@ -205,6 +205,15 @@ public class UserMetaServiceImpl implements UserMetaService {
         UsermetaEntity balanceMeta = getSingleUsermeta(uid, "balance");
 
         return balanceMeta != null ? Integer.valueOf(balanceMeta.getMetaValue()) : 0;
+    }
+
+    @Override
+    public boolean changeBalance(long uid, int change) {
+
+        int currentBalance = getBalance(uid);
+        int newBalance = Math.max(0, currentBalance + change);
+
+        return createOrUpdateUsermeta(uid, "balance", Integer.toString(newBalance)) > 0;
     }
 
     private boolean metaExist(long userId, String key, String value) {

@@ -20,6 +20,7 @@
 package com.elune.controller.api;
 
 import com.elune.model.*;
+import com.elune.service.BalanceService;
 import com.elune.service.UserMetaService;
 import com.elune.service.UserService;
 
@@ -44,6 +45,9 @@ public class AuthController extends APIController{
 
     @FromService
     private UserMetaService userMetaService;
+
+    @FromService
+    private BalanceService balanceService;
 
     @HttpPost
     @Route("user/me")
@@ -104,6 +108,10 @@ public class AuthController extends APIController{
         try{
 
             User user = userService.signup(registerModel);
+
+            // 添加变更用户财富的任务至消息队列
+            balanceService.increaseBalance(user.getId(), 2000);
+
             Session session = Request().session();
             session.addAttribute("uid", user.getId());
             session.addAttribute("username", user.getUsername());
@@ -111,6 +119,7 @@ public class AuthController extends APIController{
             Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", user);
             resp.put("msg", "注册成功, 请检查你的邮箱并点击激活链接完成账户激活");
+
             Succeed(resp);
         } catch (Exception e) {
 
