@@ -19,11 +19,14 @@
 
 package com.elune.controller.api;
 
+import com.elune.entity.TopicEntity;
 import com.elune.entity.UserEntity;
 import com.elune.model.Pagination;
 import com.elune.model.Post;
 import com.elune.model.PostCreationModel;
+import com.elune.service.BalanceService;
 import com.elune.service.PostService;
+import com.elune.service.TopicService;
 import com.elune.service.UserService;
 
 import com.fedepot.exception.HttpException;
@@ -42,10 +45,16 @@ import java.util.Map;
 public class PostController extends APIController {
 
     @FromService
+    private TopicService topicService;
+
+    @FromService
     private PostService postService;
 
     @FromService
     private UserService userService;
+
+    @FromService
+    private BalanceService balanceService;
 
     @HttpPost
     @Route("")
@@ -72,12 +81,31 @@ public class PostController extends APIController {
                 throw new HttpException("你没有权限创建评论或回复(账户未激活或已禁用)", 403);
             }
 
+            TopicEntity topicEntity = topicService.getTopicEntity(postCreationModel.topicId);
+
+            if (topicEntity.getStatus().equals(Byte.valueOf("0"))) {
+
+                throw new HttpException("话题不存在或已被删除，无法发表评论", 400);
+            }
+
+            if (topicEntity.getCommentStatus().equals(Byte.valueOf("0"))) {
+
+                throw new HttpException("话题已禁止评论", 400);
+            }
+
             postCreationModel.ip = Request().getIp();
             postCreationModel.ua = Request().getUa();
 
             long createResult = postService.createPost(author, postCreationModel);
 
-            Map<String, Object> resp = new HashMap<>();
+            // 给主题作者增加铜币
+
+            if (!author.getId().equals(topicEntity.getAuthorId())) {
+
+                balanceService.increaseBalance(uid, 10);
+            }
+
+            Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", createResult);
             resp.put("msg", "评论或回复成功");
             Succeed(resp);

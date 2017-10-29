@@ -65,16 +65,22 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public Topic getTopic(long id) {
 
+        TopicEntity topicEntity = getTopicEntity(id);
+        if (topicEntity == null) {
+
+            return null;
+        }
+
+        return assembleTopics(Collections.singletonList(topicEntity)).get(0);
+    }
+
+    @Override
+    public TopicEntity getTopicEntity(long id) {
+
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
-            TopicEntity topicEntity = mapper.selectByPrimaryKey(id);
-            if (topicEntity == null) {
-
-                return null;
-            }
-
-            return assembleTopics(Collections.singletonList(topicEntity)).get(0);
+            return mapper.selectByPrimaryKey(id);
 
         }
     }

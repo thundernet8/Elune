@@ -85,4 +85,9 @@ public final class StringUtil {
 
         return tagCreationModels;
     }
+
+    public static boolean isNumberic(String str) {
+
+        return str != null && !"".equals(str.trim()) && str.matches("^[0-9]*$");
+    }
 }

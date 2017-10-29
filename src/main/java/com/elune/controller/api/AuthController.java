@@ -24,6 +24,7 @@ import com.elune.service.BalanceService;
 import com.elune.service.UserMetaService;
 import com.elune.service.UserService;
 
+import com.elune.utils.StringUtil;
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.mvc.annotation.*;
@@ -103,7 +104,7 @@ public class AuthController extends APIController{
 
     @HttpPost
     @Route("signup")
-    public void register(@FromBody RegisterModel registerModel) {
+    public void register(@FromBody RegisterModel registerModel, @QueryParam("ref") String ref) {
 
         try{
 
@@ -111,6 +112,14 @@ public class AuthController extends APIController{
 
             // 添加变更用户财富的任务至消息队列
             balanceService.increaseBalance(user.getId(), 2000);
+
+            if (ref != null && StringUtil.isNumberic(ref)) {
+
+                // 给推广用户增加10个银币
+                // TODO confirm user exist
+                long refUid = Long.valueOf(ref);
+                balanceService.increaseBalance(refUid, 1000);
+            }
 
             Session session = Request().session();
             session.addAttribute("uid", user.getId());

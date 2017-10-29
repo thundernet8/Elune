@@ -19,6 +19,7 @@
 
 package com.elune.service;
 
+import com.elune.entity.TopicEntity;
 import com.elune.entity.UserEntity;
 import com.elune.model.*;
 
@@ -30,6 +31,8 @@ import java.util.List;
 public interface TopicService {
 
     Topic getTopic(long id);
+
+    TopicEntity getTopicEntity(long id);
 
     long createTopic(UserEntity author, TopicCreationModel topicCreationModel);
 
