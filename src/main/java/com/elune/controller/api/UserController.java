@@ -20,12 +20,14 @@
 package com.elune.controller.api;
 
 import com.elune.dal.DBManager;
+import com.elune.entity.UsermetaEntity;
 import com.elune.model.*;
 import com.elune.service.PostService;
 import com.elune.service.TopicService;
 import com.elune.service.UserMetaService;
 import com.elune.service.UserService;
 
+import com.elune.utils.DateUtil;
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.mvc.annotation.FromBody;
@@ -37,6 +39,7 @@ import com.fedepot.mvc.http.Session;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * @author Touchumind
@@ -109,13 +112,50 @@ public class UserController extends APIController {
 
         try {
 
-            Map<String, Object> updateInfo = new HashMap<>(2);
+            Map<String, Object> updateInfo = new HashMap<>(4);
             updateInfo.put("id", uid);
             updateInfo.put("nickname", userProfileSetting.nickname);
             updateInfo.put("url", userProfileSetting.url);
             updateInfo.put("bio", userProfileSetting.bio);
             Succeed(userService.updateInfo(updateInfo));
         } catch (Exception e) {
+            Fail(e);
+        }
+    }
+
+    @HttpPost
+    @Route("dailySign")
+    public void dailySign() {
+
+        Session session = Request().session();
+        long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+        if (uid < 1) {
+
+            throw new HttpException("尚未登录, 不能签到", 401);
+        }
+
+        try {
+
+            if (userMetaService.hasSignedToday(uid)) {
+
+                throw new HttpException("今日已签到", 400);
+            }
+
+            UsermetaEntity balanceMeta = userMetaService.getSingleUsermeta(uid, "balance");
+            int balance = balanceMeta != null ? Integer.valueOf(balanceMeta.getMetaValue()) : 0;
+            Random random = new Random(DateUtil.getTimeStamp() % 50);
+
+            int newBalance = balance + random.nextInt(50) + 1;
+
+            userMetaService.createOrUpdateUsermeta(uid, "balance", Integer.toString(newBalance));
+            userMetaService.createOrUpdateUsermeta(uid, "dailySign", Integer.toString(DateUtil.getTimeStamp()));
+
+            Map<String, Object> resp = new HashMap<>(2);
+            resp.put("msg", "签到成功, 获得 " + newBalance + " 铜币");
+            resp.put("result", newBalance);
+            Succeed(resp);
+        } catch (Exception e) {
+
             Fail(e);
         }
     }

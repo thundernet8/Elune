@@ -32,9 +32,17 @@ public interface UserMetaService {
 
     long createUsermeta(UsermetaEntity usermetaEntity);
 
+    long createOrUpdateUsermeta(long uid, String metaKey, String metaValue);
+
     boolean deleteUsermeta(long id);
 
     boolean deleteUsermeta(UsermetaEntity usermetaEntity);
+
+    List<UsermetaEntity> getUsermetas(long uid, String metaKey);
+
+    UsermetaEntity getSingleUsermeta(long uid, String metaKey);
+
+    Long countUsermetas(long uid, String metaKey);
 
     Pagination<Topic> getFavorites(long uid, int page, int pageSize);
 
@@ -42,7 +50,11 @@ public interface UserMetaService {
 
     Long countFavorites(long uid);
 
-    boolean favoriteTopic(long userId, long topicId);
+    boolean favoriteTopic(long uid, long topicId);
 
-    boolean unfavoriteTopic(long userId, long topicId);
+    boolean unfavoriteTopic(long uid, long topicId);
+
+    boolean hasSignedToday(long uid);
+
+    int getBalance(long uid);
 }

@@ -38,6 +38,10 @@ public class LoginUser extends User implements Serializable {
 
     private int unreadCount;
 
+    private int balance;
+
+    private boolean dailySigned;
+
     private Pagination<Notification> unreadNotifications;
 
     private List<Long> favoriteTopicIds;

@@ -60,6 +60,8 @@ public class AuthController extends APIController{
 
             LoginUser user = userService.getLoginUser(uid);
             user.setFavoriteTopicIds(userMetaService.getFavoriteIds(uid));
+            user.setBalance(userMetaService.getBalance(uid));
+            user.setDailySigned(userMetaService.hasSignedToday(uid));
 
             session.addAttribute("uid", user.getId());
             session.addAttribute("username", user.getUsername());

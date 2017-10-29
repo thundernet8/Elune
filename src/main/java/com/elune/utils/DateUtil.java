@@ -20,6 +20,8 @@
 package com.elune.utils;
 
 import java.time.LocalDateTime;
+import java.util.Calendar;
+import java.util.TimeZone;
 
 import static com.elune.constants.Constant.DEFAULT_ZONE_ID;
 
@@ -44,5 +46,31 @@ public final class DateUtil {
     public static int getTimeStamp(LocalDateTime dateTime) {
 
         return Math.toIntExact(dateTime.atZone(DEFAULT_ZONE_ID).toInstant().toEpochMilli() / 1000);
+    }
+
+    /**
+     * 获取今日0时的时间戳
+     *
+     * @param timeZone 时区字符串(e.g GMT+8)
+     */
+    public static int getDayStartTimeStamp(String timeZone) {
+
+        long now = LocalDateTime.now().atZone(DEFAULT_ZONE_ID).toInstant().toEpochMilli();
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timeZone));
+        calendar.setTimeInMillis(now);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        return (int)(calendar.getTimeInMillis() / 1000);
+    }
+
+    /**
+     * 获取GMT+8的0时时间戳
+     */
+    public static int getDayStartTimeStamp() {
+
+        return getDayStartTimeStamp("GMT+8");
     }
 }

@@ -27,4 +27,6 @@ public interface UserMetaMapper {
     int updateByPrimaryKeySelective(UsermetaEntity record);
 
     int updateByPrimaryKey(UsermetaEntity record);
+
+    int insertOrUpdateSelective(UsermetaEntity record);
 }

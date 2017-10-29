@@ -28,6 +28,7 @@ import com.elune.model.Topic;
 import com.elune.service.TopicService;
 import com.elune.service.UserMetaService;
 
+import com.elune.utils.DateUtil;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.ioc.annotation.Service;
 import lombok.extern.slf4j.Slf4j;
@@ -69,6 +70,25 @@ public class UserMetaServiceImpl implements UserMetaService {
     }
 
     @Override
+    public long createOrUpdateUsermeta(long uid, String metaKey, String metaValue) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
+            UsermetaEntity usermetaEntity = UsermetaEntity.builder().uid(uid).metaKey(metaKey).metaValue(metaValue).build();
+            mapper.insertOrUpdateSelective(usermetaEntity);
+            sqlSession.commit();
+
+            return usermetaEntity.getId();
+
+        } catch (Exception e) {
+
+            log.error("Insert or update user meta failed", e);
+            throw e;
+        }
+    }
+
+    @Override
     public boolean deleteUsermeta(long id) {
 
         try (SqlSession sqlSession = dbManager.getSqlSession()){
@@ -87,6 +107,40 @@ public class UserMetaServiceImpl implements UserMetaService {
             UsermetaEntityExample entityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).build();
             entityExample.or().andMetaKeyEqualTo(usermetaEntity.getMetaKey()).andUidEqualTo(usermetaEntity.getUid()).andMetaValueEqualTo(usermetaEntity.getMetaValue());
             return mapper.deleteByExample(entityExample) > 0;
+        }
+    }
+
+    @Override
+    public List<UsermetaEntity> getUsermetas(long uid, String metaKey) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
+            UsermetaEntityExample usermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).distinct(true).orderByClause("id DESC").build();
+            usermetaEntityExample.or().andMetaKeyEqualTo(metaKey);
+
+            return mapper.selectByExample(usermetaEntityExample);
+        }
+    }
+
+    @Override
+    public UsermetaEntity getSingleUsermeta(long uid, String metaKey) {
+
+        List<UsermetaEntity> usermetaEntities = getUsermetas(uid, metaKey);
+
+        return usermetaEntities.size() > 0 ? usermetaEntities.get(0) : null;
+    }
+
+    @Override
+    public Long countUsermetas(long uid, String metaKey) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
+            UsermetaEntityExample usermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).distinct(true).orderByClause("id DESC").build();
+            usermetaEntityExample.or().andMetaKeyEqualTo(metaKey);
+            return mapper.countByExample(usermetaEntityExample);
+
         }
     }
 
@@ -115,50 +169,45 @@ public class UserMetaServiceImpl implements UserMetaService {
     @Override
     public List<Long> getFavoriteIds(long uid) {
 
-        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+        List<UsermetaEntity> usermetaEntities = getUsermetas(uid, "favorites");
 
-            UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
-            UsermetaEntityExample usermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).distinct(true).orderByClause("id DESC").build();
-            usermetaEntityExample.or().andMetaKeyEqualTo("favorites");
-            return mapper.selectByExample(usermetaEntityExample).stream().map(x -> Long.valueOf(x.getMetaValue())).collect(Collectors.toList());
-
-        }
+        return usermetaEntities.stream().map(x -> Long.valueOf(x.getMetaValue())).collect(Collectors.toList());
     }
 
     @Override
     public Long countFavorites(long uid) {
 
-        try (SqlSession sqlSession = dbManager.getSqlSession()) {
-
-            UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
-            UsermetaEntityExample usermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).distinct(true).orderByClause("id DESC").build();
-            usermetaEntityExample.or().andMetaKeyEqualTo("favorites");
-            return mapper.countByExample(usermetaEntityExample);
-
-        }
+        return countUsermetas(uid, "favorites");
     }
 
     @Override
-    public boolean favoriteTopic(long userId, long topicId) {
+    public boolean favoriteTopic(long uid, long topicId) {
 
-        try (SqlSession sqlSession = dbManager.getSqlSession()) {
-
-            if (countMetas(userId, "favorites", String.valueOf(topicId)) > 0) {
-
-                return true;
-            }
-
-            return this.createUsermeta(UsermetaEntity.builder().metaKey("favorites").metaValue(String.valueOf(topicId)).uid(userId).build()) > 0;
-        }
+        return metaExist(uid, "favorites", String.valueOf(topicId)) || this.createUsermeta(UsermetaEntity.builder().metaKey("favorites").metaValue(String.valueOf(topicId)).uid(uid).build()) > 0;
     }
 
     @Override
-    public boolean unfavoriteTopic(long userId, long topicId) {
+    public boolean unfavoriteTopic(long uid, long topicId) {
 
-        return deleteUsermeta(UsermetaEntity.builder().metaKey("favorites").metaValue(String.valueOf(topicId)).uid(userId).build());
+        return deleteUsermeta(UsermetaEntity.builder().metaKey("favorites").metaValue(String.valueOf(topicId)).uid(uid).build());
     }
 
-    private long countMetas(long userId, String key, String value) {
+    @Override
+    public boolean hasSignedToday(long uid) {
+
+        UsermetaEntity signRecordMeta = getSingleUsermeta(uid, "dailySign");
+        return signRecordMeta != null && Integer.valueOf(signRecordMeta.getMetaValue()) > DateUtil.getDayStartTimeStamp();
+    }
+
+    @Override
+    public int getBalance(long uid) {
+
+        UsermetaEntity balanceMeta = getSingleUsermeta(uid, "balance");
+
+        return balanceMeta != null ? Integer.valueOf(balanceMeta.getMetaValue()) : 0;
+    }
+
+    private boolean metaExist(long userId, String key, String value) {
 
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
@@ -166,7 +215,7 @@ public class UserMetaServiceImpl implements UserMetaService {
             UsermetaEntityExample usermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).build();
             usermetaEntityExample.or().andMetaKeyEqualTo(key).andUidEqualTo(userId).andMetaValueEqualTo(value);
 
-            return mapper.countByExample(usermetaEntityExample);
+            return mapper.countByExample(usermetaEntityExample) > 0;
         }
     }
 }

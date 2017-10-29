@@ -201,4 +201,36 @@
       meta_value = #{metaValue,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <insert id="insertOrUpdateSelective" parameterType="com.elune.entity.UsermetaEntity" useGeneratedKeys="true" keyProperty="id">
+    insert into t_usermeta
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="metaKey != null">
+        meta_key,
+      </if>
+      <if test="metaValue != null">
+        meta_value,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="metaKey != null">
+        #{metaKey,jdbcType=VARCHAR},
+      </if>
+      <if test="metaValue != null">
+        #{metaValue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+    on duplicate key update id = LAST_INSERT_ID(id), meta_value = #{metaValue,jdbcType=VARCHAR}
+  </insert>
 </mapper>
