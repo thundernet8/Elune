@@ -76,7 +76,14 @@ public class UserMetaServiceImpl implements UserMetaService {
 
             UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
             UsermetaEntity usermetaEntity = UsermetaEntity.builder().uid(uid).metaKey(metaKey).metaValue(metaValue).build();
-            mapper.insertOrUpdateSelective(usermetaEntity);
+
+            if (countUsermetas(uid, metaKey) > 0) {
+                UsermetaEntityExample usermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+                usermetaEntityExample.or().andUidEqualTo(uid).andMetaKeyEqualTo(metaKey);
+                mapper.updateByExampleSelective(usermetaEntity, usermetaEntityExample);
+            } else {
+                mapper.insertSelective(usermetaEntity);
+            }
             sqlSession.commit();
 
             return usermetaEntity.getId();
