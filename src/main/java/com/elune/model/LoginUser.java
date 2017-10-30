@@ -36,7 +36,7 @@ import java.util.List;
 @AllArgsConstructor
 public class LoginUser extends User implements Serializable {
 
-    private int unreadCount;
+    private long unreadCount;
 
     private int balance;
 

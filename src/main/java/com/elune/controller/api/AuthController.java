@@ -20,12 +20,9 @@
 package com.elune.controller.api;
 
 import com.elune.model.*;
-import com.elune.service.BalanceMQService;
-import com.elune.service.UserLogMQService;
-import com.elune.service.UserMetaService;
-import com.elune.service.UserService;
-
+import com.elune.service.*;
 import com.elune.utils.StringUtil;
+
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.mvc.annotation.*;
@@ -55,6 +52,9 @@ public class AuthController extends APIController{
 
     @FromService
     private UserLogMQService userLogMQService;
+
+    @FromService
+    private NotificationService notificationService;
 
     @HttpPost
     @Route("user/me")

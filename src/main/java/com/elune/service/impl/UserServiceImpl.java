@@ -57,6 +57,9 @@ public class UserServiceImpl implements UserService {
     private MailMQService mailMQService;
 
     @FromService
+    private NotificationService notificationService;
+
+    @FromService
     private AppConfiguration appConfiguration;
 
     private final Cache cache = Ehcache.newInstance("_USER_ACTIVATION_");
@@ -101,8 +104,10 @@ public class UserServiceImpl implements UserService {
             // TODO update usermeta for login info
 
             LoginUser loginUser = DozerMapperUtil.map(userEntity, LoginUser.class);
+            Pagination<Notification> unreadNotifications = notificationService.getUnReadNotifications(userEntity.getUsername(), 1, 10, "ID DESC");
+            loginUser.setUnreadNotifications(unreadNotifications);
+            loginUser.setUnreadCount(unreadNotifications.getTotal());
 
-            // TODO add notifications field
             return loginUser;
         } catch (Exception e) {
 
@@ -312,6 +317,10 @@ public class UserServiceImpl implements UserService {
 
         User user = getUser(id);
         LoginUser loginUser = DozerMapperUtil.map(user, LoginUser.class);
+
+        Pagination<Notification> unreadNotifications = notificationService.getUnReadNotifications(user.getUsername(), 1, 10, "ID DESC");
+        loginUser.setUnreadNotifications(unreadNotifications);
+        loginUser.setUnreadCount(unreadNotifications.getTotal());
 
         return loginUser;
     }
