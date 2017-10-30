@@ -93,6 +93,14 @@
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
   </select>
   <select id="selectByExample" parameterType="com.elune.entity.NotificationEntityExample" resultMap="BaseResultMap">
     select
@@ -117,7 +125,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
-    select 
+    select
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -138,11 +146,11 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_notification (type, title, status, 
-      create_time, sender, receiver, 
+    insert into t_notification (type, title, status,
+      create_time, sender, receiver,
       event_id, content)
-    values (#{type,jdbcType=TINYINT}, #{title,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{createTime,jdbcType=INTEGER}, #{sender,jdbcType=VARCHAR}, #{receiver,jdbcType=VARCHAR}, 
+    values (#{type,jdbcType=TINYINT}, #{title,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT},
+      #{createTime,jdbcType=INTEGER}, #{sender,jdbcType=VARCHAR}, #{receiver,jdbcType=VARCHAR},
       #{eventId,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.elune.entity.NotificationEntity">
