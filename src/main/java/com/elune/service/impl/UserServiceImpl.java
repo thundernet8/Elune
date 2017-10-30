@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
             // TODO update usermeta for login info
 
             LoginUser loginUser = DozerMapperUtil.map(userEntity, LoginUser.class);
-            Pagination<Notification> unreadNotifications = notificationService.getUnReadNotifications(userEntity.getUsername(), 1, 10, "ID DESC");
+            Pagination<Notification> unreadNotifications = notificationService.getUnReadNotifications(userEntity.getUsername(), 1, 10, "id DESC");
             loginUser.setUnreadNotifications(unreadNotifications);
             loginUser.setUnreadCount(unreadNotifications.getTotal());
 
@@ -318,7 +318,7 @@ public class UserServiceImpl implements UserService {
         User user = getUser(id);
         LoginUser loginUser = DozerMapperUtil.map(user, LoginUser.class);
 
-        Pagination<Notification> unreadNotifications = notificationService.getUnReadNotifications(user.getUsername(), 1, 10, "ID DESC");
+        Pagination<Notification> unreadNotifications = notificationService.getUnReadNotifications(user.getUsername(), 1, 10, "id DESC");
         loginUser.setUnreadNotifications(unreadNotifications);
         loginUser.setUnreadCount(unreadNotifications.getTotal());
 

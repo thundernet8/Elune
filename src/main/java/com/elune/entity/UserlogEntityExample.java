@@ -310,6 +310,146 @@ public class UserlogEntityExample {
             return (Criteria) this;
         }
 
+        public Criteria andBeforeStatusIsNull() {
+            addCriterion("before_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeforeStatusIsNotNull() {
+            addCriterion("before_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeforeStatusEqualTo(String value) {
+            addCriterion("before_status =", value, "beforeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeforeStatusNotEqualTo(String value) {
+            addCriterion("before_status <>", value, "beforeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeforeStatusGreaterThan(String value) {
+            addCriterion("before_status >", value, "beforeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeforeStatusGreaterThanOrEqualTo(String value) {
+            addCriterion("before_status >=", value, "beforeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeforeStatusLessThan(String value) {
+            addCriterion("before_status <", value, "beforeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeforeStatusLessThanOrEqualTo(String value) {
+            addCriterion("before_status <=", value, "beforeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeforeStatusLike(String value) {
+            addCriterion("before_status like", value, "beforeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeforeStatusNotLike(String value) {
+            addCriterion("before_status not like", value, "beforeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeforeStatusIn(List<String> values) {
+            addCriterion("before_status in", values, "beforeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeforeStatusNotIn(List<String> values) {
+            addCriterion("before_status not in", values, "beforeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeforeStatusBetween(String value1, String value2) {
+            addCriterion("before_status between", value1, value2, "beforeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andBeforeStatusNotBetween(String value1, String value2) {
+            addCriterion("before_status not between", value1, value2, "beforeStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAfterStatusIsNull() {
+            addCriterion("after_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAfterStatusIsNotNull() {
+            addCriterion("after_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAfterStatusEqualTo(String value) {
+            addCriterion("after_status =", value, "afterStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAfterStatusNotEqualTo(String value) {
+            addCriterion("after_status <>", value, "afterStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAfterStatusGreaterThan(String value) {
+            addCriterion("after_status >", value, "afterStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAfterStatusGreaterThanOrEqualTo(String value) {
+            addCriterion("after_status >=", value, "afterStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAfterStatusLessThan(String value) {
+            addCriterion("after_status <", value, "afterStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAfterStatusLessThanOrEqualTo(String value) {
+            addCriterion("after_status <=", value, "afterStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAfterStatusLike(String value) {
+            addCriterion("after_status like", value, "afterStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAfterStatusNotLike(String value) {
+            addCriterion("after_status not like", value, "afterStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAfterStatusIn(List<String> values) {
+            addCriterion("after_status in", values, "afterStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAfterStatusNotIn(List<String> values) {
+            addCriterion("after_status not in", values, "afterStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAfterStatusBetween(String value1, String value2) {
+            addCriterion("after_status between", value1, value2, "afterStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAfterStatusNotBetween(String value1, String value2) {
+            addCriterion("after_status not between", value1, value2, "afterStatus");
+            return (Criteria) this;
+        }
+
         public Criteria andIpIsNull() {
             addCriterion("ip is null");
             return (Criteria) this;

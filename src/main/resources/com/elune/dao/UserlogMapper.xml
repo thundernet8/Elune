@@ -5,13 +5,11 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="uid" jdbcType="BIGINT" property="uid" />
     <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="before_status" jdbcType="VARCHAR" property="beforeStatus" />
+    <result column="after_status" jdbcType="VARCHAR" property="afterStatus" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
     <result column="ua" jdbcType="VARCHAR" property="ua" />
     <result column="create_time" jdbcType="INTEGER" property="createTime" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.elune.entity.UserlogEntity">
-    <result column="before" jdbcType="LONGVARCHAR" property="before" />
-    <result column="after" jdbcType="LONGVARCHAR" property="after" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,27 +70,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, uid, type, ip, ua, create_time
+    id, uid, type, before_status, after_status, ip, ua, create_time
   </sql>
-  <sql id="Blob_Column_List">
-    before, after
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.elune.entity.UserlogEntityExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from t_userlog
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="com.elune.entity.UserlogEntityExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -115,11 +94,9 @@
       </if>
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from t_userlog
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -137,12 +114,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_userlog (uid, type, ip, 
-      ua, create_time, before, 
-      after)
-    values (#{uid,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, #{ip,jdbcType=VARCHAR}, 
-      #{ua,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER}, #{before,jdbcType=LONGVARCHAR}, 
-      #{after,jdbcType=LONGVARCHAR})
+    insert into t_userlog (uid, type, before_status, 
+      after_status, ip, ua, 
+      create_time)
+    values (#{uid,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, #{beforeStatus,jdbcType=VARCHAR}, 
+      #{afterStatus,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{ua,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.elune.entity.UserlogEntity">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -156,6 +133,12 @@
       <if test="type != null">
         type,
       </if>
+      <if test="beforeStatus != null">
+        before_status,
+      </if>
+      <if test="afterStatus != null">
+        after_status,
+      </if>
       <if test="ip != null">
         ip,
       </if>
@@ -165,12 +148,6 @@
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="before != null">
-        before,
-      </if>
-      <if test="after != null">
-        after,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="uid != null">
@@ -178,6 +155,12 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=TINYINT},
+      </if>
+      <if test="beforeStatus != null">
+        #{beforeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="afterStatus != null">
+        #{afterStatus,jdbcType=VARCHAR},
       </if>
       <if test="ip != null">
         #{ip,jdbcType=VARCHAR},
@@ -187,12 +170,6 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=INTEGER},
-      </if>
-      <if test="before != null">
-        #{before,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="after != null">
-        #{after,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -214,6 +191,12 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
+      <if test="record.beforeStatus != null">
+        before_status = #{record.beforeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.afterStatus != null">
+        after_status = #{record.afterStatus,jdbcType=VARCHAR},
+      </if>
       <if test="record.ip != null">
         ip = #{record.ip,jdbcType=VARCHAR},
       </if>
@@ -223,27 +206,7 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=INTEGER},
       </if>
-      <if test="record.before != null">
-        before = #{record.before,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="record.after != null">
-        after = #{record.after,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update t_userlog
-    set id = #{record.id,jdbcType=BIGINT},
-      uid = #{record.uid,jdbcType=BIGINT},
-      type = #{record.type,jdbcType=TINYINT},
-      ip = #{record.ip,jdbcType=VARCHAR},
-      ua = #{record.ua,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=INTEGER},
-      before = #{record.before,jdbcType=LONGVARCHAR},
-      after = #{record.after,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -253,6 +216,8 @@
     set id = #{record.id,jdbcType=BIGINT},
       uid = #{record.uid,jdbcType=BIGINT},
       type = #{record.type,jdbcType=TINYINT},
+      before_status = #{record.beforeStatus,jdbcType=VARCHAR},
+      after_status = #{record.afterStatus,jdbcType=VARCHAR},
       ip = #{record.ip,jdbcType=VARCHAR},
       ua = #{record.ua,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=INTEGER}
@@ -269,6 +234,12 @@
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
       </if>
+      <if test="beforeStatus != null">
+        before_status = #{beforeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="afterStatus != null">
+        after_status = #{afterStatus,jdbcType=VARCHAR},
+      </if>
       <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},
       </if>
@@ -278,30 +249,15 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=INTEGER},
       </if>
-      <if test="before != null">
-        before = #{before,jdbcType=LONGVARCHAR},
-      </if>
-      <if test="after != null">
-        after = #{after,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.elune.entity.UserlogEntity">
-    update t_userlog
-    set uid = #{uid,jdbcType=BIGINT},
-      type = #{type,jdbcType=TINYINT},
-      ip = #{ip,jdbcType=VARCHAR},
-      ua = #{ua,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=INTEGER},
-      before = #{before,jdbcType=LONGVARCHAR},
-      after = #{after,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.elune.entity.UserlogEntity">
     update t_userlog
     set uid = #{uid,jdbcType=BIGINT},
       type = #{type,jdbcType=TINYINT},
+      before_status = #{beforeStatus,jdbcType=VARCHAR},
+      after_status = #{afterStatus,jdbcType=VARCHAR},
       ip = #{ip,jdbcType=VARCHAR},
       ua = #{ua,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=INTEGER}

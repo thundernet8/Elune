@@ -7,8 +7,8 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="create_time" jdbcType="INTEGER" property="createTime" />
-    <result column="from" jdbcType="VARCHAR" property="from" />
-    <result column="to" jdbcType="VARCHAR" property="to" />
+    <result column="sender" jdbcType="VARCHAR" property="sender" />
+    <result column="receiver" jdbcType="VARCHAR" property="receiver" />
     <result column="event_id" jdbcType="VARCHAR" property="eventId" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.elune.entity.NotificationEntity">
@@ -73,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, type, title, status, create_time, from, to, event_id
+    id, type, title, status, create_time, sender, receiver, event_id
   </sql>
   <sql id="Blob_Column_List">
     content
@@ -117,7 +117,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
-    select
+    select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
@@ -135,14 +135,15 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.elune.entity.NotificationEntity">
-    insert into t_notification (id, type, title,
-      status, create_time, from,
-      to, event_id, content
-      )
-    values (#{id,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, #{title,jdbcType=VARCHAR},
-      #{status,jdbcType=TINYINT}, #{createTime,jdbcType=INTEGER}, #{from,jdbcType=VARCHAR},
-      #{to,jdbcType=VARCHAR}, #{eventId,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}
-      )
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_notification (type, title, status, 
+      create_time, sender, receiver, 
+      event_id, content)
+    values (#{type,jdbcType=TINYINT}, #{title,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{createTime,jdbcType=INTEGER}, #{sender,jdbcType=VARCHAR}, #{receiver,jdbcType=VARCHAR}, 
+      #{eventId,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.elune.entity.NotificationEntity">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -150,9 +151,6 @@
     </selectKey>
     insert into t_notification
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="type != null">
         type,
       </if>
@@ -165,11 +163,11 @@
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="from != null">
-        from,
+      <if test="sender != null">
+        sender,
       </if>
-      <if test="to != null">
-        to,
+      <if test="receiver != null">
+        receiver,
       </if>
       <if test="eventId != null">
         event_id,
@@ -179,9 +177,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="type != null">
         #{type,jdbcType=TINYINT},
       </if>
@@ -194,11 +189,11 @@
       <if test="createTime != null">
         #{createTime,jdbcType=INTEGER},
       </if>
-      <if test="from != null">
-        #{from,jdbcType=VARCHAR},
+      <if test="sender != null">
+        #{sender,jdbcType=VARCHAR},
       </if>
-      <if test="to != null">
-        #{to,jdbcType=VARCHAR},
+      <if test="receiver != null">
+        #{receiver,jdbcType=VARCHAR},
       </if>
       <if test="eventId != null">
         #{eventId,jdbcType=VARCHAR},
@@ -232,11 +227,11 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=INTEGER},
       </if>
-      <if test="record.from != null">
-        from = #{record.from,jdbcType=VARCHAR},
+      <if test="record.sender != null">
+        sender = #{record.sender,jdbcType=VARCHAR},
       </if>
-      <if test="record.to != null">
-        to = #{record.to,jdbcType=VARCHAR},
+      <if test="record.receiver != null">
+        receiver = #{record.receiver,jdbcType=VARCHAR},
       </if>
       <if test="record.eventId != null">
         event_id = #{record.eventId,jdbcType=VARCHAR},
@@ -256,8 +251,8 @@
       title = #{record.title,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=INTEGER},
-      from = #{record.from,jdbcType=VARCHAR},
-      to = #{record.to,jdbcType=VARCHAR},
+      sender = #{record.sender,jdbcType=VARCHAR},
+      receiver = #{record.receiver,jdbcType=VARCHAR},
       event_id = #{record.eventId,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
@@ -271,8 +266,8 @@
       title = #{record.title,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=TINYINT},
       create_time = #{record.createTime,jdbcType=INTEGER},
-      from = #{record.from,jdbcType=VARCHAR},
-      to = #{record.to,jdbcType=VARCHAR},
+      sender = #{record.sender,jdbcType=VARCHAR},
+      receiver = #{record.receiver,jdbcType=VARCHAR},
       event_id = #{record.eventId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -293,11 +288,11 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=INTEGER},
       </if>
-      <if test="from != null">
-        from = #{from,jdbcType=VARCHAR},
+      <if test="sender != null">
+        sender = #{sender,jdbcType=VARCHAR},
       </if>
-      <if test="to != null">
-        to = #{to,jdbcType=VARCHAR},
+      <if test="receiver != null">
+        receiver = #{receiver,jdbcType=VARCHAR},
       </if>
       <if test="eventId != null">
         event_id = #{eventId,jdbcType=VARCHAR},
@@ -314,8 +309,8 @@
       title = #{title,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=INTEGER},
-      from = #{from,jdbcType=VARCHAR},
-      to = #{to,jdbcType=VARCHAR},
+      sender = #{sender,jdbcType=VARCHAR},
+      receiver = #{receiver,jdbcType=VARCHAR},
       event_id = #{eventId,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
@@ -326,8 +321,8 @@
       title = #{title,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
       create_time = #{createTime,jdbcType=INTEGER},
-      from = #{from,jdbcType=VARCHAR},
-      to = #{to,jdbcType=VARCHAR},
+      sender = #{sender,jdbcType=VARCHAR},
+      receiver = #{receiver,jdbcType=VARCHAR},
       event_id = #{eventId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>

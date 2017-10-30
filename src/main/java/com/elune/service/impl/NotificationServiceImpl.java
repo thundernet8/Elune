@@ -49,7 +49,7 @@ public class NotificationServiceImpl implements NotificationService {
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             NotificationMapper mapper = sqlSession.getMapper(NotificationMapper.class);
-            NotificationEntity entity = NotificationEntity.builder().status(Byte.valueOf("0")).from(from).to(to).title(title).content(content).type(type).createTime(DateUtil.getTimeStamp()).build();
+            NotificationEntity entity = NotificationEntity.builder().status(Byte.valueOf("0")).sender(from).receiver(to).title(title).content(content).type(type).createTime(DateUtil.getTimeStamp()).build();
 
             mapper.insertSelective(entity);
             sqlSession.commit();
@@ -101,14 +101,14 @@ public class NotificationServiceImpl implements NotificationService {
             NotificationMapper mapper = sqlSession.getMapper(NotificationMapper.class);
             NotificationEntityExample entityExample = NotificationEntityExample.builder().oredCriteria(new ArrayList<>()).offset((page - 1) * pageSize).limit(pageSize).orderByClause(orderClause).build();
 
-            entityExample.or().andToEqualTo(username);
+            entityExample.or().andReceiverEqualTo(username);
 
             if (readStatus != null) {
-                entityExample.or().andStatusEqualTo(readStatus);
+                entityExample.getOredCriteria().get(0).andStatusEqualTo(readStatus);
             }
 
             if (type != null) {
-                entityExample.or().andTypeEqualTo(type);
+                entityExample.getOredCriteria().get(0).andTypeEqualTo(type);
             }
 
             List<NotificationEntity> notificationEntities = mapper.selectByExampleWithBLOBs(entityExample);
@@ -118,14 +118,14 @@ public class NotificationServiceImpl implements NotificationService {
             if (page == 1) {
                 // 仅在第一页请求查询Total
                 NotificationEntityExample countEntityExample = NotificationEntityExample.builder().oredCriteria(new ArrayList<>()).build();
-                countEntityExample.or().andToEqualTo(username);
+                countEntityExample.or().andReceiverEqualTo(username);
 
                 if (readStatus != null) {
-                    countEntityExample.or().andStatusEqualTo(readStatus);
+                    countEntityExample.getOredCriteria().get(0).andStatusEqualTo(readStatus);
                 }
 
                 if (type != null) {
-                    countEntityExample.or().andTypeEqualTo(type);
+                    countEntityExample.getOredCriteria().get(0).andTypeEqualTo(type);
                 }
                 total = mapper.countByExample(countEntityExample);
             }

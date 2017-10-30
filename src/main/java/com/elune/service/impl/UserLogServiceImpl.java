@@ -50,7 +50,7 @@ public class UserLogServiceImpl implements UserLogService {
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             UserlogMapper mapper = sqlSession.getMapper(UserlogMapper.class);
-            UserlogEntity entity = UserlogEntity.builder().uid(uid).type(type).ip(ip).ua(ua).before(before).after(after).createTime(DateUtil.getTimeStamp()).build();
+            UserlogEntity entity = UserlogEntity.builder().uid(uid).type(type).ip(ip).ua(ua).beforeStatus(before).afterStatus(after).createTime(DateUtil.getTimeStamp()).build();
 
             mapper.insertSelective(entity);
             sqlSession.commit();
@@ -74,7 +74,7 @@ public class UserLogServiceImpl implements UserLogService {
 
             entityExample.or().andUidEqualTo(uid).andTypeEqualTo(type);
 
-            List<UserlogEntity> entities = mapper.selectByExampleWithBLOBs(entityExample);
+            List<UserlogEntity> entities = mapper.selectByExample(entityExample);
             List<UserLog> logs = assembleUserLogs(entities);
 
             long total = 0L;
