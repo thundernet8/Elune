@@ -19,7 +19,7 @@
 
 package com.elune.service;
 
-public interface TopicViewService {
+public interface TopicViewMQService {
 
     void increaseViews(long topicId, int count);
 

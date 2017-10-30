@@ -461,7 +461,7 @@ CREATE TABLE `t_user` (
   `bio` varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   `avatar` varchar(100) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '用户头像地址',
   `update_time` int(10) NOT NULL DEFAULT '0' COMMENT '记录更新时间',
-  `role_id` tinyint(4) NOT NULL DEFAULT '10' COMMENT '用户角色 0-系统管理员 1-管理员 2-9保留区间 10-普通用户',
+  `role_id` tinyint(4) NOT NULL DEFAULT '100' COMMENT '用户角色 0-系统管理员 1-管理员 2-99保留区间 100-普通用户',
   `topics_count` int(10) NOT NULL DEFAULT '0' COMMENT '发布的主题数量',
   `posts_count` int(10) NOT NULL DEFAULT '0' COMMENT '发布的回复评论数量',
   `articles_count` int(10) NOT NULL DEFAULT '0' COMMENT '发布的文章数量',

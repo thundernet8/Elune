@@ -17,13 +17,11 @@
  */
 
 
-package com.elune.model;
+package com.elune.service;
 
-import com.elune.entity.NotificationEntity;
+public interface BalanceMQService {
 
-import java.io.Serializable;
+    void increaseBalance(long uid, int num);
 
-public class Notification extends NotificationEntity implements Serializable {
-
-    // TODO
+    void decreaseBalance(long uid, int num);
 }

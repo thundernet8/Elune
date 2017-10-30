@@ -1,5 +1,5 @@
 /**
- * Elune - Lightweight Forum Powered by Razor.
+ * Elune - Lightweight Forum Powered by Razor
  * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -19,13 +19,12 @@
 
 package com.elune.service.impl;
 
-import com.elune.configuration.AppConfiguration;
 import com.elune.mq.Consumer;
 import com.elune.mq.MessageQueue;
 import com.elune.mq.Producer;
-import com.elune.service.BalanceService;
-import com.elune.service.UserMetaService;
-import com.elune.task.UserBalanceTask;
+import com.elune.service.NotificationMQService;
+import com.elune.service.NotificationService;
+import com.elune.task.NotificationTask;
 
 import com.fedepot.ioc.annotation.ForInject;
 import com.fedepot.ioc.annotation.FromService;
@@ -36,60 +35,51 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service(sington = true)
-public class BalanceServiceImpl implements BalanceService {
+public class NotificationMQServiceImple implements NotificationMQService {
 
     private Producer producer;
 
-    private AppConfiguration appConfig;
-
     @FromService
-    private UserMetaService userMetaService;
+    private NotificationService notificationService;
 
     @ForInject
-    public BalanceServiceImpl(MessageQueue messageQueue, AppConfiguration appConfig) {
+    public NotificationMQServiceImple(MessageQueue messageQueue) {
 
-        this.appConfig = appConfig;
-
-        String topic = "QUEUETOPIC::BALANCE";
+        String topic = "QUEUETOPIC::NOTIFICATION";
         producer = new Producer(messageQueue, topic);
         Consumer consumer = new Consumer(messageQueue, topic);
 
         consumer.consume(message -> {
             Gson gson = GsonFactory.getGson();
 
-            UserBalanceTask task = gson.fromJson(message, UserBalanceTask.class);
-            executeBalanceTask(task);
+            NotificationTask task = gson.fromJson(message, NotificationTask.class);
+            executeNotificationTask(task);
         });
 
         consumer.up();
     }
 
     @Override
-    public void increaseBalance(long uid, int num) {
+    public void createNotification(String from, String to, String title, String content, Byte type) {
 
-        UserBalanceTask task = UserBalanceTask.builder().uid(uid).change(num).build();
+        NotificationTask task = NotificationTask.builder().from(from).to(to).title(title).content(content).type(type).build();
         producer.produce(GsonFactory.getGson().toJson(task));
     }
 
     @Override
-    public void decreaseBalance(long uid, int num) {
+    public void createNotification(String to, String title, String content, Byte type) {
 
-        increaseBalance(uid, num * -1);
+        createNotification("System", to, title, content, type);
     }
 
-    private void executeBalanceTask(UserBalanceTask balanceTask) {
-
-        log.info("------------------------execute queue task------------------------");
-        log.info("Update user balance task consumed on thread: T{}", Thread.currentThread().getId());
-        log.info("User: {}, Balance Change: {}", balanceTask.getUid(), balanceTask.getChange());
+    private void executeNotificationTask(NotificationTask task) {
 
         try {
 
-            userMetaService.changeBalance(balanceTask.getUid(), balanceTask.getChange());
-
+            notificationService.createNotification(task.getFrom(), task.getTo(), task.getTitle(), task.getContent(), task.getType());
         } catch (Exception e) {
-
-            log.error("send mail error", e);
+            log.info("notification: {}", task);
+            log.error("create notification error", e);
             e.printStackTrace();
         }
     }

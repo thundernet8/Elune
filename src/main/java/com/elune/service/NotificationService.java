@@ -1,5 +1,5 @@
 /**
- * Elune - Lightweight Forum Powered by Razor.
+ * Elune - Lightweight Forum Powered by Razor
  * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -17,13 +17,18 @@
  */
 
 
-package com.elune.model;
+package com.elune.service;
 
-import com.elune.entity.NotificationEntity;
+import com.elune.model.Notification;
+import com.elune.model.Pagination;
 
-import java.io.Serializable;
+public interface NotificationService {
 
-public class Notification extends NotificationEntity implements Serializable {
+    long createNotification(String from, String to, String title, String content, Byte type);
 
-    // TODO
+    boolean markNotificationRead(long id);
+
+    Pagination<Notification> getNotifications(String username, int page, int pageSize, String orderClause);
+
+    Pagination<Notification> getUnReadNotifications(String username, int page, int pageSize, String orderClause);
 }

@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     private DBManager dbManager;
 
     @FromService
-    private MailService mailService;
+    private MailMQService mailMQService;
 
     @FromService
     private AppConfiguration appConfiguration;
@@ -375,6 +375,6 @@ public class UserServiceImpl implements UserService {
         String cacheKey = StringUtil.genRandString(32);
         cache.add(cacheKey, user.getId(), 600);
         String link = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/activation?token=").concat(cacheKey);
-        mailService.sendMail(user.getEmail(), user.getUsername(), "请激活您的账户", "感谢您注册Elune. 请访问下方链接激活您的账户." + link);
+        mailMQService.sendMail(user.getEmail(), user.getUsername(), "请激活您的账户", "感谢您注册Elune. 请访问下方链接激活您的账户." + link);
     }
 }

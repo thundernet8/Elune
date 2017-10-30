@@ -1,5 +1,5 @@
 /**
- * Elune - Lightweight Forum Powered by Razor.
+ * Elune - Lightweight Forum Powered by Razor
  * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -17,13 +17,11 @@
  */
 
 
-package com.elune.model;
+package com.elune.service;
 
-import com.elune.entity.NotificationEntity;
+public interface NotificationMQService {
 
-import java.io.Serializable;
+    void createNotification(String from, String to, String title, String content, Byte type);
 
-public class Notification extends NotificationEntity implements Serializable {
-
-    // TODO
+    void createNotification(String to, String title, String content, Byte type);
 }

@@ -22,7 +22,6 @@ package com.elune.controller.api;
 import com.elune.model.Channel;
 import com.elune.service.ChannelService;
 
-import com.elune.service.MailService;
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.mvc.annotation.HttpGet;

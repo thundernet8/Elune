@@ -24,7 +24,7 @@ import com.elune.entity.UserEntity;
 import com.elune.model.Pagination;
 import com.elune.model.Post;
 import com.elune.model.PostCreationModel;
-import com.elune.service.BalanceService;
+import com.elune.service.BalanceMQService;
 import com.elune.service.PostService;
 import com.elune.service.TopicService;
 import com.elune.service.UserService;
@@ -54,7 +54,7 @@ public class PostController extends APIController {
     private UserService userService;
 
     @FromService
-    private BalanceService balanceService;
+    private BalanceMQService balanceMQService;
 
     @HttpPost
     @Route("")
@@ -102,7 +102,7 @@ public class PostController extends APIController {
 
             if (!author.getId().equals(topicEntity.getAuthorId())) {
 
-                balanceService.increaseBalance(uid, 10);
+                balanceMQService.increaseBalance(uid, 10);
             }
 
             Map<String, Object> resp = new HashMap<>(2);

@@ -19,9 +19,9 @@
 
 package com.elune.service;
 
-public interface BalanceService {
+public interface MailMQService {
 
-    void increaseBalance(long uid, int num);
+    void sendMail(String from, String senderName, String to, String receiverName, String title, String content);
 
-    void decreaseBalance(long uid, int num);
+    void sendMail(String to, String receiverName, String title, String content);
 }

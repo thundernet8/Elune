@@ -1,5 +1,5 @@
 /**
- * Elune - Lightweight Forum Powered by Razor.
+ * Elune - Lightweight Forum Powered by Razor
  * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -17,13 +17,13 @@
  */
 
 
-package com.elune.model;
+package com.elune.constants;
 
-import com.elune.entity.NotificationEntity;
+public interface RoleType {
 
-import java.io.Serializable;
+    Byte OWNER = 0;
 
-public class Notification extends NotificationEntity implements Serializable {
+    Byte ADMIN = 1;
 
-    // TODO
+    Byte NORMAL_USER = 100;
 }

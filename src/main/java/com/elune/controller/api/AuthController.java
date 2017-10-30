@@ -20,7 +20,7 @@
 package com.elune.controller.api;
 
 import com.elune.model.*;
-import com.elune.service.BalanceService;
+import com.elune.service.BalanceMQService;
 import com.elune.service.UserMetaService;
 import com.elune.service.UserService;
 
@@ -48,7 +48,7 @@ public class AuthController extends APIController{
     private UserMetaService userMetaService;
 
     @FromService
-    private BalanceService balanceService;
+    private BalanceMQService balanceMQService;
 
     @HttpPost
     @Route("user/me")
@@ -111,14 +111,14 @@ public class AuthController extends APIController{
             User user = userService.signup(registerModel);
 
             // 添加变更用户财富的任务至消息队列
-            balanceService.increaseBalance(user.getId(), 2000);
+            balanceMQService.increaseBalance(user.getId(), 2000);
 
             if (ref != null && StringUtil.isNumberic(ref)) {
 
                 // 给推广用户增加10个银币
                 // TODO confirm user exist
                 long refUid = Long.valueOf(ref);
-                balanceService.increaseBalance(refUid, 1000);
+                balanceMQService.increaseBalance(refUid, 1000);
             }
 
             Session session = Request().session();

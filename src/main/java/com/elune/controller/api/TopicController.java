@@ -30,8 +30,6 @@ import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.mvc.annotation.*;
 import com.fedepot.mvc.controller.APIController;
 import com.fedepot.mvc.http.Session;
-import com.hankcs.hanlp.HanLP;
-import com.hankcs.hanlp.dictionary.py.Pinyin;
 
 import java.util.*;
 
@@ -48,7 +46,7 @@ public class TopicController extends APIController {
     private UserService userService;
 
     @FromService
-    private TopicViewService topicViewService;
+    private TopicViewMQService topicViewMQService;
 
     @FromService
     private UserMetaService userMetaService;
@@ -154,7 +152,7 @@ public class TopicController extends APIController {
 
         try {
 
-            topicViewService.increaseViews(id);
+            topicViewMQService.increaseViews(id);
         } catch (Exception e) {
             // ignore
         }

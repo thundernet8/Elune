@@ -1,5 +1,5 @@
 /**
- * Elune - Lightweight Forum Powered by Razor.
+ * Elune - Lightweight Forum Powered by Razor
  * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -17,11 +17,24 @@
  */
 
 
-package com.elune.service;
+package com.elune.task;
 
-public interface MailService {
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
-    void sendMail(String from, String senderName, String to, String receiverName, String title, String content);
+@Getter
+@Setter
+@Builder
+public class NotificationTask {
 
-    void sendMail(String to, String receiverName, String title, String content);
+    private Byte type;
+
+    private String from;
+
+    private String to;
+
+    private String title;
+
+    private String content;
 }

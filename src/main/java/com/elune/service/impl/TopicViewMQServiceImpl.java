@@ -24,10 +24,9 @@ import com.elune.mq.Consumer;
 import com.elune.mq.MessageQueue;
 import com.elune.mq.Producer;
 import com.elune.service.TopicService;
-import com.elune.service.TopicViewService;
+import com.elune.service.TopicViewMQService;
 import com.elune.task.TopicViewCountTask;
 
-import com.elune.utils.DateUtil;
 import com.fedepot.ioc.annotation.ForInject;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.ioc.annotation.Service;
@@ -38,7 +37,7 @@ import redis.clients.jedis.Jedis;
 
 @Slf4j
 @Service(sington = true)
-public class TopicViewServiceImpl implements TopicViewService {
+public class TopicViewMQServiceImpl implements TopicViewMQService {
 
     private Producer producer;
 
@@ -49,7 +48,7 @@ public class TopicViewServiceImpl implements TopicViewService {
     private TopicService topicService;
 
     @ForInject
-    public TopicViewServiceImpl(MessageQueue messageQueue) {
+    public TopicViewMQServiceImpl(MessageQueue messageQueue) {
 
         String topic = "QUEUETOPIC::TOPICVIEWCOUNT";
         producer = new Producer(messageQueue, topic);

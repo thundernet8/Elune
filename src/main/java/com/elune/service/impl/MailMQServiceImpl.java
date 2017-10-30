@@ -23,7 +23,7 @@ import com.elune.configuration.AppConfiguration;
 import com.elune.mq.Consumer;
 import com.elune.mq.MessageQueue;
 import com.elune.mq.Producer;
-import com.elune.service.MailService;
+import com.elune.service.MailMQService;
 
 import com.elune.task.MailTask;
 import com.fedepot.ioc.annotation.ForInject;
@@ -41,7 +41,7 @@ import static com.elune.constants.Constant.*;
 
 @Slf4j
 @Service(sington = true)
-public class MailServiceImpl implements MailService {
+public class MailMQServiceImpl implements MailMQService {
 
     private Producer producer;
 
@@ -50,7 +50,7 @@ public class MailServiceImpl implements MailService {
     private Mailer mailer;
 
     @ForInject
-    public MailServiceImpl(MessageQueue messageQueue, AppConfiguration appConfig) {
+    public MailMQServiceImpl(MessageQueue messageQueue, AppConfiguration appConfig) {
 
         this.appConfig = appConfig;
         this.initMailer();

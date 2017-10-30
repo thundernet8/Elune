@@ -50,7 +50,7 @@ public class PostServiceImpl implements PostService {
     private TopicService topicService;
 
     @FromService
-    private MailService mailService;
+    private MailMQService mailMQService;
 
     @Override
     public Post getPost(long id) {
@@ -96,7 +96,7 @@ public class PostServiceImpl implements PostService {
 
                 User mentionUser = userService.getUserByName(mention);
                 if (mentionUser != null) {
-                    mailService.sendMail(mentionUser.getEmail(), mentionUser.getNickname(), "Elune - ".concat(author.getNickname()).concat("在回复中提到了你"), postCreationModel.content);
+                    mailMQService.sendMail(mentionUser.getEmail(), mentionUser.getNickname(), "Elune - ".concat(author.getNickname()).concat("在回复中提到了你"), postCreationModel.content);
                 }
             });
 
