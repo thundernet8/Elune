@@ -74,13 +74,15 @@ public class NotificationMQServiceImple implements NotificationMQService {
 
     private void executeNotificationTask(NotificationTask task) {
 
+        log.info("notification: {}", task);
+
         try {
 
             notificationService.createNotification(task.getFrom(), task.getTo(), task.getTitle(), task.getContent(), task.getType());
         } catch (Exception e) {
-            log.info("notification: {}", task);
             log.error("create notification error", e);
             e.printStackTrace();
+            producer.produce(GsonFactory.getGson().toJson(task));
         }
     }
 }

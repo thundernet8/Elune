@@ -182,7 +182,7 @@ public class UserController extends APIController {
             userLogMQService.createUserLog(uid, BALANCE, "Balance: ".concat(Integer.toString(balance)), DateKit.getGmtDateString().concat("签到获得").concat(Integer.toString(change)).concat("铜币奖励"), Request().getIp(), Request().getUa());
 
             Map<String, Object> resp = new HashMap<>(2);
-            resp.put("msg", "签到成功, 获得 " + newBalance + " 铜币");
+            resp.put("msg", "签到成功, 获得 " + change + " 铜币");
             resp.put("result", change);
             Succeed(resp);
         } catch (Exception e) {
