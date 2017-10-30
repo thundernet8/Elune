@@ -26,6 +26,7 @@ import com.elune.entity.NotificationEntityExample;
 import com.elune.model.Notification;
 import com.elune.model.Pagination;
 import com.elune.service.NotificationService;
+import com.elune.utils.DateUtil;
 import com.elune.utils.DozerMapperUtil;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.ioc.annotation.Service;
@@ -48,7 +49,7 @@ public class NotificationServiceImpl implements NotificationService {
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             NotificationMapper mapper = sqlSession.getMapper(NotificationMapper.class);
-            NotificationEntity entity = NotificationEntity.builder().status(Byte.valueOf("0")).from(from).to(to).title(title).content(content).type(type).build();
+            NotificationEntity entity = NotificationEntity.builder().status(Byte.valueOf("0")).from(from).to(to).title(title).content(content).type(type).createTime(DateUtil.getTimeStamp()).build();
 
             mapper.insertSelective(entity);
             sqlSession.commit();
@@ -57,7 +58,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         } catch (Exception e) {
 
-            log.error("Insert topic failed", e);
+            log.error("Insert notification record failed", e);
             throw e;
         }
     }
