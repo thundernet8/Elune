@@ -32,7 +32,7 @@ public interface UserMetaService {
 
     long createUsermeta(UsermetaEntity usermetaEntity);
 
-    long createOrUpdateUsermeta(long uid, String metaKey, String metaValue);
+    boolean createOrUpdateUsermeta(long uid, String metaKey, String metaValue);
 
     boolean deleteUsermeta(long id);
 

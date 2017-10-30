@@ -70,7 +70,7 @@ public class UserMetaServiceImpl implements UserMetaService {
     }
 
     @Override
-    public long createOrUpdateUsermeta(long uid, String metaKey, String metaValue) {
+    public boolean createOrUpdateUsermeta(long uid, String metaKey, String metaValue) {
 
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
@@ -81,12 +81,13 @@ public class UserMetaServiceImpl implements UserMetaService {
                 UsermetaEntityExample usermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).build();
                 usermetaEntityExample.or().andUidEqualTo(uid).andMetaKeyEqualTo(metaKey);
                 mapper.updateByExampleSelective(usermetaEntity, usermetaEntityExample);
+                sqlSession.commit();
             } else {
                 mapper.insertSelective(usermetaEntity);
             }
             sqlSession.commit();
 
-            return usermetaEntity.getId();
+            return true;
 
         } catch (Exception e) {
 
@@ -220,7 +221,7 @@ public class UserMetaServiceImpl implements UserMetaService {
         int currentBalance = getBalance(uid);
         int newBalance = Math.max(0, currentBalance + change);
 
-        return createOrUpdateUsermeta(uid, "balance", Integer.toString(newBalance)) > 0;
+        return createOrUpdateUsermeta(uid, "balance", Integer.toString(newBalance));
     }
 
     private boolean metaExist(long userId, String key, String value) {
