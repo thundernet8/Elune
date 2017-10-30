@@ -35,6 +35,7 @@ import com.fedepot.mvc.http.Session;
 import java.util.*;
 
 import static com.elune.constants.UserLogType.*;
+import static com.elune.constants.NotificationType.*;
 
 /**
  * @author Touchumind
@@ -59,6 +60,9 @@ public class TopicController extends APIController {
 
     @FromService
     private UserLogMQService userLogMQService;
+
+    @FromService
+    private NotificationMQService notificationMQService;
 
     @HttpPost
     @Route("")
@@ -253,6 +257,18 @@ public class TopicController extends APIController {
             throw new HttpException("你必须登录才能收藏话题", 401);
         }
 
+        UserEntity user = userService.getUserEntity(uid);
+
+        if (user == null) {
+
+            throw new HttpException("你必须登录才能收藏话题", 401);
+        }
+
+        if (user.getStatus().equals(Byte.valueOf("0"))) {
+
+            throw new HttpException("你没有权限收藏话题(账户未激活或已禁用)", 403);
+        }
+
         TopicEntity topicEntity = topicService.getTopicEntity(id);
         if (topicEntity == null || topicEntity.getStatus().equals(Byte.valueOf("0"))) {
 
@@ -265,6 +281,9 @@ public class TopicController extends APIController {
 
             // log
             userLogMQService.createUserLog(uid, FAVORITE_TOPIC, "", "收藏了话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
+
+            // notification
+            notificationMQService.createNotification(topicEntity.getAuthorName(), user.getUsername().concat("收藏了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_FAVORITE);
 
             Succeed(result);
         } catch (Exception e) {
@@ -283,6 +302,18 @@ public class TopicController extends APIController {
             throw new HttpException("你必须登录才能取消收藏话题", 401);
         }
 
+        UserEntity user = userService.getUserEntity(uid);
+
+        if (user == null) {
+
+            throw new HttpException("你必须登录才能取消收藏话题", 401);
+        }
+
+        if (user.getStatus().equals(Byte.valueOf("0"))) {
+
+            throw new HttpException("你没有权限取消收藏话题(账户未激活或已禁用)", 403);
+        }
+
         TopicEntity topicEntity = topicService.getTopicEntity(id);
         if (topicEntity == null || topicEntity.getStatus().equals(Byte.valueOf("0"))) {
 
@@ -295,6 +326,9 @@ public class TopicController extends APIController {
 
             // log
             userLogMQService.createUserLog(uid, UNFAVORITE_TOPIC, "", "取消收藏话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
+
+            // notification
+            notificationMQService.createNotification(topicEntity.getAuthorName(), user.getUsername().concat("取消收藏了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_UNFAVORITE);
 
             Succeed(result);
         } catch (Exception e) {
@@ -313,6 +347,18 @@ public class TopicController extends APIController {
             throw new HttpException("你必须登录才能点赞话题", 401);
         }
 
+        UserEntity user = userService.getUserEntity(uid);
+
+        if (user == null) {
+
+            throw new HttpException("你必须登录才能点赞话题", 401);
+        }
+
+        if (user.getStatus().equals(Byte.valueOf("0"))) {
+
+            throw new HttpException("你没有权限点赞话题(账户未激活或已禁用)", 403);
+        }
+
         TopicEntity topicEntity = topicService.getTopicEntity(id);
         if (topicEntity == null || topicEntity.getStatus().equals(Byte.valueOf("0"))) {
 
@@ -325,6 +371,9 @@ public class TopicController extends APIController {
 
             // log
             userLogMQService.createUserLog(uid, LIKE_TOPIC, "", "喜欢了话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
+
+            // notification
+            notificationMQService.createNotification(topicEntity.getAuthorName(), user.getUsername().concat("喜欢了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_LIKE);
 
             Succeed(result);
         } catch (Exception e) {

@@ -21,15 +21,21 @@ package com.elune.constants;
 
 public interface NotificationType {
 
-    Byte TOPIC_REPLY = 1;
+    Byte N_TOPIC_REPLY = 1;
 
-    Byte AT = 2;
+    Byte N_AT = 2;
 
-    Byte TOPIC_LIKE = 3;
+    Byte N_TOPIC_LIKE = 3;
 
-    Byte TOPIC_FAVORITE = 4;
+    Byte N_TOPIC_UNLIKE = 4;
 
-    Byte TOPIC_STICKY = 5;
+    Byte N_TOPIC_FAVORITE = 5;
 
-    Byte TOPIC_ESSENTIAL = 6;
+    Byte N_TOPIC_UNFAVORITE = 6;
+
+    Byte N_TOPIC_STICKY = 7;
+
+    Byte N_TOPIC_UNSTICKY = 8;
+
+    Byte N_TOPIC_ESSENTIAL = 9;
 }

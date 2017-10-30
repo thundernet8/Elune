@@ -32,10 +32,12 @@ import com.fedepot.mvc.annotation.*;
 import com.fedepot.mvc.controller.APIController;
 import com.fedepot.mvc.http.Session;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.elune.constants.UserLogType.*;
+import static com.elune.constants.NotificationType.*;
 
 /**
  * @author Touchumind
@@ -58,6 +60,9 @@ public class PostController extends APIController {
     @FromService
     private UserLogMQService userLogMQService;
 
+    @FromService
+    private NotificationMQService notificationMQService;
+
     @HttpPost
     @Route("")
     public void createPost(@FromBody PostCreationModel postCreationModel) {
@@ -78,7 +83,7 @@ public class PostController extends APIController {
                 throw new HttpException("你必须登录才能评论或回复", 401);
             }
 
-            if (author.getStatus() != 1) {
+            if (author.getStatus().equals(Byte.valueOf("0"))) {
 
                 throw new HttpException("你没有权限创建评论或回复(账户未激活或已禁用)", 403);
             }
@@ -109,6 +114,13 @@ public class PostController extends APIController {
 
             // log
             userLogMQService.createUserLog(uid, CREATE_POST, "", "在话题《".concat(topicEntity.getTitle()).concat("》上创建了新回复: ").concat(postCreationModel.content), Request().getIp(), Request().getUa());
+
+            // notification
+            notificationMQService.createNotification(topicEntity.getAuthorName(), author.getUsername().concat("在你的话题《".concat(topicEntity.getTitle()).concat("》发表了回复")), postCreationModel.content, N_TOPIC_REPLY);
+
+            Arrays.stream(postCreationModel.mentions).forEach(mention -> {
+                notificationMQService.createNotification(mention, author.getUsername().concat("在话题《".concat(topicEntity.getTitle()).concat("》的评论中@了你")), postCreationModel.content, N_AT);
+            });
 
             Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", createResult);
