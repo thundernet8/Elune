@@ -19,6 +19,7 @@
 
 package com.elune.controller.api;
 
+import com.elune.entity.UserEntity;
 import com.elune.model.*;
 import com.elune.service.*;
 import com.elune.utils.StringUtil;
@@ -107,6 +108,12 @@ public class AuthController extends APIController{
             resp.put("msg", "登录成功");
             Succeed(resp);
         } catch (Exception e) {
+
+            // log
+            UserEntity userEntity = userService.getUserEntityByName(loginModel.username);
+            if (userEntity != null) {
+                userLogMQService.createUserLog(userEntity.getId(), LOGIN, "", "failed", Request().getIp(), Request().getUa());
+            }
 
             Fail(e);
         }

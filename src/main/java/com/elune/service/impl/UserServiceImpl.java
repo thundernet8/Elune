@@ -178,19 +178,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByName(String username) {
+    public UserEntity getUserEntityByName(String username) {
 
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
-            UserEntity userEntity = mapper.selectByUsername(username);
-            if (userEntity == null) {
-
-                return null;
-            }
-
-            return assembleUser(userEntity);
+            return mapper.selectByUsername(username);
         }
+    }
+
+    @Override
+    public User getUserByName(String username) {
+
+        UserEntity userEntity = getUserEntityByName(username);
+        if (userEntity == null) {
+
+            return null;
+        }
+
+        return assembleUser(userEntity);
     }
 
     @Override

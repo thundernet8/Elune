@@ -42,6 +42,8 @@ public interface UserService {
 
     UserEntity getUserEntity(long id);
 
+    UserEntity getUserEntityByName(String username);
+
     User getUserByName(String username);
 
     User getUserByEmail(String email);
