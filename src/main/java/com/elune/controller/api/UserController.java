@@ -20,6 +20,7 @@
 package com.elune.controller.api;
 
 import com.elune.dal.DBManager;
+import com.elune.entity.UserEntity;
 import com.elune.entity.UsermetaEntity;
 import com.elune.model.*;
 import com.elune.service.*;
@@ -33,10 +34,14 @@ import com.fedepot.mvc.annotation.Route;
 import com.fedepot.mvc.annotation.RoutePrefix;
 import com.fedepot.mvc.controller.APIController;
 import com.fedepot.mvc.http.Session;
+import com.fedepot.util.DateKit;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
+import static com.elune.constants.UserLogType.*;
+import static com.elune.constants.UserStatus.*;
 
 /**
  * @author Touchumind
@@ -57,6 +62,9 @@ public class UserController extends APIController {
 
     @FromService
     private PostService postService;
+
+    @FromService
+    private UserLogMQService userLogMQService;
 
     public UserController(DBManager dbManager) {
 
@@ -107,6 +115,28 @@ public class UserController extends APIController {
             throw new HttpException("尚未登录, 不能更新资料", 401);
         }
 
+        UserEntity userEntity = userService.getUserEntity(uid);
+        if (userEntity == null || userEntity.getStatus().equals(DELETE)) {
+
+            throw new HttpException("用户不存在或已被删除", 404);
+        }
+
+        if (userEntity.getStatus().equals(UNACTIVE)) {
+
+            throw new HttpException("账户尚未激活, 不能更新资料", 401);
+        }
+
+        // log
+        if (!userProfileSetting.nickname.equals(userEntity.getNickname())) {
+            userLogMQService.createUserLog(uid, UPDATE_PROFILE, "Nickname: ".concat(userEntity.getNickname()), "Nickname: ".concat(userProfileSetting.nickname), Request().getIp(), Request().getUa());
+        }
+        if (!userProfileSetting.url.equals(userEntity.getUrl())) {
+            userLogMQService.createUserLog(uid, UPDATE_PROFILE, "Url: ".concat(userEntity.getUrl()), "Url: ".concat(userProfileSetting.url), Request().getIp(), Request().getUa());
+        }
+        if (!userProfileSetting.bio.equals(userEntity.getBio())) {
+            userLogMQService.createUserLog(uid, UPDATE_PROFILE, "Bio: ".concat(userEntity.getBio()), "Bio: ".concat(userProfileSetting.bio), Request().getIp(), Request().getUa());
+        }
+
         try {
 
             Map<String, Object> updateInfo = new HashMap<>(4);
@@ -147,6 +177,9 @@ public class UserController extends APIController {
 
             userMetaService.createOrUpdateUsermeta(uid, "balance", Integer.toString(newBalance));
             userMetaService.createOrUpdateUsermeta(uid, "dailySign", Integer.toString(DateUtil.getTimeStamp()));
+
+            // log
+            userLogMQService.createUserLog(uid, BALANCE, "Balance: ".concat(Integer.toString(balance)), DateKit.getGmtDateString().concat("签到获得").concat(Integer.toString(change)).concat("铜币奖励"), Request().getIp(), Request().getUa());
 
             Map<String, Object> resp = new HashMap<>(2);
             resp.put("msg", "签到成功, 获得 " + newBalance + " 铜币");

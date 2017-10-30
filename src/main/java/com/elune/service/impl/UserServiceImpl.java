@@ -255,25 +255,30 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean activate(String token) {
+    public long activate(String token) {
 
-        long uid = (long)cache.get(token).orElse(0l);
+        long uid = (long)cache.get(token).orElse(0L);
 
-        return uid != 0 && updateUser(UserEntity.builder().id(uid).status(Byte.valueOf("1")).build());
+        if (uid != 0 && updateUser(UserEntity.builder().id(uid).status(Byte.valueOf("1")).build())) {
+
+            return uid;
+        }
+
+        return 0;
     }
 
     @Override
-    public boolean reActivate(String email) {
+    public long reActivate(String email) {
 
         User user = getUserByEmail(email);
         if (user == null) {
 
-            return false;
+            return 0;
         }
 
         sendActivationEmail(user);
 
-        return true;
+        return user.getId();
     }
 
     @Override

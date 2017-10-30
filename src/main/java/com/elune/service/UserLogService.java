@@ -24,7 +24,7 @@ import com.elune.model.UserLog;
 
 public interface UserLogService {
 
-    long createUserLog(long uid, String before, String after, String ip, String ua);
+    long createUserLog(long uid, byte type, String before, String after, String ip, String ua);
 
     Pagination<UserLog> getUserLogs(long uid, byte type, int page, int pageSize, String orderClause);
 }

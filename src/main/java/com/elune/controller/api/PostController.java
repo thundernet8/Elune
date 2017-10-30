@@ -24,10 +24,7 @@ import com.elune.entity.UserEntity;
 import com.elune.model.Pagination;
 import com.elune.model.Post;
 import com.elune.model.PostCreationModel;
-import com.elune.service.BalanceMQService;
-import com.elune.service.PostService;
-import com.elune.service.TopicService;
-import com.elune.service.UserService;
+import com.elune.service.*;
 
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
@@ -37,6 +34,8 @@ import com.fedepot.mvc.http.Session;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.elune.constants.UserLogType.*;
 
 /**
  * @author Touchumind
@@ -55,6 +54,9 @@ public class PostController extends APIController {
 
     @FromService
     private BalanceMQService balanceMQService;
+
+    @FromService
+    private UserLogMQService userLogMQService;
 
     @HttpPost
     @Route("")
@@ -104,6 +106,9 @@ public class PostController extends APIController {
 
                 balanceMQService.increaseBalance(uid, 10);
             }
+
+            // log
+            userLogMQService.createUserLog(uid, CREATE_POST, "", "在话题《".concat(topicEntity.getTitle()).concat("》上创建了新回复: ").concat(postCreationModel.content), Request().getIp(), Request().getUa());
 
             Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", createResult);

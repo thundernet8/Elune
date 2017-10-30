@@ -19,6 +19,7 @@
 
 package com.elune.controller.api;
 
+import com.elune.entity.TopicEntity;
 import com.elune.entity.UserEntity;
 import com.elune.model.*;
 import com.elune.service.*;
@@ -32,6 +33,8 @@ import com.fedepot.mvc.controller.APIController;
 import com.fedepot.mvc.http.Session;
 
 import java.util.*;
+
+import static com.elune.constants.UserLogType.*;
 
 /**
  * @author Touchumind
@@ -53,6 +56,9 @@ public class TopicController extends APIController {
 
     @FromService
     private TagService tagService;
+
+    @FromService
+    private UserLogMQService userLogMQService;
 
     @HttpPost
     @Route("")
@@ -84,6 +90,9 @@ public class TopicController extends APIController {
             // 创建标签
             List<TagCreationModel> tags = StringUtil.getTagsFromContent(topicCreationModel.content, 5);
             tagService.createTags(tags, createResult);
+
+            // log
+            userLogMQService.createUserLog(uid, CREATE_TOPIC, "", "创建了话题《".concat(topicCreationModel.title).concat("》"), Request().getIp(), Request().getUa());
 
             Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", createResult);
@@ -131,6 +140,9 @@ public class TopicController extends APIController {
             boolean updateResult = topicService.updateTopic(topicUpdateModel);
 
             if (updateResult) {
+
+                // log
+                userLogMQService.createUserLog(uid, UPDATE_TOPIC, "", "更新了话题《".concat(topic.getTitle()).concat("》"), Request().getIp(), Request().getUa());
 
                 Map<String, Object> resp = new HashMap<>(2);
                 resp.put("result", true);
@@ -241,9 +253,19 @@ public class TopicController extends APIController {
             throw new HttpException("你必须登录才能收藏话题", 401);
         }
 
+        TopicEntity topicEntity = topicService.getTopicEntity(id);
+        if (topicEntity == null || topicEntity.getStatus().equals(Byte.valueOf("0"))) {
+
+            throw new HttpException("话题不存在或已被删除", 404);
+        }
+
         try {
 
             boolean result = userMetaService.favoriteTopic(uid, id) && topicService.favoriteTopic(id);
+
+            // log
+            userLogMQService.createUserLog(uid, FAVORITE_TOPIC, "", "收藏了话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
+
             Succeed(result);
         } catch (Exception e) {
             Fail(e);
@@ -261,9 +283,19 @@ public class TopicController extends APIController {
             throw new HttpException("你必须登录才能取消收藏话题", 401);
         }
 
+        TopicEntity topicEntity = topicService.getTopicEntity(id);
+        if (topicEntity == null || topicEntity.getStatus().equals(Byte.valueOf("0"))) {
+
+            throw new HttpException("话题不存在或已被删除", 404);
+        }
+
         try {
 
             boolean result = userMetaService.unfavoriteTopic(uid, id) && topicService.unfavoriteTopic(id);
+
+            // log
+            userLogMQService.createUserLog(uid, UNFAVORITE_TOPIC, "", "取消收藏话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
+
             Succeed(result);
         } catch (Exception e) {
             Fail(e);
@@ -281,9 +313,19 @@ public class TopicController extends APIController {
             throw new HttpException("你必须登录才能点赞话题", 401);
         }
 
+        TopicEntity topicEntity = topicService.getTopicEntity(id);
+        if (topicEntity == null || topicEntity.getStatus().equals(Byte.valueOf("0"))) {
+
+            throw new HttpException("话题不存在或已被删除", 404);
+        }
+
         try {
 
             boolean result = topicService.upvoteTopic(id);
+
+            // log
+            userLogMQService.createUserLog(uid, LIKE_TOPIC, "", "喜欢了话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
+
             Succeed(result);
         } catch (Exception e) {
             Fail(e);

@@ -21,6 +21,7 @@ package com.elune.controller.api;
 
 import com.elune.model.*;
 import com.elune.service.BalanceMQService;
+import com.elune.service.UserLogMQService;
 import com.elune.service.UserMetaService;
 import com.elune.service.UserService;
 
@@ -33,6 +34,8 @@ import com.fedepot.mvc.http.Session;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.elune.constants.UserLogType.*;
 
 /**
  * @author Touchumind
@@ -49,6 +52,9 @@ public class AuthController extends APIController{
 
     @FromService
     private BalanceMQService balanceMQService;
+
+    @FromService
+    private UserLogMQService userLogMQService;
 
     @HttpPost
     @Route("user/me")
@@ -88,6 +94,10 @@ public class AuthController extends APIController{
         try {
 
             LoginUser user = userService.signin(loginModel);
+
+            // log
+            userLogMQService.createUserLog(user.getId(), LOGIN, "", "loggedIn", Request().getIp(), Request().getUa());
+
             Session session = Request().session();
             session.addAttribute("uid", user.getId());
             session.addAttribute("username", user.getUsername());
@@ -112,6 +122,9 @@ public class AuthController extends APIController{
 
             // 添加变更用户财富的任务至消息队列
             balanceMQService.increaseBalance(user.getId(), 2000);
+
+            // log
+            userLogMQService.createUserLog(user.getId(), REGISTER, "", "signuped", Request().getIp(), Request().getUa());
 
             if (ref != null && StringUtil.isNumberic(ref)) {
 
@@ -143,6 +156,10 @@ public class AuthController extends APIController{
         try{
 
             Session session = Request().session();
+
+            // log
+            userLogMQService.createUserLog(session.attribute("uid"), LOGOUT, "", "loggedOut", Request().getIp(), Request().getUa());
+
             session.clearAttributes();
             Succeed("注销成功");
         } catch (Exception e) {
@@ -157,7 +174,13 @@ public class AuthController extends APIController{
 
         try {
 
-            Succeed(userService.activate(token));
+            long uid = userService.activate(token);
+            if (uid > 0) {
+                // log
+                userLogMQService.createUserLog(uid, ACTIVATE_ACCOUNT, "", "activated", Request().getIp(), Request().getUa());
+            }
+
+            Succeed(uid > 0);
         } catch (Exception e) {
 
             Fail(e);
@@ -170,7 +193,14 @@ public class AuthController extends APIController{
 
         try {
 
-            Succeed(userService.reActivate(reActivationModel.email));
+            long uid = userService.reActivate(reActivationModel.email);
+
+            if (uid > 0) {
+                // log
+                userLogMQService.createUserLog(uid, REACTIVATE_EMAIL, "", "", Request().getIp(), Request().getUa());
+            }
+
+            Succeed(uid > 0);
         } catch (Exception e) {
 
             Fail(e);

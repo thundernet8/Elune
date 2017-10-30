@@ -20,9 +20,10 @@
 package com.elune.controller.api;
 
 import com.elune.configuration.AppConfiguration;
-import com.elune.entity.UserEntity;
+import com.elune.service.UserLogMQService;
 import com.elune.service.UserService;
 import com.elune.utils.EncryptUtil;
+
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.ForInject;
 import com.fedepot.ioc.annotation.FromService;
@@ -40,6 +41,7 @@ import java.time.Instant;
 import java.util.*;
 
 import static com.elune.constants.Constant.*;
+import static com.elune.constants.UserLogType.*;
 
 /**
  * @author Touchumind
@@ -54,6 +56,9 @@ public class UploadController extends APIController{
 
     @FromService
     private UserService userService;
+
+    @FromService
+    private UserLogMQService userLogMQService;
 
     @ForInject
     public UploadController(AppConfiguration appConfiguration) {
@@ -85,6 +90,9 @@ public class UploadController extends APIController{
                 Map.Entry<String, FormFile> entry = iterator.next();
                 String imageUrl = saveImage(basePath, baseUrl, entry.getValue());
                 imageUrls.add(imageUrl);
+
+                // log
+                userLogMQService.createUserLog(uid, UPLOAD_IMAGE, "", "上传了图片: ".concat(imageUrl), Request().getIp(), Request().getUa());
             }
 
             Map<String, Object> resp = new HashMap<>(2);
@@ -118,6 +126,9 @@ public class UploadController extends APIController{
             updateInfo.put("id", uid);
             updateInfo.put("avatar", imageUrl);
             userService.updateInfo(updateInfo);
+
+            // log
+            userLogMQService.createUserLog(uid, UPLOAD_AVATAR, "", "上传了头像: ".concat(imageUrl), Request().getIp(), Request().getUa());
 
             Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", imageUrl);
