@@ -64,6 +64,9 @@ public class TopicController extends APIController {
     @FromService
     private NotificationMQService notificationMQService;
 
+    @FromService
+    private BalanceMQService balanceMQService;
+
     @HttpPost
     @Route("")
     public void createTopic(@FromBody TopicCreationModel topicCreationModel) {
@@ -285,6 +288,11 @@ public class TopicController extends APIController {
             // notification
             notificationMQService.createNotification(topicEntity.getAuthorName(), user.getUsername().concat("收藏了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_FAVORITE);
 
+            if (uid != topicEntity.getAuthorId()) {
+                // add balance for author
+                balanceMQService.increaseBalance(topicEntity.getAuthorId(), 20);
+            }
+
             Succeed(result);
         } catch (Exception e) {
             Fail(e);
@@ -374,6 +382,11 @@ public class TopicController extends APIController {
 
             // notification
             notificationMQService.createNotification(topicEntity.getAuthorName(), user.getUsername().concat("喜欢了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_LIKE);
+
+            if (uid != topicEntity.getAuthorId()) {
+                // add balance for author
+                balanceMQService.increaseBalance(topicEntity.getAuthorId(), 10);
+            }
 
             Succeed(result);
         } catch (Exception e) {
