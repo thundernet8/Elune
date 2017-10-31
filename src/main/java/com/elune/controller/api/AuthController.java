@@ -23,6 +23,7 @@ import com.elune.entity.UserEntity;
 import com.elune.model.*;
 import com.elune.service.*;
 import com.elune.utils.StringUtil;
+import com.elune.constants.CoinRewards;
 
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
@@ -128,7 +129,7 @@ public class AuthController extends APIController{
             User user = userService.signup(registerModel);
 
             // 添加变更用户财富的任务至消息队列
-            balanceMQService.increaseBalance(user.getId(), 2000);
+            balanceMQService.increaseBalance(user.getId(), CoinRewards.REGISTER);
 
             // log
             userLogMQService.createUserLog(user.getId(), REGISTER, "", "signuped", Request().getIp(), Request().getUa());
@@ -138,7 +139,7 @@ public class AuthController extends APIController{
                 // 给推广用户增加10个银币
                 // TODO confirm user exist
                 long refUid = Long.valueOf(ref);
-                balanceMQService.increaseBalance(refUid, 1000);
+                balanceMQService.increaseBalance(refUid, CoinRewards.REGISTER_REF);
             }
 
             Session session = Request().session();
@@ -212,5 +213,15 @@ public class AuthController extends APIController{
 
             Fail(e);
         }
+    }
+
+    @HttpGet
+    @Route("test")
+    public void test() {
+
+        balanceMQService.increaseBalance(1, 2000);
+
+        Succeed(1);
+
     }
 }

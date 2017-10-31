@@ -25,6 +25,7 @@ import com.elune.model.Pagination;
 import com.elune.model.Post;
 import com.elune.model.PostCreationModel;
 import com.elune.service.*;
+import com.elune.constants.CoinRewards;
 
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
@@ -76,14 +77,14 @@ public class PostController extends APIController {
                 throw new HttpException("你必须登录才能评论或回复", 401);
             }
 
-            UserEntity author = userService.getUserEntity(uid);
+            UserEntity user = userService.getUserEntity(uid);
 
-            if (author == null) {
+            if (user == null) {
 
                 throw new HttpException("你必须登录才能评论或回复", 401);
             }
 
-            if (author.getStatus().equals(Byte.valueOf("0"))) {
+            if (user.getStatus().equals(Byte.valueOf("0"))) {
 
                 throw new HttpException("你没有权限创建评论或回复(账户未激活或已禁用)", 403);
             }
@@ -103,23 +104,23 @@ public class PostController extends APIController {
             postCreationModel.ip = Request().getIp();
             postCreationModel.ua = Request().getUa();
 
-            long createResult = postService.createPost(author, postCreationModel);
+            long createResult = postService.createPost(user, postCreationModel);
 
             // 给主题作者增加铜币
 
-            if (!author.getId().equals(topicEntity.getAuthorId())) {
+            if (!(user.getId().equals(topicEntity.getAuthorId()))) {
 
-                balanceMQService.increaseBalance(uid, 10);
+                balanceMQService.increaseBalance(uid, CoinRewards.CREATE_POST);
             }
 
             // log
             userLogMQService.createUserLog(uid, CREATE_POST, "", "在话题《".concat(topicEntity.getTitle()).concat("》上创建了新回复: ").concat(postCreationModel.content), Request().getIp(), Request().getUa());
 
             // notification
-            notificationMQService.createNotification(topicEntity.getAuthorName(), author.getUsername().concat("在你的话题《".concat(topicEntity.getTitle()).concat("》发表了回复")), postCreationModel.content, N_TOPIC_REPLY);
+            notificationMQService.createNotification(topicEntity.getAuthorName(), user.getUsername().concat("在你的话题《".concat(topicEntity.getTitle()).concat("》发表了回复")), postCreationModel.content, N_TOPIC_REPLY);
 
             Arrays.stream(postCreationModel.mentions).forEach(mention -> {
-                notificationMQService.createNotification(mention, author.getUsername().concat("在话题《".concat(topicEntity.getTitle()).concat("》的评论中@了你")), postCreationModel.content, N_AT);
+                notificationMQService.createNotification(mention, user.getUsername().concat("在话题《".concat(topicEntity.getTitle()).concat("》的评论中@了你")), postCreationModel.content, N_AT);
             });
 
             Map<String, Object> resp = new HashMap<>(2);
@@ -146,12 +147,7 @@ public class PostController extends APIController {
             orderBy = "id";
         }
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(orderBy);
-        sb.append(" ");
-        sb.append(order);
-
-        String orderClause = sb.toString();
+        String orderClause = orderBy.concat(" ").concat(order);
 
         try {
 

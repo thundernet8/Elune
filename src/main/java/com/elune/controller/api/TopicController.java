@@ -23,6 +23,7 @@ import com.elune.entity.TopicEntity;
 import com.elune.entity.UserEntity;
 import com.elune.model.*;
 import com.elune.service.*;
+import com.elune.constants.CoinRewards;
 
 import com.elune.utils.DateUtil;
 import com.elune.utils.StringUtil;
@@ -290,7 +291,7 @@ public class TopicController extends APIController {
 
             if (uid != topicEntity.getAuthorId()) {
                 // add balance for author
-                balanceMQService.increaseBalance(topicEntity.getAuthorId(), 20);
+                balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.TOPIC_BE_FAVORITED);
             }
 
             Succeed(result);
@@ -385,7 +386,7 @@ public class TopicController extends APIController {
 
             if (uid != topicEntity.getAuthorId()) {
                 // add balance for author
-                balanceMQService.increaseBalance(topicEntity.getAuthorId(), 10);
+                balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.TOPIC_BE_LIKED);
             }
 
             Succeed(result);

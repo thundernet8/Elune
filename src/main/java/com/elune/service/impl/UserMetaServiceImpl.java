@@ -146,7 +146,7 @@ public class UserMetaServiceImpl implements UserMetaService {
 
             UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
             UsermetaEntityExample usermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).distinct(true).orderByClause("id DESC").build();
-            usermetaEntityExample.or().andMetaKeyEqualTo(metaKey);
+            usermetaEntityExample.or().andUidEqualTo(uid).andMetaKeyEqualTo(metaKey);
             return mapper.countByExample(usermetaEntityExample);
 
         }
