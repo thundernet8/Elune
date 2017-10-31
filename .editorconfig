@@ -19,5 +19,8 @@ indent_size = 2
 [*.md]
 indent_size = 2
 
+[Makefile]
+indent_style = tab
+
 # Trailing whitespaces are significant in Markdown.
 trim_trailing_whitespace = false
