@@ -52,4 +52,6 @@ public interface UserLogType {
     Byte UPLOAD_AVATAR = 41;
 
     Byte UPDATE_PROFILE = 50;
+
+    Byte READ_NOTIFICATIONS = 60;
 }

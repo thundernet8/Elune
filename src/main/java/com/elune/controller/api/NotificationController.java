@@ -20,14 +20,22 @@
 package com.elune.controller.api;
 
 import com.elune.entity.UserEntity;
+import com.elune.model.Notification;
+import com.elune.model.NotificationsStatusUpdateModel;
 import com.elune.service.NotificationMQService;
 import com.elune.service.NotificationService;
+import com.elune.service.UserLogMQService;
 import com.elune.service.UserService;
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.mvc.annotation.*;
 import com.fedepot.mvc.controller.APIController;
 import com.fedepot.mvc.http.Session;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.elune.constants.UserLogType.*;
 
 /**
  * @author Touchumind
@@ -43,6 +51,9 @@ public class NotificationController extends APIController {
 
     @FromService
     private NotificationMQService notificationMQService;
+
+    @FromService
+    private UserLogMQService userLogMQService;
 
     @HttpGet
     @Route("")
@@ -84,6 +95,51 @@ public class NotificationController extends APIController {
             }
 
             Succeed(notificationService.getNotifications(user.getUsername(), page, pageSize, orderClause));
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
+
+
+    @HttpPost
+    @Route("status")
+    public void updateNotificationsStatus(@FromBody NotificationsStatusUpdateModel updateModel) {
+
+        try {
+
+            Session session = Request().session();
+            long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+            if (uid < 1) {
+
+                throw new HttpException("请登录", 401);
+            }
+
+            UserEntity user = userService.getUserEntity(uid);
+
+            if (user == null) {
+
+                throw new HttpException("请登录", 401);
+            }
+
+            if (user.getStatus().equals(Byte.valueOf("0"))) {
+
+                throw new HttpException("你没有权限(账户未激活或已禁用)", 403);
+            }
+
+            if (updateModel.notifications.size() < 1) {
+
+                Succeed(true);
+            }
+
+            List<Notification> notifications = notificationService.getNotifications(user.getUsername(), updateModel.notifications);
+
+            boolean result = notificationService.updateNotificationsStatus(notifications.stream().map(Notification::getId).collect(Collectors.toList()), updateModel.read ? Byte.valueOf("1") : Byte.valueOf("0"));
+
+            // log
+            userLogMQService.createUserLog(uid, READ_NOTIFICATIONS, "", updateModel.read ? "read" : "unread", Request().getIp(), Request().getUa());
+
+            Succeed(result);
         } catch (Exception e) {
 
             Fail(e);

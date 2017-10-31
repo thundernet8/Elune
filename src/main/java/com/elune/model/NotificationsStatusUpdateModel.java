@@ -17,24 +17,13 @@
  */
 
 
-package com.elune.service;
-
-import com.elune.model.Notification;
-import com.elune.model.Pagination;
+package com.elune.model;
 
 import java.util.List;
 
-public interface NotificationService {
+public class NotificationsStatusUpdateModel {
 
-    long createNotification(String from, String to, String title, String content, Byte type);
+    public List<Long> notifications;
 
-    boolean markNotificationRead(long id);
-
-    Pagination<Notification> getNotifications(String username, int page, int pageSize, String orderClause);
-
-    List<Notification> getNotifications(String username, List<Long> ids);
-
-    Pagination<Notification> getUnReadNotifications(String username, int page, int pageSize, String orderClause);
-
-    boolean updateNotificationsStatus(List<Long> ids, Byte status);
+    public boolean read;
 }

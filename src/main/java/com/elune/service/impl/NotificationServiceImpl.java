@@ -78,9 +78,35 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    public List<Notification> getNotifications(String username, List<Long> ids) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            NotificationMapper mapper = sqlSession.getMapper(NotificationMapper.class);
+            NotificationEntityExample entityExample = NotificationEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            entityExample.or().andIdIn(ids).andReceiverEqualTo(username);
+
+            return assembleNotifications(mapper.selectByExampleWithBLOBs(entityExample));
+        }
+    }
+
+    @Override
     public Pagination<Notification> getUnReadNotifications(String username, int page, int pageSize, String orderClause) {
 
         return getNotifications(username, page, pageSize, orderClause, Byte.valueOf("0"), null);
+    }
+
+    @Override
+    public boolean updateNotificationsStatus(List<Long> ids, Byte status) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            NotificationMapper mapper = sqlSession.getMapper(NotificationMapper.class);
+            NotificationEntity record = NotificationEntity.builder().status(status).build();
+            NotificationEntityExample entityExample = NotificationEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            entityExample.or().andIdIn(ids);
+            return mapper.updateByExampleSelective(record, entityExample) > 0;
+        }
     }
 
     private boolean updateNotification(NotificationEntity notificationEntity) {
