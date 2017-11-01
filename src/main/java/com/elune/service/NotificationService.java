@@ -36,5 +36,9 @@ public interface NotificationService {
 
     Pagination<Notification> getUnReadNotifications(String username, int page, int pageSize, String orderClause);
 
+    Pagination<Notification> getUserNotifications(String username, int page, int pageSize, String orderClause);
+
+    Pagination<Notification> getSystemNotifications(String username, int page, int pageSize, String orderClause);
+
     boolean updateNotificationsStatus(List<Long> ids, Byte status);
 }

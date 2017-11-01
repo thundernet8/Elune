@@ -74,7 +74,7 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public Pagination<Notification> getNotifications(String username, int page, int pageSize, String orderClause) {
 
-        return getNotifications(username, page, pageSize, orderClause, null, null);
+        return getNotifications(username, page, pageSize, orderClause, null, null, null);
     }
 
     @Override
@@ -93,7 +93,19 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public Pagination<Notification> getUnReadNotifications(String username, int page, int pageSize, String orderClause) {
 
-        return getNotifications(username, page, pageSize, orderClause, Byte.valueOf("0"), null);
+        return getNotifications(username, page, pageSize, orderClause, Byte.valueOf("0"), null, null);
+    }
+
+    @Override
+    public Pagination<Notification> getUserNotifications(String username, int page, int pageSize, String orderClause) {
+
+        return getNotifications(username, page, pageSize, orderClause, null, null, "User");
+    }
+
+    @Override
+    public Pagination<Notification> getSystemNotifications(String username, int page, int pageSize, String orderClause) {
+
+        return getNotifications(username, page, pageSize, orderClause, null, null, "System");
     }
 
     @Override
@@ -120,7 +132,7 @@ public class NotificationServiceImpl implements NotificationService {
         }
     }
 
-    private Pagination<Notification> getNotifications(String username, int page, int pageSize, String orderClause, Byte readStatus, Byte type) {
+    private Pagination<Notification> getNotifications(String username, int page, int pageSize, String orderClause, Byte readStatus, Byte type, String sender) {
 
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
@@ -135,6 +147,14 @@ public class NotificationServiceImpl implements NotificationService {
 
             if (type != null) {
                 entityExample.getOredCriteria().get(0).andTypeEqualTo(type);
+            }
+
+            if (sender != null) {
+                if (sender.equals("System")) {
+                    entityExample.getOredCriteria().get(0).andSenderNotEqualTo(sender);
+                } else {
+                    entityExample.getOredCriteria().get(0).andSenderEqualTo(sender);
+                }
             }
 
             List<NotificationEntity> notificationEntities = mapper.selectByExampleWithBLOBs(entityExample);

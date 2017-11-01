@@ -22,6 +22,7 @@ package com.elune.controller.api;
 import com.elune.entity.UserEntity;
 import com.elune.model.Notification;
 import com.elune.model.NotificationsStatusUpdateModel;
+import com.elune.model.Pagination;
 import com.elune.service.NotificationMQService;
 import com.elune.service.NotificationService;
 import com.elune.service.UserLogMQService;
@@ -57,7 +58,7 @@ public class NotificationController extends APIController {
 
     @HttpGet
     @Route("")
-    public void getNotifications(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize, @QueryParam("order") String order) {
+    public void getNotifications(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize, @QueryParam("order") String order, @QueryParam("sender") String sender) {
 
         if (order == null || !(order.toLowerCase().equals("asc"))) {
 
@@ -66,12 +67,7 @@ public class NotificationController extends APIController {
 
         String orderBy = "id";
 
-        StringBuilder sb = new StringBuilder();
-        sb.append(orderBy);
-        sb.append(" ");
-        sb.append(order);
-
-        String orderClause = sb.toString();
+        String orderClause = orderBy.concat(" ").concat(order);
 
         try {
 
@@ -94,7 +90,21 @@ public class NotificationController extends APIController {
                 throw new HttpException("你没有权限(账户未激活或已禁用)", 403);
             }
 
-            Succeed(notificationService.getNotifications(user.getUsername(), page, pageSize, orderClause));
+            Pagination<Notification> notifications;
+            if (sender != null) {
+                switch (sender) {
+                    case "system":
+                    case "System":
+                        notifications = notificationService.getSystemNotifications(user.getUsername(), page, pageSize, orderClause);
+                        break;
+                    default:
+                        notifications = notificationService.getUserNotifications(user.getUsername(), page, pageSize, orderClause);
+                }
+            } else {
+                notifications = notificationService.getNotifications(user.getUsername(), page, pageSize, orderClause);
+            }
+
+            Succeed(notifications);
         } catch (Exception e) {
 
             Fail(e);
