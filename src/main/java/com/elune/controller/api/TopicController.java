@@ -129,7 +129,7 @@ public class TopicController extends APIController {
 
             UserEntity user = userService.getUserEntity(uid);
 
-            if (user == null || user.getStatus().equals(Byte.valueOf("0")) || user.getRoleId() > 10) {
+            if (user == null || user.getStatus().equals(Byte.valueOf("0")) || user.getRoleId() > 100) {
 
                 throw new HttpException("你没有权限更新话题", 403);
             }
@@ -151,6 +151,12 @@ public class TopicController extends APIController {
 
                 // log
                 userLogMQService.createUserLog(uid, UPDATE_TOPIC, "", "更新了话题《".concat(topic.getTitle()).concat("》"), Request().getIp(), Request().getUa());
+
+                // notification
+                if (uid != topic.getAuthorId()) {
+
+                    notificationMQService.createNotification(user.getUsername(), topic.getAuthorName(), user.getUsername().concat("更新了话题《").concat(topic.getTitle()).concat("》"), "", N_TOPIC_BE_UPDATED);
+                }
 
                 Map<String, Object> resp = new HashMap<>(2);
                 resp.put("result", true);
@@ -283,13 +289,13 @@ public class TopicController extends APIController {
 
             boolean result = userMetaService.favoriteTopic(uid, id) && topicService.favoriteTopic(id);
 
-            // log
-            userLogMQService.createUserLog(uid, FAVORITE_TOPIC, "", "收藏了话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
-
-            // notification
-            notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("收藏了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_FAVORITE);
-
             if (uid != topicEntity.getAuthorId()) {
+                // log
+                userLogMQService.createUserLog(uid, FAVORITE_TOPIC, "", "收藏了话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
+
+                // notification
+                notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("收藏了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_FAVORITE);
+
                 // add balance for author
                 balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.TOPIC_BE_FAVORITED);
             }
@@ -333,11 +339,14 @@ public class TopicController extends APIController {
 
             boolean result = userMetaService.unfavoriteTopic(uid, id) && topicService.unfavoriteTopic(id);
 
-            // log
-            userLogMQService.createUserLog(uid, UNFAVORITE_TOPIC, "", "取消收藏话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
+            if (uid != topicEntity.getAuthorId()) {
 
-            // notification
-            notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("取消收藏了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_UNFAVORITE);
+                // log
+                userLogMQService.createUserLog(uid, UNFAVORITE_TOPIC, "", "取消收藏话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
+
+                // notification
+                notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("取消收藏了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_UNFAVORITE);
+            }
 
             Succeed(result);
         } catch (Exception e) {
@@ -378,13 +387,13 @@ public class TopicController extends APIController {
 
             boolean result = topicService.upvoteTopic(id);
 
-            // log
-            userLogMQService.createUserLog(uid, LIKE_TOPIC, "", "喜欢了话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
-
-            // notification
-            notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("喜欢了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_LIKE);
-
             if (uid != topicEntity.getAuthorId()) {
+                // log
+                userLogMQService.createUserLog(uid, LIKE_TOPIC, "", "喜欢了话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
+
+                // notification
+                notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("喜欢了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_LIKE);
+
                 // add balance for author
                 balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.TOPIC_BE_LIKED);
             }

@@ -38,4 +38,10 @@ public interface NotificationType {
     Byte N_TOPIC_UNSTICKY = 8;
 
     Byte N_TOPIC_ESSENTIAL = 9;
+
+    Byte N_TOPIC_FOLLOW = 10;
+
+    Byte N_TOPIC_UNFOLLOW = 11;
+
+    Byte N_TOPIC_BE_UPDATED = 12;
 }

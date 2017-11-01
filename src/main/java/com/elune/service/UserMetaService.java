@@ -38,21 +38,31 @@ public interface UserMetaService {
 
     boolean deleteUsermeta(UsermetaEntity usermetaEntity);
 
-    List<UsermetaEntity> getUsermetas(long uid, String metaKey);
+    List<UsermetaEntity> getUsermetas(long uid, String metaKey, int page, int pageSize);
 
     UsermetaEntity getSingleUsermeta(long uid, String metaKey);
 
     Long countUsermetas(long uid, String metaKey);
 
-    Pagination<Topic> getFavorites(long uid, int page, int pageSize);
-
-    List<Long> getFavoriteIds(long uid);
-
-    Long countFavorites(long uid);
-
     boolean favoriteTopic(long uid, long topicId);
 
     boolean unfavoriteTopic(long uid, long topicId);
+
+    Pagination<Topic> getFavorites(long uid, int page, int pageSize);
+
+    Long countFavorites(long uid);
+
+    List<Long> getFavoriteIds(long uid);
+
+    List<Long> getFavoriteIds(long uid, int page, int pageSize);
+
+    Pagination<Topic> getFollowingTopics(long uid, int page, int pageSize);
+
+    Long countFollowingTopics(long uid);
+
+    boolean followTopic(long uid, long topicId);
+
+    boolean unfollowTopic(long uid, long topicId);
 
     boolean hasSignedToday(long uid);
 

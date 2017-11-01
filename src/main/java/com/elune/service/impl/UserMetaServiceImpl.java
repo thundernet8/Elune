@@ -119,12 +119,16 @@ public class UserMetaServiceImpl implements UserMetaService {
     }
 
     @Override
-    public List<UsermetaEntity> getUsermetas(long uid, String metaKey) {
+    public List<UsermetaEntity> getUsermetas(long uid, String metaKey, int page, int pageSize) {
 
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
             UsermetaEntityExample usermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).distinct(true).orderByClause("id DESC").build();
+            if (page > 0 && pageSize > 0) {
+                usermetaEntityExample.setLimit(pageSize);
+                usermetaEntityExample.setOffset((page - 1) * pageSize);
+            }
             usermetaEntityExample.or().andUidEqualTo(uid).andMetaKeyEqualTo(metaKey);
 
             return mapper.selectByExample(usermetaEntityExample);
@@ -134,7 +138,7 @@ public class UserMetaServiceImpl implements UserMetaService {
     @Override
     public UsermetaEntity getSingleUsermeta(long uid, String metaKey) {
 
-        List<UsermetaEntity> usermetaEntities = getUsermetas(uid, metaKey);
+        List<UsermetaEntity> usermetaEntities = getUsermetas(uid, metaKey, 1, 1);
 
         return usermetaEntities.size() > 0 ? usermetaEntities.get(0) : null;
     }
@@ -155,29 +159,28 @@ public class UserMetaServiceImpl implements UserMetaService {
     @Override
     public Pagination<Topic> getFavorites(long uid, int page, int pageSize) {
 
-        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+        List<Long> topicIds = getFavoriteIds(uid, page, pageSize);
+        List<Topic> topics = topicService.getTopicsByIdList(topicIds);
 
-            UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
-            List<Long> topicIds = getFavoriteIds(uid);
-            List<Topic> topics = topicService.getTopicsByIdList(topicIds);
-
-            long total = 0L;
-            if (page == 1) {
-                // 仅在第一页请求查询Total
-                UsermetaEntityExample countUsermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).distinct(true).build();
-                countUsermetaEntityExample.or().andMetaKeyEqualTo("favorites");
-                total = mapper.countByExample(countUsermetaEntityExample);
-            }
-
-            return new Pagination<>(total, page, pageSize, topics);
-
+        long total = 0L;
+        if (page == 1) {
+            // 仅在第一页请求查询Total
+            total = countUsermetas(uid, "favorites");
         }
+
+        return new Pagination<>(total, page, pageSize, topics);
     }
 
     @Override
     public List<Long> getFavoriteIds(long uid) {
 
-        List<UsermetaEntity> usermetaEntities = getUsermetas(uid, "favorites");
+        return getFavoriteIds(uid, 0, 0);
+    }
+
+    @Override
+    public List<Long> getFavoriteIds(long uid, int page, int pageSize) {
+
+        List<UsermetaEntity> usermetaEntities = getUsermetas(uid, "favorites", page, pageSize);
 
         return usermetaEntities.stream().map(x -> Long.valueOf(x.getMetaValue())).collect(Collectors.toList());
     }
@@ -198,6 +201,39 @@ public class UserMetaServiceImpl implements UserMetaService {
     public boolean unfavoriteTopic(long uid, long topicId) {
 
         return deleteUsermeta(UsermetaEntity.builder().metaKey("favorites").metaValue(String.valueOf(topicId)).uid(uid).build());
+    }
+
+    @Override
+    public Pagination<Topic> getFollowingTopics(long uid, int page, int pageSize) {
+
+        List<Long> topicIds = getUsermetas(uid, "following_topics", page, pageSize).stream().map(x -> Long.valueOf(x.getMetaValue())).collect(Collectors.toList());
+        List<Topic> topics = topicService.getTopicsByIdList(topicIds);
+
+        long total = 0L;
+        if (page == 1) {
+            // 仅在第一页请求查询Total
+            total = countUsermetas(uid, "following_topics");
+        }
+
+        return new Pagination<>(total, page, pageSize, topics);
+    }
+
+    @Override
+    public Long countFollowingTopics(long uid) {
+
+        return countUsermetas(uid, "following_topics");
+    }
+
+    @Override
+    public boolean followTopic(long uid, long topicId) {
+
+        return metaExist(uid, "following_topics", String.valueOf(topicId)) || this.createUsermeta(UsermetaEntity.builder().metaKey("following_topics").metaValue(String.valueOf(topicId)).uid(uid).build()) > 0;
+    }
+
+    @Override
+    public boolean unfollowTopic(long uid, long topicId) {
+
+        return deleteUsermeta(UsermetaEntity.builder().metaKey("following_topics").metaValue(String.valueOf(topicId)).uid(uid).build());
     }
 
     @Override

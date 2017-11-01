@@ -30,7 +30,9 @@ public interface CoinRewards {
 
     int CREATE_POST = 10;
 
-    int TOPIC_BE_FAVORITED = 10;
+    int TOPIC_BE_FAVORITED = 20;
 
     int TOPIC_BE_LIKED = 10;
+
+    int TOPIC_BE_FOLLOWED = 20;
 }
