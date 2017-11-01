@@ -287,7 +287,7 @@ public class TopicController extends APIController {
             userLogMQService.createUserLog(uid, FAVORITE_TOPIC, "", "收藏了话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
 
             // notification
-            notificationMQService.createNotification(topicEntity.getAuthorName(), user.getUsername().concat("收藏了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_FAVORITE);
+            notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("收藏了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_FAVORITE);
 
             if (uid != topicEntity.getAuthorId()) {
                 // add balance for author
@@ -337,7 +337,7 @@ public class TopicController extends APIController {
             userLogMQService.createUserLog(uid, UNFAVORITE_TOPIC, "", "取消收藏话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
 
             // notification
-            notificationMQService.createNotification(topicEntity.getAuthorName(), user.getUsername().concat("取消收藏了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_UNFAVORITE);
+            notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("取消收藏了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_UNFAVORITE);
 
             Succeed(result);
         } catch (Exception e) {
@@ -382,7 +382,7 @@ public class TopicController extends APIController {
             userLogMQService.createUserLog(uid, LIKE_TOPIC, "", "喜欢了话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
 
             // notification
-            notificationMQService.createNotification(topicEntity.getAuthorName(), user.getUsername().concat("喜欢了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_LIKE);
+            notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("喜欢了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_LIKE);
 
             if (uid != topicEntity.getAuthorId()) {
                 // add balance for author

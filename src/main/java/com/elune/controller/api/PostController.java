@@ -120,7 +120,7 @@ public class PostController extends APIController {
             notificationMQService.createNotification(topicEntity.getAuthorName(), user.getUsername().concat("在你的话题《".concat(topicEntity.getTitle()).concat("》发表了回复")), postCreationModel.content, N_TOPIC_REPLY);
 
             Arrays.stream(postCreationModel.mentions).forEach(mention -> {
-                notificationMQService.createNotification(mention, user.getUsername().concat("在话题《".concat(topicEntity.getTitle()).concat("》的评论中@了你")), postCreationModel.content, N_AT);
+                notificationMQService.createNotification(user.getUsername(), mention, user.getUsername().concat("在话题《".concat(topicEntity.getTitle()).concat("》的评论中@了你")), postCreationModel.content, N_AT);
             });
 
             Map<String, Object> resp = new HashMap<>(2);
