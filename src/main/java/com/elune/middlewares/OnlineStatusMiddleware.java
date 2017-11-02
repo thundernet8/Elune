@@ -29,6 +29,8 @@ import com.fedepot.mvc.http.Session;
 import com.fedepot.mvc.middleware.Middleware;
 import redis.clients.jedis.Jedis;
 
+import java.time.Instant;
+
 public class OnlineStatusMiddleware implements Middleware{
 
     @FromService
@@ -40,7 +42,7 @@ public class OnlineStatusMiddleware implements Middleware{
         Object uid = session.attribute("uid");
         String sessionId = session.id();
 
-        if (session.isFirstTime()) {
+        if (Instant.now().getEpochSecond() - session.createAt() < 10) {
             return;
         }
 
