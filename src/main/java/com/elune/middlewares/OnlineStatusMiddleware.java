@@ -42,7 +42,7 @@ public class OnlineStatusMiddleware implements Middleware{
         Object uid = session.attribute("uid");
         String sessionId = session.id();
 
-        if (Instant.now().getEpochSecond() - session.createAt() < 10) {
+        if (uid == null && Instant.now().getEpochSecond() - session.createAt() < 10) {
             return;
         }
 
