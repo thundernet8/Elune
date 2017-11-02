@@ -165,10 +165,14 @@ public class AuthController extends APIController{
 
             Session session = Request().session();
 
-            // log
-            userLogMQService.createUserLog(session.attribute("uid"), LOGOUT, "", "loggedOut", Request().getIp(), Request().getUa());
-
+            Object uid = session.attribute("uid");
             session.clearAttributes();
+
+            if (uid != null) {
+                // log
+                userLogMQService.createUserLog((long)uid, LOGOUT, "", "loggedOut", Request().getIp(), Request().getUa());
+            }
+
             Succeed("注销成功");
         } catch (Exception e) {
 

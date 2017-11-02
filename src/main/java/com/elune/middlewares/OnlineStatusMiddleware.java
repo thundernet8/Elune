@@ -20,8 +20,8 @@
 package com.elune.middlewares;
 
 import com.elune.dal.RedisManager;
-
 import com.elune.utils.DateUtil;
+
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.mvc.http.Request;
 import com.fedepot.mvc.http.Response;
@@ -37,13 +37,12 @@ public class OnlineStatusMiddleware implements Middleware{
     @Override
     public void apply(Request request, Response response) {
         Session session = request.session();
-        String sessionId = session.id();
-        long uid = session.attribute("uid");
-        if (uid > 0) {
-            String key = "_session_".concat(Long.toString(uid));
+        Object uid = session.attribute("uid");
+        if (uid != null) {
+            String key = "_session_".concat(uid.toString());
             Jedis jedis = redisManager.getJedis();
-            jedis.append(key, Integer.toString(DateUtil.getTimeStamp()));
-            jedis.expire(key, 60 * 10);
+            jedis.set(key, Integer.toString(DateUtil.getTimeStamp()));
+            // jedis.expire(key, 60 * 10);
             redisManager.retureRes(jedis);
         }
     }
