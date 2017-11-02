@@ -20,6 +20,7 @@
 package com.elune.controller.api;
 
 import com.elune.dal.DBManager;
+import com.elune.dal.RedisManager;
 import com.elune.entity.UserEntity;
 import com.elune.entity.UsermetaEntity;
 import com.elune.model.*;
@@ -35,6 +36,7 @@ import com.fedepot.mvc.annotation.RoutePrefix;
 import com.fedepot.mvc.controller.APIController;
 import com.fedepot.mvc.http.Session;
 import com.fedepot.util.DateKit;
+import redis.clients.jedis.Jedis;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +64,9 @@ public class UserController extends APIController {
 
     @FromService
     private PostService postService;
+
+    @FromService
+    private RedisManager redisManager;
 
     @FromService
     private UserLogMQService userLogMQService;
@@ -97,6 +102,14 @@ public class UserController extends APIController {
             namedUser.setPostsCount(postService.countPostsByAuthor(namedUser.getId()));
             namedUser.setFavoritesCount(userMetaService.countFavorites(namedUser.getId()));
             namedUser.setEmail("");
+
+            Jedis jedis = redisManager.getJedis();
+            String lastConnect = jedis.get("_session_".concat(Long.toString(namedUser.getId())));
+            redisManager.retureRes(jedis);
+            Integer lastConnectStamp = lastConnect != null ? Integer.valueOf(lastConnect) : 0;
+            namedUser.setLastSeen(lastConnectStamp);
+            namedUser.setOnline(DateUtil.getTimeStamp() - lastConnectStamp < 60 * 10);
+
             Succeed(namedUser);
         } catch (Exception e) {
 

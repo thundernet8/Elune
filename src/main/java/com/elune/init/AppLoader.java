@@ -23,6 +23,7 @@ import com.elune.App;
 import com.elune.constants.Constant;
 
 import com.elune.configuration.ConfigurationFactory;
+import com.elune.middlewares.OnlineStatusMiddleware;
 import com.fedepot.Razor;
 import com.fedepot.mvc.middleware.CorsMiddleware;
 import lombok.AccessLevel;
@@ -83,6 +84,9 @@ public final class AppLoader {
 
             razor.use(new CorsMiddleware(Stream.of((Object[])whitelist).toArray(String[]::new)));
         }
+
+        // session status
+        razor.use(new OnlineStatusMiddleware());
 
         appLoader.loadPlugins();
         appLoader.loadThemes();
