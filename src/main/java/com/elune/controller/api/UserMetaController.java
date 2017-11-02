@@ -143,13 +143,13 @@ public class UserMetaController extends APIController {
 
             if (uid != topicEntity.getAuthorId()) {
                 // log
-                userLogMQService.createUserLog(uid, FOLLOW_TOPIC, "", "关注了话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(uid, L_FOLLOW_TOPIC, "", "关注了话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
 
                 // notification
                 notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("关注了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_FOLLOW);
 
                 // add balance for author
-                balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.TOPIC_BE_FOLLOWED);
+                balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_FOLLOWED);
             }
 
             Succeed(result);
@@ -195,7 +195,7 @@ public class UserMetaController extends APIController {
             if (uid != topicEntity.getAuthorId()) {
 
                 // log
-                userLogMQService.createUserLog(uid, UNFOLLOW_TOPIC, "", "取消了对话题《".concat(topicEntity.getTitle()).concat("》的关注"), Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(uid, L_UNFOLLOW_TOPIC, "", "取消了对话题《".concat(topicEntity.getTitle()).concat("》的关注"), Request().getIp(), Request().getUa());
 
                 // notification
                 notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("取消了对你的话题《".concat(topicEntity.getTitle()).concat("》的关注")), "", N_TOPIC_UNFOLLOW);

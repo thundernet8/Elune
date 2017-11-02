@@ -98,7 +98,7 @@ public class AuthController extends APIController{
             LoginUser user = userService.signin(loginModel);
 
             // log
-            userLogMQService.createUserLog(user.getId(), LOGIN, "", "loggedIn", Request().getIp(), Request().getUa());
+            userLogMQService.createUserLog(user.getId(), L_LOGIN, "", "loggedIn", Request().getIp(), Request().getUa());
 
             Session session = Request().session();
             session.addAttribute("uid", user.getId());
@@ -113,7 +113,7 @@ public class AuthController extends APIController{
             // log
             UserEntity userEntity = userService.getUserEntityByName(loginModel.username);
             if (userEntity != null) {
-                userLogMQService.createUserLog(userEntity.getId(), LOGIN, "", "failed", Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(userEntity.getId(), L_LOGIN, "", "failed", Request().getIp(), Request().getUa());
             }
 
             Fail(e);
@@ -129,17 +129,17 @@ public class AuthController extends APIController{
             User user = userService.signup(registerModel);
 
             // 添加变更用户财富的任务至消息队列
-            balanceMQService.increaseBalance(user.getId(), CoinRewards.REGISTER);
+            balanceMQService.increaseBalance(user.getId(), CoinRewards.R_REGISTER);
 
             // log
-            userLogMQService.createUserLog(user.getId(), REGISTER, "", "signuped", Request().getIp(), Request().getUa());
+            userLogMQService.createUserLog(user.getId(), L_REGISTER, "", "signuped", Request().getIp(), Request().getUa());
 
             if (ref != null && StringUtil.isNumberic(ref)) {
 
                 // 给推广用户增加10个银币
                 // TODO confirm user exist
                 long refUid = Long.valueOf(ref);
-                balanceMQService.increaseBalance(refUid, CoinRewards.REGISTER_REF);
+                balanceMQService.increaseBalance(refUid, CoinRewards.R_REGISTER_REF);
             }
 
             Session session = Request().session();
@@ -170,7 +170,7 @@ public class AuthController extends APIController{
 
             if (uid != null) {
                 // log
-                userLogMQService.createUserLog((long)uid, LOGOUT, "", "loggedOut", Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog((long)uid, L_LOGOUT, "", "loggedOut", Request().getIp(), Request().getUa());
             }
 
             Succeed("注销成功");
@@ -189,7 +189,7 @@ public class AuthController extends APIController{
             long uid = userService.activate(token);
             if (uid > 0) {
                 // log
-                userLogMQService.createUserLog(uid, ACTIVATE_ACCOUNT, "", "activated", Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(uid, L_ACTIVATE_ACCOUNT, "", "activated", Request().getIp(), Request().getUa());
             }
 
             Succeed(uid > 0);
@@ -209,7 +209,7 @@ public class AuthController extends APIController{
 
             if (uid > 0) {
                 // log
-                userLogMQService.createUserLog(uid, REACTIVATE_EMAIL, "", "", Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(uid, L_REACTIVATE_EMAIL, "", "", Request().getIp(), Request().getUa());
             }
 
             Succeed(uid > 0);
@@ -217,15 +217,5 @@ public class AuthController extends APIController{
 
             Fail(e);
         }
-    }
-
-    @HttpGet
-    @Route("test")
-    public void test() {
-
-        balanceMQService.increaseBalance(1, 2000);
-
-        Succeed(1);
-
     }
 }

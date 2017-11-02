@@ -21,41 +21,41 @@ package com.elune.constants;
 
 public interface UserLogType {
 
-    Byte LOGIN = 1;
+    Byte L_LOGIN = 1;
 
-    Byte LOGOUT = 2;
+    Byte L_LOGOUT = 2;
 
-    Byte REGISTER = 3;
+    Byte L_REGISTER = 3;
 
-    Byte ACTIVATE_ACCOUNT = 4;
+    Byte L_ACTIVATE_ACCOUNT = 4;
 
-    Byte REACTIVATE_EMAIL = 5;
+    Byte L_REACTIVATE_EMAIL = 5;
 
-    Byte BALANCE = 10;
+    Byte L_BALANCE = 10;
 
-    Byte CREATE_TOPIC = 20;
+    Byte L_CREATE_TOPIC = 20;
 
-    Byte UPDATE_TOPIC = 21;
+    Byte L_UPDATE_TOPIC = 21;
 
-    Byte DELETE_TOPIC = 22;
+    Byte L_DELETE_TOPIC = 22;
 
-    Byte CREATE_POST = 25;
+    Byte L_CREATE_POST = 25;
 
-    Byte FAVORITE_TOPIC = 30;
+    Byte L_FAVORITE_TOPIC = 30;
 
-    Byte UNFAVORITE_TOPIC = 31;
+    Byte L_UNFAVORITE_TOPIC = 31;
 
-    Byte LIKE_TOPIC = 32;
+    Byte L_LIKE_TOPIC = 32;
 
-    Byte UPLOAD_IMAGE = 40;
+    Byte L_UPLOAD_IMAGE = 40;
 
-    Byte UPLOAD_AVATAR = 41;
+    Byte L_UPLOAD_AVATAR = 41;
 
-    Byte UPDATE_PROFILE = 50;
+    Byte L_UPDATE_PROFILE = 50;
 
-    Byte READ_NOTIFICATIONS = 60;
+    Byte L_READ_NOTIFICATIONS = 60;
 
-    Byte FOLLOW_TOPIC = 70;
+    Byte L_FOLLOW_TOPIC = 70;
 
-    Byte UNFOLLOW_TOPIC = 71;
+    Byte L_UNFOLLOW_TOPIC = 71;
 }

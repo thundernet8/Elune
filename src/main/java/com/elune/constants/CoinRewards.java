@@ -24,15 +24,17 @@ package com.elune.constants;
  */
 public interface CoinRewards {
 
-    int REGISTER = 2000;
+    int R_REGISTER = 2000;
 
-    int REGISTER_REF = 1000;
+    int R_REGISTER_REF = 1000;
 
-    int CREATE_POST = 10;
+    int R_CREATE_POST = 10;
 
-    int TOPIC_BE_FAVORITED = 20;
+    int R_TOPIC_BE_REPLIED = 10;
 
-    int TOPIC_BE_LIKED = 10;
+    int R_TOPIC_BE_FAVORITED = 20;
 
-    int TOPIC_BE_FOLLOWED = 20;
+    int R_TOPIC_BE_LIKED = 10;
+
+    int R_TOPIC_BE_FOLLOWED = 20;
 }

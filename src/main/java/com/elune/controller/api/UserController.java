@@ -138,13 +138,13 @@ public class UserController extends APIController {
 
         // log
         if (!userProfileSetting.nickname.equals(userEntity.getNickname())) {
-            userLogMQService.createUserLog(uid, UPDATE_PROFILE, "Nickname: ".concat(userEntity.getNickname()), "Nickname: ".concat(userProfileSetting.nickname), Request().getIp(), Request().getUa());
+            userLogMQService.createUserLog(uid, L_UPDATE_PROFILE, "Nickname: ".concat(userEntity.getNickname()), "Nickname: ".concat(userProfileSetting.nickname), Request().getIp(), Request().getUa());
         }
         if (!userProfileSetting.url.equals(userEntity.getUrl())) {
-            userLogMQService.createUserLog(uid, UPDATE_PROFILE, "Url: ".concat(userEntity.getUrl()), "Url: ".concat(userProfileSetting.url), Request().getIp(), Request().getUa());
+            userLogMQService.createUserLog(uid, L_UPDATE_PROFILE, "Url: ".concat(userEntity.getUrl()), "Url: ".concat(userProfileSetting.url), Request().getIp(), Request().getUa());
         }
         if (!userProfileSetting.bio.equals(userEntity.getBio())) {
-            userLogMQService.createUserLog(uid, UPDATE_PROFILE, "Bio: ".concat(userEntity.getBio()), "Bio: ".concat(userProfileSetting.bio), Request().getIp(), Request().getUa());
+            userLogMQService.createUserLog(uid, L_UPDATE_PROFILE, "Bio: ".concat(userEntity.getBio()), "Bio: ".concat(userProfileSetting.bio), Request().getIp(), Request().getUa());
         }
 
         try {
@@ -189,7 +189,7 @@ public class UserController extends APIController {
             userMetaService.createOrUpdateUsermeta(uid, "dailySign", Integer.toString(DateUtil.getTimeStamp()));
 
             // log
-            userLogMQService.createUserLog(uid, BALANCE, "Balance: ".concat(Integer.toString(balance)), DateKit.getGmtDateString().concat("签到获得").concat(Integer.toString(change)).concat("铜币奖励"), Request().getIp(), Request().getUa());
+            userLogMQService.createUserLog(uid, L_BALANCE, "Balance: ".concat(Integer.toString(balance)), DateKit.getGmtDateString().concat("签到获得").concat(Integer.toString(change)).concat("铜币奖励"), Request().getIp(), Request().getUa());
 
             Map<String, Object> resp = new HashMap<>(2);
             resp.put("msg", "签到成功, 获得 " + change + " 铜币");
