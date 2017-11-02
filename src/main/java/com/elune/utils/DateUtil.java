@@ -19,8 +19,13 @@
 
 package com.elune.utils;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import static com.elune.constants.Constant.DEFAULT_ZONE_ID;
@@ -72,5 +77,24 @@ public final class DateUtil {
     public static int getDayStartTimeStamp() {
 
         return getDayStartTimeStamp("GMT+8");
+    }
+
+    /**
+     * 格式化日期为字符串
+     *
+     * @param date 要格式化的日期
+     * @param pattern 格式 e.g EEE, dd MMM yyyy HH:mm:ss zzz
+     * @return 指定格式日期字符串
+     */
+    public static String getDateStr(Date date, String pattern) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern, Locale.US);
+
+        return formatter.format(LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()));
+    }
+
+    public static String getDateStr(String pattern) {
+
+        return getDateStr(Date.from(Instant.now()), pattern);
     }
 }
