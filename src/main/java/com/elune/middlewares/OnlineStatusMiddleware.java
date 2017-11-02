@@ -40,13 +40,15 @@ public class OnlineStatusMiddleware implements Middleware{
         Object uid = session.attribute("uid");
         String sessionId = session.id();
 
+        if (session.isFirstTime()) {
+            return;
+        }
+
         Jedis jedis = redisManager.getJedis();
         jedis.pfadd("_online_".concat(DateUtil.getDateStr("HHmm").substring(0, 3)), sessionId);
         if (uid != null) {
             String key = "_session_".concat(uid.toString());
             jedis.set(key, Integer.toString(DateUtil.getTimeStamp()));
-            // jedis.expire(key, 60 * 10);
-
             jedis.pfadd("_online_logged_".concat(DateUtil.getDateStr("HHmm").substring(0, 3)), sessionId);
 
         }
