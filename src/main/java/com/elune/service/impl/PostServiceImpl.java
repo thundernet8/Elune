@@ -19,6 +19,8 @@
 
 package com.elune.service.impl;
 
+import com.elune.configuration.AppConfiguration;
+import com.elune.constants.Constant;
 import com.elune.dal.DBManager;
 import com.elune.dao.PostMapper;
 import com.elune.entity.*;
@@ -51,6 +53,9 @@ public class PostServiceImpl implements PostService {
 
     @FromService
     private MailMQService mailMQService;
+
+    @FromService
+    private AppConfiguration appConfiguration;
 
     @Override
     public Post getPost(long id) {
@@ -88,15 +93,16 @@ public class PostServiceImpl implements PostService {
 
             topicService.lastReplayTopic(postCreationModel.topicId, author);
 
-            // 对提及的用户发送邮件通知(TODO 添加用户notification)
+            // 对提及的用户发送邮件通知
             Arrays.stream(postCreationModel.mentions).forEach(mention -> {
                 if (mention.equals(author.getUsername())) {
                     return;
                 }
 
                 User mentionUser = userService.getUserByName(mention);
+                String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(postCreationModel.topicId));
                 if (mentionUser != null) {
-                    mailMQService.sendMail(mentionUser.getEmail(), mentionUser.getNickname(), "Elune - ".concat(author.getNickname()).concat("在回复中提到了你"), postCreationModel.content);
+                    mailMQService.sendMail(mentionUser.getEmail(), mentionUser.getNickname(), "Elune - ".concat(author.getNickname()).concat("在回复中提到了你"), postCreationModel.content.concat("\r\n").concat(topicLink));
                 }
             });
 
