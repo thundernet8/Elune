@@ -102,7 +102,11 @@ public class UserMetaServiceImpl implements UserMetaService {
         try (SqlSession sqlSession = dbManager.getSqlSession()){
 
             UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
-            return mapper.deleteByPrimaryKey(id) > 0;
+            int result = mapper.deleteByPrimaryKey(id);
+
+            sqlSession.commit();
+
+            return result > 0;
         }
     }
 
@@ -114,7 +118,11 @@ public class UserMetaServiceImpl implements UserMetaService {
             UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
             UsermetaEntityExample entityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).build();
             entityExample.or().andMetaKeyEqualTo(usermetaEntity.getMetaKey()).andUidEqualTo(usermetaEntity.getUid()).andMetaValueEqualTo(usermetaEntity.getMetaValue());
-            return mapper.deleteByExample(entityExample) > 0;
+            int result = mapper.deleteByExample(entityExample);
+
+            sqlSession.commit();
+
+            return result > 0;
         }
     }
 

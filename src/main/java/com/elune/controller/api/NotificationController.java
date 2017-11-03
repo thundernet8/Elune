@@ -33,6 +33,7 @@ import com.fedepot.mvc.annotation.*;
 import com.fedepot.mvc.controller.APIController;
 import com.fedepot.mvc.http.Session;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -154,6 +155,16 @@ public class NotificationController extends APIController {
 
             Fail(e);
         }
+    }
+
+    @HttpGet
+    @Route("test")
+    public void test() {
+        List<Notification> notifications = notificationService.getNotifications("yf11", Collections.singletonList(8L));
+
+        boolean result = notificationService.updateNotificationsStatus(notifications.stream().map(Notification::getId).collect(Collectors.toList()), Byte.valueOf("1"));
+
+        Succeed(result);
     }
 
 }

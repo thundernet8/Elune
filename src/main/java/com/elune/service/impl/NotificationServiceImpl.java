@@ -117,7 +117,11 @@ public class NotificationServiceImpl implements NotificationService {
             NotificationEntity record = NotificationEntity.builder().status(status).build();
             NotificationEntityExample entityExample = NotificationEntityExample.builder().oredCriteria(new ArrayList<>()).build();
             entityExample.or().andIdIn(ids);
-            return mapper.updateByExampleSelective(record, entityExample) > 0;
+            int result = mapper.updateByExampleSelective(record, entityExample);
+
+            sqlSession.commit();
+
+            return result > 0;
         }
     }
 
@@ -127,6 +131,8 @@ public class NotificationServiceImpl implements NotificationService {
 
             NotificationMapper mapper = sqlSession.getMapper(NotificationMapper.class);
             int update = mapper.updateByPrimaryKeySelective(notificationEntity);
+
+            sqlSession.commit();
 
             return update > 0;
         }
