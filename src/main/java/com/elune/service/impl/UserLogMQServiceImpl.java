@@ -45,7 +45,7 @@ public class UserLogMQServiceImpl implements UserLogMQService {
     @ForInject
     public UserLogMQServiceImpl(MessageQueue messageQueue) {
 
-        String topic = "QUEUETOPIC::NOTIFICATION";
+        String topic = "QUEUETOPIC::USERLOG";
         producer = new Producer(messageQueue, topic);
         Consumer consumer = new Consumer(messageQueue, topic);
 

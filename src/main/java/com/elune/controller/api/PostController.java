@@ -119,7 +119,7 @@ public class PostController extends APIController {
             userLogMQService.createUserLog(uid, L_CREATE_POST, "", "在话题《".concat(topicEntity.getTitle()).concat("》上创建了新回复: ").concat(postCreationModel.content), Request().getIp(), Request().getUa());
 
             // notification
-            notificationMQService.createNotification(topicEntity.getAuthorName(), user.getUsername().concat("在你的话题《".concat(topicEntity.getTitle()).concat("》发表了回复")), postCreationModel.content, N_TOPIC_REPLY);
+            notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("在你的话题《".concat(topicEntity.getTitle()).concat("》发表了回复")), postCreationModel.content, N_TOPIC_REPLY);
 
             Arrays.stream(postCreationModel.mentions).forEach(mention -> {
                 notificationMQService.createNotification(user.getUsername(), mention, user.getUsername().concat("在话题《".concat(topicEntity.getTitle()).concat("》的评论中@了你")), postCreationModel.content, N_AT);

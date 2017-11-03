@@ -76,6 +76,11 @@ public class NotificationMQServiceImple implements NotificationMQService {
 
         log.info("notification: {}", task);
 
+        if (task.getContent() == null) {
+
+            return;
+        }
+
         try {
 
             notificationService.createNotification(task.getFrom(), task.getTo(), task.getTitle(), task.getContent(), task.getType());

@@ -49,7 +49,7 @@ public class NotificationServiceImpl implements NotificationService {
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             NotificationMapper mapper = sqlSession.getMapper(NotificationMapper.class);
-            NotificationEntity entity = NotificationEntity.builder().status(Byte.valueOf("0")).sender(from).receiver(to).title(title).content(content).type(type).createTime(DateUtil.getTimeStamp()).build();
+            NotificationEntity entity = NotificationEntity.builder().status(Byte.valueOf("0")).sender(from).receiver(to).title(title).content(content).type(type).createTime(DateUtil.getTimeStamp()).eventId("").build();
 
             mapper.insertSelective(entity);
             sqlSession.commit();
