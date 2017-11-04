@@ -59,7 +59,7 @@ public class NotificationController extends APIController {
 
     @HttpGet
     @Route("")
-    public void getNotifications(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize, @QueryParam("order") String order, @QueryParam("sender") String sender) {
+    public void getNotifications(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize, @QueryParam("order") String order, @QueryParam("type") String type) {
 
         if (order == null || !(order.toLowerCase().equals("asc"))) {
 
@@ -92,8 +92,8 @@ public class NotificationController extends APIController {
             }
 
             Pagination<Notification> notifications;
-            if (sender != null) {
-                switch (sender) {
+            if (type != null) {
+                switch (type) {
                     case "system":
                     case "System":
                         notifications = notificationService.getSystemNotifications(user.getUsername(), page, pageSize, orderClause);
@@ -156,15 +156,4 @@ public class NotificationController extends APIController {
             Fail(e);
         }
     }
-
-    @HttpGet
-    @Route("test")
-    public void test() {
-        List<Notification> notifications = notificationService.getNotifications("yf11", Collections.singletonList(8L));
-
-        boolean result = notificationService.updateNotificationsStatus(notifications.stream().map(Notification::getId).collect(Collectors.toList()), Byte.valueOf("1"));
-
-        Succeed(result);
-    }
-
 }

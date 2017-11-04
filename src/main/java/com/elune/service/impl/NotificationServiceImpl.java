@@ -156,8 +156,8 @@ public class NotificationServiceImpl implements NotificationService {
             }
 
             if (sender != null) {
-                if (sender.equals("System")) {
-                    entityExample.getOredCriteria().get(0).andSenderNotEqualTo(sender);
+                if (sender.equals("system")) {
+                    entityExample.getOredCriteria().get(0).andSenderEqualTo("System");
                 } else {
                     entityExample.getOredCriteria().get(0).andSenderEqualTo(sender);
                 }
@@ -178,6 +178,14 @@ public class NotificationServiceImpl implements NotificationService {
 
                 if (type != null) {
                     countEntityExample.getOredCriteria().get(0).andTypeEqualTo(type);
+                }
+
+                if (sender != null) {
+                    if (sender.equals("system")) {
+                        countEntityExample.getOredCriteria().get(0).andSenderEqualTo("System");
+                    } else {
+                        countEntityExample.getOredCriteria().get(0).andSenderEqualTo(sender);
+                    }
                 }
                 total = mapper.countByExample(countEntityExample);
             }
