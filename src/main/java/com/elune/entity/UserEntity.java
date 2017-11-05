@@ -76,7 +76,7 @@ public class UserEntity implements Serializable {
     private Integer updateTime;
 
     /**
-     * 用户角色 0-系统管理员 1-管理员 2-9保留区间 10-普通用户
+     * 用户角色 0-系统管理员 1-管理员 2-99保留区间 100-普通用户
      */
     private Byte roleId;
 

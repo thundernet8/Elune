@@ -40,7 +40,7 @@ public class MainController extends Controller {
 
         String des = "Configuration factory Ok";
 
-        Map<String, Object> model = new HashMap<>();
+        Map<String, Object> model = new HashMap<>(2);
 
         model.put("name", name);
         model.put("des", des);
@@ -109,6 +109,15 @@ public class MainController extends Controller {
      */
     @Route("article/{string:id}")
     public void article(String id) {
+
+        View("index.htm");
+    }
+
+    /**
+     * 账户激活页面
+     */
+    @Route("activation")
+    public void activation() {
 
         View("index.htm");
     }

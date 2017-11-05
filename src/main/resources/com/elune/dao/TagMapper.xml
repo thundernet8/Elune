@@ -219,4 +219,78 @@
       create_time = #{createTime,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="increaseByPrimaryKeySelective" parameterType="com.elune.entity.TagEntity">
+    update t_tag
+    <set>
+      <if test="topicsCount != null">
+        topics_count = topics_count + #{topicsCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="decreaseByPrimaryKeySelective" parameterType="com.elune.entity.TagEntity">
+    update t_tag
+    <set>
+      <if test="topicsCount != null">
+        topics_count = topics_count - #{topicsCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="batchInsertSelective" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="id">
+    insert into t_tag
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+        title,
+        slug,
+        topics_count,
+        create_time
+    </trim>
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (
+        #{item.title,jdbcType=VARCHAR},
+        #{item.slug,jdbcType=VARCHAR},
+        #{item.topicsCount,jdbcType=INTEGER},
+        #{item.createTime,jdbcType=INTEGER}
+      )
+    </foreach>
+  </insert>
+  <insert id="insertOrUpdateSelective" parameterType="com.elune.entity.TagEntity" useGeneratedKeys="true" keyProperty="id">
+    insert into t_tag
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="slug != null">
+        slug,
+      </if>
+      <if test="topicsCount != null">
+        topics_count,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="slug != null">
+        #{slug,jdbcType=VARCHAR},
+      </if>
+      <if test="topicsCount != null">
+        #{topicsCount,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=INTEGER},
+      </if>
+    </trim>
+    on duplicate key update id = LAST_INSERT_ID(id), topics_count = topics_count + 1
+  </insert>
 </mapper>

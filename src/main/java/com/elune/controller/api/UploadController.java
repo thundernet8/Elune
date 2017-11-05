@@ -20,7 +20,10 @@
 package com.elune.controller.api;
 
 import com.elune.configuration.AppConfiguration;
+import com.elune.service.UserLogMQService;
+import com.elune.service.UserService;
 import com.elune.utils.EncryptUtil;
+
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.ForInject;
 import com.fedepot.ioc.annotation.FromService;
@@ -38,7 +41,11 @@ import java.time.Instant;
 import java.util.*;
 
 import static com.elune.constants.Constant.*;
+import static com.elune.constants.UserLogType.*;
 
+/**
+ * @author Touchumind
+ */
 @Slf4j
 @RoutePrefix("api/v1/upload")
 public class UploadController extends APIController{
@@ -46,6 +53,12 @@ public class UploadController extends APIController{
     private String contentAbsPath;
 
     private String imageBaseUrl;
+
+    @FromService
+    private UserService userService;
+
+    @FromService
+    private UserLogMQService userLogMQService;
 
     @ForInject
     public UploadController(AppConfiguration appConfiguration) {
@@ -77,9 +90,12 @@ public class UploadController extends APIController{
                 Map.Entry<String, FormFile> entry = iterator.next();
                 String imageUrl = saveImage(basePath, baseUrl, entry.getValue());
                 imageUrls.add(imageUrl);
+
+                // log
+                userLogMQService.createUserLog(uid, L_UPLOAD_IMAGE, "", "上传了图片: ".concat(imageUrl), Request().getIp(), Request().getUa());
             }
 
-            Map<String, Object> resp = new HashMap<>();
+            Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", imageUrls);
             resp.put("msg", "图片上传成功");
             Succeed(resp);
@@ -106,8 +122,15 @@ public class UploadController extends APIController{
         try {
             Map.Entry<String, FormFile> entry = files.entrySet().iterator().next();
             String imageUrl = saveImage(basePath, baseUrl, entry.getValue());
+            Map<String, Object> updateInfo = new HashMap<>(2);
+            updateInfo.put("id", uid);
+            updateInfo.put("avatar", imageUrl);
+            userService.updateInfo(updateInfo);
 
-            Map<String, Object> resp = new HashMap<>();
+            // log
+            userLogMQService.createUserLog(uid, L_UPLOAD_AVATAR, "", "上传了头像: ".concat(imageUrl), Request().getIp(), Request().getUa());
+
+            Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", imageUrl);
             resp.put("msg", "头像上传成功");
 

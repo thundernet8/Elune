@@ -20,10 +20,14 @@
 package com.elune.service.impl;
 
 import com.elune.dal.DBManager;
+import com.elune.dao.ChannelMapper;
 import com.elune.dao.TopicMapper;
 import com.elune.entity.*;
 import com.elune.model.*;
+import com.elune.service.ChannelService;
+import com.elune.service.TagService;
 import com.elune.service.TopicService;
+import com.elune.service.UserService;
 import com.elune.utils.DateUtil;
 import com.elune.utils.DozerMapperUtil;
 
@@ -32,6 +36,16 @@ import com.fedepot.ioc.annotation.Service;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+/**
+ * @author Touchumind
+ */
 @Service
 @Slf4j
 public class TopicServiceImpl implements TopicService {
@@ -39,22 +53,35 @@ public class TopicServiceImpl implements TopicService {
     @FromService
     private DBManager dbManager;
 
+    @FromService
+    private ChannelService channelService;
+
+    @FromService
+    private TagService tagService;
+
+    @FromService
+    private UserService userService;
+
     @Override
     public Topic getTopic(long id) {
+
+        TopicEntity topicEntity = getTopicEntity(id);
+        if (topicEntity == null) {
+
+            return null;
+        }
+
+        return assembleTopics(Collections.singletonList(topicEntity)).get(0);
+    }
+
+    @Override
+    public TopicEntity getTopicEntity(long id) {
 
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
-            TopicEntity topicEntity = mapper.selectByPrimaryKey(id);
-            if (topicEntity == null) {
+            return mapper.selectByPrimaryKey(id);
 
-                return null;
-            }
-
-            Topic topic = DozerMapperUtil.map(topicEntity, Topic.class);
-            // TODO query author/channel/tags entities for topic
-
-            return topic;
         }
     }
 
@@ -65,9 +92,11 @@ public class TopicServiceImpl implements TopicService {
 
             TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
 
-            TopicEntity topicEntity = TopicEntity.builder().cid(topicCreationModel.channelId).title(topicCreationModel.title).authorName(author.getUsername()).authorId(author.getId()).content(topicCreationModel.content).contentHtml(topicCreationModel.contentHtml).contentRaw(topicCreationModel.contentRaw).createTime(DateUtil.getTimeStamp()).build();
+            TopicEntity topicEntity = TopicEntity.builder().cid(topicCreationModel.channelId).title(topicCreationModel.title).authorName(author.getUsername()).authorId(author.getId()).content(topicCreationModel.content).contentHtml(topicCreationModel.contentHtml).contentRaw(topicCreationModel.contentRaw).createTime(DateUtil.getTimeStamp()).postTime(DateUtil.getTimeStamp()).build();
             mapper.insertSelective(topicEntity);
             sqlSession.commit();
+
+            channelService.updateTopicCount(topicCreationModel.channelId, 1);
 
             return topicEntity.getId();
 
@@ -84,7 +113,7 @@ public class TopicServiceImpl implements TopicService {
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
-            TopicEntity topicEntity = TopicEntity.builder().id(topicUpdateModel.id).title(topicUpdateModel.title).content(topicUpdateModel.content).contentHtml(topicUpdateModel.contentHtml).contentRaw(topicUpdateModel.contentRaw).updateTime(DateUtil.getTimeStamp()).build();
+            TopicEntity topicEntity = TopicEntity.builder().id(topicUpdateModel.id).title(topicUpdateModel.title).cid(topicUpdateModel.channelId).content(topicUpdateModel.content).contentHtml(topicUpdateModel.contentHtml).contentRaw(topicUpdateModel.contentRaw).updateTime(DateUtil.getTimeStamp()).build();
             int update = mapper.updateByPrimaryKeySelective(topicEntity);
             sqlSession.commit();
 
@@ -95,76 +124,275 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public boolean pinTopic(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().id(id).isPinned(Byte.parseByte("1")).build();
+        return updateTopic(topicEntity);
     }
 
     @Override
     public boolean unpinTopic(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().id(id).isPinned(Byte.parseByte("0")).build();
+        return updateTopic(topicEntity);
     }
 
     @Override
     public boolean markTopicEssence(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().id(id).isEssence(Byte.parseByte("1")).build();
+        return updateTopic(topicEntity);
     }
 
     @Override
     public boolean unmarkTopicEssence(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().id(id).isEssence(Byte.parseByte("0")).build();
+        return updateTopic(topicEntity);
     }
 
     @Override
     public boolean upvoteTopic(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().id(id).upvotesCount(1).build();
+        return increaseUpdateTopic(topicEntity);
+    }
+
+    @Override
+    public boolean cancelUpvoteTopic(long id) {
+
+        TopicEntity topicEntity = TopicEntity.builder().id(id).upvotesCount(1).build();
+        return decreaseUpdateTopic(topicEntity);
     }
 
     @Override
     public boolean downvoteTopic(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().id(id).downvotesCount(1).build();
+        return increaseUpdateTopic(topicEntity);
     }
 
     @Override
     public boolean favoriteTopic(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().id(id).favoritesCount(1).build();
+        return increaseUpdateTopic(topicEntity);
     }
 
     @Override
     public boolean unfavoriteTopic(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().id(id).favoritesCount(1).build();
+        return decreaseUpdateTopic(topicEntity);
     }
 
     @Override
     public boolean updateTopicPostsCount(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().id(id).postsCount(1).build();
+        return increaseUpdateTopic(topicEntity);
     }
 
     @Override
-    public boolean udateTopicViews(long id) {
-        return false;
+    public boolean updateTopicViews(long id) {
+
+        return updateTopicViews(id, 1);
+    }
+
+    @Override
+    public boolean updateTopicViews(long id, int count) {
+
+        TopicEntity topicEntity = TopicEntity.builder().id(id).viewsCount(count).build();
+        return increaseUpdateTopic(topicEntity);
     }
 
     @Override
     public boolean updateTopicFactor(long id, int factor) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().id(id).factor(factor).build();
+        return updateTopic(topicEntity);
     }
 
     @Override
-    public boolean lastReplayTopic(long id) {
-        return false;
+    public boolean lastReplayTopic(long id, UserEntity author) {
+
+        TopicEntity topicEntity = TopicEntity.builder().id(id).postTime(DateUtil.getTimeStamp()).poster(author.getUsername()).posterId(author.getId()).build();
+        return updateTopic(topicEntity) && updateTopicPostsCount(id);
     }
 
     @Override
     public boolean toggleTopicComment(long id, boolean enable) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().id(id).commentStatus(Byte.parseByte(Boolean.toString(enable))).build();
+        return updateTopic(topicEntity);
+    }
+
+    @Override
+    public long countTopicsByAuthor(long authorId) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
+            TopicEntityExample topicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            topicEntityExample.or().andAuthorIdEqualTo(authorId).andStatusEqualTo(Byte.valueOf("1"));
+
+            return mapper.countByExample(topicEntityExample);
+        }
     }
 
     @Override
     public boolean deleteTopic(long id) {
-        return false;
+
+        TopicEntity topicEntity = TopicEntity.builder().id(id).status(Byte.parseByte("0")).build();
+        return updateTopic(topicEntity);
     }
 
     @Override
-    public Pagination<Topic> getLatestTopics(int page, int pageSize) {
-        return null;
+    public Pagination<Topic> getTopics(int page, int pageSize, String orderClause) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
+
+            TopicEntityExample topicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).offset((page - 1) * pageSize).limit(pageSize).orderByClause(orderClause).build();
+            Byte normalStatus = 1;
+            topicEntityExample.or().andStatusEqualTo(normalStatus);
+            List<TopicEntity> topicEntities = mapper.selectByExampleWithBLOBs(topicEntityExample);
+            List<Topic> topics = assembleTopics(topicEntities);
+
+            long total = 0L;
+            if (page == 1) {
+                // 仅在第一页请求查询Total
+                TopicEntityExample countTopicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+                countTopicEntityExample.or().andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
+                total = mapper.countByExample(countTopicEntityExample);
+            }
+
+            return new Pagination<>(total, page, pageSize, topics);
+        }
+    }
+
+    @Override
+    public Pagination<Topic> getChannelTopics(int page, int pageSize, int channelId, String orderClause) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
+
+            TopicEntityExample topicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).offset((page - 1)*pageSize).limit(pageSize).orderByClause(orderClause).build();
+            Byte normalStatus = 1;
+            topicEntityExample.or().andCidEqualTo(channelId).andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
+            List<TopicEntity> topicEntities = mapper.selectByExampleWithBLOBs(topicEntityExample);
+            List<Topic> topics = assembleTopics(topicEntities);
+
+            long total = 0L;
+            if (page == 1) {
+                // 仅在第一页请求查询Total
+                TopicEntityExample countTopicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+                countTopicEntityExample.or().andCidEqualTo(channelId).andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
+                total = mapper.countByExample(countTopicEntityExample);
+            }
+
+            return new Pagination<>(total, page, pageSize, topics);
+        }
+    }
+
+    @Override
+    public Pagination<Topic> getUserTopics(int page, int pageSize, long authorId, String orderClause) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
+
+            TopicEntityExample topicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).offset((page - 1)*pageSize).limit(pageSize).orderByClause(orderClause).build();
+            Byte normalStatus = 1;
+            topicEntityExample.or().andAuthorIdEqualTo(authorId).andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
+            List<TopicEntity> topicEntities = mapper.selectByExampleWithBLOBs(topicEntityExample);
+            List<Topic> topics = assembleTopics(topicEntities);
+
+            long total = 0L;
+            if (page == 1) {
+                // 仅在第一页请求查询Total
+                TopicEntityExample countTopicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+                countTopicEntityExample.or().andAuthorIdEqualTo(authorId).andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
+                total = mapper.countByExample(countTopicEntityExample);
+            }
+
+            return new Pagination<>(total, page, pageSize, topics);
+        }
+    }
+
+    @Override
+    public List<Topic> getTopicsByIdList(List<Long> ids) {
+
+        if (ids.size() < 1) {
+
+            return Collections.emptyList();
+        }
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            TopicMapper topicMapper = sqlSession.getMapper(TopicMapper.class);
+            TopicEntityExample topicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            topicEntityExample.or().andIdIn(ids);
+            return assembleTopics(new ArrayList<>(topicMapper.selectByExampleWithBLOBs(topicEntityExample)));
+        }
+    }
+
+    private List<Topic> assembleTopics(List<TopicEntity> topicEntities) {
+
+        List<Topic> topics = new ArrayList<>();
+        List<Integer> channelIds = topicEntities.stream().map(TopicEntity::getCid).distinct().collect(Collectors.toList());
+        Map<Integer, Channel> channelMap = channelService.getChannelsByIdList(channelIds).stream().collect(Collectors.toMap(Channel::getId, Function.identity()));
+
+        List<Long> authorIds = topicEntities.stream().map(TopicEntity::getAuthorId).distinct().collect(Collectors.toList());
+        Map<Long, User> userMap = userService.getUsersByIdList(authorIds).stream().collect(Collectors.toMap(User::getId, Function.identity()));
+
+        topicEntities.forEach(topicEntity -> {
+            Topic topic = DozerMapperUtil.map(topicEntity, Topic.class);
+            topic.setChannel(channelMap.get(topicEntity.getCid()));
+            topic.setAuthor(userMap.get(topicEntity.getAuthorId()));
+            topic.setTags(tagService.getTopicTags(topicEntity.getId()));
+
+            topics.add(topic);
+
+        });
+
+        return topics;
+    }
+
+    private boolean updateTopic(TopicEntity topicEntity) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
+            int update = mapper.updateByPrimaryKeySelective(topicEntity);
+            sqlSession.commit();
+
+            return update > 0;
+        }
+    }
+
+    private boolean increaseUpdateTopic(TopicEntity topicEntity) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
+            int update = mapper.increaseByPrimaryKeySelective(topicEntity);
+            sqlSession.commit();
+
+            return update > 0;
+        }
+    }
+
+    private boolean decreaseUpdateTopic(TopicEntity topicEntity) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            TopicMapper mapper = sqlSession.getMapper(TopicMapper.class);
+            int update = mapper.decreaseByPrimaryKeySelective(topicEntity);
+            sqlSession.commit();
+
+            return update > 0;
+        }
     }
 }

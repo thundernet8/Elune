@@ -1,8 +1,14 @@
 package com.elune.entity;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class TopicEntityExample {
     protected String orderByClause;
 
@@ -1161,6 +1167,136 @@ public class TopicEntityExample {
 
         public Criteria andPostTimeNotBetween(Integer value1, Integer value2) {
             addCriterion("post_time not between", value1, value2, "postTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterIsNull() {
+            addCriterion("poster is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterIsNotNull() {
+            addCriterion("poster is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterEqualTo(String value) {
+            addCriterion("poster =", value, "poster");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterNotEqualTo(String value) {
+            addCriterion("poster <>", value, "poster");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterGreaterThan(String value) {
+            addCriterion("poster >", value, "poster");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterGreaterThanOrEqualTo(String value) {
+            addCriterion("poster >=", value, "poster");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterLessThan(String value) {
+            addCriterion("poster <", value, "poster");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterLessThanOrEqualTo(String value) {
+            addCriterion("poster <=", value, "poster");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterLike(String value) {
+            addCriterion("poster like", value, "poster");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterNotLike(String value) {
+            addCriterion("poster not like", value, "poster");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterIn(List<String> values) {
+            addCriterion("poster in", values, "poster");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterNotIn(List<String> values) {
+            addCriterion("poster not in", values, "poster");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterBetween(String value1, String value2) {
+            addCriterion("poster between", value1, value2, "poster");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterNotBetween(String value1, String value2) {
+            addCriterion("poster not between", value1, value2, "poster");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterIdIsNull() {
+            addCriterion("poster_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterIdIsNotNull() {
+            addCriterion("poster_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterIdEqualTo(Long value) {
+            addCriterion("poster_id =", value, "posterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterIdNotEqualTo(Long value) {
+            addCriterion("poster_id <>", value, "posterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterIdGreaterThan(Long value) {
+            addCriterion("poster_id >", value, "posterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("poster_id >=", value, "posterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterIdLessThan(Long value) {
+            addCriterion("poster_id <", value, "posterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterIdLessThanOrEqualTo(Long value) {
+            addCriterion("poster_id <=", value, "posterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterIdIn(List<Long> values) {
+            addCriterion("poster_id in", values, "posterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterIdNotIn(List<Long> values) {
+            addCriterion("poster_id not in", values, "posterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterIdBetween(Long value1, Long value2) {
+            addCriterion("poster_id between", value1, value2, "posterId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPosterIdNotBetween(Long value1, Long value2) {
+            addCriterion("poster_id not between", value1, value2, "posterId");
             return (Criteria) this;
         }
 

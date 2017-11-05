@@ -19,30 +19,44 @@
 
 package com.elune.controller.api;
 
-import com.elune.model.LoginModel;
-import com.elune.model.LoginUser;
-import com.elune.model.RegisterModel;
-import com.elune.model.User;
-import com.elune.service.UserService;
+import com.elune.entity.UserEntity;
+import com.elune.model.*;
+import com.elune.service.*;
+import com.elune.utils.StringUtil;
+import com.elune.constants.CoinRewards;
 
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
-import com.fedepot.mvc.annotation.FromBody;
-import com.fedepot.mvc.annotation.HttpPost;
-import com.fedepot.mvc.annotation.Route;
-import com.fedepot.mvc.annotation.RoutePrefix;
+import com.fedepot.mvc.annotation.*;
 import com.fedepot.mvc.controller.APIController;
 import com.fedepot.mvc.http.Session;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.elune.constants.UserLogType.*;
+
+/**
+ * @author Touchumind
+ */
 // TODO csrf header verify
 @RoutePrefix("api/v1")
 public class AuthController extends APIController{
 
     @FromService
     private UserService userService;
+
+    @FromService
+    private UserMetaService userMetaService;
+
+    @FromService
+    private BalanceMQService balanceMQService;
+
+    @FromService
+    private UserLogMQService userLogMQService;
+
+    @FromService
+    private NotificationService notificationService;
 
     @HttpPost
     @Route("user/me")
@@ -57,12 +71,15 @@ public class AuthController extends APIController{
                 throw new HttpException("尚未登录", 200);
             }
 
-            User user = userService.getUser(uid);
+            LoginUser user = userService.getLoginUser(uid);
+            user.setFavoriteTopicIds(userMetaService.getFavoriteIds(uid));
+            user.setBalance(userMetaService.getBalance(uid));
+            user.setDailySigned(userMetaService.hasSignedToday(uid));
 
-            session.addAttribute("uid", user.id);
-            session.addAttribute("username", user.username);
-            session.addAttribute("email", user.email);
-            Map<String, Object> resp = new HashMap<>();
+            session.addAttribute("uid", user.getId());
+            session.addAttribute("username", user.getUsername());
+            session.addAttribute("email", user.getEmail());
+            Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", user);
             resp.put("msg", "获取用户信息成功");
             Succeed(resp);
@@ -79,15 +96,25 @@ public class AuthController extends APIController{
         try {
 
             LoginUser user = userService.signin(loginModel);
+
+            // log
+            userLogMQService.createUserLog(user.getId(), L_LOGIN, "", "loggedIn", Request().getIp(), Request().getUa());
+
             Session session = Request().session();
-            session.addAttribute("uid", user.id);
-            session.addAttribute("username", user.username);
-            session.addAttribute("email", user.email);
-            Map<String, Object> resp = new HashMap<>();
+            session.addAttribute("uid", user.getId());
+            session.addAttribute("username", user.getUsername());
+            session.addAttribute("email", user.getEmail());
+            Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", user);
             resp.put("msg", "登录成功");
             Succeed(resp);
         } catch (Exception e) {
+
+            // log
+            UserEntity userEntity = userService.getUserEntityByName(loginModel.username);
+            if (userEntity != null) {
+                userLogMQService.createUserLog(userEntity.getId(), L_LOGIN, "", "failed", Request().getIp(), Request().getUa());
+            }
 
             Fail(e);
         }
@@ -95,18 +122,34 @@ public class AuthController extends APIController{
 
     @HttpPost
     @Route("signup")
-    public void register(@FromBody RegisterModel registerModel) {
+    public void register(@FromBody RegisterModel registerModel, @QueryParam("ref") String ref) {
 
         try{
 
             User user = userService.signup(registerModel);
+
+            // 添加变更用户财富的任务至消息队列
+            balanceMQService.increaseBalance(user.getId(), CoinRewards.R_REGISTER);
+
+            // log
+            userLogMQService.createUserLog(user.getId(), L_REGISTER, "", "signuped", Request().getIp(), Request().getUa());
+
+            if (ref != null && StringUtil.isNumberic(ref)) {
+
+                // 给推广用户增加10个银币
+                // TODO confirm user exist
+                long refUid = Long.valueOf(ref);
+                balanceMQService.increaseBalance(refUid, CoinRewards.R_REGISTER_REF);
+            }
+
             Session session = Request().session();
-            session.addAttribute("uid", user.id);
-            session.addAttribute("username", user.username);
-            session.addAttribute("email", user.email);
-            Map<String, Object> resp = new HashMap<>();
+            session.addAttribute("uid", user.getId());
+            session.addAttribute("username", user.getUsername());
+            session.addAttribute("email", user.getEmail());
+            Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", user);
             resp.put("msg", "注册成功, 请检查你的邮箱并点击激活链接完成账户激活");
+
             Succeed(resp);
         } catch (Exception e) {
 
@@ -121,8 +164,55 @@ public class AuthController extends APIController{
         try{
 
             Session session = Request().session();
+
+            Object uid = session.attribute("uid");
             session.clearAttributes();
+
+            if (uid != null) {
+                // log
+                userLogMQService.createUserLog((long)uid, L_LOGOUT, "", "loggedOut", Request().getIp(), Request().getUa());
+            }
+
             Succeed("注销成功");
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
+
+    @HttpPost
+    @Route("activate")
+    public void activate(@QueryParam("token") String token) {
+
+        try {
+
+            long uid = userService.activate(token);
+            if (uid > 0) {
+                // log
+                userLogMQService.createUserLog(uid, L_ACTIVATE_ACCOUNT, "", "activated", Request().getIp(), Request().getUa());
+            }
+
+            Succeed(uid > 0);
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
+
+    @HttpPost
+    @Route("reactivate")
+    public void reActivate(@FromBody ReActivationModel reActivationModel) {
+
+        try {
+
+            long uid = userService.reActivate(reActivationModel.email);
+
+            if (uid > 0) {
+                // log
+                userLogMQService.createUserLog(uid, L_REACTIVATE_EMAIL, "", "", Request().getIp(), Request().getUa());
+            }
+
+            Succeed(uid > 0);
         } catch (Exception e) {
 
             Fail(e);

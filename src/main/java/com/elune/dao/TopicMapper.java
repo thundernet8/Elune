@@ -33,4 +33,8 @@ public interface TopicMapper {
     int updateByPrimaryKeyWithBLOBs(TopicEntity record);
 
     int updateByPrimaryKey(TopicEntity record);
+
+    int increaseByPrimaryKeySelective(TopicEntity record);
+
+    int decreaseByPrimaryKeySelective(TopicEntity record);
 }

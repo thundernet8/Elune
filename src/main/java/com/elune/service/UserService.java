@@ -22,6 +22,7 @@ package com.elune.service;
 import com.elune.entity.UserEntity;
 import com.elune.model.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,11 +36,19 @@ public interface UserService {
 
     User getUser(long id);
 
+    LoginUser getLoginUser(long id);
+
+    List<User> getUsersByIdList(List<Long> ids);
+
     UserEntity getUserEntity(long id);
+
+    UserEntity getUserEntityByName(String username);
 
     User getUserByName(String username);
 
     User getUserByEmail(String email);
+
+    NamedUser getNamedUser(String username);
 
     Map<String, Object> getUserInfo(long uid);
 
@@ -66,6 +75,16 @@ public interface UserService {
      * @return 未读消息数量
      */
     int getUnReadCount(long uid);
+
+    long activate(String token);
+
+    /**
+     * 重新发送账户激活链接邮件
+     *
+     * @param email 账户的邮箱
+     * @return 成功则返回用户ID，失败返回0
+     */
+    long reActivate(String email);
 
 
     /**

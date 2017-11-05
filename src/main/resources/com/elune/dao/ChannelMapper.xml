@@ -331,4 +331,22 @@
       hosts = #{hosts,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="increaseByPrimaryKeySelective" parameterType="com.elune.entity.ChannelEntity">
+    update t_channel
+    <set>
+      <if test="topicsCount != null">
+        topics_count = topics_count + #{topicsCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="decreaseByPrimaryKeySelective" parameterType="com.elune.entity.ChannelEntity">
+    update t_channel
+    <set>
+      <if test="topicsCount != null">
+        topics_count = topics_count - #{topicsCount,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>

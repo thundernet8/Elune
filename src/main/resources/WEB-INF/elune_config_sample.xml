@@ -34,6 +34,16 @@
 
     <!-- Site Properties -->
     <site>
-        <property name="home">http://localhost</property>
+        <property name="home">http://localhost:9000</property>
+        <property name="frontend">http://localhost:9001</property>
     </site>
+
+    <!-- SMTP -->
+    <smtp>
+        <property name="host">smtp.qq.com</property>
+        <property name="port">465</property>
+        <property name="secure">ssl</property>
+        <property name="username">your smtp account</property>
+        <property name="pass">your smtp password</property>
+    </smtp>
 </app>

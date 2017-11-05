@@ -187,10 +187,43 @@ public class ConfigurationFactory {
                     case "home":
                         properties.put(CONFIG_KEY_SITE_HOME, propEle.getTextContent());
                         break;
+
+                    case "frontend":
+                        properties.put(CONFIG_KEY_SITE_FRONTEND_HOME, propEle.getTextContent());
+                        break;
                 }
             }
         }
 
+        // SMTP
+        NodeList smtpNodes = doc.getElementsByTagName("smtp");
+        if (smtpNodes.getLength() > 0) {
+
+            Element ele = (Element)smtpNodes.item(0);
+            NodeList props = ele.getElementsByTagName("property");
+            for (int j=0; j<props.getLength(); j++) {
+                Element propEle = (Element)props.item(j);
+                String name = propEle.getAttribute("name");
+                switch (name) {
+
+                    case "host":
+                        properties.put(CONFIG_KEY_SMTP_HOST, propEle.getTextContent());
+                        break;
+                    case "port":
+                        properties.put(CONFIG_KEY_SMTP_PORT, propEle.getTextContent());
+                        break;
+                    case "secure":
+                        properties.put(CONFIG_KEY_SMTP_SECURE, propEle.getTextContent());
+                        break;
+                    case "username":
+                        properties.put(CONFIG_KEY_SMTP_USERNAME, propEle.getTextContent());
+                        break;
+                    case "pass":
+                        properties.put(CONFIG_KEY_SMTP_PASS, propEle.getTextContent());
+                        break;
+                }
+            }
+        }
 
         return properties;
     }

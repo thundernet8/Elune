@@ -1,22 +1,3 @@
-/**
- * Elune - Lightweight Forum Powered by Razor.
- * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
- * <p>
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-
 package com.elune.entity;
 
 import lombok.AccessLevel;
@@ -27,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * @author Touchumind
+ * @author
  */
 @Builder
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
@@ -49,9 +30,9 @@ public class NotificationEntity implements Serializable {
 
     private Integer createTime;
 
-    private String from;
+    private String sender;
 
-    private String to;
+    private String receiver;
 
     private String eventId;
 
@@ -99,20 +80,20 @@ public class NotificationEntity implements Serializable {
         this.createTime = createTime;
     }
 
-    public String getFrom() {
-        return from;
+    public String getSender() {
+        return sender;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setSender(String sender) {
+        this.sender = sender;
     }
 
-    public String getTo() {
-        return to;
+    public String getReceiver() {
+        return receiver;
     }
 
-    public void setTo(String to) {
-        this.to = to;
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
     }
 
     public String getEventId() {
@@ -148,8 +129,8 @@ public class NotificationEntity implements Serializable {
             && (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getFrom() == null ? other.getFrom() == null : this.getFrom().equals(other.getFrom()))
-            && (this.getTo() == null ? other.getTo() == null : this.getTo().equals(other.getTo()))
+            && (this.getSender() == null ? other.getSender() == null : this.getSender().equals(other.getSender()))
+            && (this.getReceiver() == null ? other.getReceiver() == null : this.getReceiver().equals(other.getReceiver()))
             && (this.getEventId() == null ? other.getEventId() == null : this.getEventId().equals(other.getEventId()))
             && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()));
     }
@@ -163,8 +144,8 @@ public class NotificationEntity implements Serializable {
         result = prime * result + ((getTitle() == null) ? 0 : getTitle().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
-        result = prime * result + ((getFrom() == null) ? 0 : getFrom().hashCode());
-        result = prime * result + ((getTo() == null) ? 0 : getTo().hashCode());
+        result = prime * result + ((getSender() == null) ? 0 : getSender().hashCode());
+        result = prime * result + ((getReceiver() == null) ? 0 : getReceiver().hashCode());
         result = prime * result + ((getEventId() == null) ? 0 : getEventId().hashCode());
         result = prime * result + ((getContent() == null) ? 0 : getContent().hashCode());
         return result;
@@ -181,8 +162,8 @@ public class NotificationEntity implements Serializable {
         sb.append(", title=").append(title);
         sb.append(", status=").append(status);
         sb.append(", createTime=").append(createTime);
-        sb.append(", from=").append(from);
-        sb.append(", to=").append(to);
+        sb.append(", sender=").append(sender);
+        sb.append(", receiver=").append(receiver);
         sb.append(", eventId=").append(eventId);
         sb.append(", content=").append(content);
         sb.append(", serialVersionUID=").append(serialVersionUID);

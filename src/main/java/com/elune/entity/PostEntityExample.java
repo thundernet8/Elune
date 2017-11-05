@@ -1,8 +1,14 @@
 package com.elune.entity;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PostEntityExample {
     protected String orderByClause;
 
@@ -304,73 +310,73 @@ public class PostEntityExample {
             return (Criteria) this;
         }
 
-        public Criteria andAuthorIsNull() {
-            addCriterion("author is null");
+        public Criteria andAuthorNameIsNull() {
+            addCriterion("author_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorIsNotNull() {
-            addCriterion("author is not null");
+        public Criteria andAuthorNameIsNotNull() {
+            addCriterion("author_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorEqualTo(String value) {
-            addCriterion("author =", value, "author");
+        public Criteria andAuthorNameEqualTo(String value) {
+            addCriterion("author_name =", value, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorNotEqualTo(String value) {
-            addCriterion("author <>", value, "author");
+        public Criteria andAuthorNameNotEqualTo(String value) {
+            addCriterion("author_name <>", value, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorGreaterThan(String value) {
-            addCriterion("author >", value, "author");
+        public Criteria andAuthorNameGreaterThan(String value) {
+            addCriterion("author_name >", value, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorGreaterThanOrEqualTo(String value) {
-            addCriterion("author >=", value, "author");
+        public Criteria andAuthorNameGreaterThanOrEqualTo(String value) {
+            addCriterion("author_name >=", value, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorLessThan(String value) {
-            addCriterion("author <", value, "author");
+        public Criteria andAuthorNameLessThan(String value) {
+            addCriterion("author_name <", value, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorLessThanOrEqualTo(String value) {
-            addCriterion("author <=", value, "author");
+        public Criteria andAuthorNameLessThanOrEqualTo(String value) {
+            addCriterion("author_name <=", value, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorLike(String value) {
-            addCriterion("author like", value, "author");
+        public Criteria andAuthorNameLike(String value) {
+            addCriterion("author_name like", value, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorNotLike(String value) {
-            addCriterion("author not like", value, "author");
+        public Criteria andAuthorNameNotLike(String value) {
+            addCriterion("author_name not like", value, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorIn(List<String> values) {
-            addCriterion("author in", values, "author");
+        public Criteria andAuthorNameIn(List<String> values) {
+            addCriterion("author_name in", values, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorNotIn(List<String> values) {
-            addCriterion("author not in", values, "author");
+        public Criteria andAuthorNameNotIn(List<String> values) {
+            addCriterion("author_name not in", values, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorBetween(String value1, String value2) {
-            addCriterion("author between", value1, value2, "author");
+        public Criteria andAuthorNameBetween(String value1, String value2) {
+            addCriterion("author_name between", value1, value2, "authorName");
             return (Criteria) this;
         }
 
-        public Criteria andAuthorNotBetween(String value1, String value2) {
-            addCriterion("author not between", value1, value2, "author");
+        public Criteria andAuthorNameNotBetween(String value1, String value2) {
+            addCriterion("author_name not between", value1, value2, "authorName");
             return (Criteria) this;
         }
 
@@ -434,133 +440,133 @@ public class PostEntityExample {
             return (Criteria) this;
         }
 
-        public Criteria andOwnerIsNull() {
-            addCriterion("owner is null");
+        public Criteria andTopicAuthorNameIsNull() {
+            addCriterion("topic_author_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerIsNotNull() {
-            addCriterion("owner is not null");
+        public Criteria andTopicAuthorNameIsNotNull() {
+            addCriterion("topic_author_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerEqualTo(String value) {
-            addCriterion("owner =", value, "owner");
+        public Criteria andTopicAuthorNameEqualTo(String value) {
+            addCriterion("topic_author_name =", value, "topicAuthorName");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerNotEqualTo(String value) {
-            addCriterion("owner <>", value, "owner");
+        public Criteria andTopicAuthorNameNotEqualTo(String value) {
+            addCriterion("topic_author_name <>", value, "topicAuthorName");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerGreaterThan(String value) {
-            addCriterion("owner >", value, "owner");
+        public Criteria andTopicAuthorNameGreaterThan(String value) {
+            addCriterion("topic_author_name >", value, "topicAuthorName");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerGreaterThanOrEqualTo(String value) {
-            addCriterion("owner >=", value, "owner");
+        public Criteria andTopicAuthorNameGreaterThanOrEqualTo(String value) {
+            addCriterion("topic_author_name >=", value, "topicAuthorName");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerLessThan(String value) {
-            addCriterion("owner <", value, "owner");
+        public Criteria andTopicAuthorNameLessThan(String value) {
+            addCriterion("topic_author_name <", value, "topicAuthorName");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerLessThanOrEqualTo(String value) {
-            addCriterion("owner <=", value, "owner");
+        public Criteria andTopicAuthorNameLessThanOrEqualTo(String value) {
+            addCriterion("topic_author_name <=", value, "topicAuthorName");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerLike(String value) {
-            addCriterion("owner like", value, "owner");
+        public Criteria andTopicAuthorNameLike(String value) {
+            addCriterion("topic_author_name like", value, "topicAuthorName");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerNotLike(String value) {
-            addCriterion("owner not like", value, "owner");
+        public Criteria andTopicAuthorNameNotLike(String value) {
+            addCriterion("topic_author_name not like", value, "topicAuthorName");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerIn(List<String> values) {
-            addCriterion("owner in", values, "owner");
+        public Criteria andTopicAuthorNameIn(List<String> values) {
+            addCriterion("topic_author_name in", values, "topicAuthorName");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerNotIn(List<String> values) {
-            addCriterion("owner not in", values, "owner");
+        public Criteria andTopicAuthorNameNotIn(List<String> values) {
+            addCriterion("topic_author_name not in", values, "topicAuthorName");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerBetween(String value1, String value2) {
-            addCriterion("owner between", value1, value2, "owner");
+        public Criteria andTopicAuthorNameBetween(String value1, String value2) {
+            addCriterion("topic_author_name between", value1, value2, "topicAuthorName");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerNotBetween(String value1, String value2) {
-            addCriterion("owner not between", value1, value2, "owner");
+        public Criteria andTopicAuthorNameNotBetween(String value1, String value2) {
+            addCriterion("topic_author_name not between", value1, value2, "topicAuthorName");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerIdIsNull() {
-            addCriterion("owner_id is null");
+        public Criteria andTopicAuthorIdIsNull() {
+            addCriterion("topic_author_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerIdIsNotNull() {
-            addCriterion("owner_id is not null");
+        public Criteria andTopicAuthorIdIsNotNull() {
+            addCriterion("topic_author_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerIdEqualTo(Long value) {
-            addCriterion("owner_id =", value, "ownerId");
+        public Criteria andTopicAuthorIdEqualTo(Long value) {
+            addCriterion("topic_author_id =", value, "topicAuthorId");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerIdNotEqualTo(Long value) {
-            addCriterion("owner_id <>", value, "ownerId");
+        public Criteria andTopicAuthorIdNotEqualTo(Long value) {
+            addCriterion("topic_author_id <>", value, "topicAuthorId");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerIdGreaterThan(Long value) {
-            addCriterion("owner_id >", value, "ownerId");
+        public Criteria andTopicAuthorIdGreaterThan(Long value) {
+            addCriterion("topic_author_id >", value, "topicAuthorId");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("owner_id >=", value, "ownerId");
+        public Criteria andTopicAuthorIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("topic_author_id >=", value, "topicAuthorId");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerIdLessThan(Long value) {
-            addCriterion("owner_id <", value, "ownerId");
+        public Criteria andTopicAuthorIdLessThan(Long value) {
+            addCriterion("topic_author_id <", value, "topicAuthorId");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerIdLessThanOrEqualTo(Long value) {
-            addCriterion("owner_id <=", value, "ownerId");
+        public Criteria andTopicAuthorIdLessThanOrEqualTo(Long value) {
+            addCriterion("topic_author_id <=", value, "topicAuthorId");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerIdIn(List<Long> values) {
-            addCriterion("owner_id in", values, "ownerId");
+        public Criteria andTopicAuthorIdIn(List<Long> values) {
+            addCriterion("topic_author_id in", values, "topicAuthorId");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerIdNotIn(List<Long> values) {
-            addCriterion("owner_id not in", values, "ownerId");
+        public Criteria andTopicAuthorIdNotIn(List<Long> values) {
+            addCriterion("topic_author_id not in", values, "topicAuthorId");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerIdBetween(Long value1, Long value2) {
-            addCriterion("owner_id between", value1, value2, "ownerId");
+        public Criteria andTopicAuthorIdBetween(Long value1, Long value2) {
+            addCriterion("topic_author_id between", value1, value2, "topicAuthorId");
             return (Criteria) this;
         }
 
-        public Criteria andOwnerIdNotBetween(Long value1, Long value2) {
-            addCriterion("owner_id not between", value1, value2, "ownerId");
+        public Criteria andTopicAuthorIdNotBetween(Long value1, Long value2) {
+            addCriterion("topic_author_id not between", value1, value2, "topicAuthorId");
             return (Criteria) this;
         }
 
@@ -701,6 +707,126 @@ public class PostEntityExample {
 
         public Criteria andUaNotBetween(String value1, String value2) {
             addCriterion("ua not between", value1, value2, "ua");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpvotesCountIsNull() {
+            addCriterion("upvotes_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpvotesCountIsNotNull() {
+            addCriterion("upvotes_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpvotesCountEqualTo(Integer value) {
+            addCriterion("upvotes_count =", value, "upvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpvotesCountNotEqualTo(Integer value) {
+            addCriterion("upvotes_count <>", value, "upvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpvotesCountGreaterThan(Integer value) {
+            addCriterion("upvotes_count >", value, "upvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpvotesCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("upvotes_count >=", value, "upvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpvotesCountLessThan(Integer value) {
+            addCriterion("upvotes_count <", value, "upvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpvotesCountLessThanOrEqualTo(Integer value) {
+            addCriterion("upvotes_count <=", value, "upvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpvotesCountIn(List<Integer> values) {
+            addCriterion("upvotes_count in", values, "upvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpvotesCountNotIn(List<Integer> values) {
+            addCriterion("upvotes_count not in", values, "upvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpvotesCountBetween(Integer value1, Integer value2) {
+            addCriterion("upvotes_count between", value1, value2, "upvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpvotesCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("upvotes_count not between", value1, value2, "upvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDownvotesCountIsNull() {
+            addCriterion("downvotes_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDownvotesCountIsNotNull() {
+            addCriterion("downvotes_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDownvotesCountEqualTo(Integer value) {
+            addCriterion("downvotes_count =", value, "downvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDownvotesCountNotEqualTo(Integer value) {
+            addCriterion("downvotes_count <>", value, "downvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDownvotesCountGreaterThan(Integer value) {
+            addCriterion("downvotes_count >", value, "downvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDownvotesCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("downvotes_count >=", value, "downvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDownvotesCountLessThan(Integer value) {
+            addCriterion("downvotes_count <", value, "downvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDownvotesCountLessThanOrEqualTo(Integer value) {
+            addCriterion("downvotes_count <=", value, "downvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDownvotesCountIn(List<Integer> values) {
+            addCriterion("downvotes_count in", values, "downvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDownvotesCountNotIn(List<Integer> values) {
+            addCriterion("downvotes_count not in", values, "downvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDownvotesCountBetween(Integer value1, Integer value2) {
+            addCriterion("downvotes_count between", value1, value2, "downvotesCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andDownvotesCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("downvotes_count not between", value1, value2, "downvotesCount");
             return (Criteria) this;
         }
 

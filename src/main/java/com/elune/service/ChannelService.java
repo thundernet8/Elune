@@ -30,6 +30,8 @@ public interface ChannelService {
 
     Channel getChannel(int id);
 
+    Channel getChannelBySlug(String slug);
+
     int createChannel(ChannelCreationModel channelCreationModel);
 
     boolean updateChannel(ChannelUpdateModel channelUpdateModel);
@@ -45,9 +47,9 @@ public interface ChannelService {
      */
     boolean updateTopicCount(int id, int increase);
 
-    boolean addChannelHost(int[] hosts);
-
-    boolean removeChannelHost(int[] hosts);
+    boolean updateChannelHost(int id, int[] hosts);
 
     List<Channel> getAllChannels();
+
+    List<Channel> getChannelsByIdList(List<Integer> ids);
 }

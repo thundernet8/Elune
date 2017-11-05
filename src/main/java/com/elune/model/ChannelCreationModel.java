@@ -24,7 +24,7 @@ package com.elune.model;
  */
 public class ChannelCreationModel {
 
-    public long parentId;
+    public int parentId;
 
     public String title;
 

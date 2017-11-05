@@ -22,17 +22,18 @@ package com.elune.model;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @AllArgsConstructor
 @Getter
 @Setter
 public class Pagination<T> implements Serializable {
 
-    private int total;
+    private long total;
 
     private int page;
 
     private int pageSize;
 
-    private T[] items;
+    private List<T> items;
 }

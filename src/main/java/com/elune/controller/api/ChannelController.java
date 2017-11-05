@@ -22,6 +22,7 @@ package com.elune.controller.api;
 import com.elune.model.Channel;
 import com.elune.service.ChannelService;
 
+import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.mvc.annotation.HttpGet;
 import com.fedepot.mvc.annotation.Route;
@@ -30,6 +31,9 @@ import com.fedepot.mvc.controller.APIController;
 
 import java.util.List;
 
+/**
+ * @author Touchumind
+ */
 @RoutePrefix("api/v1/channels")
 public class ChannelController extends APIController {
 
@@ -57,6 +61,30 @@ public class ChannelController extends APIController {
         try {
 
             Channel channel = channelService.getChannel(id);
+
+            if (channel == null) {
+
+                throw new HttpException("Specified channel is not exist", 404);
+            }
+            Succeed(channel);
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
+
+    @HttpGet
+    @Route("{string:slug}")
+    public void getChannel(String slug) {
+
+        try {
+
+            Channel channel = channelService.getChannelBySlug(slug);
+
+            if (channel == null) {
+
+                throw new HttpException("Specified channel is not exist", 404);
+            }
             Succeed(channel);
         } catch (Exception e) {
 

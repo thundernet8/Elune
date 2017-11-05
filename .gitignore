@@ -26,3 +26,5 @@ target/
 .classpath
 .idea/
 out/
+/Resources/
+/logs/

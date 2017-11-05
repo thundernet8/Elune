@@ -19,25 +19,30 @@
 
 package com.elune.model;
 
-import lombok.Builder;
+import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
+
+
+/**
+ * @author Touchumind
+ */
 
 @Builder
-public class LoginUser implements Serializable {
-    // TODO
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class LoginUser extends User implements Serializable {
 
-    public long id;
+    private long unreadCount;
 
-    public String username;
+    private int balance;
 
-    public String nickname;
+    private boolean dailySigned;
 
-    public String email;
+    private Pagination<Notification> unreadNotifications;
 
-    public int joinTime;
-
-    public int unreadCount;
-
-    public Pagination<Notification> unreadNotifications;
+    private List<Long> favoriteTopicIds;
 }

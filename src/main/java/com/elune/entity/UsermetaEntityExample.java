@@ -1,8 +1,14 @@
 package com.elune.entity;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class UsermetaEntityExample {
     protected String orderByClause;
 
@@ -244,73 +250,143 @@ public class UsermetaEntityExample {
             return (Criteria) this;
         }
 
-        public Criteria andKeyIsNull() {
-            addCriterion("key is null");
+        public Criteria andMetaKeyIsNull() {
+            addCriterion("meta_key is null");
             return (Criteria) this;
         }
 
-        public Criteria andKeyIsNotNull() {
-            addCriterion("key is not null");
+        public Criteria andMetaKeyIsNotNull() {
+            addCriterion("meta_key is not null");
             return (Criteria) this;
         }
 
-        public Criteria andKeyEqualTo(String value) {
-            addCriterion("key =", value, "key");
+        public Criteria andMetaKeyEqualTo(String value) {
+            addCriterion("meta_key =", value, "metaKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyNotEqualTo(String value) {
-            addCriterion("key <>", value, "key");
+        public Criteria andMetaKeyNotEqualTo(String value) {
+            addCriterion("meta_key <>", value, "metaKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyGreaterThan(String value) {
-            addCriterion("key >", value, "key");
+        public Criteria andMetaKeyGreaterThan(String value) {
+            addCriterion("meta_key >", value, "metaKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyGreaterThanOrEqualTo(String value) {
-            addCriterion("key >=", value, "key");
+        public Criteria andMetaKeyGreaterThanOrEqualTo(String value) {
+            addCriterion("meta_key >=", value, "metaKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyLessThan(String value) {
-            addCriterion("key <", value, "key");
+        public Criteria andMetaKeyLessThan(String value) {
+            addCriterion("meta_key <", value, "metaKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyLessThanOrEqualTo(String value) {
-            addCriterion("key <=", value, "key");
+        public Criteria andMetaKeyLessThanOrEqualTo(String value) {
+            addCriterion("meta_key <=", value, "metaKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyLike(String value) {
-            addCriterion("key like", value, "key");
+        public Criteria andMetaKeyLike(String value) {
+            addCriterion("meta_key like", value, "metaKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyNotLike(String value) {
-            addCriterion("key not like", value, "key");
+        public Criteria andMetaKeyNotLike(String value) {
+            addCriterion("meta_key not like", value, "metaKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyIn(List<String> values) {
-            addCriterion("key in", values, "key");
+        public Criteria andMetaKeyIn(List<String> values) {
+            addCriterion("meta_key in", values, "metaKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyNotIn(List<String> values) {
-            addCriterion("key not in", values, "key");
+        public Criteria andMetaKeyNotIn(List<String> values) {
+            addCriterion("meta_key not in", values, "metaKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyBetween(String value1, String value2) {
-            addCriterion("key between", value1, value2, "key");
+        public Criteria andMetaKeyBetween(String value1, String value2) {
+            addCriterion("meta_key between", value1, value2, "metaKey");
             return (Criteria) this;
         }
 
-        public Criteria andKeyNotBetween(String value1, String value2) {
-            addCriterion("key not between", value1, value2, "key");
+        public Criteria andMetaKeyNotBetween(String value1, String value2) {
+            addCriterion("meta_key not between", value1, value2, "metaKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andMetaValueIsNull() {
+            addCriterion("meta_value is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMetaValueIsNotNull() {
+            addCriterion("meta_value is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMetaValueEqualTo(String value) {
+            addCriterion("meta_value =", value, "metaValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andMetaValueNotEqualTo(String value) {
+            addCriterion("meta_value <>", value, "metaValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andMetaValueGreaterThan(String value) {
+            addCriterion("meta_value >", value, "metaValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andMetaValueGreaterThanOrEqualTo(String value) {
+            addCriterion("meta_value >=", value, "metaValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andMetaValueLessThan(String value) {
+            addCriterion("meta_value <", value, "metaValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andMetaValueLessThanOrEqualTo(String value) {
+            addCriterion("meta_value <=", value, "metaValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andMetaValueLike(String value) {
+            addCriterion("meta_value like", value, "metaValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andMetaValueNotLike(String value) {
+            addCriterion("meta_value not like", value, "metaValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andMetaValueIn(List<String> values) {
+            addCriterion("meta_value in", values, "metaValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andMetaValueNotIn(List<String> values) {
+            addCriterion("meta_value not in", values, "metaValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andMetaValueBetween(String value1, String value2) {
+            addCriterion("meta_value between", value1, value2, "metaValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andMetaValueNotBetween(String value1, String value2) {
+            addCriterion("meta_value not between", value1, value2, "metaValue");
             return (Criteria) this;
         }
     }

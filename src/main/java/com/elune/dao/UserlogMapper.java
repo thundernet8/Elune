@@ -16,21 +16,15 @@ public interface UserlogMapper {
 
     int insertSelective(UserlogEntity record);
 
-    List<UserlogEntity> selectByExampleWithBLOBs(UserlogEntityExample example);
-
     List<UserlogEntity> selectByExample(UserlogEntityExample example);
 
     UserlogEntity selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") UserlogEntity record, @Param("example") UserlogEntityExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") UserlogEntity record, @Param("example") UserlogEntityExample example);
-
     int updateByExample(@Param("record") UserlogEntity record, @Param("example") UserlogEntityExample example);
 
     int updateByPrimaryKeySelective(UserlogEntity record);
-
-    int updateByPrimaryKeyWithBLOBs(UserlogEntity record);
 
     int updateByPrimaryKey(UserlogEntity record);
 }

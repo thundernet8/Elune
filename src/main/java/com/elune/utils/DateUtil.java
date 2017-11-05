@@ -19,7 +19,14 @@
 
 package com.elune.utils;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import static com.elune.constants.Constant.DEFAULT_ZONE_ID;
 
@@ -44,5 +51,50 @@ public final class DateUtil {
     public static int getTimeStamp(LocalDateTime dateTime) {
 
         return Math.toIntExact(dateTime.atZone(DEFAULT_ZONE_ID).toInstant().toEpochMilli() / 1000);
+    }
+
+    /**
+     * 获取今日0时的时间戳
+     *
+     * @param timeZone 时区字符串(e.g GMT+8)
+     */
+    public static int getDayStartTimeStamp(String timeZone) {
+
+        long now = LocalDateTime.now().atZone(DEFAULT_ZONE_ID).toInstant().toEpochMilli();
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(timeZone));
+        calendar.setTimeInMillis(now);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        return (int)(calendar.getTimeInMillis() / 1000);
+    }
+
+    /**
+     * 获取GMT+8的0时时间戳
+     */
+    public static int getDayStartTimeStamp() {
+
+        return getDayStartTimeStamp("GMT+8");
+    }
+
+    /**
+     * 格式化日期为字符串
+     *
+     * @param date 要格式化的日期
+     * @param pattern 格式 e.g EEE, dd MMM yyyy HH:mm:ss zzz
+     * @return 指定格式日期字符串
+     */
+    public static String getDateStr(Date date, String pattern) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern, Locale.US);
+
+        return formatter.format(LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()));
+    }
+
+    public static String getDateStr(String pattern) {
+
+        return getDateStr(Date.from(Instant.now()), pattern);
     }
 }

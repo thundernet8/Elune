@@ -19,22 +19,31 @@
 
 package com.elune.service.impl;
 
+import com.elune.configuration.AppConfiguration;
+import com.elune.constants.Constant;
 import com.elune.constants.UserStatus;
 import com.elune.dal.DBManager;
 import com.elune.dao.UserMapper;
 import com.elune.entity.UserEntity;
+import com.elune.entity.UserEntityExample;
 import com.elune.model.*;
-import com.elune.service.UserService;
+import com.elune.service.*;
 import com.elune.utils.DateUtil;
+import com.elune.utils.DozerMapperUtil;
 import com.elune.utils.EncryptUtil;
 import com.elune.utils.StringUtil;
 
+import com.fedepot.cache.Cache;
+import com.fedepot.cache.Ehcache;
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.ioc.annotation.Service;
 import org.apache.ibatis.session.SqlSession;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -43,6 +52,17 @@ public class UserServiceImpl implements UserService {
 
     @FromService
     private DBManager dbManager;
+
+    @FromService
+    private MailMQService mailMQService;
+
+    @FromService
+    private NotificationService notificationService;
+
+    @FromService
+    private AppConfiguration appConfiguration;
+
+    private final Cache cache = Ehcache.newInstance("_USER_ACTIVATION_");
 
     @Override
     public LoginUser signin(LoginModel loginModel) throws Exception {
@@ -74,7 +94,7 @@ public class UserServiceImpl implements UserService {
                 throw new HttpException("密码错误", 400);
             }
 
-            if (userEntity.getStatus() == UserStatus.DELETE) {
+            if (userEntity.getStatus().equals(UserStatus.DELETE)) {
 
                 throw new HttpException("你的账户已禁用", 403);
             }
@@ -83,7 +103,12 @@ public class UserServiceImpl implements UserService {
             // TODO update last seen
             // TODO update usermeta for login info
 
-            return LoginUser.builder().id(userEntity.getId()).username(userEntity.getUsername()).nickname(userEntity.getNickname()).email(userEntity.getEmail()).joinTime(userEntity.getJoinTime()).build();
+            LoginUser loginUser = DozerMapperUtil.map(userEntity, LoginUser.class);
+            Pagination<Notification> unreadNotifications = notificationService.getUnReadNotifications(userEntity.getUsername(), 1, 10, "id DESC");
+            loginUser.setUnreadNotifications(unreadNotifications);
+            loginUser.setUnreadCount(unreadNotifications.getTotal());
+
+            return loginUser;
         } catch (Exception e) {
 
             log.error("User {} Login failed", loginModel.username, e);
@@ -134,12 +159,14 @@ public class UserServiceImpl implements UserService {
 
                 UserEntity userEntity = UserEntity.builder().username(username).nickname(username).password(md5Pass).email(email).joinTime(joinTime).build();
                 mapper.insertSelective(userEntity);
-                long uid = userEntity.getId();
                 sqlSession.commit();
 
-                // TODO send verify email(event queue)
+                User user = DozerMapperUtil.map(userEntity, User.class);
 
-                return User.builder().id(uid).username(username).nickname(username).email(email).joinTime(joinTime).build();
+                // 发送验证激活邮件
+                sendActivationEmail(user);
+
+                return user;
             } catch (Exception e) {
 
                 log.error("Insert user failed", e);
@@ -151,13 +178,56 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserEntity getUserEntityByName(String username) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            return mapper.selectByUsername(username);
+        }
+    }
+
+    @Override
     public User getUserByName(String username) {
-        return null;
+
+        UserEntity userEntity = getUserEntityByName(username);
+        if (userEntity == null) {
+
+            return null;
+        }
+
+        return assembleUser(userEntity);
+    }
+
+    @Override
+    public NamedUser getNamedUser(String username) {
+
+        User user = getUserByName(username);
+        if (user == null) {
+
+            return null;
+        }
+
+        NamedUser namedUser = DozerMapperUtil.map(user, NamedUser.class);
+
+        // TODO add more info
+        return namedUser;
     }
 
     @Override
     public User getUserByEmail(String email) {
-        return null;
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            UserEntity userEntity = mapper.selectByEmail(email);
+            if (userEntity == null) {
+
+                return null;
+            }
+
+            return assembleUser(userEntity);
+        }
     }
 
     @Override
@@ -172,7 +242,54 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean updateInfo(Map<String, Object> info) {
-        return false;
+
+        UserEntity userEntity = UserEntity.builder().id((Long)info.get("id")).build();
+        Object nickname = info.get("nickname");
+        if (nickname != null) {
+            userEntity.setNickname((String)nickname);
+        }
+        Object url = info.get("url");
+        if (url != null) {
+            userEntity.setUrl((String)url);
+        }
+        Object bio = info.get("bio");
+        if (bio != null) {
+            userEntity.setBio((String)bio);
+        }
+        Object avatar = info.get("avatar");
+        if (avatar != null) {
+            userEntity.setAvatar((String)avatar);
+        }
+        userEntity.setUpdateTime(DateUtil.getTimeStamp());
+
+        return updateUser(userEntity);
+    }
+
+    @Override
+    public long activate(String token) {
+
+        long uid = (long)cache.get(token).orElse(0L);
+
+        if (uid != 0 && updateUser(UserEntity.builder().id(uid).status(Byte.valueOf("1")).build())) {
+
+            return uid;
+        }
+
+        return 0;
+    }
+
+    @Override
+    public long reActivate(String email) {
+
+        User user = getUserByEmail(email);
+        if (user == null) {
+
+            return 0;
+        }
+
+        sendActivationEmail(user);
+
+        return user.getId();
     }
 
     @Override
@@ -197,8 +314,21 @@ public class UserServiceImpl implements UserService {
                 return null;
             }
 
-            return User.builder().id(userEntity.getId()).username(userEntity.getUsername()).nickname(userEntity.getNickname()).email(userEntity.getEmail()).joinTime(userEntity.getJoinTime()).build();
+            return assembleUser(userEntity);
         }
+    }
+
+    @Override
+    public LoginUser getLoginUser(long id) {
+
+        User user = getUser(id);
+        LoginUser loginUser = DozerMapperUtil.map(user, LoginUser.class);
+
+        Pagination<Notification> unreadNotifications = notificationService.getUnReadNotifications(user.getUsername(), 1, 10, "id DESC");
+        loginUser.setUnreadNotifications(unreadNotifications);
+        loginUser.setUnreadCount(unreadNotifications.getTotal());
+
+        return loginUser;
     }
 
     @Override
@@ -209,5 +339,62 @@ public class UserServiceImpl implements UserService {
             UserMapper mapper = sqlSession.getMapper(UserMapper.class);
             return mapper.selectByPrimaryKey(id);
         }
+    }
+
+    @Override
+    public List<User> getUsersByIdList(List<Long> ids) {
+
+        if (ids.size() < 1) {
+
+            return Collections.emptyList();
+        }
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+
+            UserEntityExample userEntityExample = UserEntityExample.builder().oredCriteria(new ArrayList<>()).orderByClause("id ASC").build();
+            userEntityExample.or().andIdIn(ids);
+
+            return assembleUsers(mapper.selectByExample(userEntityExample));
+        }
+    }
+
+    private boolean updateUser(UserEntity userEntity) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            UserMapper mapper = sqlSession.getMapper(UserMapper.class);
+            int update = mapper.updateByPrimaryKeySelective(userEntity);
+            sqlSession.commit();
+
+            return update > 0;
+        }
+    }
+
+
+    private User assembleUser(UserEntity userEntity) {
+
+        return DozerMapperUtil.map(userEntity, User.class);
+    }
+
+    private List<User> assembleUsers(List<UserEntity> userEntities) {
+
+        List<User> users = new ArrayList<>();
+
+        userEntities.forEach(userEntity -> {
+
+            users.add(assembleUser(userEntity));
+        });
+
+        return users;
+    }
+
+    private void sendActivationEmail(User user) {
+
+        String cacheKey = StringUtil.genRandString(32);
+        cache.add(cacheKey, user.getId(), 600);
+        String link = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/activation?token=").concat(cacheKey);
+        mailMQService.sendMail(user.getEmail(), user.getUsername(), "请激活您的账户", "感谢您注册Elune. 请访问下方链接激活您的账户." + link);
     }
 }

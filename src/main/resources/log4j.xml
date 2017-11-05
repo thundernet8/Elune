@@ -9,7 +9,7 @@
 
         <!--过滤器设置输出的级别-->
         <filter class="org.apache.log4j.varia.LevelRangeFilter">
-            <param name="levelMin" value="debug" />
+            <param name="levelMin" value="info" />
             <param name="levelMax" value="warn" />
             <param name="AcceptOnMatch" value="true" />
         </filter>
@@ -69,9 +69,9 @@
     </logger>
 
     <!-- 指定logger的设置，additivity指示是否遵循缺省的继承机制-->
-    <logger name="com.runway.bssp.activeXdemo" additivity="false">
+    <logger name="org.dozer" additivity="false">
         <level value ="info"/>
-        <appender-ref ref="activexAppender" />
+        <appender-ref ref="myConsole" />
     </logger>
 
     <!-- 根logger的设置-->

@@ -1,22 +1,3 @@
-/**
- * Elune - Lightweight Forum Powered by Razor.
- * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
- * <p>
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
-
 package com.elune.entity;
 
 import lombok.AccessLevel;
@@ -37,9 +18,9 @@ public class UsermetaEntity implements Serializable {
 
     private Long uid;
 
-    private String key;
+    private String metaKey;
 
-    private String value;
+    private String metaValue;
 
     private static final long serialVersionUID = 1L;
 
@@ -59,20 +40,20 @@ public class UsermetaEntity implements Serializable {
         this.uid = uid;
     }
 
-    public String getKey() {
-        return key;
+    public String getMetaKey() {
+        return metaKey;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setMetaKey(String metaKey) {
+        this.metaKey = metaKey;
     }
 
-    public String getValue() {
-        return value;
+    public String getMetaValue() {
+        return metaValue;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setMetaValue(String metaValue) {
+        this.metaValue = metaValue;
     }
 
     @Override
@@ -89,8 +70,8 @@ public class UsermetaEntity implements Serializable {
         UsermetaEntity other = (UsermetaEntity) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getUid() == null ? other.getUid() == null : this.getUid().equals(other.getUid()))
-            && (this.getKey() == null ? other.getKey() == null : this.getKey().equals(other.getKey()))
-            && (this.getValue() == null ? other.getValue() == null : this.getValue().equals(other.getValue()));
+            && (this.getMetaKey() == null ? other.getMetaKey() == null : this.getMetaKey().equals(other.getMetaKey()))
+            && (this.getMetaValue() == null ? other.getMetaValue() == null : this.getMetaValue().equals(other.getMetaValue()));
     }
 
     @Override
@@ -99,8 +80,8 @@ public class UsermetaEntity implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getUid() == null) ? 0 : getUid().hashCode());
-        result = prime * result + ((getKey() == null) ? 0 : getKey().hashCode());
-        result = prime * result + ((getValue() == null) ? 0 : getValue().hashCode());
+        result = prime * result + ((getMetaKey() == null) ? 0 : getMetaKey().hashCode());
+        result = prime * result + ((getMetaValue() == null) ? 0 : getMetaValue().hashCode());
         return result;
     }
 
@@ -112,8 +93,8 @@ public class UsermetaEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", uid=").append(uid);
-        sb.append(", key=").append(key);
-        sb.append(", value=").append(value);
+        sb.append(", metaKey=").append(metaKey);
+        sb.append(", metaValue=").append(metaValue);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

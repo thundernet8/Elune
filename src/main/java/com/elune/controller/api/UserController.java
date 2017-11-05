@@ -20,23 +20,53 @@
 package com.elune.controller.api;
 
 import com.elune.dal.DBManager;
-import com.elune.model.User;
-import com.elune.service.UserService;
+import com.elune.dal.RedisManager;
+import com.elune.entity.UserEntity;
+import com.elune.entity.UsermetaEntity;
+import com.elune.model.*;
+import com.elune.service.*;
 
+import com.elune.utils.DateUtil;
+import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.FromService;
-import com.fedepot.mvc.annotation.FromBody;
-import com.fedepot.mvc.annotation.HttpPost;
-import com.fedepot.mvc.annotation.Route;
-import com.fedepot.mvc.annotation.RoutePrefix;
-import com.fedepot.mvc.controller.Controller;
+import com.fedepot.mvc.annotation.*;
+import com.fedepot.mvc.controller.APIController;
+import com.fedepot.mvc.http.Session;
+import com.fedepot.util.DateKit;
+import redis.clients.jedis.Jedis;
 
-@RoutePrefix("api/users")
-public class UserController extends Controller {
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
+import static com.elune.constants.UserLogType.*;
+import static com.elune.constants.UserStatus.*;
+
+/**
+ * @author Touchumind
+ */
+@RoutePrefix("api/v1/users")
+public class UserController extends APIController {
 
     private DBManager dbManager;
 
     @FromService
+    private UserMetaService userMetaService;
+
+    @FromService
     private UserService userService;
+
+    @FromService
+    private TopicService topicService;
+
+    @FromService
+    private PostService postService;
+
+    @FromService
+    private RedisManager redisManager;
+
+    @FromService
+    private UserLogMQService userLogMQService;
 
     public UserController(DBManager dbManager) {
 
@@ -44,21 +74,130 @@ public class UserController extends Controller {
     }
 
     @HttpPost
-    @Route("{int:id}")
-    public String getUserDetail(int id) {
+    @Route("{long:id}")
+    public void getUserDetail(long id) {
 
-        User user = userService.getUser(id);
+        try {
 
-        String message;
+            User user = userService.getUser(id);
+            Succeed(user);
+        } catch (Exception e) {
 
-        if (user == null) {
-
-            message = "User with id " + id + " is not exist";
-        } else {
-
-            message = "User detail name " + user.nickname;
+            Fail(e);
         }
 
-        return message;
+    }
+
+    @HttpPost
+    @Route("name")
+    public void getNamedUser(@FromBody NamedUserFetchModel namedUserFetchModel) {
+
+        try {
+
+            NamedUser namedUser = userService.getNamedUser(namedUserFetchModel.username);
+            namedUser.setTopicsCount(topicService.countTopicsByAuthor(namedUser.getId()));
+            namedUser.setPostsCount(postService.countPostsByAuthor(namedUser.getId()));
+            namedUser.setFavoritesCount(userMetaService.countFavorites(namedUser.getId()));
+            namedUser.setEmail("");
+
+            Jedis jedis = redisManager.getJedis();
+            String lastConnect = jedis.get("_session_".concat(Long.toString(namedUser.getId())));
+            redisManager.retureRes(jedis);
+            Integer lastConnectStamp = lastConnect != null ? Integer.valueOf(lastConnect) : 0;
+            namedUser.setLastSeen(lastConnectStamp);
+            namedUser.setOnline(DateUtil.getTimeStamp() - lastConnectStamp < 60 * 10);
+
+            Succeed(namedUser);
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
+
+    @HttpPost
+    @Route("profile")
+    public void updateUserProfile(@FromBody UserProfileSetting userProfileSetting) {
+
+        Session session = Request().session();
+        long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+        if (uid < 1) {
+
+            throw new HttpException("尚未登录, 不能更新资料", 401);
+        }
+
+        UserEntity userEntity = userService.getUserEntity(uid);
+        if (userEntity == null || userEntity.getStatus().equals(DELETE)) {
+
+            throw new HttpException("用户不存在或已被删除", 404);
+        }
+
+        if (userEntity.getStatus().equals(UNACTIVE)) {
+
+            throw new HttpException("账户尚未激活, 不能更新资料", 401);
+        }
+
+        // log
+        if (!userProfileSetting.nickname.equals(userEntity.getNickname())) {
+            userLogMQService.createUserLog(uid, L_UPDATE_PROFILE, "Nickname: ".concat(userEntity.getNickname()), "Nickname: ".concat(userProfileSetting.nickname), Request().getIp(), Request().getUa());
+        }
+        if (!userProfileSetting.url.equals(userEntity.getUrl())) {
+            userLogMQService.createUserLog(uid, L_UPDATE_PROFILE, "Url: ".concat(userEntity.getUrl()), "Url: ".concat(userProfileSetting.url), Request().getIp(), Request().getUa());
+        }
+        if (!userProfileSetting.bio.equals(userEntity.getBio())) {
+            userLogMQService.createUserLog(uid, L_UPDATE_PROFILE, "Bio: ".concat(userEntity.getBio()), "Bio: ".concat(userProfileSetting.bio), Request().getIp(), Request().getUa());
+        }
+
+        try {
+
+            Map<String, Object> updateInfo = new HashMap<>(4);
+            updateInfo.put("id", uid);
+            updateInfo.put("nickname", userProfileSetting.nickname);
+            updateInfo.put("url", userProfileSetting.url);
+            updateInfo.put("bio", userProfileSetting.bio);
+            Succeed(userService.updateInfo(updateInfo));
+        } catch (Exception e) {
+            Fail(e);
+        }
+    }
+
+    @HttpPost
+    @Route("dailySign")
+    public void dailySign() {
+
+        Session session = Request().session();
+        long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+        if (uid < 1) {
+
+            throw new HttpException("尚未登录, 不能签到", 401);
+        }
+
+        try {
+
+            if (userMetaService.hasSignedToday(uid)) {
+
+                throw new HttpException("今日已签到", 400);
+            }
+
+            UsermetaEntity balanceMeta = userMetaService.getSingleUsermeta(uid, "balance");
+            int balance = balanceMeta != null ? Integer.valueOf(balanceMeta.getMetaValue()) : 0;
+            Random random = new Random(DateUtil.getTimeStamp() % 50);
+
+            int change = random.nextInt(50) + 1;
+            int newBalance = balance + change;
+
+            userMetaService.createOrUpdateUsermeta(uid, "balance", Integer.toString(newBalance));
+            userMetaService.createOrUpdateUsermeta(uid, "dailySign", Integer.toString(DateUtil.getTimeStamp()));
+
+            // log
+            userLogMQService.createUserLog(uid, L_BALANCE, "Balance: ".concat(Integer.toString(balance)), DateKit.getGmtDateString().concat("签到获得").concat(Integer.toString(change)).concat("铜币奖励"), Request().getIp(), Request().getUa());
+
+            Map<String, Object> resp = new HashMap<>(2);
+            resp.put("msg", "签到成功, 获得 " + change + " 铜币");
+            resp.put("result", change);
+            Succeed(resp);
+        } catch (Exception e) {
+
+            Fail(e);
+        }
     }
 }

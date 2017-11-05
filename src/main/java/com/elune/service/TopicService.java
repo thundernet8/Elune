@@ -19,8 +19,11 @@
 
 package com.elune.service;
 
+import com.elune.entity.TopicEntity;
 import com.elune.entity.UserEntity;
 import com.elune.model.*;
+
+import java.util.List;
 
 /**
  * @author Touchumind
@@ -28,6 +31,8 @@ import com.elune.model.*;
 public interface TopicService {
 
     Topic getTopic(long id);
+
+    TopicEntity getTopicEntity(long id);
 
     long createTopic(UserEntity author, TopicCreationModel topicCreationModel);
 
@@ -41,9 +46,13 @@ public interface TopicService {
 
     boolean unmarkTopicEssence(long id);
 
-    boolean udateTopicViews(long id);
+    boolean updateTopicViews(long id);
+
+    boolean updateTopicViews(long id, int count);
 
     boolean upvoteTopic(long id);
+
+    boolean cancelUpvoteTopic(long id);
 
     boolean downvoteTopic(long id);
 
@@ -53,7 +62,7 @@ public interface TopicService {
 
     boolean updateTopicPostsCount(long id);
 
-    boolean lastReplayTopic(long id);
+    boolean lastReplayTopic(long id, UserEntity author);
 
     boolean updateTopicFactor(long id, int factor);
 
@@ -61,12 +70,21 @@ public interface TopicService {
 
     boolean toggleTopicComment(long id, boolean enable);
 
+    long countTopicsByAuthor(long authorId);
+
     /**
-     * 分页查询话题(按最后回复/发布/更新时间降序)
+     * 分页查询话题
      *
      * @param page 分页
      * @param pageSize 分页大小
+     * @param orderClause 查询排序规则
      * @return 分页的话题列表对象
      */
-    Pagination<Topic> getLatestTopics(int page, int pageSize);
+    Pagination<Topic> getTopics(int page, int pageSize, String orderClause);
+
+    Pagination<Topic> getChannelTopics(int page, int pageSize, int channelId, String orderClause);
+
+    Pagination<Topic> getUserTopics(int page, int pageSize, long authorId, String orderClause);
+
+    List<Topic> getTopicsByIdList(List<Long> ids);
 }

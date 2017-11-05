@@ -19,9 +19,11 @@
 
 package com.elune.model;
 
+import com.elune.entity.NotificationEntity;
+
 import java.io.Serializable;
 
-public class Notification implements Serializable {
+public class Notification extends NotificationEntity implements Serializable {
 
     // TODO
 }
