@@ -19,6 +19,8 @@
 
 package com.elune.controller.api;
 
+import com.elune.configuration.AppConfiguration;
+import com.elune.constants.Constant;
 import com.elune.entity.TopicEntity;
 import com.elune.entity.UserEntity;
 import com.elune.model.*;
@@ -68,6 +70,8 @@ public class TopicController extends APIController {
     @FromService
     private BalanceMQService balanceMQService;
 
+    @FromService
+    private AppConfiguration appConfiguration;
     @HttpPost
     @Route("")
     public void createTopic(@FromBody TopicCreationModel topicCreationModel) {
@@ -100,7 +104,8 @@ public class TopicController extends APIController {
             tagService.createTags(tags, createResult);
 
             // log
-            userLogMQService.createUserLog(uid, L_CREATE_TOPIC, "", "创建了话题《".concat(topicCreationModel.title).concat("》"), Request().getIp(), Request().getUa());
+            String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(createResult));
+            userLogMQService.createUserLog(uid, L_CREATE_TOPIC, "", "创建了话题《".concat(topicCreationModel.title).concat("》"), topicLink, Request().getIp(), Request().getUa());
 
             Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", createResult);
@@ -150,7 +155,7 @@ public class TopicController extends APIController {
             if (updateResult) {
 
                 // log
-                userLogMQService.createUserLog(uid, L_UPDATE_TOPIC, "", "更新了话题《".concat(topic.getTitle()).concat("》"), Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(uid, L_UPDATE_TOPIC, "", "更新了话题《".concat(topic.getTitle()).concat("》"), "", Request().getIp(), Request().getUa());
 
                 // notification
                 if (uid != topic.getAuthorId()) {
@@ -291,7 +296,8 @@ public class TopicController extends APIController {
 
             if (uid != topicEntity.getAuthorId()) {
                 // log
-                userLogMQService.createUserLog(uid, L_FAVORITE_TOPIC, "", "收藏了话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
+                String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(topicEntity.getId()));
+                userLogMQService.createUserLog(uid, L_FAVORITE_TOPIC, "", "收藏了话题《".concat(topicEntity.getTitle()).concat("》"), topicLink,  Request().getIp(), Request().getUa());
 
                 // notification
                 notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("收藏了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_FAVORITE);
@@ -342,7 +348,7 @@ public class TopicController extends APIController {
             if (uid != topicEntity.getAuthorId()) {
 
                 // log
-                userLogMQService.createUserLog(uid, L_UNFAVORITE_TOPIC, "", "取消收藏话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(uid, L_UNFAVORITE_TOPIC, "", "取消收藏话题《".concat(topicEntity.getTitle()).concat("》"), "",  Request().getIp(), Request().getUa());
 
                 // notification
                 notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("取消收藏了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_UNFAVORITE);
@@ -389,7 +395,8 @@ public class TopicController extends APIController {
 
             if (uid != topicEntity.getAuthorId()) {
                 // log
-                userLogMQService.createUserLog(uid, L_LIKE_TOPIC, "", "喜欢了话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
+                String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(topicEntity.getId()));
+                userLogMQService.createUserLog(uid, L_LIKE_TOPIC, "", "喜欢了话题《".concat(topicEntity.getTitle()).concat("》"), topicLink, Request().getIp(), Request().getUa());
 
                 // notification
                 notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("喜欢了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_LIKE);

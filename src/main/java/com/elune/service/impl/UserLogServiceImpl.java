@@ -45,12 +45,12 @@ public class UserLogServiceImpl implements UserLogService {
     private DBManager dbManager;
 
     @Override
-    public long createUserLog(long uid, byte type, String before, String after, String ip, String ua) {
+    public long createUserLog(long uid, byte type, String before, String after, String link, String ip, String ua) {
 
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             UserlogMapper mapper = sqlSession.getMapper(UserlogMapper.class);
-            UserlogEntity entity = UserlogEntity.builder().uid(uid).type(type).ip(ip).ua(ua).beforeStatus(before).afterStatus(after).createTime(DateUtil.getTimeStamp()).build();
+            UserlogEntity entity = UserlogEntity.builder().uid(uid).type(type).ip(ip).ua(ua).beforeStatus(before).afterStatus(after).link(link).createTime(DateUtil.getTimeStamp()).build();
 
             mapper.insertSelective(entity);
             sqlSession.commit();

@@ -7,6 +7,7 @@
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="before_status" jdbcType="VARCHAR" property="beforeStatus" />
     <result column="after_status" jdbcType="VARCHAR" property="afterStatus" />
+    <result column="link" jdbcType="VARCHAR" property="link" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
     <result column="ua" jdbcType="VARCHAR" property="ua" />
     <result column="create_time" jdbcType="INTEGER" property="createTime" />
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, uid, type, before_status, after_status, ip, ua, create_time
+    id, uid, type, before_status, after_status, link, ip, ua, create_time
   </sql>
   <select id="selectByExample" parameterType="com.elune.entity.UserlogEntityExample" resultMap="BaseResultMap">
     select
@@ -115,11 +116,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into t_userlog (uid, type, before_status, 
-      after_status, ip, ua, 
-      create_time)
+      after_status, link, ip, 
+      ua, create_time)
     values (#{uid,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, #{beforeStatus,jdbcType=VARCHAR}, 
-      #{afterStatus,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{ua,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=INTEGER})
+      #{afterStatus,jdbcType=VARCHAR}, #{link,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
+      #{ua,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.elune.entity.UserlogEntity">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -138,6 +139,9 @@
       </if>
       <if test="afterStatus != null">
         after_status,
+      </if>
+      <if test="link != null">
+        link,
       </if>
       <if test="ip != null">
         ip,
@@ -161,6 +165,9 @@
       </if>
       <if test="afterStatus != null">
         #{afterStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="link != null">
+        #{link,jdbcType=VARCHAR},
       </if>
       <if test="ip != null">
         #{ip,jdbcType=VARCHAR},
@@ -197,6 +204,9 @@
       <if test="record.afterStatus != null">
         after_status = #{record.afterStatus,jdbcType=VARCHAR},
       </if>
+      <if test="record.link != null">
+        link = #{record.link,jdbcType=VARCHAR},
+      </if>
       <if test="record.ip != null">
         ip = #{record.ip,jdbcType=VARCHAR},
       </if>
@@ -218,6 +228,7 @@
       type = #{record.type,jdbcType=TINYINT},
       before_status = #{record.beforeStatus,jdbcType=VARCHAR},
       after_status = #{record.afterStatus,jdbcType=VARCHAR},
+      link = #{record.link,jdbcType=VARCHAR},
       ip = #{record.ip,jdbcType=VARCHAR},
       ua = #{record.ua,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=INTEGER}
@@ -240,6 +251,9 @@
       <if test="afterStatus != null">
         after_status = #{afterStatus,jdbcType=VARCHAR},
       </if>
+      <if test="link != null">
+        link = #{link,jdbcType=VARCHAR},
+      </if>
       <if test="ip != null">
         ip = #{ip,jdbcType=VARCHAR},
       </if>
@@ -258,6 +272,7 @@
       type = #{type,jdbcType=TINYINT},
       before_status = #{beforeStatus,jdbcType=VARCHAR},
       after_status = #{afterStatus,jdbcType=VARCHAR},
+      link = #{link,jdbcType=VARCHAR},
       ip = #{ip,jdbcType=VARCHAR},
       ua = #{ua,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=INTEGER}

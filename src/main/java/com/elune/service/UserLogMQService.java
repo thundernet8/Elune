@@ -21,5 +21,5 @@ package com.elune.service;
 
 public interface UserLogMQService {
 
-    void createUserLog(long uid, byte type, String before, String after, String ip, String ua);
+    void createUserLog(long uid, byte type, String before, String after, String link, String ip, String ua);
 }

@@ -36,6 +36,8 @@ public class UserLogTask {
 
     private String after;
 
+    private String link;
+
     private String ip;
 
     private String ua;

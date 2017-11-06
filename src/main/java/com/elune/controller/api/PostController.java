@@ -19,6 +19,8 @@
 
 package com.elune.controller.api;
 
+import com.elune.configuration.AppConfiguration;
+import com.elune.constants.Constant;
 import com.elune.entity.TopicEntity;
 import com.elune.entity.UserEntity;
 import com.elune.model.Pagination;
@@ -63,6 +65,9 @@ public class PostController extends APIController {
 
     @FromService
     private NotificationMQService notificationMQService;
+
+    @FromService
+    private AppConfiguration appConfiguration;
 
     @HttpPost
     @Route("")
@@ -112,11 +117,12 @@ public class PostController extends APIController {
 
                 balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_REPLIED);
 
-                userLogMQService.createUserLog(topicEntity.getAuthorId(), L_BALANCE, "", "创建的话题《".concat(topicEntity.getTitle()).concat("》收到来自").concat(user.getUsername()).concat("的回复, 获得".concat(Integer.toString(CoinRewards.R_TOPIC_BE_REPLIED)).concat("铜币奖励")), Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(topicEntity.getAuthorId(), L_BALANCE, "", "创建的话题《".concat(topicEntity.getTitle()).concat("》收到来自").concat(user.getUsername()).concat("的回复, 获得".concat(Integer.toString(CoinRewards.R_TOPIC_BE_REPLIED)).concat("铜币奖励")), "", Request().getIp(), Request().getUa());
             }
 
             // log
-            userLogMQService.createUserLog(uid, L_CREATE_POST, "", "在话题《".concat(topicEntity.getTitle()).concat("》上创建了新回复: ").concat(postCreationModel.content), Request().getIp(), Request().getUa());
+            String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(postCreationModel.topicId));
+            userLogMQService.createUserLog(uid, L_CREATE_POST, "", "在话题《".concat(topicEntity.getTitle()).concat("》上创建了新回复: ").concat(postCreationModel.content), topicLink, Request().getIp(), Request().getUa());
 
             // notification
             notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("在你的话题《".concat(topicEntity.getTitle()).concat("》发表了回复")), postCreationModel.content, N_TOPIC_REPLY);

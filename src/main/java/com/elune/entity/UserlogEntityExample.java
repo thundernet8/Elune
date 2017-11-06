@@ -450,6 +450,76 @@ public class UserlogEntityExample {
             return (Criteria) this;
         }
 
+        public Criteria andLinkIsNull() {
+            addCriterion("link is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkIsNotNull() {
+            addCriterion("link is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkEqualTo(String value) {
+            addCriterion("link =", value, "link");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkNotEqualTo(String value) {
+            addCriterion("link <>", value, "link");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkGreaterThan(String value) {
+            addCriterion("link >", value, "link");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkGreaterThanOrEqualTo(String value) {
+            addCriterion("link >=", value, "link");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkLessThan(String value) {
+            addCriterion("link <", value, "link");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkLessThanOrEqualTo(String value) {
+            addCriterion("link <=", value, "link");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkLike(String value) {
+            addCriterion("link like", value, "link");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkNotLike(String value) {
+            addCriterion("link not like", value, "link");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkIn(List<String> values) {
+            addCriterion("link in", values, "link");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkNotIn(List<String> values) {
+            addCriterion("link not in", values, "link");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkBetween(String value1, String value2) {
+            addCriterion("link between", value1, value2, "link");
+            return (Criteria) this;
+        }
+
+        public Criteria andLinkNotBetween(String value1, String value2) {
+            addCriterion("link not between", value1, value2, "link");
+            return (Criteria) this;
+        }
+
         public Criteria andIpIsNull() {
             addCriterion("ip is null");
             return (Criteria) this;

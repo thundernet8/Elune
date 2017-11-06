@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 /**
- * @author
+ * @author Touchumind
  */
 @Builder
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
@@ -32,6 +32,8 @@ public class UserlogEntity implements Serializable {
      * 操作之后的值
      */
     private String afterStatus;
+
+    private String link;
 
     private String ip;
 
@@ -81,6 +83,14 @@ public class UserlogEntity implements Serializable {
         this.afterStatus = afterStatus;
     }
 
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
     public String getIp() {
         return ip;
     }
@@ -122,6 +132,7 @@ public class UserlogEntity implements Serializable {
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
             && (this.getBeforeStatus() == null ? other.getBeforeStatus() == null : this.getBeforeStatus().equals(other.getBeforeStatus()))
             && (this.getAfterStatus() == null ? other.getAfterStatus() == null : this.getAfterStatus().equals(other.getAfterStatus()))
+            && (this.getLink() == null ? other.getLink() == null : this.getLink().equals(other.getLink()))
             && (this.getIp() == null ? other.getIp() == null : this.getIp().equals(other.getIp()))
             && (this.getUa() == null ? other.getUa() == null : this.getUa().equals(other.getUa()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()));
@@ -136,6 +147,7 @@ public class UserlogEntity implements Serializable {
         result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
         result = prime * result + ((getBeforeStatus() == null) ? 0 : getBeforeStatus().hashCode());
         result = prime * result + ((getAfterStatus() == null) ? 0 : getAfterStatus().hashCode());
+        result = prime * result + ((getLink() == null) ? 0 : getLink().hashCode());
         result = prime * result + ((getIp() == null) ? 0 : getIp().hashCode());
         result = prime * result + ((getUa() == null) ? 0 : getUa().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
@@ -153,6 +165,7 @@ public class UserlogEntity implements Serializable {
         sb.append(", type=").append(type);
         sb.append(", beforeStatus=").append(beforeStatus);
         sb.append(", afterStatus=").append(afterStatus);
+        sb.append(", link=").append(link);
         sb.append(", ip=").append(ip);
         sb.append(", ua=").append(ua);
         sb.append(", createTime=").append(createTime);

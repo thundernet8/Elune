@@ -92,7 +92,7 @@ public class UploadController extends APIController{
                 imageUrls.add(imageUrl);
 
                 // log
-                userLogMQService.createUserLog(uid, L_UPLOAD_IMAGE, "", "上传了图片: ".concat(imageUrl), Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(uid, L_UPLOAD_IMAGE, "", "上传了图片: ".concat(imageUrl), imageUrl, Request().getIp(), Request().getUa());
             }
 
             Map<String, Object> resp = new HashMap<>(2);
@@ -128,7 +128,7 @@ public class UploadController extends APIController{
             userService.updateInfo(updateInfo);
 
             // log
-            userLogMQService.createUserLog(uid, L_UPLOAD_AVATAR, "", "上传了头像: ".concat(imageUrl), Request().getIp(), Request().getUa());
+            userLogMQService.createUserLog(uid, L_UPLOAD_AVATAR, "", "上传了头像: ".concat(imageUrl), imageUrl, Request().getIp(), Request().getUa());
 
             Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", imageUrl);

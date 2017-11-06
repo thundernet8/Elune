@@ -25,9 +25,11 @@ import com.elune.entity.UsermetaEntity;
 import com.elune.entity.UsermetaEntityExample;
 import com.elune.model.Pagination;
 import com.elune.model.Topic;
+import com.elune.model.User;
 import com.elune.service.TopicService;
 import com.elune.service.UserMetaService;
 
+import com.elune.service.UserService;
 import com.elune.utils.DateUtil;
 import com.fedepot.ioc.annotation.FromService;
 import com.fedepot.ioc.annotation.Service;
@@ -50,6 +52,9 @@ public class UserMetaServiceImpl implements UserMetaService {
 
     @FromService
     private TopicService topicService;
+
+    @FromService
+    private UserService userService;
 
     @Override
     public long createUsermeta(UsermetaEntity usermetaEntity) {
@@ -242,6 +247,39 @@ public class UserMetaServiceImpl implements UserMetaService {
     public boolean unfollowTopic(long uid, long topicId) {
 
         return deleteUsermeta(UsermetaEntity.builder().metaKey("following_topics").metaValue(String.valueOf(topicId)).uid(uid).build());
+    }
+
+    @Override
+    public Pagination<User> getFollowingUsers(long uid, int page, int pageSize) {
+
+        List<Long> userIds = getUsermetas(uid, "following_users", page, pageSize).stream().map(x -> Long.valueOf(x.getMetaValue())).collect(Collectors.toList());
+        List<User> topics = userService.getUsersByIdList(userIds);
+
+        long total = 0L;
+        if (page == 1) {
+            // 仅在第一页请求查询Total
+            total = countUsermetas(uid, "following_users");
+        }
+
+        return new Pagination<>(total, page, pageSize, topics);
+    }
+
+    @Override
+    public Long countFollowingUsers(long uid) {
+
+        return countUsermetas(uid, "following_users");
+    }
+
+    @Override
+    public boolean followUser(long uid, long followedUid) {
+
+        return metaExist(uid, "following_users", String.valueOf(followedUid)) || this.createUsermeta(UsermetaEntity.builder().metaKey("following_users").metaValue(String.valueOf(followedUid)).uid(uid).build()) > 0;
+    }
+
+    @Override
+    public boolean unfollowUser(long uid, long unfollowedUid) {
+
+        return deleteUsermeta(UsermetaEntity.builder().metaKey("following_users").metaValue(String.valueOf(unfollowedUid)).uid(uid).build());
     }
 
     @Override
