@@ -207,4 +207,112 @@ public class UserMetaController extends APIController {
             Fail(e);
         }
     }
+
+    @HttpGet
+    @Route("following/users")
+    public void getFollowingUsers(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize) {
+
+        try {
+
+            Session session = Request().session();
+            long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+
+            if (uid < 1) {
+                throw new HttpException("尚未登录", 401);
+            }
+
+            Succeed(userMetaService.getFollowingUsers(uid, page, pageSize));
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
+
+    @HttpPost
+    @Route("following/users")
+    public void followUser(@FromBody LongIdModel longIdModel) {
+
+        try {
+
+            Session session = Request().session();
+            long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+
+            if (uid < 1) {
+                throw new HttpException("尚未登录", 401);
+            }
+
+            UserEntity user = userService.getUserEntity(uid);
+
+            if (user == null) {
+
+                throw new HttpException("你必须登录才能关注用户", 401);
+            }
+
+            if (uid == longIdModel.id) {
+
+                throw new HttpException("你不能关注自己", 400);
+            }
+
+            if (user.getStatus().equals(Byte.valueOf("0"))) {
+
+                throw new HttpException("你没有权限关注用户(账户未激活或已禁用)", 403);
+            }
+
+            UserEntity userEntity = userService.getUserEntity(longIdModel.id);
+            if (userEntity == null || userEntity.getStatus().equals(Byte.valueOf("0"))) {
+
+                throw new HttpException("用户不存在或已被禁止", 404);
+            }
+
+            boolean result = userMetaService.followUser(uid, longIdModel.id);
+
+            // log
+            userLogMQService.createUserLog(uid, L_FOLLOW_USER, "", "关注了用户".concat(userEntity.getUsername()), Request().getIp(), Request().getUa());
+
+            // notification
+            notificationMQService.createNotification(user.getUsername(), userEntity.getUsername(), user.getUsername().concat("关注了你"), "", N_USER_FOLLOW);
+
+            Succeed(result);
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
+
+    @HttpDelete
+    @Route("following/users/{long:id}")
+    public void unfollowUser(long id) {
+
+        try {
+
+            Session session = Request().session();
+            long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+
+            if (uid < 1) {
+                throw new HttpException("尚未登录", 401);
+            }
+
+            UserEntity user = userService.getUserEntity(uid);
+
+            if (user == null) {
+
+                throw new HttpException("你必须登录才能取消关注用户", 401);
+            }
+
+            UserEntity userEntity = userService.getUserEntity(id);
+
+            boolean result = userMetaService.unfollowUser(uid, id);
+
+            // log
+            userLogMQService.createUserLog(uid, L_UNFOLLOW_USER, "", "取消了对用户".concat(userEntity.getUsername()).concat("的关注"), Request().getIp(), Request().getUa());
+
+            // notification
+            notificationMQService.createNotification(user.getUsername(), userEntity.getUsername(), user.getUsername().concat("取消了对你的关注"), "", N_USER_UNFOLLOW);
+
+            Succeed(result);
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
 }

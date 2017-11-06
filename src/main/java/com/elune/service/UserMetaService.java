@@ -22,6 +22,7 @@ package com.elune.service;
 import com.elune.entity.UsermetaEntity;
 import com.elune.model.Pagination;
 import com.elune.model.Topic;
+import com.elune.model.User;
 
 import java.util.List;
 
@@ -63,6 +64,14 @@ public interface UserMetaService {
     boolean followTopic(long uid, long topicId);
 
     boolean unfollowTopic(long uid, long topicId);
+
+    Pagination<User> getFollowingUsers(long uid, int page, int pageSize);
+
+    Long countFollowingUsers(long uid);
+
+    boolean followUser(long uid, long followedUid);
+
+    boolean unfollowUser(long uid, long unfollowedUid);
 
     boolean hasSignedToday(long uid);
 

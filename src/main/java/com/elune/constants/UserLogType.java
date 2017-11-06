@@ -58,4 +58,8 @@ public interface UserLogType {
     Byte L_FOLLOW_TOPIC = 70;
 
     Byte L_UNFOLLOW_TOPIC = 71;
+
+    Byte L_FOLLOW_USER = 80;
+
+    Byte L_UNFOLLOW_USER = 81;
 }

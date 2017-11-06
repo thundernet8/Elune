@@ -44,4 +44,10 @@ public interface NotificationType {
     Byte N_TOPIC_UNFOLLOW = 11;
 
     Byte N_TOPIC_BE_UPDATED = 12;
+
+    Byte N_USER_FOLLOW = 13;
+
+    Byte N_USER_UNFOLLOW = 14;
+
+    Byte N_USER_BE_UPDATED = 15;
 }
