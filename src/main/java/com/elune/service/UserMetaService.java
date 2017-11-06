@@ -67,6 +67,8 @@ public interface UserMetaService {
 
     Pagination<User> getFollowingUsers(long uid, int page, int pageSize);
 
+    List<Long> getFollowingUids(long uid);
+
     Long countFollowingUsers(long uid);
 
     boolean followUser(long uid, long followedUid);

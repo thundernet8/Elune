@@ -1,5 +1,5 @@
 /**
- * Elune - Lightweight Forum Powered by Razor
+ * Elune - Lightweight Forum Powered by Razor.
  * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -17,20 +17,11 @@
  */
 
 
-package com.elune.service;
-
-import com.elune.model.Pagination;
-import com.elune.model.UserLog;
+package com.elune.model;
 
 import java.util.List;
 
-public interface UserLogService {
+public class LongIdsModel {
 
-    long createUserLog(long uid, byte type, String before, String after, String link, String ip, String ua);
-
-    Pagination<UserLog> getUserLogs(long uid, byte type, int page, int pageSize, String orderClause);
-
-    Pagination<UserLog> getUserActivities(long uid, int page, int pageSize, String orderClause);
-
-    Pagination<UserLog> getUserActivities(List<Long> uids, int page, int pageSize, String orderClause);
+    public List<Long> ids;
 }

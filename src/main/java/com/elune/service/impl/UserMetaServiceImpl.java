@@ -265,6 +265,13 @@ public class UserMetaServiceImpl implements UserMetaService {
     }
 
     @Override
+    public List<Long> getFollowingUids(long uid) {
+
+        List<Long> userIds = getUsermetas(uid, "following_users", 0, 0).stream().map(x -> Long.valueOf(x.getMetaValue())).collect(Collectors.toList());
+        return userIds;
+    }
+
+    @Override
     public Long countFollowingUsers(long uid) {
 
         return countUsermetas(uid, "following_users");
