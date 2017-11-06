@@ -73,6 +73,7 @@ public class AuthController extends APIController{
 
             LoginUser user = userService.getLoginUser(uid);
             user.setFavoriteTopicIds(userMetaService.getFavoriteIds(uid));
+            user.setFollowingTopicIds(userMetaService.getFollowingTopicIds(uid));
             user.setBalance(userMetaService.getBalance(uid));
             user.setDailySigned(userMetaService.hasSignedToday(uid));
 
@@ -96,6 +97,10 @@ public class AuthController extends APIController{
         try {
 
             LoginUser user = userService.signin(loginModel);
+            user.setFavoriteTopicIds(userMetaService.getFavoriteIds(user.getId()));
+            user.setFollowingTopicIds(userMetaService.getFollowingTopicIds(user.getId()));
+            user.setBalance(userMetaService.getBalance(user.getId()));
+            user.setDailySigned(userMetaService.hasSignedToday(user.getId()));
 
             // log
             userLogMQService.createUserLog(user.getId(), L_LOGIN, "", "loggedIn", "", Request().getIp(), Request().getUa());

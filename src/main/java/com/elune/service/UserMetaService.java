@@ -61,6 +61,8 @@ public interface UserMetaService {
 
     Long countFollowingTopics(long uid);
 
+    List<Long> getFollowingTopicIds(long uid);
+
     boolean followTopic(long uid, long topicId);
 
     boolean unfollowTopic(long uid, long topicId);

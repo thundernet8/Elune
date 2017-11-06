@@ -238,6 +238,14 @@ public class UserMetaServiceImpl implements UserMetaService {
     }
 
     @Override
+    public List<Long> getFollowingTopicIds(long uid) {
+
+        List<UsermetaEntity> usermetaEntities = getUsermetas(uid, "following_topics", 0, 0);
+
+        return usermetaEntities.stream().map(x -> Long.valueOf(x.getMetaValue())).collect(Collectors.toList());
+    }
+
+    @Override
     public boolean followTopic(long uid, long topicId) {
 
         return metaExist(uid, "following_topics", String.valueOf(topicId)) || this.createUsermeta(UsermetaEntity.builder().metaKey("following_topics").metaValue(String.valueOf(topicId)).uid(uid).build()) > 0;
