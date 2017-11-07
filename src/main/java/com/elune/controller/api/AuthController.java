@@ -55,9 +55,6 @@ public class AuthController extends APIController{
     @FromService
     private UserLogMQService userLogMQService;
 
-    @FromService
-    private NotificationService notificationService;
-
     @HttpPost
     @Route("user/me")
     public void checkMe() {
@@ -137,6 +134,7 @@ public class AuthController extends APIController{
 
             // 添加变更用户财富的任务至消息队列
             balanceMQService.increaseBalance(user.getId(), CoinRewards.R_REGISTER);
+            userLogMQService.createUserLog(user.getId(), user.getUsername(), L_BALANCE, "", "注册获得初始财富奖励".concat(Integer.toString(CoinRewards.R_REGISTER)).concat("铜币"), "", Request().getIp(), Request().getUa());
 
             // log
             userLogMQService.createUserLog(user.getId(), user.getUsername(), L_REGISTER, "", "signuped", "", Request().getIp(), Request().getUa());
@@ -146,7 +144,11 @@ public class AuthController extends APIController{
                 // 给推广用户增加10个银币
                 // TODO confirm user exist
                 long refUid = Long.valueOf(ref);
-                balanceMQService.increaseBalance(refUid, CoinRewards.R_REGISTER_REF);
+                UserEntity refUser = userService.getUserEntity(refUid);
+                if (refUser != null && !(refUser.getStatus().equals(Byte.valueOf("0")))) {
+                    balanceMQService.increaseBalance(refUid, CoinRewards.R_REGISTER_REF);
+                    userLogMQService.createUserLog(refUser.getId(), refUser.getUsername(), L_BALANCE, "", "推广用户".concat(user.getUsername()).concat("注册, 获得").concat(Integer.toString(CoinRewards.R_REGISTER_REF)).concat("铜币奖励"), "", Request().getIp(), Request().getUa());
+                }
             }
 
             Session session = Request().session();

@@ -67,6 +67,9 @@ public class PostController extends APIController {
     private NotificationMQService notificationMQService;
 
     @FromService
+    private TopicActivityNoticeMQService topicActivityNoticeMQService;
+
+    @FromService
     private AppConfiguration appConfiguration;
 
     @HttpPost
@@ -116,7 +119,6 @@ public class PostController extends APIController {
             if (!(user.getId().equals(topicEntity.getAuthorId()))) {
 
                 balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_REPLIED);
-
                 userLogMQService.createUserLog(topicEntity.getAuthorId(), topicEntity.getAuthorName(), L_BALANCE, "", "创建的话题《".concat(topicEntity.getTitle()).concat("》收到来自").concat(user.getUsername()).concat("的回复, 获得".concat(Integer.toString(CoinRewards.R_TOPIC_BE_REPLIED)).concat("铜币奖励")), "", Request().getIp(), Request().getUa());
             }
 
@@ -126,6 +128,9 @@ public class PostController extends APIController {
 
             // notification
             notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("在你的话题《".concat(topicEntity.getTitle()).concat("》发表了回复")), postCreationModel.content, N_TOPIC_REPLY);
+
+            // 话题关注者通知
+            topicActivityNoticeMQService.noticeTopicFollowers(topicEntity.getId(), user.getUsername().concat("在你关注的话题《".concat(topicEntity.getTitle()).concat("》上发表了回复")), postCreationModel.content, N_TOPIC_REPLY);
 
             Arrays.stream(postCreationModel.mentions).forEach(mention -> {
                 notificationMQService.createNotification(user.getUsername(), mention, user.getUsername().concat("在话题《".concat(topicEntity.getTitle()).concat("》的评论中@了你")), postCreationModel.content, N_AT);

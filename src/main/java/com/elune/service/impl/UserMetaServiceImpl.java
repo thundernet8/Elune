@@ -21,6 +21,7 @@ package com.elune.service.impl;
 
 import com.elune.dal.DBManager;
 import com.elune.dao.UserMetaMapper;
+import com.elune.entity.UserEntity;
 import com.elune.entity.UsermetaEntity;
 import com.elune.entity.UsermetaEntityExample;
 import com.elune.model.Pagination;
@@ -321,6 +322,13 @@ public class UserMetaServiceImpl implements UserMetaService {
         return createOrUpdateUsermeta(uid, "balance", Integer.toString(newBalance));
     }
 
+    @Override
+    public List<UserEntity> getTopicFollowers(long topicId) {
+
+        List<Long> uids = getMetaOwners("following_topics", Long.toString(topicId));
+        return userService.getUserEntitiesByIdList(uids);
+    }
+
     private boolean metaExist(long userId, String key, String value) {
 
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
@@ -330,6 +338,18 @@ public class UserMetaServiceImpl implements UserMetaService {
             usermetaEntityExample.or().andMetaKeyEqualTo(key).andUidEqualTo(userId).andMetaValueEqualTo(value);
 
             return mapper.countByExample(usermetaEntityExample) > 0;
+        }
+    }
+
+    private List<Long> getMetaOwners(String key, String value) {
+
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            UserMetaMapper mapper = sqlSession.getMapper(UserMetaMapper.class);
+            UsermetaEntityExample usermetaEntityExample = UsermetaEntityExample.builder().oredCriteria(new ArrayList<>()).distinct(true).orderByClause("id DESC").build();
+            usermetaEntityExample.or().andMetaKeyEqualTo(key).andMetaValueEqualTo(value);
+
+            return mapper.selectByExample(usermetaEntityExample).stream().map(UsermetaEntity::getUid).collect(Collectors.toList());
         }
     }
 }

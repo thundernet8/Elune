@@ -304,6 +304,7 @@ public class TopicController extends APIController {
 
                 // add balance for author
                 balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_FAVORITED);
+                userLogMQService.createUserLog(topicEntity.getAuthorId(), topicEntity.getAuthorName(), L_BALANCE, "", "创建的话题《".concat(topicEntity.getTitle()).concat("》收到来自").concat(user.getUsername()).concat("的回复, 获得".concat(Integer.toString(CoinRewards.R_TOPIC_BE_REPLIED)).concat("铜币奖励")), "", Request().getIp(), Request().getUa());
             }
 
             Succeed(result);
@@ -352,6 +353,10 @@ public class TopicController extends APIController {
 
                 // notification
                 notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("取消收藏了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_UNFAVORITE);
+
+                // return balance for author
+                balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_FAVORITED * -1);
+                userLogMQService.createUserLog(topicEntity.getAuthorId(), topicEntity.getAuthorName(), L_BALANCE, "", user.getUsername().concat("取消对你的话题《".concat(topicEntity.getTitle()).concat("》的收藏, 回收").concat(Integer.toString(CoinRewards.R_TOPIC_BE_FAVORITED)).concat("铜币奖励")), "", Request().getIp(), Request().getUa());
             }
 
             Succeed(result);
@@ -403,6 +408,7 @@ public class TopicController extends APIController {
 
                 // add balance for author
                 balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_LIKED);
+                userLogMQService.createUserLog(topicEntity.getAuthorId(), topicEntity.getAuthorName(), L_BALANCE, "", user.getUsername().concat("喜欢了你的话题《".concat(topicEntity.getTitle()).concat("》, 获得").concat(Integer.toString(CoinRewards.R_TOPIC_BE_LIKED)).concat("铜币奖励")), "", Request().getIp(), Request().getUa());
             }
 
             Succeed(result);

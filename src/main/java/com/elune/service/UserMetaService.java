@@ -19,6 +19,7 @@
 
 package com.elune.service;
 
+import com.elune.entity.UserEntity;
 import com.elune.entity.UsermetaEntity;
 import com.elune.model.Pagination;
 import com.elune.model.Topic;
@@ -82,4 +83,6 @@ public interface UserMetaService {
     int getBalance(long uid);
 
     boolean changeBalance(long uid, int change);
+
+    List<UserEntity> getTopicFollowers(long topicId);
 }

@@ -156,6 +156,7 @@ public class UserMetaController extends APIController {
 
                 // add balance for author
                 balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_FOLLOWED);
+                userLogMQService.createUserLog(topicEntity.getAuthorId(), topicEntity.getAuthorName(), L_BALANCE, "", user.getUsername().concat("关注了你的话题《".concat(topicEntity.getTitle()).concat("》, 获得").concat(Integer.toString(CoinRewards.R_TOPIC_BE_FOLLOWED)).concat("铜币奖励")), "", Request().getIp(), Request().getUa());
             }
 
             Succeed(result);
@@ -205,6 +206,10 @@ public class UserMetaController extends APIController {
 
                 // notification
                 notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("取消了对你的话题《".concat(topicEntity.getTitle()).concat("》的关注")), "", N_TOPIC_UNFOLLOW);
+
+                // add balance for author
+                balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_FOLLOWED * -1);
+                userLogMQService.createUserLog(topicEntity.getAuthorId(), topicEntity.getAuthorName(), L_BALANCE, "", user.getUsername().concat("取消对你的话题《".concat(topicEntity.getTitle()).concat("》的关注, 回收").concat(Integer.toString(CoinRewards.R_TOPIC_BE_FOLLOWED)).concat("铜币奖励")), "", Request().getIp(), Request().getUa());
             }
 
             Succeed(result);
