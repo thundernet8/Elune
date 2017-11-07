@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.elune.entity.UserlogEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="uid" jdbcType="BIGINT" property="uid" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="type" jdbcType="TINYINT" property="type" />
     <result column="before_status" jdbcType="VARCHAR" property="beforeStatus" />
     <result column="after_status" jdbcType="VARCHAR" property="afterStatus" />
@@ -71,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, uid, type, before_status, after_status, link, ip, ua, create_time
+    id, uid, username, type, before_status, after_status, link, ip, ua, create_time
   </sql>
   <select id="selectByExample" parameterType="com.elune.entity.UserlogEntityExample" resultMap="BaseResultMap">
     select
@@ -115,12 +116,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_userlog (uid, type, before_status, 
-      after_status, link, ip, 
-      ua, create_time)
-    values (#{uid,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, #{beforeStatus,jdbcType=VARCHAR}, 
-      #{afterStatus,jdbcType=VARCHAR}, #{link,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
-      #{ua,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER})
+    insert into t_userlog (uid, username, type, 
+      before_status, after_status, link, 
+      ip, ua, create_time)
+    values (#{uid,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
+      #{beforeStatus,jdbcType=VARCHAR}, #{afterStatus,jdbcType=VARCHAR}, #{link,jdbcType=VARCHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{ua,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.elune.entity.UserlogEntity">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -130,6 +131,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="uid != null">
         uid,
+      </if>
+      <if test="username != null">
+        username,
       </if>
       <if test="type != null">
         type,
@@ -156,6 +160,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="uid != null">
         #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         #{type,jdbcType=TINYINT},
@@ -195,6 +202,9 @@
       <if test="record.uid != null">
         uid = #{record.uid,jdbcType=BIGINT},
       </if>
+      <if test="record.username != null">
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
@@ -225,6 +235,7 @@
     update t_userlog
     set id = #{record.id,jdbcType=BIGINT},
       uid = #{record.uid,jdbcType=BIGINT},
+      username = #{record.username,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=TINYINT},
       before_status = #{record.beforeStatus,jdbcType=VARCHAR},
       after_status = #{record.afterStatus,jdbcType=VARCHAR},
@@ -241,6 +252,9 @@
     <set>
       <if test="uid != null">
         uid = #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
       </if>
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
@@ -269,6 +283,7 @@
   <update id="updateByPrimaryKey" parameterType="com.elune.entity.UserlogEntity">
     update t_userlog
     set uid = #{uid,jdbcType=BIGINT},
+      username = #{username,jdbcType=VARCHAR},
       type = #{type,jdbcType=TINYINT},
       before_status = #{beforeStatus,jdbcType=VARCHAR},
       after_status = #{afterStatus,jdbcType=VARCHAR},

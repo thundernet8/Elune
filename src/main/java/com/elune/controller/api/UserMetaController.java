@@ -149,7 +149,7 @@ public class UserMetaController extends APIController {
             if (uid != topicEntity.getAuthorId()) {
                 // log
                 String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(topicEntity.getId()));
-                userLogMQService.createUserLog(uid, L_FOLLOW_TOPIC, "", "关注了话题《".concat(topicEntity.getTitle()).concat("》"), topicLink, Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(uid, user.getUsername(), L_FOLLOW_TOPIC, "", "关注了话题《".concat(topicEntity.getTitle()).concat("》"), topicLink, Request().getIp(), Request().getUa());
 
                 // notification
                 notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("关注了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_FOLLOW);
@@ -201,7 +201,7 @@ public class UserMetaController extends APIController {
             if (uid != topicEntity.getAuthorId()) {
 
                 // log
-                userLogMQService.createUserLog(uid, L_UNFOLLOW_TOPIC, "", "取消了对话题《".concat(topicEntity.getTitle()).concat("》的关注"), "", Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(uid, user.getUsername(), L_UNFOLLOW_TOPIC, "", "取消了对话题《".concat(topicEntity.getTitle()).concat("》的关注"), "", Request().getIp(), Request().getUa());
 
                 // notification
                 notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("取消了对你的话题《".concat(topicEntity.getTitle()).concat("》的关注")), "", N_TOPIC_UNFOLLOW);
@@ -274,7 +274,7 @@ public class UserMetaController extends APIController {
 
             // log
             String ucLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/u/").concat(userEntity.getUsername());
-            userLogMQService.createUserLog(uid, L_FOLLOW_USER, "", "关注了用户".concat(userEntity.getUsername()), ucLink, Request().getIp(), Request().getUa());
+            userLogMQService.createUserLog(uid, user.getUsername(), L_FOLLOW_USER, "", "关注了用户".concat(userEntity.getUsername()), ucLink, Request().getIp(), Request().getUa());
 
             // notification
             notificationMQService.createNotification(user.getUsername(), userEntity.getUsername(), user.getUsername().concat("关注了你"), "", N_USER_FOLLOW);
@@ -311,7 +311,7 @@ public class UserMetaController extends APIController {
             boolean result = userMetaService.unfollowUser(uid, id);
 
             // log
-            userLogMQService.createUserLog(uid, L_UNFOLLOW_USER, "", "取消了对用户".concat(userEntity.getUsername()).concat("的关注"), "", Request().getIp(), Request().getUa());
+            userLogMQService.createUserLog(uid, user.getUsername(), L_UNFOLLOW_USER, "", "取消了对用户".concat(userEntity.getUsername()).concat("的关注"), "", Request().getIp(), Request().getUa());
 
             // notification
             notificationMQService.createNotification(user.getUsername(), userEntity.getUsername(), user.getUsername().concat("取消了对你的关注"), "", N_USER_UNFOLLOW);

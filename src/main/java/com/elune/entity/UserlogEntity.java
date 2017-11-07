@@ -18,6 +18,8 @@ public class UserlogEntity implements Serializable {
 
     private Long uid;
 
+    private String username;
+
     /**
      * 日志事件类型
      */
@@ -57,6 +59,14 @@ public class UserlogEntity implements Serializable {
 
     public void setUid(Long uid) {
         this.uid = uid;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public Byte getType() {
@@ -129,6 +139,7 @@ public class UserlogEntity implements Serializable {
         UserlogEntity other = (UserlogEntity) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getUid() == null ? other.getUid() == null : this.getUid().equals(other.getUid()))
+            && (this.getUsername() == null ? other.getUsername() == null : this.getUsername().equals(other.getUsername()))
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
             && (this.getBeforeStatus() == null ? other.getBeforeStatus() == null : this.getBeforeStatus().equals(other.getBeforeStatus()))
             && (this.getAfterStatus() == null ? other.getAfterStatus() == null : this.getAfterStatus().equals(other.getAfterStatus()))
@@ -144,6 +155,7 @@ public class UserlogEntity implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getUid() == null) ? 0 : getUid().hashCode());
+        result = prime * result + ((getUsername() == null) ? 0 : getUsername().hashCode());
         result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
         result = prime * result + ((getBeforeStatus() == null) ? 0 : getBeforeStatus().hashCode());
         result = prime * result + ((getAfterStatus() == null) ? 0 : getAfterStatus().hashCode());
@@ -162,6 +174,7 @@ public class UserlogEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", uid=").append(uid);
+        sb.append(", username=").append(username);
         sb.append(", type=").append(type);
         sb.append(", beforeStatus=").append(beforeStatus);
         sb.append(", afterStatus=").append(afterStatus);

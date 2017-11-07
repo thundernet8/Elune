@@ -60,9 +60,9 @@ public class UserLogMQServiceImpl implements UserLogMQService {
     }
 
     @Override
-    public void createUserLog(long uid, byte type, String before, String after, String link, String ip, String ua) {
+    public void createUserLog(long uid, String username, byte type, String before, String after, String link, String ip, String ua) {
 
-        UserLogTask task = UserLogTask.builder().uid(uid).type(type).before(before).after(after).link(link).ip(ip).ua(ua).build();
+        UserLogTask task = UserLogTask.builder().uid(uid).username(username).type(type).before(before).after(after).link(link).ip(ip).ua(ua).build();
 
         producer.produce(GsonFactory.getGson().toJson(task));
     }
@@ -71,7 +71,7 @@ public class UserLogMQServiceImpl implements UserLogMQService {
 
         try {
 
-            userLogService.createUserLog(task.getUid(), task.getType(), task.getBefore(), task.getAfter(), task.getLink(), task.getIp(), task.getUa());
+            userLogService.createUserLog(task.getUid(), task.getUsername(), task.getType(), task.getBefore(), task.getAfter(), task.getLink(), task.getIp(), task.getUa());
         } catch (Exception e) {
             log.info("user log: {}", task);
             log.error("create user log error", e);

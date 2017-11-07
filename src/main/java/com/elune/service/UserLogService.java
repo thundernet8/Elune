@@ -26,7 +26,7 @@ import java.util.List;
 
 public interface UserLogService {
 
-    long createUserLog(long uid, byte type, String before, String after, String link, String ip, String ua);
+    long createUserLog(long uid, String username, byte type, String before, String after, String link, String ip, String ua);
 
     Pagination<UserLog> getUserLogs(long uid, byte type, int page, int pageSize, String orderClause);
 

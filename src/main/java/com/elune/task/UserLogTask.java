@@ -30,6 +30,8 @@ public class UserLogTask {
 
     private long uid;
 
+    private String username;
+
     private byte type;
 
     private String before;

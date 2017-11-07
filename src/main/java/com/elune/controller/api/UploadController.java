@@ -20,6 +20,7 @@
 package com.elune.controller.api;
 
 import com.elune.configuration.AppConfiguration;
+import com.elune.entity.UserEntity;
 import com.elune.service.UserLogMQService;
 import com.elune.service.UserService;
 import com.elune.utils.EncryptUtil;
@@ -78,6 +79,18 @@ public class UploadController extends APIController{
             throw new HttpException("尚未登录, 不能上传图片", 401);
         }
 
+        UserEntity user = userService.getUserEntity(uid);
+
+        if (user == null) {
+
+            throw new HttpException("你必须登录才能上传图片", 401);
+        }
+
+        if (user.getStatus().equals(Byte.valueOf("0"))) {
+
+            throw new HttpException("你没有权限上传图片(账户未激活或已禁用)", 403);
+        }
+
         String dateStr = DateKit.getDateString(Date.from(Instant.now()), "yyyy/MM/dd");
         String basePath = contentAbsPath.concat(File.separator).concat("images").concat(File.separator).concat(dateStr);
         String baseUrl = imageBaseUrl.concat(dateStr).concat("/");
@@ -92,7 +105,7 @@ public class UploadController extends APIController{
                 imageUrls.add(imageUrl);
 
                 // log
-                userLogMQService.createUserLog(uid, L_UPLOAD_IMAGE, "", "上传了图片: ".concat(imageUrl), imageUrl, Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(uid, user.getUsername(), L_UPLOAD_IMAGE, "", "上传了图片: ".concat(imageUrl), imageUrl, Request().getIp(), Request().getUa());
             }
 
             Map<String, Object> resp = new HashMap<>(2);
@@ -116,6 +129,18 @@ public class UploadController extends APIController{
             throw new HttpException("尚未登录, 不能上传头像", 401);
         }
 
+        UserEntity user = userService.getUserEntity(uid);
+
+        if (user == null) {
+
+            throw new HttpException("你必须登录才能上传头像", 401);
+        }
+
+        if (user.getStatus().equals(Byte.valueOf("0"))) {
+
+            throw new HttpException("你没有权限上传头像(账户未激活或已禁用)", 403);
+        }
+
         String basePath = contentAbsPath.concat(File.separator).concat("images").concat(File.separator).concat("avatars");
         String baseUrl = imageBaseUrl.concat("avatars/");
 
@@ -128,7 +153,7 @@ public class UploadController extends APIController{
             userService.updateInfo(updateInfo);
 
             // log
-            userLogMQService.createUserLog(uid, L_UPLOAD_AVATAR, "", "上传了头像: ".concat(imageUrl), imageUrl, Request().getIp(), Request().getUa());
+            userLogMQService.createUserLog(uid, user.getUsername(), L_UPLOAD_AVATAR, "", "上传了头像: ".concat(imageUrl), imageUrl, Request().getIp(), Request().getUa());
 
             Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", imageUrl);

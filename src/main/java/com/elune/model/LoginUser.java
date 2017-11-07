@@ -47,4 +47,6 @@ public class LoginUser extends User implements Serializable {
     private List<Long> favoriteTopicIds;
 
     private List<Long> followingTopicIds;
+
+    private List<Long> followingUserIds;
 }

@@ -74,6 +74,7 @@ public class AuthController extends APIController{
             LoginUser user = userService.getLoginUser(uid);
             user.setFavoriteTopicIds(userMetaService.getFavoriteIds(uid));
             user.setFollowingTopicIds(userMetaService.getFollowingTopicIds(uid));
+            user.setFollowingUserIds(userMetaService.getFollowingUids(uid));
             user.setBalance(userMetaService.getBalance(uid));
             user.setDailySigned(userMetaService.hasSignedToday(uid));
 
@@ -99,11 +100,12 @@ public class AuthController extends APIController{
             LoginUser user = userService.signin(loginModel);
             user.setFavoriteTopicIds(userMetaService.getFavoriteIds(user.getId()));
             user.setFollowingTopicIds(userMetaService.getFollowingTopicIds(user.getId()));
+            user.setFollowingUserIds(userMetaService.getFollowingUids(user.getId()));
             user.setBalance(userMetaService.getBalance(user.getId()));
             user.setDailySigned(userMetaService.hasSignedToday(user.getId()));
 
             // log
-            userLogMQService.createUserLog(user.getId(), L_LOGIN, "", "loggedIn", "", Request().getIp(), Request().getUa());
+            userLogMQService.createUserLog(user.getId(), user.getUsername(), L_LOGIN, "", "loggedIn", "", Request().getIp(), Request().getUa());
 
             Session session = Request().session();
             session.addAttribute("uid", user.getId());
@@ -118,7 +120,7 @@ public class AuthController extends APIController{
             // log
             UserEntity userEntity = userService.getUserEntityByName(loginModel.username);
             if (userEntity != null) {
-                userLogMQService.createUserLog(userEntity.getId(), L_LOGIN, "", "failed", "", Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(userEntity.getId(), userEntity.getUsername(), L_LOGIN, "", "failed", "", Request().getIp(), Request().getUa());
             }
 
             Fail(e);
@@ -137,7 +139,7 @@ public class AuthController extends APIController{
             balanceMQService.increaseBalance(user.getId(), CoinRewards.R_REGISTER);
 
             // log
-            userLogMQService.createUserLog(user.getId(), L_REGISTER, "", "signuped", "", Request().getIp(), Request().getUa());
+            userLogMQService.createUserLog(user.getId(), user.getUsername(), L_REGISTER, "", "signuped", "", Request().getIp(), Request().getUa());
 
             if (ref != null && StringUtil.isNumberic(ref)) {
 
@@ -171,11 +173,12 @@ public class AuthController extends APIController{
             Session session = Request().session();
 
             Object uid = session.attribute("uid");
+            String username = session.attribute("username");
             session.clearAttributes();
 
             if (uid != null) {
                 // log
-                userLogMQService.createUserLog((long)uid, L_LOGOUT, "", "loggedOut", "", Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog((long)uid, username, L_LOGOUT, "", "loggedOut", "", Request().getIp(), Request().getUa());
             }
 
             Succeed("注销成功");
@@ -194,7 +197,7 @@ public class AuthController extends APIController{
             long uid = userService.activate(token);
             if (uid > 0) {
                 // log
-                userLogMQService.createUserLog(uid, L_ACTIVATE_ACCOUNT, "", "activated", "", Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(uid, "", L_ACTIVATE_ACCOUNT, "", "activated", "", Request().getIp(), Request().getUa());
             }
 
             Succeed(uid > 0);
@@ -214,7 +217,7 @@ public class AuthController extends APIController{
 
             if (uid > 0) {
                 // log
-                userLogMQService.createUserLog(uid, L_REACTIVATE_EMAIL, "", "", "", Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(uid, "", L_REACTIVATE_EMAIL, "", "", "", Request().getIp(), Request().getUa());
             }
 
             Succeed(uid > 0);
