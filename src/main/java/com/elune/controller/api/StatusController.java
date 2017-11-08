@@ -47,6 +47,7 @@ public class StatusController extends APIController {
             Jedis jedis = redisManager.getJedis();
             long total = jedis.pfcount("_online_".concat(DateUtil.getDateStr("HHmm").substring(0, 3)));
             long logged = jedis.pfcount("_online_logged_".concat(DateUtil.getDateStr("HHmm").substring(0, 3)));
+            redisManager.retureRes(jedis);
 
             Map<String, Long> resp = new HashMap<>(3);
             resp.put("total", total);
