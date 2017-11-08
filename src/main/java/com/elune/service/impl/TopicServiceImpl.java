@@ -259,13 +259,9 @@ public class TopicServiceImpl implements TopicService {
             List<TopicEntity> topicEntities = mapper.selectByExampleWithBLOBs(topicEntityExample);
             List<Topic> topics = assembleTopics(topicEntities);
 
-            long total = 0L;
-            if (page == 1) {
-                // 仅在第一页请求查询Total
-                TopicEntityExample countTopicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
-                countTopicEntityExample.or().andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
-                total = mapper.countByExample(countTopicEntityExample);
-            }
+            TopicEntityExample countTopicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            countTopicEntityExample.or().andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
+            long total = mapper.countByExample(countTopicEntityExample);
 
             return new Pagination<>(total, page, pageSize, topics);
         }
@@ -284,13 +280,9 @@ public class TopicServiceImpl implements TopicService {
             List<TopicEntity> topicEntities = mapper.selectByExampleWithBLOBs(topicEntityExample);
             List<Topic> topics = assembleTopics(topicEntities);
 
-            long total = 0L;
-            if (page == 1) {
-                // 仅在第一页请求查询Total
-                TopicEntityExample countTopicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
-                countTopicEntityExample.or().andCidEqualTo(channelId).andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
-                total = mapper.countByExample(countTopicEntityExample);
-            }
+            TopicEntityExample countTopicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            countTopicEntityExample.or().andCidEqualTo(channelId).andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
+            long total = mapper.countByExample(countTopicEntityExample);
 
             return new Pagination<>(total, page, pageSize, topics);
         }
@@ -309,13 +301,9 @@ public class TopicServiceImpl implements TopicService {
             List<TopicEntity> topicEntities = mapper.selectByExampleWithBLOBs(topicEntityExample);
             List<Topic> topics = assembleTopics(topicEntities);
 
-            long total = 0L;
-            if (page == 1) {
-                // 仅在第一页请求查询Total
-                TopicEntityExample countTopicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
-                countTopicEntityExample.or().andAuthorIdEqualTo(authorId).andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
-                total = mapper.countByExample(countTopicEntityExample);
-            }
+            TopicEntityExample countTopicEntityExample = TopicEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            countTopicEntityExample.or().andAuthorIdEqualTo(authorId).andStatusIn(new ArrayList<>(Collections.singletonList(normalStatus)));
+            long total = mapper.countByExample(countTopicEntityExample);
 
             return new Pagination<>(total, page, pageSize, topics);
         }

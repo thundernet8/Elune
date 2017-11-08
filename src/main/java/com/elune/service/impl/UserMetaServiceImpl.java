@@ -176,11 +176,7 @@ public class UserMetaServiceImpl implements UserMetaService {
         List<Long> topicIds = getFavoriteIds(uid, page, pageSize);
         List<Topic> topics = topicService.getTopicsByIdList(topicIds);
 
-        long total = 0L;
-        if (page == 1) {
-            // 仅在第一页请求查询Total
-            total = countUsermetas(uid, "favorites");
-        }
+        long total = countUsermetas(uid, "favorites");
 
         return new Pagination<>(total, page, pageSize, topics);
     }
@@ -223,11 +219,7 @@ public class UserMetaServiceImpl implements UserMetaService {
         List<Long> topicIds = getUsermetas(uid, "following_topics", page, pageSize).stream().map(x -> Long.valueOf(x.getMetaValue())).collect(Collectors.toList());
         List<Topic> topics = topicService.getTopicsByIdList(topicIds);
 
-        long total = 0L;
-        if (page == 1) {
-            // 仅在第一页请求查询Total
-            total = countUsermetas(uid, "following_topics");
-        }
+        long total = countUsermetas(uid, "following_topics");
 
         return new Pagination<>(total, page, pageSize, topics);
     }
@@ -264,11 +256,7 @@ public class UserMetaServiceImpl implements UserMetaService {
         List<Long> userIds = getUsermetas(uid, "following_users", page, pageSize).stream().map(x -> Long.valueOf(x.getMetaValue())).collect(Collectors.toList());
         List<User> topics = userService.getUsersByIdList(userIds);
 
-        long total = 0L;
-        if (page == 1) {
-            // 仅在第一页请求查询Total
-            total = countUsermetas(uid, "following_users");
-        }
+        long total = countUsermetas(uid, "following_users");
 
         return new Pagination<>(total, page, pageSize, topics);
     }

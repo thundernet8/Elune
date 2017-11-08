@@ -34,8 +34,8 @@ import java.util.List;
 
 import static com.elune.constants.UserLogType.*;
 
-@RoutePrefix("api/v1/activities")
-public class ActivityController extends APIController {
+@RoutePrefix("api/v1/balance")
+public class BalanceController extends APIController {
 
     private DBManager dbManager;
 
@@ -45,29 +45,14 @@ public class ActivityController extends APIController {
     @FromService
     private UserMetaService userMetaService;
 
-    public ActivityController(DBManager dbManager) {
+    public BalanceController(DBManager dbManager) {
 
         this.dbManager = dbManager;
     }
 
-    @HttpPost
-    @Route("")
-    public void getUsersActivities(@FromBody LongIdsModel longIdsModel, @QueryParam("page") int page, @QueryParam("pageSize") int pageSize, @QueryParam("order") String order) {
-        if (order == null || !(order.toLowerCase().equals("asc"))) {
-            order = "DESC";
-        }
-        try {
-
-            Succeed(userLogService.getUserActivities(longIdsModel.ids, page, pageSize, "id ".concat(order)));
-        } catch (Exception e) {
-
-            Fail(e);
-        }
-    }
-
     @HttpGet
-    @Route("following")
-    public void getFollowingActivities(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize, @QueryParam("order") String order) {
+    @Route("")
+    public void getBalanceDetails(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize, @QueryParam("order") String order) {
         if (order == null || !(order.toLowerCase().equals("asc"))) {
             order = "DESC";
         }
@@ -80,8 +65,7 @@ public class ActivityController extends APIController {
                 throw new HttpException("尚未登录", 401);
             }
 
-            List<Long> followingUids = userMetaService.getFollowingUids(uid);
-            Succeed(userLogService.getUserActivities(followingUids, page, pageSize, "id ".concat(order)));
+            Succeed(userLogService.getUserLogs(uid, L_BALANCE, page, pageSize, "id ".concat(order)));
         } catch (Exception e) {
 
             Fail(e);

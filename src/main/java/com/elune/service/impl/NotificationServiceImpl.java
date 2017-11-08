@@ -166,29 +166,25 @@ public class NotificationServiceImpl implements NotificationService {
             List<NotificationEntity> notificationEntities = mapper.selectByExampleWithBLOBs(entityExample);
             List<Notification> notifications = assembleNotifications(notificationEntities);
 
-            long total = 0L;
-            if (page == 1) {
-                // 仅在第一页请求查询Total
-                NotificationEntityExample countEntityExample = NotificationEntityExample.builder().oredCriteria(new ArrayList<>()).build();
-                countEntityExample.or().andReceiverEqualTo(username);
+            NotificationEntityExample countEntityExample = NotificationEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            countEntityExample.or().andReceiverEqualTo(username);
 
-                if (readStatus != null) {
-                    countEntityExample.getOredCriteria().get(0).andStatusEqualTo(readStatus);
-                }
-
-                if (type != null) {
-                    countEntityExample.getOredCriteria().get(0).andTypeEqualTo(type);
-                }
-
-                if (sender != null) {
-                    if (sender.equals("system")) {
-                        countEntityExample.getOredCriteria().get(0).andSenderEqualTo("System");
-                    } else {
-                        countEntityExample.getOredCriteria().get(0).andSenderNotEqualTo("System");
-                    }
-                }
-                total = mapper.countByExample(countEntityExample);
+            if (readStatus != null) {
+                countEntityExample.getOredCriteria().get(0).andStatusEqualTo(readStatus);
             }
+
+            if (type != null) {
+                countEntityExample.getOredCriteria().get(0).andTypeEqualTo(type);
+            }
+
+            if (sender != null) {
+                if (sender.equals("system")) {
+                    countEntityExample.getOredCriteria().get(0).andSenderEqualTo("System");
+                } else {
+                    countEntityExample.getOredCriteria().get(0).andSenderNotEqualTo("System");
+                }
+            }
+            long total = mapper.countByExample(countEntityExample);
 
             return new Pagination<>(total, page, pageSize, notifications);
         }

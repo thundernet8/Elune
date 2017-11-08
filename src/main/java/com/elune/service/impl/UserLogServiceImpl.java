@@ -81,14 +81,10 @@ public class UserLogServiceImpl implements UserLogService {
             List<UserlogEntity> entities = mapper.selectByExample(entityExample);
             List<UserLog> logs = assembleUserLogs(entities);
 
-            long total = 0L;
-            if (page == 1) {
-                // 仅在第一页请求查询Total
-                UserlogEntityExample countEntityExample = UserlogEntityExample.builder().oredCriteria(new ArrayList<>()).build();
-                countEntityExample.or().andUidEqualTo(uid).andTypeEqualTo(type);
+            UserlogEntityExample countEntityExample = UserlogEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            countEntityExample.or().andUidEqualTo(uid).andTypeEqualTo(type);
 
-                total = mapper.countByExample(countEntityExample);
-            }
+            long total = mapper.countByExample(countEntityExample);
 
             return new Pagination<>(total, page, pageSize, logs);
         }
@@ -113,14 +109,10 @@ public class UserLogServiceImpl implements UserLogService {
             List<UserlogEntity> entities = mapper.selectByExample(entityExample);
             List<UserLog> logs = assembleUserLogs(entities);
 
-            long total = 0L;
-            if (page == 1) {
-                // 仅在第一页请求查询Total
-                UserlogEntityExample countEntityExample = UserlogEntityExample.builder().oredCriteria(new ArrayList<>()).build();
-                countEntityExample.or().andUidIn(uids).andTypeIn(activityTypes);
+            UserlogEntityExample countEntityExample = UserlogEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            countEntityExample.or().andUidIn(uids).andTypeIn(activityTypes);
 
-                total = mapper.countByExample(countEntityExample);
-            }
+            long total = mapper.countByExample(countEntityExample);
 
             return new Pagination<>(total, page, pageSize, logs);
         }
