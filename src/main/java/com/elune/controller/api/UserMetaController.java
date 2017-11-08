@@ -282,7 +282,7 @@ public class UserMetaController extends APIController {
             userLogMQService.createUserLog(uid, user.getUsername(), L_FOLLOW_USER, "", "关注了用户".concat(userEntity.getUsername()), ucLink, Request().getIp(), Request().getUa());
 
             // notification
-            notificationMQService.createNotification(user.getUsername(), userEntity.getUsername(), user.getUsername().concat("关注了你"), "", N_USER_FOLLOW);
+            notificationMQService.createNotification(userEntity.getUsername(), user.getUsername().concat("关注了你"), "", N_USER_FOLLOW);
 
             Succeed(result);
         } catch (Exception e) {
@@ -319,7 +319,7 @@ public class UserMetaController extends APIController {
             userLogMQService.createUserLog(uid, user.getUsername(), L_UNFOLLOW_USER, "", "取消了对用户".concat(userEntity.getUsername()).concat("的关注"), "", Request().getIp(), Request().getUa());
 
             // notification
-            notificationMQService.createNotification(user.getUsername(), userEntity.getUsername(), user.getUsername().concat("取消了对你的关注"), "", N_USER_UNFOLLOW);
+            notificationMQService.createNotification(userEntity.getUsername(), user.getUsername().concat("取消了对你的关注"), "", N_USER_UNFOLLOW);
 
             Succeed(result);
         } catch (Exception e) {
