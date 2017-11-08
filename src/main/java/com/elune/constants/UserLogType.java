@@ -31,7 +31,7 @@ public interface UserLogType {
 
     Byte L_REACTIVATE_EMAIL = 5;
 
-    Byte L_BALANCE = 10;
+//    Byte L_BALANCE = 10;
 
     Byte L_CREATE_TOPIC = 20;
 

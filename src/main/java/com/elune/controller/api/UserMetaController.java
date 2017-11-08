@@ -327,10 +327,4 @@ public class UserMetaController extends APIController {
             Fail(e);
         }
     }
-
-    @HttpGet
-    @Route("test")
-    public void test() {
-        Succeed(userMetaService.getFollowingUsers(1L, 1, 20));
-    }
 }
