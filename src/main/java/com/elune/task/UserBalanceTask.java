@@ -31,4 +31,10 @@ public class UserBalanceTask {
     private long uid;
 
     private int change;
+
+    private byte type;
+
+    private String link;
+
+    private String content;
 }

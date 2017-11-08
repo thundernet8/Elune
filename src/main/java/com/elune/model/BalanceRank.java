@@ -17,11 +17,17 @@
  */
 
 
-package com.elune.service;
+package com.elune.model;
 
-public interface BalanceMQService {
+import com.elune.entity.UserEntity;
+import lombok.Getter;
+import lombok.Setter;
 
-    void increaseBalance(long uid, int num, byte type, String content, String link);
+@Getter
+@Setter
+public class BalanceRank {
 
-    void decreaseBalance(long uid, int num, byte type, String content, String link);
+    private UserEntity user;
+
+    private int amount;
 }

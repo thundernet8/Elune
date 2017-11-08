@@ -80,9 +80,5 @@ public interface UserMetaService {
 
     boolean hasSignedToday(long uid);
 
-    int getBalance(long uid);
-
-    boolean changeBalance(long uid, int change);
-
     List<UserEntity> getTopicFollowers(long topicId);
 }

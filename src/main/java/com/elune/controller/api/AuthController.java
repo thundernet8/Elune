@@ -19,6 +19,8 @@
 
 package com.elune.controller.api;
 
+import com.elune.configuration.AppConfiguration;
+import com.elune.constants.Constant;
 import com.elune.entity.UserEntity;
 import com.elune.model.*;
 import com.elune.service.*;
@@ -35,6 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.elune.constants.UserLogType.*;
+import static com.elune.constants.BalanceLogType.*;
 
 /**
  * @author Touchumind
@@ -55,6 +58,11 @@ public class AuthController extends APIController{
     @FromService
     private UserLogMQService userLogMQService;
 
+    @FromService
+    private AppConfiguration appConfiguration;
+
+    @FromService BalanceLogService balanceLogService;
+
     @HttpPost
     @Route("user/me")
     public void checkMe() {
@@ -72,7 +80,7 @@ public class AuthController extends APIController{
             user.setFavoriteTopicIds(userMetaService.getFavoriteIds(uid));
             user.setFollowingTopicIds(userMetaService.getFollowingTopicIds(uid));
             user.setFollowingUserIds(userMetaService.getFollowingUids(uid));
-            user.setBalance(userMetaService.getBalance(uid));
+            user.setBalance(balanceLogService.getBalance(uid));
             user.setDailySigned(userMetaService.hasSignedToday(uid));
 
             session.addAttribute("uid", user.getId());
@@ -98,7 +106,7 @@ public class AuthController extends APIController{
             user.setFavoriteTopicIds(userMetaService.getFavoriteIds(user.getId()));
             user.setFollowingTopicIds(userMetaService.getFollowingTopicIds(user.getId()));
             user.setFollowingUserIds(userMetaService.getFollowingUids(user.getId()));
-            user.setBalance(userMetaService.getBalance(user.getId()));
+            user.setBalance(balanceLogService.getBalance(user.getId()));
             user.setDailySigned(userMetaService.hasSignedToday(user.getId()));
 
             // log
@@ -133,21 +141,22 @@ public class AuthController extends APIController{
             User user = userService.signup(registerModel);
 
             // 添加变更用户财富的任务至消息队列
-            balanceMQService.increaseBalance(user.getId(), CoinRewards.R_REGISTER);
-            userLogMQService.createUserLog(user.getId(), user.getUsername(), L_BALANCE, "", "注册获得初始财富奖励".concat(Integer.toString(CoinRewards.R_REGISTER)).concat("铜币"), "", Request().getIp(), Request().getUa());
+            balanceMQService.increaseBalance(user.getId(), CoinRewards.R_REGISTER, B_REGISTER, "注册获得初始财富奖励", "");
 
             // log
             userLogMQService.createUserLog(user.getId(), user.getUsername(), L_REGISTER, "", "signuped", "", Request().getIp(), Request().getUa());
 
             if (ref != null && StringUtil.isNumberic(ref)) {
 
-                // 给推广用户增加10个银币
-                // TODO confirm user exist
+                String userLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/u/").concat(user.getUsername());
+
+                // 给推广和被推广用户增加10个银币
                 long refUid = Long.valueOf(ref);
                 UserEntity refUser = userService.getUserEntity(refUid);
                 if (refUser != null && !(refUser.getStatus().equals(Byte.valueOf("0")))) {
-                    balanceMQService.increaseBalance(refUid, CoinRewards.R_REGISTER_REF);
-                    userLogMQService.createUserLog(refUser.getId(), refUser.getUsername(), L_BALANCE, "", "推广用户".concat(user.getUsername()).concat("注册, 获得").concat(Integer.toString(CoinRewards.R_REGISTER_REF)).concat("铜币奖励"), "", Request().getIp(), Request().getUa());
+                    String refUserLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/u/").concat(refUser.getUsername());
+                    balanceMQService.increaseBalance(refUid, CoinRewards.R_REGISTER_REF, B_REGISTER_REF, "推广用户".concat(user.getUsername()).concat("注册"), userLink);
+                    balanceMQService.increaseBalance(user.getId(), CoinRewards.R_REGISTER_REF, B_REGISTER_BE_REF, "由用户".concat(refUser.getUsername()).concat("推荐注册，获得同等奖励"), refUserLink);
                 }
             }
 

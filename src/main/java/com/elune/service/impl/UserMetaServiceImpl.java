@@ -294,23 +294,6 @@ public class UserMetaServiceImpl implements UserMetaService {
     }
 
     @Override
-    public int getBalance(long uid) {
-
-        UsermetaEntity balanceMeta = getSingleUsermeta(uid, "balance");
-
-        return balanceMeta != null ? Integer.valueOf(balanceMeta.getMetaValue()) : 0;
-    }
-
-    @Override
-    public boolean changeBalance(long uid, int change) {
-
-        int currentBalance = getBalance(uid);
-        int newBalance = Math.max(0, currentBalance + change);
-
-        return createOrUpdateUsermeta(uid, "balance", Integer.toString(newBalance));
-    }
-
-    @Override
     public List<UserEntity> getTopicFollowers(long topicId) {
 
         List<Long> uids = getMetaOwners("following_topics", Long.toString(topicId));

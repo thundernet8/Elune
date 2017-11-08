@@ -96,7 +96,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_balancelog
     where id = #{id,jdbcType=BIGINT}
@@ -115,11 +115,11 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_balancelog (uid, type, amount, 
-      cost, balance, link, 
+    insert into t_balancelog (uid, type, amount,
+      cost, balance, link,
       content, create_time)
-    values (#{uid,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, #{amount,jdbcType=INTEGER}, 
-      #{cost,jdbcType=INTEGER}, #{balance,jdbcType=INTEGER}, #{link,jdbcType=VARCHAR}, 
+    values (#{uid,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, #{amount,jdbcType=INTEGER},
+      #{cost,jdbcType=INTEGER}, #{balance,jdbcType=INTEGER}, #{link,jdbcType=VARCHAR},
       #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.elune.entity.BalancelogEntity">
@@ -278,4 +278,58 @@
       create_time = #{createTime,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectGroupByExample" parameterType="map" resultMap="BaseResultMap">
+    select
+    l1.*
+    from t_balancelog
+    l1
+    inner join (select max(${maxField}) maxField, uid from t_balancelog group by uid)
+    l2
+    on l1.uid = l2.uid and l1.${maxField} = l2.maxField
+    <if test="example.orderByClause != null">
+      order by l1.${maxField} ${example.orderByClause}
+    </if>
+    <if test="example.limit != null">
+      <if test="example.offset != null">
+        limit ${example.offset}, ${example.limit}
+      </if>
+      <if test="example.offset == null">
+        limit ${example.limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectCostSumByExample" parameterType="com.elune.entity.BalancelogEntityExample" resultMap="BaseResultMap">
+    select
+    l1.id,
+    l1.uid,
+    l1.type,
+    l1.amount,
+    l1.balance,
+    l1.link,
+    l1.content,
+    l1.create_time,
+    l2.sumField as cost
+    from t_balancelog
+    l1
+    inner join (select sum(cost) sumField, uid, any_value(id) id from t_balancelog group by uid)
+    l2
+    on l1.uid = l2.uid and l1.id = l2.id
+    <if test="orderByClause != null">
+      order by l2.sumField ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="countGroupByExample" parameterType="com.elune.entity.BalancelogEntityExample" resultType="java.lang.Long">
+    select count(distinct(uid)) from t_balancelog
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
 </mapper>

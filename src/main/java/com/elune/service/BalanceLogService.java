@@ -20,6 +20,7 @@
 package com.elune.service;
 
 import com.elune.model.BalanceLog;
+import com.elune.model.BalanceRank;
 import com.elune.model.Pagination;
 
 public interface BalanceLogService {
@@ -28,5 +29,9 @@ public interface BalanceLogService {
 
     boolean changeBalance(long uid, int change, Byte type, String content, String link);
 
-    Pagination<BalanceLog> getBalancelogs(long uid, int page, int pageSize, String orderClause);
+    Pagination<BalanceLog> getBalanceLogs(long uid, int page, int pageSize, String orderClause);
+
+    Pagination<BalanceRank> getBalanceRank(int page, int pageSize, String order);
+
+    Pagination<BalanceRank> getBalanceCostRank(int page, int pageSize, String order);
 }

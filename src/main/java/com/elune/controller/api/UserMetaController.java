@@ -37,6 +37,7 @@ import com.fedepot.mvc.http.Session;
 
 import static com.elune.constants.UserLogType.*;
 import static com.elune.constants.NotificationType.*;
+import static com.elune.constants.BalanceLogType.*;
 
 /**
  * @author Touchumind
@@ -155,8 +156,7 @@ public class UserMetaController extends APIController {
                 notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("关注了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_FOLLOW);
 
                 // add balance for author
-                balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_FOLLOWED);
-                userLogMQService.createUserLog(topicEntity.getAuthorId(), topicEntity.getAuthorName(), L_BALANCE, "", user.getUsername().concat("关注了你的话题《".concat(topicEntity.getTitle()).concat("》, 获得").concat(Integer.toString(CoinRewards.R_TOPIC_BE_FOLLOWED)).concat("铜币奖励")), "", Request().getIp(), Request().getUa());
+                balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_FOLLOWED, B_TOPIC_BE_FOLLOWED, user.getUsername().concat("关注了你的话题《").concat(topicEntity.getTitle()).concat("》"), topicLink);
             }
 
             Succeed(result);
@@ -202,14 +202,14 @@ public class UserMetaController extends APIController {
             if (uid != topicEntity.getAuthorId()) {
 
                 // log
-                userLogMQService.createUserLog(uid, user.getUsername(), L_UNFOLLOW_TOPIC, "", "取消了对话题《".concat(topicEntity.getTitle()).concat("》的关注"), "", Request().getIp(), Request().getUa());
+                String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(topicEntity.getId()));
+                userLogMQService.createUserLog(uid, user.getUsername(), L_UNFOLLOW_TOPIC, "", "取消了对话题《".concat(topicEntity.getTitle()).concat("》的关注"), topicLink, Request().getIp(), Request().getUa());
 
                 // notification
                 notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("取消了对你的话题《".concat(topicEntity.getTitle()).concat("》的关注")), "", N_TOPIC_UNFOLLOW);
 
-                // add balance for author
-                balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_FOLLOWED * -1);
-                userLogMQService.createUserLog(topicEntity.getAuthorId(), topicEntity.getAuthorName(), L_BALANCE, "", user.getUsername().concat("取消对你的话题《".concat(topicEntity.getTitle()).concat("》的关注, 回收").concat(Integer.toString(CoinRewards.R_TOPIC_BE_FOLLOWED)).concat("铜币奖励")), "", Request().getIp(), Request().getUa());
+                // return balance rewards for author
+                balanceMQService.decreaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_FOLLOWED, B_TOPIC_BE_CANCEL_FOLLOW, user.getUsername().concat("取消对你的话题《").concat(topicEntity.getTitle()).concat("》的关注, 回收奖励"), topicLink);
             }
 
             Succeed(result);

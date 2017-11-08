@@ -41,6 +41,7 @@ import java.util.Map;
 
 import static com.elune.constants.UserLogType.*;
 import static com.elune.constants.NotificationType.*;
+import static com.elune.constants.BalanceLogType.*;
 
 /**
  * @author Touchumind
@@ -118,8 +119,8 @@ public class PostController extends APIController {
 
             if (!(user.getId().equals(topicEntity.getAuthorId()))) {
 
-                balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_REPLIED);
-                userLogMQService.createUserLog(topicEntity.getAuthorId(), topicEntity.getAuthorName(), L_BALANCE, "", "创建的话题《".concat(topicEntity.getTitle()).concat("》收到来自").concat(user.getUsername()).concat("的回复, 获得".concat(Integer.toString(CoinRewards.R_TOPIC_BE_REPLIED)).concat("铜币奖励")), "", Request().getIp(), Request().getUa());
+                String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(topicEntity.getId()));
+                balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_REPLIED, B_TOPIC_BE_REPLIED, "创建的话题《".concat(topicEntity.getTitle()).concat("》收到来自").concat(user.getUsername()).concat("的回复"), topicLink);
             }
 
             // log

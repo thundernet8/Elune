@@ -27,4 +27,10 @@ public interface BalancelogMapper {
     int updateByPrimaryKeySelective(BalancelogEntity record);
 
     int updateByPrimaryKey(BalancelogEntity record);
+
+    List<BalancelogEntity> selectGroupByExample(@Param("maxField") String maxField, @Param("example") BalancelogEntityExample example);
+
+    List<BalancelogEntity> selectCostSumByExample(BalancelogEntityExample example);
+
+    long countGroupByExample(BalancelogEntityExample example);
 }

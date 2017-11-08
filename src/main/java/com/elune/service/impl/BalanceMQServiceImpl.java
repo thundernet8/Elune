@@ -22,6 +22,7 @@ package com.elune.service.impl;
 import com.elune.mq.Consumer;
 import com.elune.mq.MessageQueue;
 import com.elune.mq.Producer;
+import com.elune.service.BalanceLogService;
 import com.elune.service.BalanceMQService;
 import com.elune.service.UserMetaService;
 import com.elune.task.UserBalanceTask;
@@ -40,7 +41,7 @@ public class BalanceMQServiceImpl implements BalanceMQService {
     private Producer producer;
 
     @FromService
-    private UserMetaService userMetaService;
+    private BalanceLogService balanceLogService;
 
     @ForInject
     public BalanceMQServiceImpl(MessageQueue messageQueue) {
@@ -60,16 +61,16 @@ public class BalanceMQServiceImpl implements BalanceMQService {
     }
 
     @Override
-    public void increaseBalance(long uid, int num) {
+    public void increaseBalance(long uid, int num, byte type, String content, String link) {
 
-        UserBalanceTask task = UserBalanceTask.builder().uid(uid).change(num).build();
+        UserBalanceTask task = UserBalanceTask.builder().uid(uid).change(num).type(type).content(content).link(link).build();
         producer.produce(GsonFactory.getGson().toJson(task));
     }
 
     @Override
-    public void decreaseBalance(long uid, int num) {
+    public void decreaseBalance(long uid, int num, byte type, String content, String link) {
 
-        increaseBalance(uid, num * -1);
+        increaseBalance(uid, num * -1, type, link, content);
     }
 
     private void executeBalanceTask(UserBalanceTask balanceTask) {
@@ -80,7 +81,7 @@ public class BalanceMQServiceImpl implements BalanceMQService {
 
         try {
 
-            userMetaService.changeBalance(balanceTask.getUid(), balanceTask.getChange());
+            balanceLogService.changeBalance(balanceTask.getUid(), balanceTask.getChange(), balanceTask.getType(), balanceTask.getContent(), balanceTask.getLink());
 
         } catch (Exception e) {
 
