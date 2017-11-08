@@ -46,7 +46,7 @@ public final class RedisManager {
         JedisPoolConfig config = new JedisPoolConfig();
 
         // 设置最大连接数
-        config.setMaxTotal(100);
+        config.setMaxTotal(500);
 
         // 设置最大阻塞时间(毫秒)
         config.setMaxWaitMillis(1000);
