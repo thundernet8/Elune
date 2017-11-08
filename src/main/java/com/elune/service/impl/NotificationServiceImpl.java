@@ -159,7 +159,7 @@ public class NotificationServiceImpl implements NotificationService {
                 if (sender.equals("system")) {
                     entityExample.getOredCriteria().get(0).andSenderEqualTo("System");
                 } else {
-                    entityExample.getOredCriteria().get(0).andSenderEqualTo(sender);
+                    entityExample.getOredCriteria().get(0).andSenderNotEqualTo("System");
                 }
             }
 
