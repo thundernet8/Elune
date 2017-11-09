@@ -27,6 +27,7 @@ import com.elune.entity.UserEntity;
 import com.elune.model.BalanceLog;
 import com.elune.model.BalanceRank;
 import com.elune.model.Pagination;
+import com.elune.model.User;
 import com.elune.service.BalanceLogService;
 import com.elune.service.UserService;
 import com.elune.utils.DateUtil;
@@ -164,10 +165,10 @@ public class BalanceLogServiceImpl implements BalanceLogService {
     private List<BalanceRank> assembleBalanceRanks(List<BalancelogEntity> entities, boolean isCost) {
 
         List<Long> uids = entities.stream().map(BalancelogEntity::getUid).distinct().collect(Collectors.toList());
-        List<UserEntity> userEntities = userService.getUserEntitiesByIdList(uids);
-        Map<Long, UserEntity> usersMap = new HashMap<>(userEntities.size());
-        userEntities.forEach(userEntity -> {
-            usersMap.put(userEntity.getId(), userEntity);
+        List<User> users = userService.getUsersByIdList(uids);
+        Map<Long, User> usersMap = new HashMap<>(users.size());
+        users.forEach(user -> {
+            usersMap.put(user.getId(), user);
         });
 
         List<BalanceRank> ranks = new ArrayList<>(entities.size());

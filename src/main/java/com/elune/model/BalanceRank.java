@@ -19,7 +19,6 @@
 
 package com.elune.model;
 
-import com.elune.entity.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,7 +26,7 @@ import lombok.Setter;
 @Setter
 public class BalanceRank {
 
-    private UserEntity user;
+    private User user;
 
     private int amount;
 }
