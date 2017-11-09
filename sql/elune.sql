@@ -11,7 +11,7 @@
  Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 09/11/2017 13:23:42
+ Date: 09/11/2017 13:38:44
 */
 
 SET NAMES utf8mb4;
@@ -65,26 +65,26 @@ INSERT INTO `t_balancelog` VALUES (24, 24, 1, 2000, 0, 2000, '', '注册获得�
 INSERT INTO `t_balancelog` VALUES (25, 25, 1, 2000, 0, 2000, '', '注册获得初始财富奖励', 1509773659);
 INSERT INTO `t_balancelog` VALUES (26, 26, 1, 2000, 0, 2000, '', '注册获得初始财富奖励', 1510093362);
 INSERT INTO `t_balancelog` VALUES (27, 27, 1, 2000, 0, 2000, '', '注册获得初始财富奖励', 1510094083);
-INSERT INTO `t_balancelog` VALUES (32, 1, 1, 15, 0, 2015, '', '每日签到获得15铜币奖励', 1509397708);
-INSERT INTO `t_balancelog` VALUES (33, 1, 1, 8, 0, 2023, '', '每日签到获得8铜币奖励', 1509477942);
-INSERT INTO `t_balancelog` VALUES (34, 1, 1, 3, 0, 2026, '', '每日签到获得3铜币奖励', 1509565135);
-INSERT INTO `t_balancelog` VALUES (35, 9, 1, 12, 0, 2012, '', '每日签到获得12铜币奖励', 1509582456);
-INSERT INTO `t_balancelog` VALUES (36, 1, 1, 35, 0, 2061, '', '每日签到获得35铜币奖励', 1509644304);
-INSERT INTO `t_balancelog` VALUES (37, 24, 1, 10, 0, 2010, 'https://elune.me/topic/29', '创建的话题《登陆错误和QQ互联错误》收到来自thundernet8的回复, 获得10铜币奖励', 1509662002);
-INSERT INTO `t_balancelog` VALUES (38, 17, 1, 10, 0, 2010, 'https://elune.me/topic/28', '创建的话题《订单支付页面模板在那改》收到来自thundernet8的回复, 获得10铜币奖励', 1509663895);
-INSERT INTO `t_balancelog` VALUES (39, 1, 1, 9, 0, 2070, '', '每日签到获得9铜币奖励', 1509734002);
-INSERT INTO `t_balancelog` VALUES (40, 1, 1, 35, 0, 2105, '', '每日签到获得35铜币奖励', 1509832553);
-INSERT INTO `t_balancelog` VALUES (41, 8, 1, 10, 0, 2010, 'https://elune.me/topic/27', '创建的话题《请问站长我的网站文章的特色图片为什么显示模糊？》收到来自thundernet8的回复, 获得10铜币奖励', 1509834818);
-INSERT INTO `t_balancelog` VALUES (42, 1, 1, 42, 0, 2147, '', '每日签到获得42铜币奖励', 1509905166);
-INSERT INTO `t_balancelog` VALUES (43, 25, 1, 10, 0, 2010, 'https://elune.me/topic/32', '创建的话题《支付宝免签辅助桌面版的问题》收到来自thundernet8的回复, 获得10铜币奖励', 1509919419);
-INSERT INTO `t_balancelog` VALUES (44, 25, 1, 10, 0, 2020, 'https://elune.me/topic/33', '创建的话题《主题缓存功能的问题》收到来自thundernet8的回复, 获得10铜币奖励', 1509924017);
-INSERT INTO `t_balancelog` VALUES (45, 25, 1, 10, 0, 2030, 'https://elune.me/topic/33', '创建的话题《主题缓存功能的问题》收到来自thundernet8的回复, 获得10铜币奖励', 1509924343);
-INSERT INTO `t_balancelog` VALUES (46, 8, 1, 26, 0, 2036, '', '每日签到获得26铜币奖励', 1509988620);
-INSERT INTO `t_balancelog` VALUES (47, 25, 1, 10, 0, 2040, 'https://elune.me/topic/34', '创建的话题《使用代码压缩插件WP HTML Compression后验证码的问题》收到来自thundernet8的回复, 获得10铜币奖励', 1509997460);
-INSERT INTO `t_balancelog` VALUES (48, 1, 1, 4, 0, 2151, '', '每日签到获得4铜币奖励', 1510000821);
-INSERT INTO `t_balancelog` VALUES (49, 8, 1, 6, 0, 2042, '', '每日签到获得6铜币奖励', 1510074738);
-INSERT INTO `t_balancelog` VALUES (50, 1, 1, 3, 0, 2154, '', '每日签到获得3铜币奖励', 1510080135);
-INSERT INTO `t_balancelog` VALUES (51, 12, 1, 12, 0, 2012, '', '每日签到获得12铜币奖励', 1510092857);
+INSERT INTO `t_balancelog` VALUES (32, 1, 20, 15, 0, 2015, '', '每日签到获得15铜币奖励', 1509397708);
+INSERT INTO `t_balancelog` VALUES (33, 1, 20, 8, 0, 2023, '', '每日签到获得8铜币奖励', 1509477942);
+INSERT INTO `t_balancelog` VALUES (34, 1, 20, 3, 0, 2026, '', '每日签到获得3铜币奖励', 1509565135);
+INSERT INTO `t_balancelog` VALUES (35, 9, 20, 12, 0, 2012, '', '每日签到获得12铜币奖励', 1509582456);
+INSERT INTO `t_balancelog` VALUES (36, 1, 20, 35, 0, 2061, '', '每日签到获得35铜币奖励', 1509644304);
+INSERT INTO `t_balancelog` VALUES (37, 24, 5, 10, 0, 2010, 'https://elune.me/topic/29', '创建的话题《登陆错误和QQ互联错误》收到来自thundernet8的回复, 获得10铜币奖励', 1509662002);
+INSERT INTO `t_balancelog` VALUES (38, 17, 5, 10, 0, 2010, 'https://elune.me/topic/28', '创建的话题《订单支付页面模板在那改》收到来自thundernet8的回复, 获得10铜币奖励', 1509663895);
+INSERT INTO `t_balancelog` VALUES (39, 1, 20, 9, 0, 2070, '', '每日签到获得9铜币奖励', 1509734002);
+INSERT INTO `t_balancelog` VALUES (40, 1, 20, 35, 0, 2105, '', '每日签到获得35铜币奖励', 1509832553);
+INSERT INTO `t_balancelog` VALUES (41, 8, 5, 10, 0, 2010, 'https://elune.me/topic/27', '创建的话题《请问站长我的网站文章的特色图片为什么显示模糊？》收到来自thundernet8的回复, 获得10铜币奖励', 1509834818);
+INSERT INTO `t_balancelog` VALUES (42, 1, 20, 42, 0, 2147, '', '每日签到获得42铜币奖励', 1509905166);
+INSERT INTO `t_balancelog` VALUES (43, 25, 5, 10, 0, 2010, 'https://elune.me/topic/32', '创建的话题《支付宝免签辅助桌面版的问题》收到来自thundernet8的回复, 获得10铜币奖励', 1509919419);
+INSERT INTO `t_balancelog` VALUES (44, 25, 5, 10, 0, 2020, 'https://elune.me/topic/33', '创建的话题《主题缓存功能的问题》收到来自thundernet8的回复, 获得10铜币奖励', 1509924017);
+INSERT INTO `t_balancelog` VALUES (45, 25, 5, 10, 0, 2030, 'https://elune.me/topic/33', '创建的话题《主题缓存功能的问题》收到来自thundernet8的回复, 获得10铜币奖励', 1509924343);
+INSERT INTO `t_balancelog` VALUES (46, 8, 20, 26, 0, 2036, '', '每日签到获得26铜币奖励', 1509988620);
+INSERT INTO `t_balancelog` VALUES (47, 25, 5, 10, 0, 2040, 'https://elune.me/topic/34', '创建的话题《使用代码压缩插件WP HTML Compression后验证码的问题》收到来自thundernet8的回复, 获得10铜币奖励', 1509997460);
+INSERT INTO `t_balancelog` VALUES (48, 1, 20, 4, 0, 2151, '', '每日签到获得4铜币奖励', 1510000821);
+INSERT INTO `t_balancelog` VALUES (49, 8, 20, 6, 0, 2042, '', '每日签到获得6铜币奖励', 1510074738);
+INSERT INTO `t_balancelog` VALUES (50, 1, 20, 3, 0, 2154, '', '每日签到获得3铜币奖励', 1510080135);
+INSERT INTO `t_balancelog` VALUES (51, 12, 20, 12, 0, 2012, '', '每日签到获得12铜币奖励', 1510092857);
 COMMIT;
 
 -- ----------------------------

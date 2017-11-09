@@ -35,13 +35,13 @@ public interface BalanceLogType {
 
     Byte B_TOPIC_BE_CANCEL_FAVORITE = 7;
 
-    Byte B_TOPIC_BE_LIKED = 7;
+    Byte B_TOPIC_BE_LIKED = 8;
 
-    Byte B_TOPIC_BE_CANCEL_LIKE = 8;
+    Byte B_TOPIC_BE_CANCEL_LIKE = 9;
 
-    Byte B_TOPIC_BE_FOLLOWED = 9;
+    Byte B_TOPIC_BE_FOLLOWED = 10;
 
-    Byte B_TOPIC_BE_CANCEL_FOLLOW = 10;
+    Byte B_TOPIC_BE_CANCEL_FOLLOW = 11;
 
     Byte B_DAILY_SIGN = 20;
 
