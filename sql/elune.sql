@@ -3,15 +3,15 @@
 
  Source Server         : Linode-MySql
  Source Server Type    : MySQL
- Source Server Version : 50557
+ Source Server Version : 50720
  Source Host           : 172.104.73.88:3306
  Source Schema         : elune
 
  Target Server Type    : MySQL
- Target Server Version : 50557
+ Target Server Version : 50720
  File Encoding         : 65001
 
- Date: 09/11/2017 12:56:08
+ Date: 09/11/2017 13:23:42
 */
 
 SET NAMES utf8mb4;
@@ -32,7 +32,7 @@ CREATE TABLE `t_balancelog` (
   `content` varchar(255) NOT NULL DEFAULT '',
   `create_time` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of t_balancelog
