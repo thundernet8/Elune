@@ -148,13 +148,9 @@ public class PostServiceImpl implements PostService {
             List<PostEntity> postEntities = mapper.selectByExampleWithBLOBs(postEntityExample);
             List<Post> posts = assemblePosts(postEntities);
 
-            long total = 0l;
-            if (page == 1) {
-                // 仅第一页查询Total
-                PostEntityExample countPostEntityExample = PostEntityExample.builder().oredCriteria(new ArrayList<>()).build();
-                countPostEntityExample.or().andStatusEqualTo(normalStatus);
-                total = mapper.countByExample(countPostEntityExample);
-            }
+            PostEntityExample countPostEntityExample = PostEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            countPostEntityExample.or().andStatusEqualTo(normalStatus);
+            long total = mapper.countByExample(countPostEntityExample);
 
             return new Pagination<>(total, page ,pageSize, posts);
         }
@@ -186,13 +182,9 @@ public class PostServiceImpl implements PostService {
             List<PostEntity> postEntities = mapper.selectByExampleWithBLOBs(postEntityExample);
             List<Post> posts = assemblePosts(postEntities);
 
-            long total = 0l;
-            if (page == 1) {
-                // 仅第一页查询Total
-                PostEntityExample countPostEntityExample = PostEntityExample.builder().oredCriteria(new ArrayList<>()).build();
-                countPostEntityExample.or().andTidEqualTo(topicId).andStatusEqualTo(normalStatus);
-                total = mapper.countByExample(countPostEntityExample);
-            }
+            PostEntityExample countPostEntityExample = PostEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            countPostEntityExample.or().andTidEqualTo(topicId).andStatusEqualTo(normalStatus);
+            long total = mapper.countByExample(countPostEntityExample);
 
             return new Pagination<>(total, page ,pageSize, posts);
         }
@@ -211,13 +203,9 @@ public class PostServiceImpl implements PostService {
             List<PostEntity> postEntities = mapper.selectByExampleWithBLOBs(postEntityExample);
             List<Post> posts = assemblePosts(postEntities);
 
-            long total = 0l;
-            if (page == 1) {
-                // 仅第一页查询Total
-                PostEntityExample countPostEntityExample = PostEntityExample.builder().oredCriteria(new ArrayList<>()).build();
-                countPostEntityExample.or().andAuthorIdEqualTo(authorId).andStatusEqualTo(normalStatus);
-                total = mapper.countByExample(countPostEntityExample);
-            }
+            PostEntityExample countPostEntityExample = PostEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            countPostEntityExample.or().andAuthorIdEqualTo(authorId).andStatusEqualTo(normalStatus);
+            long total = mapper.countByExample(countPostEntityExample);
 
             return new Pagination<>(total, page ,pageSize, posts);
         }

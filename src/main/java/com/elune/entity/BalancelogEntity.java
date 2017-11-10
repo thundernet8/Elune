@@ -13,33 +13,37 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class UserlogEntity implements Serializable {
+public class BalancelogEntity implements Serializable {
     private Long id;
 
     private Long uid;
 
-    private String username;
-
     /**
-     * 日志事件类型
+     * 积分变动类型
      */
     private Byte type;
 
     /**
-     * 操作之前的值
+     * 积分变动数量
      */
-    private String beforeStatus;
+    private Integer amount;
 
     /**
-     * 操作之后的值
+     * 消费类型记录时的积分变动数量绝对值
      */
-    private String afterStatus;
+    private Integer cost;
 
+    /**
+     * 积分余额
+     */
+    private Integer balance;
+
+    /**
+     * 相关链接
+     */
     private String link;
 
-    private String ip;
-
-    private String ua;
+    private String content;
 
     private Integer createTime;
 
@@ -61,14 +65,6 @@ public class UserlogEntity implements Serializable {
         this.uid = uid;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public Byte getType() {
         return type;
     }
@@ -77,20 +73,28 @@ public class UserlogEntity implements Serializable {
         this.type = type;
     }
 
-    public String getBeforeStatus() {
-        return beforeStatus;
+    public Integer getAmount() {
+        return amount;
     }
 
-    public void setBeforeStatus(String beforeStatus) {
-        this.beforeStatus = beforeStatus;
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
-    public String getAfterStatus() {
-        return afterStatus;
+    public Integer getCost() {
+        return cost;
     }
 
-    public void setAfterStatus(String afterStatus) {
-        this.afterStatus = afterStatus;
+    public void setCost(Integer cost) {
+        this.cost = cost;
+    }
+
+    public Integer getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Integer balance) {
+        this.balance = balance;
     }
 
     public String getLink() {
@@ -101,20 +105,12 @@ public class UserlogEntity implements Serializable {
         this.link = link;
     }
 
-    public String getIp() {
-        return ip;
+    public String getContent() {
+        return content;
     }
 
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
-    public String getUa() {
-        return ua;
-    }
-
-    public void setUa(String ua) {
-        this.ua = ua;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Integer getCreateTime() {
@@ -136,16 +132,15 @@ public class UserlogEntity implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        UserlogEntity other = (UserlogEntity) that;
+        BalancelogEntity other = (BalancelogEntity) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getUid() == null ? other.getUid() == null : this.getUid().equals(other.getUid()))
-            && (this.getUsername() == null ? other.getUsername() == null : this.getUsername().equals(other.getUsername()))
             && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
-            && (this.getBeforeStatus() == null ? other.getBeforeStatus() == null : this.getBeforeStatus().equals(other.getBeforeStatus()))
-            && (this.getAfterStatus() == null ? other.getAfterStatus() == null : this.getAfterStatus().equals(other.getAfterStatus()))
+            && (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount()))
+            && (this.getCost() == null ? other.getCost() == null : this.getCost().equals(other.getCost()))
+            && (this.getBalance() == null ? other.getBalance() == null : this.getBalance().equals(other.getBalance()))
             && (this.getLink() == null ? other.getLink() == null : this.getLink().equals(other.getLink()))
-            && (this.getIp() == null ? other.getIp() == null : this.getIp().equals(other.getIp()))
-            && (this.getUa() == null ? other.getUa() == null : this.getUa().equals(other.getUa()))
+            && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()));
     }
 
@@ -155,13 +150,12 @@ public class UserlogEntity implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getUid() == null) ? 0 : getUid().hashCode());
-        result = prime * result + ((getUsername() == null) ? 0 : getUsername().hashCode());
         result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
-        result = prime * result + ((getBeforeStatus() == null) ? 0 : getBeforeStatus().hashCode());
-        result = prime * result + ((getAfterStatus() == null) ? 0 : getAfterStatus().hashCode());
+        result = prime * result + ((getAmount() == null) ? 0 : getAmount().hashCode());
+        result = prime * result + ((getCost() == null) ? 0 : getCost().hashCode());
+        result = prime * result + ((getBalance() == null) ? 0 : getBalance().hashCode());
         result = prime * result + ((getLink() == null) ? 0 : getLink().hashCode());
-        result = prime * result + ((getIp() == null) ? 0 : getIp().hashCode());
-        result = prime * result + ((getUa() == null) ? 0 : getUa().hashCode());
+        result = prime * result + ((getContent() == null) ? 0 : getContent().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         return result;
     }
@@ -174,13 +168,12 @@ public class UserlogEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", uid=").append(uid);
-        sb.append(", username=").append(username);
         sb.append(", type=").append(type);
-        sb.append(", beforeStatus=").append(beforeStatus);
-        sb.append(", afterStatus=").append(afterStatus);
+        sb.append(", amount=").append(amount);
+        sb.append(", cost=").append(cost);
+        sb.append(", balance=").append(balance);
         sb.append(", link=").append(link);
-        sb.append(", ip=").append(ip);
-        sb.append(", ua=").append(ua);
+        sb.append(", content=").append(content);
         sb.append(", createTime=").append(createTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

@@ -19,35 +19,33 @@
 
 package com.elune.constants;
 
-public interface NotificationType {
+public interface BalanceLogType {
 
-    Byte N_TOPIC_REPLY = 1;
+    Byte B_REGISTER = 1;
 
-    Byte N_AT = 2;
+    Byte B_REGISTER_REF = 2;
 
-    Byte N_TOPIC_LIKE = 3;
+    Byte B_REGISTER_BE_REF = 3;
 
-    Byte N_TOPIC_UNLIKE = 4;
+    Byte B_CREATE_POST = 4;
 
-    Byte N_TOPIC_FAVORITE = 5;
+    Byte B_TOPIC_BE_REPLIED = 5;
 
-    Byte N_TOPIC_UNFAVORITE = 6;
+    Byte B_TOPIC_BE_FAVORITED = 6;
 
-    Byte N_TOPIC_STICKY = 7;
+    Byte B_TOPIC_BE_CANCEL_FAVORITE = 7;
 
-    Byte N_TOPIC_UNSTICKY = 8;
+    Byte B_TOPIC_BE_LIKED = 8;
 
-    Byte N_TOPIC_ESSENTIAL = 9;
+    Byte B_TOPIC_BE_CANCEL_LIKE = 9;
 
-    Byte N_TOPIC_FOLLOW = 10;
+    Byte B_TOPIC_BE_FOLLOWED = 10;
 
-    Byte N_TOPIC_UNFOLLOW = 11;
+    Byte B_TOPIC_BE_CANCEL_FOLLOW = 11;
 
-    Byte N_TOPIC_BE_UPDATED = 12;
+    Byte B_DAILY_SIGN = 20;
 
-    Byte N_USER_FOLLOW = 13;
+    // TODO 消费类型log types > 100
 
-    Byte N_USER_UNFOLLOW = 14;
-
-    Byte N_USER_BE_UPDATED = 15;
+    Byte B_CREATE_TOPIC = 101;
 }

@@ -19,6 +19,8 @@
 
 package com.elune.controller.api;
 
+import com.elune.configuration.AppConfiguration;
+import com.elune.constants.Constant;
 import com.elune.entity.TopicEntity;
 import com.elune.entity.UserEntity;
 import com.elune.model.Pagination;
@@ -39,6 +41,7 @@ import java.util.Map;
 
 import static com.elune.constants.UserLogType.*;
 import static com.elune.constants.NotificationType.*;
+import static com.elune.constants.BalanceLogType.*;
 
 /**
  * @author Touchumind
@@ -63,6 +66,12 @@ public class PostController extends APIController {
 
     @FromService
     private NotificationMQService notificationMQService;
+
+    @FromService
+    private TopicActivityNoticeMQService topicActivityNoticeMQService;
+
+    @FromService
+    private AppConfiguration appConfiguration;
 
     @HttpPost
     @Route("")
@@ -110,16 +119,19 @@ public class PostController extends APIController {
 
             if (!(user.getId().equals(topicEntity.getAuthorId()))) {
 
-                balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_REPLIED);
-
-                userLogMQService.createUserLog(topicEntity.getAuthorId(), L_BALANCE, "", "创建的话题《".concat(topicEntity.getTitle()).concat("》收到来自").concat(user.getUsername()).concat("的回复, 获得".concat(Integer.toString(CoinRewards.R_TOPIC_BE_REPLIED)).concat("铜币奖励")), Request().getIp(), Request().getUa());
+                String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(topicEntity.getId()));
+                balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_REPLIED, B_TOPIC_BE_REPLIED, "创建的话题《".concat(topicEntity.getTitle()).concat("》收到来自").concat(user.getUsername()).concat("的回复"), topicLink);
             }
 
             // log
-            userLogMQService.createUserLog(uid, L_CREATE_POST, "", "在话题《".concat(topicEntity.getTitle()).concat("》上创建了新回复: ").concat(postCreationModel.content), Request().getIp(), Request().getUa());
+            String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(postCreationModel.topicId));
+            userLogMQService.createUserLog(uid, user.getUsername(), L_CREATE_POST, "", "在话题《".concat(topicEntity.getTitle()).concat("》上创建了新回复: ").concat(postCreationModel.content), topicLink, Request().getIp(), Request().getUa());
 
             // notification
             notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("在你的话题《".concat(topicEntity.getTitle()).concat("》发表了回复")), postCreationModel.content, N_TOPIC_REPLY);
+
+            // 话题关注者通知
+            topicActivityNoticeMQService.noticeTopicFollowers(topicEntity.getId(), user.getUsername().concat("在你关注的话题《".concat(topicEntity.getTitle()).concat("》上发表了回复")), postCreationModel.content, N_TOPIC_REPLY);
 
             Arrays.stream(postCreationModel.mentions).forEach(mention -> {
                 notificationMQService.createNotification(user.getUsername(), mention, user.getUsername().concat("在话题《".concat(topicEntity.getTitle()).concat("》的评论中@了你")), postCreationModel.content, N_AT);

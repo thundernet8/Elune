@@ -17,37 +17,21 @@
  */
 
 
-package com.elune.constants;
+package com.elune.service;
 
-public interface NotificationType {
+import com.elune.model.BalanceLog;
+import com.elune.model.BalanceRank;
+import com.elune.model.Pagination;
 
-    Byte N_TOPIC_REPLY = 1;
+public interface BalanceLogService {
 
-    Byte N_AT = 2;
+    int getBalance(long uid);
 
-    Byte N_TOPIC_LIKE = 3;
+    boolean changeBalance(long uid, int change, Byte type, String content, String link);
 
-    Byte N_TOPIC_UNLIKE = 4;
+    Pagination<BalanceLog> getBalanceLogs(long uid, int page, int pageSize, String orderClause);
 
-    Byte N_TOPIC_FAVORITE = 5;
+    Pagination<BalanceRank> getBalanceRank(int page, int pageSize, String order);
 
-    Byte N_TOPIC_UNFAVORITE = 6;
-
-    Byte N_TOPIC_STICKY = 7;
-
-    Byte N_TOPIC_UNSTICKY = 8;
-
-    Byte N_TOPIC_ESSENTIAL = 9;
-
-    Byte N_TOPIC_FOLLOW = 10;
-
-    Byte N_TOPIC_UNFOLLOW = 11;
-
-    Byte N_TOPIC_BE_UPDATED = 12;
-
-    Byte N_USER_FOLLOW = 13;
-
-    Byte N_USER_UNFOLLOW = 14;
-
-    Byte N_USER_BE_UPDATED = 15;
+    Pagination<BalanceRank> getBalanceCostRank(int page, int pageSize, String order);
 }

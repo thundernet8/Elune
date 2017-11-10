@@ -344,6 +344,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getUsersByIdList(List<Long> ids) {
 
+        return assembleUsers(getUserEntitiesByIdList(ids));
+    }
+
+    @Override
+    public List<UserEntity> getUserEntitiesByIdList(List<Long> ids) {
+
         if (ids.size() < 1) {
 
             return Collections.emptyList();
@@ -356,7 +362,7 @@ public class UserServiceImpl implements UserService {
             UserEntityExample userEntityExample = UserEntityExample.builder().oredCriteria(new ArrayList<>()).orderByClause("id ASC").build();
             userEntityExample.or().andIdIn(ids);
 
-            return assembleUsers(mapper.selectByExample(userEntityExample));
+            return mapper.selectByExample(userEntityExample);
         }
     }
 

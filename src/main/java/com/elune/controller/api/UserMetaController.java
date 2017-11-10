@@ -19,6 +19,8 @@
 
 package com.elune.controller.api;
 
+import com.elune.configuration.AppConfiguration;
+import com.elune.constants.Constant;
 import com.elune.dal.DBManager;
 
 import com.elune.entity.TopicEntity;
@@ -35,6 +37,7 @@ import com.fedepot.mvc.http.Session;
 
 import static com.elune.constants.UserLogType.*;
 import static com.elune.constants.NotificationType.*;
+import static com.elune.constants.BalanceLogType.*;
 
 /**
  * @author Touchumind
@@ -61,6 +64,9 @@ public class UserMetaController extends APIController {
 
     @FromService
     private BalanceMQService balanceMQService;
+
+    @FromService
+    private AppConfiguration appConfiguration;
 
     public UserMetaController(DBManager dbManager) {
 
@@ -143,13 +149,14 @@ public class UserMetaController extends APIController {
 
             if (uid != topicEntity.getAuthorId()) {
                 // log
-                userLogMQService.createUserLog(uid, L_FOLLOW_TOPIC, "", "关注了话题《".concat(topicEntity.getTitle()).concat("》"), Request().getIp(), Request().getUa());
+                String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(topicEntity.getId()));
+                userLogMQService.createUserLog(uid, user.getUsername(), L_FOLLOW_TOPIC, "", "关注了话题《".concat(topicEntity.getTitle()).concat("》"), topicLink, Request().getIp(), Request().getUa());
 
                 // notification
                 notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("关注了你的话题《".concat(topicEntity.getTitle()).concat("》")), "", N_TOPIC_FOLLOW);
 
                 // add balance for author
-                balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_FOLLOWED);
+                balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_FOLLOWED, B_TOPIC_BE_FOLLOWED, user.getUsername().concat("关注了你的话题《").concat(topicEntity.getTitle()).concat("》"), topicLink);
             }
 
             Succeed(result);
@@ -195,11 +202,124 @@ public class UserMetaController extends APIController {
             if (uid != topicEntity.getAuthorId()) {
 
                 // log
-                userLogMQService.createUserLog(uid, L_UNFOLLOW_TOPIC, "", "取消了对话题《".concat(topicEntity.getTitle()).concat("》的关注"), Request().getIp(), Request().getUa());
+                String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(topicEntity.getId()));
+                userLogMQService.createUserLog(uid, user.getUsername(), L_UNFOLLOW_TOPIC, "", "取消了对话题《".concat(topicEntity.getTitle()).concat("》的关注"), topicLink, Request().getIp(), Request().getUa());
 
                 // notification
                 notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("取消了对你的话题《".concat(topicEntity.getTitle()).concat("》的关注")), "", N_TOPIC_UNFOLLOW);
+
+                // return balance rewards for author
+                balanceMQService.decreaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_FOLLOWED, B_TOPIC_BE_CANCEL_FOLLOW, user.getUsername().concat("取消对你的话题《").concat(topicEntity.getTitle()).concat("》的关注, 回收奖励"), topicLink);
             }
+
+            Succeed(result);
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
+
+    @HttpGet
+    @Route("following/users")
+    public void getFollowingUsers(@QueryParam("page") int page, @QueryParam("pageSize") int pageSize) {
+
+        try {
+
+            Session session = Request().session();
+            long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+
+            if (uid < 1) {
+                throw new HttpException("尚未登录", 401);
+            }
+
+            Succeed(userMetaService.getFollowingUsers(uid, page, pageSize));
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
+
+    @HttpPost
+    @Route("following/users")
+    public void followUser(@FromBody LongIdModel longIdModel) {
+
+        try {
+
+            Session session = Request().session();
+            long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+
+            if (uid < 1) {
+                throw new HttpException("尚未登录", 401);
+            }
+
+            UserEntity user = userService.getUserEntity(uid);
+
+            if (user == null) {
+
+                throw new HttpException("你必须登录才能关注用户", 401);
+            }
+
+            if (uid == longIdModel.id) {
+
+                throw new HttpException("你不能关注自己", 400);
+            }
+
+            if (user.getStatus().equals(Byte.valueOf("0"))) {
+
+                throw new HttpException("你没有权限关注用户(账户未激活或已禁用)", 403);
+            }
+
+            UserEntity userEntity = userService.getUserEntity(longIdModel.id);
+            if (userEntity == null || userEntity.getStatus().equals(Byte.valueOf("0"))) {
+
+                throw new HttpException("用户不存在或已被禁止", 404);
+            }
+
+            boolean result = userMetaService.followUser(uid, longIdModel.id);
+
+            // log
+            String ucLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/u/").concat(userEntity.getUsername());
+            userLogMQService.createUserLog(uid, user.getUsername(), L_FOLLOW_USER, "", "关注了用户".concat(userEntity.getUsername()), ucLink, Request().getIp(), Request().getUa());
+
+            // notification
+            notificationMQService.createNotification(userEntity.getUsername(), user.getUsername().concat("关注了你"), "", N_USER_FOLLOW);
+
+            Succeed(result);
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
+
+    @HttpDelete
+    @Route("following/users/{long:id}")
+    public void unfollowUser(long id) {
+
+        try {
+
+            Session session = Request().session();
+            long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+
+            if (uid < 1) {
+                throw new HttpException("尚未登录", 401);
+            }
+
+            UserEntity user = userService.getUserEntity(uid);
+
+            if (user == null) {
+
+                throw new HttpException("你必须登录才能取消关注用户", 401);
+            }
+
+            UserEntity userEntity = userService.getUserEntity(id);
+
+            boolean result = userMetaService.unfollowUser(uid, id);
+
+            // log
+            userLogMQService.createUserLog(uid, user.getUsername(), L_UNFOLLOW_USER, "", "取消了对用户".concat(userEntity.getUsername()).concat("的关注"), "", Request().getIp(), Request().getUa());
+
+            // notification
+            notificationMQService.createNotification(userEntity.getUsername(), user.getUsername().concat("取消了对你的关注"), "", N_USER_UNFOLLOW);
 
             Succeed(result);
         } catch (Exception e) {

@@ -17,37 +17,12 @@
  */
 
 
-package com.elune.constants;
+package com.elune.model;
 
-public interface NotificationType {
+import com.elune.entity.BalancelogEntity;
 
-    Byte N_TOPIC_REPLY = 1;
+import java.io.Serializable;
 
-    Byte N_AT = 2;
+public class BalanceLog extends BalancelogEntity implements Serializable {
 
-    Byte N_TOPIC_LIKE = 3;
-
-    Byte N_TOPIC_UNLIKE = 4;
-
-    Byte N_TOPIC_FAVORITE = 5;
-
-    Byte N_TOPIC_UNFAVORITE = 6;
-
-    Byte N_TOPIC_STICKY = 7;
-
-    Byte N_TOPIC_UNSTICKY = 8;
-
-    Byte N_TOPIC_ESSENTIAL = 9;
-
-    Byte N_TOPIC_FOLLOW = 10;
-
-    Byte N_TOPIC_UNFOLLOW = 11;
-
-    Byte N_TOPIC_BE_UPDATED = 12;
-
-    Byte N_USER_FOLLOW = 13;
-
-    Byte N_USER_UNFOLLOW = 14;
-
-    Byte N_USER_BE_UPDATED = 15;
 }

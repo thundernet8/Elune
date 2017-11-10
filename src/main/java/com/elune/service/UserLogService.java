@@ -22,9 +22,15 @@ package com.elune.service;
 import com.elune.model.Pagination;
 import com.elune.model.UserLog;
 
+import java.util.List;
+
 public interface UserLogService {
 
-    long createUserLog(long uid, byte type, String before, String after, String ip, String ua);
+    long createUserLog(long uid, String username, byte type, String before, String after, String link, String ip, String ua);
 
     Pagination<UserLog> getUserLogs(long uid, byte type, int page, int pageSize, String orderClause);
+
+    Pagination<UserLog> getUserActivities(long uid, int page, int pageSize, String orderClause);
+
+    Pagination<UserLog> getUserActivities(List<Long> uids, int page, int pageSize, String orderClause);
 }

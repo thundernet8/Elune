@@ -35,7 +35,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSession;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+
+import static com.elune.constants.UserLogType.*;
 
 @Slf4j
 @Service
@@ -45,12 +49,12 @@ public class UserLogServiceImpl implements UserLogService {
     private DBManager dbManager;
 
     @Override
-    public long createUserLog(long uid, byte type, String before, String after, String ip, String ua) {
+    public long createUserLog(long uid, String username, byte type, String before, String after, String link, String ip, String ua) {
 
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             UserlogMapper mapper = sqlSession.getMapper(UserlogMapper.class);
-            UserlogEntity entity = UserlogEntity.builder().uid(uid).type(type).ip(ip).ua(ua).beforeStatus(before).afterStatus(after).createTime(DateUtil.getTimeStamp()).build();
+            UserlogEntity entity = UserlogEntity.builder().uid(uid).username(username).type(type).ip(ip).ua(ua).beforeStatus(before).afterStatus(after).link(link).createTime(DateUtil.getTimeStamp()).build();
 
             mapper.insertSelective(entity);
             sqlSession.commit();
@@ -77,14 +81,38 @@ public class UserLogServiceImpl implements UserLogService {
             List<UserlogEntity> entities = mapper.selectByExample(entityExample);
             List<UserLog> logs = assembleUserLogs(entities);
 
-            long total = 0L;
-            if (page == 1) {
-                // 仅在第一页请求查询Total
-                UserlogEntityExample countEntityExample = UserlogEntityExample.builder().oredCriteria(new ArrayList<>()).build();
-                countEntityExample.or().andUidEqualTo(uid).andTypeEqualTo(type);
+            UserlogEntityExample countEntityExample = UserlogEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            countEntityExample.or().andUidEqualTo(uid).andTypeEqualTo(type);
 
-                total = mapper.countByExample(countEntityExample);
-            }
+            long total = mapper.countByExample(countEntityExample);
+
+            return new Pagination<>(total, page, pageSize, logs);
+        }
+    }
+
+    @Override
+    public Pagination<UserLog> getUserActivities(long uid, int page, int pageSize, String orderClause) {
+
+        return getUserActivities(Collections.singletonList(uid), page, pageSize, orderClause);
+    }
+
+    @Override
+    public Pagination<UserLog> getUserActivities(List<Long> uids, int page, int pageSize, String orderClause) {
+        List<Byte> activityTypes = new ArrayList<>(Arrays.asList(L_CREATE_TOPIC, L_CREATE_POST, L_FAVORITE_TOPIC, L_LIKE_TOPIC, L_UPLOAD_AVATAR, L_FOLLOW_TOPIC, L_FOLLOW_USER));
+        try (SqlSession sqlSession = dbManager.getSqlSession()) {
+
+            UserlogMapper mapper = sqlSession.getMapper(UserlogMapper.class);
+            UserlogEntityExample entityExample = UserlogEntityExample.builder().oredCriteria(new ArrayList<>()).offset((page - 1) * pageSize).limit(pageSize).orderByClause(orderClause).build();
+
+            entityExample.or().andUidIn(uids).andTypeIn(activityTypes);
+
+            List<UserlogEntity> entities = mapper.selectByExample(entityExample);
+            List<UserLog> logs = assembleUserLogs(entities);
+
+            UserlogEntityExample countEntityExample = UserlogEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            countEntityExample.or().andUidIn(uids).andTypeIn(activityTypes);
+
+            long total = mapper.countByExample(countEntityExample);
 
             return new Pagination<>(total, page, pageSize, logs);
         }

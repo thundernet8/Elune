@@ -30,11 +30,15 @@ public class UserLogTask {
 
     private long uid;
 
+    private String username;
+
     private byte type;
 
     private String before;
 
     private String after;
+
+    private String link;
 
     private String ip;
 

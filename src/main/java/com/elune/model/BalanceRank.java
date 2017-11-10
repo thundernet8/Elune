@@ -1,5 +1,5 @@
 /**
- * Elune - Lightweight Forum Powered by Razor
+ * Elune - Lightweight Forum Powered by Razor.
  * Copyright (C) 2017, Touchumind<chinash2010@gmail.com>
  * <p>
  * This program is free software: you can redistribute it and/or modify
@@ -17,37 +17,16 @@
  */
 
 
-package com.elune.constants;
+package com.elune.model;
 
-public interface NotificationType {
+import lombok.Getter;
+import lombok.Setter;
 
-    Byte N_TOPIC_REPLY = 1;
+@Getter
+@Setter
+public class BalanceRank {
 
-    Byte N_AT = 2;
+    private User user;
 
-    Byte N_TOPIC_LIKE = 3;
-
-    Byte N_TOPIC_UNLIKE = 4;
-
-    Byte N_TOPIC_FAVORITE = 5;
-
-    Byte N_TOPIC_UNFAVORITE = 6;
-
-    Byte N_TOPIC_STICKY = 7;
-
-    Byte N_TOPIC_UNSTICKY = 8;
-
-    Byte N_TOPIC_ESSENTIAL = 9;
-
-    Byte N_TOPIC_FOLLOW = 10;
-
-    Byte N_TOPIC_UNFOLLOW = 11;
-
-    Byte N_TOPIC_BE_UPDATED = 12;
-
-    Byte N_USER_FOLLOW = 13;
-
-    Byte N_USER_UNFOLLOW = 14;
-
-    Byte N_USER_BE_UPDATED = 15;
+    private int amount;
 }

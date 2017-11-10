@@ -40,6 +40,8 @@ public interface UserService {
 
     List<User> getUsersByIdList(List<Long> ids);
 
+    List<UserEntity> getUserEntitiesByIdList(List<Long> ids);
+
     UserEntity getUserEntity(long id);
 
     UserEntity getUserEntityByName(String username);

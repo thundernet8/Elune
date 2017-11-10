@@ -148,7 +148,7 @@ public class NotificationController extends APIController {
             boolean result = notificationService.updateNotificationsStatus(notifications.stream().map(Notification::getId).collect(Collectors.toList()), updateModel.read ? Byte.valueOf("1") : Byte.valueOf("0"));
 
             // log
-            userLogMQService.createUserLog(uid, L_READ_NOTIFICATIONS, "", updateModel.read ? "read" : "unread", Request().getIp(), Request().getUa());
+            userLogMQService.createUserLog(uid, user.getUsername(), L_READ_NOTIFICATIONS, "", updateModel.read ? "read" : "unread", "", Request().getIp(), Request().getUa());
 
             Succeed(result);
         } catch (Exception e) {

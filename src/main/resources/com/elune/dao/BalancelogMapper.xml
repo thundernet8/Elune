@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.elune.dao.UserlogMapper">
-  <resultMap id="BaseResultMap" type="com.elune.entity.UserlogEntity">
+<mapper namespace="com.elune.dao.BalancelogMapper">
+  <resultMap id="BaseResultMap" type="com.elune.entity.BalancelogEntity">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="uid" jdbcType="BIGINT" property="uid" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="type" jdbcType="TINYINT" property="type" />
-    <result column="before_status" jdbcType="VARCHAR" property="beforeStatus" />
-    <result column="after_status" jdbcType="VARCHAR" property="afterStatus" />
+    <result column="amount" jdbcType="INTEGER" property="amount" />
+    <result column="cost" jdbcType="INTEGER" property="cost" />
+    <result column="balance" jdbcType="INTEGER" property="balance" />
     <result column="link" jdbcType="VARCHAR" property="link" />
-    <result column="ip" jdbcType="VARCHAR" property="ip" />
-    <result column="ua" jdbcType="VARCHAR" property="ua" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="create_time" jdbcType="INTEGER" property="createTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -72,15 +71,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, uid, username, type, before_status, after_status, link, ip, ua, create_time
+    id, uid, type, amount, cost, balance, link, content, create_time
   </sql>
-  <select id="selectByExample" parameterType="com.elune.entity.UserlogEntityExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.elune.entity.BalancelogEntityExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_userlog
+    from t_balancelog
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -97,61 +96,58 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
-    from t_userlog
+    from t_balancelog
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    delete from t_userlog
+    delete from t_balancelog
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.elune.entity.UserlogEntityExample">
-    delete from t_userlog
+  <delete id="deleteByExample" parameterType="com.elune.entity.BalancelogEntityExample">
+    delete from t_balancelog
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.elune.entity.UserlogEntity">
+  <insert id="insert" parameterType="com.elune.entity.BalancelogEntity">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_userlog (uid, username, type, 
-      before_status, after_status, link, 
-      ip, ua, create_time)
-    values (#{uid,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, 
-      #{beforeStatus,jdbcType=VARCHAR}, #{afterStatus,jdbcType=VARCHAR}, #{link,jdbcType=VARCHAR}, 
-      #{ip,jdbcType=VARCHAR}, #{ua,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER})
+    insert into t_balancelog (uid, type, amount,
+      cost, balance, link,
+      content, create_time)
+    values (#{uid,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, #{amount,jdbcType=INTEGER},
+      #{cost,jdbcType=INTEGER}, #{balance,jdbcType=INTEGER}, #{link,jdbcType=VARCHAR},
+      #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.elune.entity.UserlogEntity">
+  <insert id="insertSelective" parameterType="com.elune.entity.BalancelogEntity">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into t_userlog
+    insert into t_balancelog
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="uid != null">
         uid,
       </if>
-      <if test="username != null">
-        username,
-      </if>
       <if test="type != null">
         type,
       </if>
-      <if test="beforeStatus != null">
-        before_status,
+      <if test="amount != null">
+        amount,
       </if>
-      <if test="afterStatus != null">
-        after_status,
+      <if test="cost != null">
+        cost,
+      </if>
+      <if test="balance != null">
+        balance,
       </if>
       <if test="link != null">
         link,
       </if>
-      <if test="ip != null">
-        ip,
-      </if>
-      <if test="ua != null">
-        ua,
+      <if test="content != null">
+        content,
       </if>
       <if test="createTime != null">
         create_time,
@@ -161,40 +157,37 @@
       <if test="uid != null">
         #{uid,jdbcType=BIGINT},
       </if>
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
-      </if>
       <if test="type != null">
         #{type,jdbcType=TINYINT},
       </if>
-      <if test="beforeStatus != null">
-        #{beforeStatus,jdbcType=VARCHAR},
+      <if test="amount != null">
+        #{amount,jdbcType=INTEGER},
       </if>
-      <if test="afterStatus != null">
-        #{afterStatus,jdbcType=VARCHAR},
+      <if test="cost != null">
+        #{cost,jdbcType=INTEGER},
+      </if>
+      <if test="balance != null">
+        #{balance,jdbcType=INTEGER},
       </if>
       <if test="link != null">
         #{link,jdbcType=VARCHAR},
       </if>
-      <if test="ip != null">
-        #{ip,jdbcType=VARCHAR},
-      </if>
-      <if test="ua != null">
-        #{ua,jdbcType=VARCHAR},
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.elune.entity.UserlogEntityExample" resultType="java.lang.Long">
-    select count(*) from t_userlog
+  <select id="countByExample" parameterType="com.elune.entity.BalancelogEntityExample" resultType="java.lang.Long">
+    select count(*) from t_balancelog
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update t_userlog
+    update t_balancelog
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=BIGINT},
@@ -202,26 +195,23 @@
       <if test="record.uid != null">
         uid = #{record.uid,jdbcType=BIGINT},
       </if>
-      <if test="record.username != null">
-        username = #{record.username,jdbcType=VARCHAR},
-      </if>
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
-      <if test="record.beforeStatus != null">
-        before_status = #{record.beforeStatus,jdbcType=VARCHAR},
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=INTEGER},
       </if>
-      <if test="record.afterStatus != null">
-        after_status = #{record.afterStatus,jdbcType=VARCHAR},
+      <if test="record.cost != null">
+        cost = #{record.cost,jdbcType=INTEGER},
+      </if>
+      <if test="record.balance != null">
+        balance = #{record.balance,jdbcType=INTEGER},
       </if>
       <if test="record.link != null">
         link = #{record.link,jdbcType=VARCHAR},
       </if>
-      <if test="record.ip != null">
-        ip = #{record.ip,jdbcType=VARCHAR},
-      </if>
-      <if test="record.ua != null">
-        ua = #{record.ua,jdbcType=VARCHAR},
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=INTEGER},
@@ -232,47 +222,43 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update t_userlog
+    update t_balancelog
     set id = #{record.id,jdbcType=BIGINT},
       uid = #{record.uid,jdbcType=BIGINT},
-      username = #{record.username,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=TINYINT},
-      before_status = #{record.beforeStatus,jdbcType=VARCHAR},
-      after_status = #{record.afterStatus,jdbcType=VARCHAR},
+      amount = #{record.amount,jdbcType=INTEGER},
+      cost = #{record.cost,jdbcType=INTEGER},
+      balance = #{record.balance,jdbcType=INTEGER},
       link = #{record.link,jdbcType=VARCHAR},
-      ip = #{record.ip,jdbcType=VARCHAR},
-      ua = #{record.ua,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.elune.entity.UserlogEntity">
-    update t_userlog
+  <update id="updateByPrimaryKeySelective" parameterType="com.elune.entity.BalancelogEntity">
+    update t_balancelog
     <set>
       <if test="uid != null">
         uid = #{uid,jdbcType=BIGINT},
       </if>
-      <if test="username != null">
-        username = #{username,jdbcType=VARCHAR},
-      </if>
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
       </if>
-      <if test="beforeStatus != null">
-        before_status = #{beforeStatus,jdbcType=VARCHAR},
+      <if test="amount != null">
+        amount = #{amount,jdbcType=INTEGER},
       </if>
-      <if test="afterStatus != null">
-        after_status = #{afterStatus,jdbcType=VARCHAR},
+      <if test="cost != null">
+        cost = #{cost,jdbcType=INTEGER},
+      </if>
+      <if test="balance != null">
+        balance = #{balance,jdbcType=INTEGER},
       </if>
       <if test="link != null">
         link = #{link,jdbcType=VARCHAR},
       </if>
-      <if test="ip != null">
-        ip = #{ip,jdbcType=VARCHAR},
-      </if>
-      <if test="ua != null">
-        ua = #{ua,jdbcType=VARCHAR},
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=INTEGER},
@@ -280,17 +266,70 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.elune.entity.UserlogEntity">
-    update t_userlog
+  <update id="updateByPrimaryKey" parameterType="com.elune.entity.BalancelogEntity">
+    update t_balancelog
     set uid = #{uid,jdbcType=BIGINT},
-      username = #{username,jdbcType=VARCHAR},
       type = #{type,jdbcType=TINYINT},
-      before_status = #{beforeStatus,jdbcType=VARCHAR},
-      after_status = #{afterStatus,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=INTEGER},
+      cost = #{cost,jdbcType=INTEGER},
+      balance = #{balance,jdbcType=INTEGER},
       link = #{link,jdbcType=VARCHAR},
-      ip = #{ip,jdbcType=VARCHAR},
-      ua = #{ua,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectGroupByExample" parameterType="map" resultMap="BaseResultMap">
+    select
+    l1.*
+    from t_balancelog
+    l1
+    inner join (select max(${maxField}) maxField, uid from t_balancelog group by uid)
+    l2
+    on l1.uid = l2.uid and l1.${maxField} = l2.maxField
+    <if test="example.orderByClause != null">
+      order by l1.${maxField} ${example.orderByClause}
+    </if>
+    <if test="example.limit != null">
+      <if test="example.offset != null">
+        limit ${example.offset}, ${example.limit}
+      </if>
+      <if test="example.offset == null">
+        limit ${example.limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectCostSumByExample" parameterType="com.elune.entity.BalancelogEntityExample" resultMap="BaseResultMap">
+    select
+    l1.id,
+    l1.uid,
+    l1.type,
+    l1.amount,
+    l1.balance,
+    l1.link,
+    l1.content,
+    l1.create_time,
+    l2.sumField as cost
+    from t_balancelog
+    l1
+    inner join (select sum(cost) sumField, uid, any_value(id) id from t_balancelog group by uid)
+    l2
+    on l1.uid = l2.uid and l1.id = l2.id
+    <if test="orderByClause != null">
+      order by l2.sumField ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="countGroupByExample" parameterType="com.elune.entity.BalancelogEntityExample" resultType="java.lang.Long">
+    select count(distinct(uid)) from t_balancelog
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
 </mapper>

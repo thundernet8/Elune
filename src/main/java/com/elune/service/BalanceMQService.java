@@ -21,7 +21,7 @@ package com.elune.service;
 
 public interface BalanceMQService {
 
-    void increaseBalance(long uid, int num);
+    void increaseBalance(long uid, int num, byte type, String content, String link);
 
-    void decreaseBalance(long uid, int num);
+    void decreaseBalance(long uid, int num, byte type, String content, String link);
 }

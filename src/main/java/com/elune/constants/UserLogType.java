@@ -31,7 +31,7 @@ public interface UserLogType {
 
     Byte L_REACTIVATE_EMAIL = 5;
 
-    Byte L_BALANCE = 10;
+//    Byte L_BALANCE = 10;
 
     Byte L_CREATE_TOPIC = 20;
 
@@ -47,6 +47,8 @@ public interface UserLogType {
 
     Byte L_LIKE_TOPIC = 32;
 
+    Byte L_CANCEL_LIKE_TOPIC = 33;
+
     Byte L_UPLOAD_IMAGE = 40;
 
     Byte L_UPLOAD_AVATAR = 41;
@@ -58,4 +60,8 @@ public interface UserLogType {
     Byte L_FOLLOW_TOPIC = 70;
 
     Byte L_UNFOLLOW_TOPIC = 71;
+
+    Byte L_FOLLOW_USER = 80;
+
+    Byte L_UNFOLLOW_USER = 81;
 }

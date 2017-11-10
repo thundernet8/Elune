@@ -127,12 +127,8 @@ public class TagServiceImpl implements TagService{
             List<TagEntity> tagEntities = mapper.selectByExample(tagEntityExample);
             List<Tag> tags = assembleTags(tagEntities);
 
-            long total = 0l;
-            if (page == 1) {
-                // 仅在第一页请求查询Total
-                TagEntityExample countTagEntityExample = TagEntityExample.builder().oredCriteria(new ArrayList<>()).build();
-                total = mapper.countByExample(countTagEntityExample);
-            }
+            TagEntityExample countTagEntityExample = TagEntityExample.builder().oredCriteria(new ArrayList<>()).build();
+            long total = mapper.countByExample(countTagEntityExample);
 
             return new Pagination<>(total, page, pageSize, tags);
         }

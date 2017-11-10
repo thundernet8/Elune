@@ -19,6 +19,8 @@
 
 package com.elune.controller.api;
 
+import com.elune.configuration.AppConfiguration;
+import com.elune.constants.Constant;
 import com.elune.entity.UserEntity;
 import com.elune.model.*;
 import com.elune.service.*;
@@ -35,6 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.elune.constants.UserLogType.*;
+import static com.elune.constants.BalanceLogType.*;
 
 /**
  * @author Touchumind
@@ -56,7 +59,9 @@ public class AuthController extends APIController{
     private UserLogMQService userLogMQService;
 
     @FromService
-    private NotificationService notificationService;
+    private AppConfiguration appConfiguration;
+
+    @FromService BalanceLogService balanceLogService;
 
     @HttpPost
     @Route("user/me")
@@ -73,7 +78,9 @@ public class AuthController extends APIController{
 
             LoginUser user = userService.getLoginUser(uid);
             user.setFavoriteTopicIds(userMetaService.getFavoriteIds(uid));
-            user.setBalance(userMetaService.getBalance(uid));
+            user.setFollowingTopicIds(userMetaService.getFollowingTopicIds(uid));
+            user.setFollowingUserIds(userMetaService.getFollowingUids(uid));
+            user.setBalance(balanceLogService.getBalance(uid));
             user.setDailySigned(userMetaService.hasSignedToday(uid));
 
             session.addAttribute("uid", user.getId());
@@ -96,9 +103,14 @@ public class AuthController extends APIController{
         try {
 
             LoginUser user = userService.signin(loginModel);
+            user.setFavoriteTopicIds(userMetaService.getFavoriteIds(user.getId()));
+            user.setFollowingTopicIds(userMetaService.getFollowingTopicIds(user.getId()));
+            user.setFollowingUserIds(userMetaService.getFollowingUids(user.getId()));
+            user.setBalance(balanceLogService.getBalance(user.getId()));
+            user.setDailySigned(userMetaService.hasSignedToday(user.getId()));
 
             // log
-            userLogMQService.createUserLog(user.getId(), L_LOGIN, "", "loggedIn", Request().getIp(), Request().getUa());
+            userLogMQService.createUserLog(user.getId(), user.getUsername(), L_LOGIN, "", "loggedIn", "", Request().getIp(), Request().getUa());
 
             Session session = Request().session();
             session.addAttribute("uid", user.getId());
@@ -113,7 +125,7 @@ public class AuthController extends APIController{
             // log
             UserEntity userEntity = userService.getUserEntityByName(loginModel.username);
             if (userEntity != null) {
-                userLogMQService.createUserLog(userEntity.getId(), L_LOGIN, "", "failed", Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(userEntity.getId(), userEntity.getUsername(), L_LOGIN, "", "failed", "", Request().getIp(), Request().getUa());
             }
 
             Fail(e);
@@ -129,17 +141,23 @@ public class AuthController extends APIController{
             User user = userService.signup(registerModel);
 
             // 添加变更用户财富的任务至消息队列
-            balanceMQService.increaseBalance(user.getId(), CoinRewards.R_REGISTER);
+            balanceMQService.increaseBalance(user.getId(), CoinRewards.R_REGISTER, B_REGISTER, "注册获得初始财富奖励", "");
 
             // log
-            userLogMQService.createUserLog(user.getId(), L_REGISTER, "", "signuped", Request().getIp(), Request().getUa());
+            userLogMQService.createUserLog(user.getId(), user.getUsername(), L_REGISTER, "", "signuped", "", Request().getIp(), Request().getUa());
 
             if (ref != null && StringUtil.isNumberic(ref)) {
 
-                // 给推广用户增加10个银币
-                // TODO confirm user exist
+                String userLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/u/").concat(user.getUsername());
+
+                // 给推广和被推广用户增加10个银币
                 long refUid = Long.valueOf(ref);
-                balanceMQService.increaseBalance(refUid, CoinRewards.R_REGISTER_REF);
+                UserEntity refUser = userService.getUserEntity(refUid);
+                if (refUser != null && !(refUser.getStatus().equals(Byte.valueOf("0")))) {
+                    String refUserLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/u/").concat(refUser.getUsername());
+                    balanceMQService.increaseBalance(refUid, CoinRewards.R_REGISTER_REF, B_REGISTER_REF, "推广用户".concat(user.getUsername()).concat("注册"), userLink);
+                    balanceMQService.increaseBalance(user.getId(), CoinRewards.R_REGISTER_REF, B_REGISTER_BE_REF, "由用户".concat(refUser.getUsername()).concat("推荐注册，获得同等奖励"), refUserLink);
+                }
             }
 
             Session session = Request().session();
@@ -166,11 +184,12 @@ public class AuthController extends APIController{
             Session session = Request().session();
 
             Object uid = session.attribute("uid");
+            String username = session.attribute("username");
             session.clearAttributes();
 
             if (uid != null) {
                 // log
-                userLogMQService.createUserLog((long)uid, L_LOGOUT, "", "loggedOut", Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog((long)uid, username, L_LOGOUT, "", "loggedOut", "", Request().getIp(), Request().getUa());
             }
 
             Succeed("注销成功");
@@ -189,7 +208,7 @@ public class AuthController extends APIController{
             long uid = userService.activate(token);
             if (uid > 0) {
                 // log
-                userLogMQService.createUserLog(uid, L_ACTIVATE_ACCOUNT, "", "activated", Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(uid, "", L_ACTIVATE_ACCOUNT, "", "activated", "", Request().getIp(), Request().getUa());
             }
 
             Succeed(uid > 0);
@@ -209,7 +228,7 @@ public class AuthController extends APIController{
 
             if (uid > 0) {
                 // log
-                userLogMQService.createUserLog(uid, L_REACTIVATE_EMAIL, "", "", Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(uid, "", L_REACTIVATE_EMAIL, "", "", "", Request().getIp(), Request().getUa());
             }
 
             Succeed(uid > 0);

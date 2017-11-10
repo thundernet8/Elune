@@ -45,4 +45,8 @@ public class LoginUser extends User implements Serializable {
     private Pagination<Notification> unreadNotifications;
 
     private List<Long> favoriteTopicIds;
+
+    private List<Long> followingTopicIds;
+
+    private List<Long> followingUserIds;
 }

@@ -19,6 +19,7 @@
 
 package com.elune.controller.api;
 
+import com.elune.constants.CoinRewards;
 import com.elune.dal.DBManager;
 import com.elune.dal.RedisManager;
 import com.elune.entity.UserEntity;
@@ -41,6 +42,7 @@ import java.util.Random;
 
 import static com.elune.constants.UserLogType.*;
 import static com.elune.constants.UserStatus.*;
+import static com.elune.constants.BalanceLogType.*;
 
 /**
  * @author Touchumind
@@ -67,6 +69,9 @@ public class UserController extends APIController {
 
     @FromService
     private UserLogMQService userLogMQService;
+
+    @FromService
+    private BalanceMQService balanceMQService;
 
     public UserController(DBManager dbManager) {
 
@@ -138,13 +143,13 @@ public class UserController extends APIController {
 
         // log
         if (!userProfileSetting.nickname.equals(userEntity.getNickname())) {
-            userLogMQService.createUserLog(uid, L_UPDATE_PROFILE, "Nickname: ".concat(userEntity.getNickname()), "Nickname: ".concat(userProfileSetting.nickname), Request().getIp(), Request().getUa());
+            userLogMQService.createUserLog(uid, userEntity.getUsername(), L_UPDATE_PROFILE, "Nickname: ".concat(userEntity.getNickname()), "Nickname: ".concat(userProfileSetting.nickname), "", Request().getIp(), Request().getUa());
         }
         if (!userProfileSetting.url.equals(userEntity.getUrl())) {
-            userLogMQService.createUserLog(uid, L_UPDATE_PROFILE, "Url: ".concat(userEntity.getUrl()), "Url: ".concat(userProfileSetting.url), Request().getIp(), Request().getUa());
+            userLogMQService.createUserLog(uid, userEntity.getUsername(), L_UPDATE_PROFILE, "Url: ".concat(userEntity.getUrl()), "Url: ".concat(userProfileSetting.url), "", Request().getIp(), Request().getUa());
         }
         if (!userProfileSetting.bio.equals(userEntity.getBio())) {
-            userLogMQService.createUserLog(uid, L_UPDATE_PROFILE, "Bio: ".concat(userEntity.getBio()), "Bio: ".concat(userProfileSetting.bio), Request().getIp(), Request().getUa());
+            userLogMQService.createUserLog(uid, userEntity.getUsername(), L_UPDATE_PROFILE, "Bio: ".concat(userEntity.getBio()), "Bio: ".concat(userProfileSetting.bio), "", Request().getIp(), Request().getUa());
         }
 
         try {
@@ -178,18 +183,14 @@ public class UserController extends APIController {
                 throw new HttpException("今日已签到", 400);
             }
 
-            UsermetaEntity balanceMeta = userMetaService.getSingleUsermeta(uid, "balance");
-            int balance = balanceMeta != null ? Integer.valueOf(balanceMeta.getMetaValue()) : 0;
             Random random = new Random(DateUtil.getTimeStamp() % 50);
 
             int change = random.nextInt(50) + 1;
-            int newBalance = balance + change;
 
-            userMetaService.createOrUpdateUsermeta(uid, "balance", Integer.toString(newBalance));
             userMetaService.createOrUpdateUsermeta(uid, "dailySign", Integer.toString(DateUtil.getTimeStamp()));
 
-            // log
-            userLogMQService.createUserLog(uid, L_BALANCE, "Balance: ".concat(Integer.toString(balance)), DateKit.getGmtDateString().concat("签到获得").concat(Integer.toString(change)).concat("铜币奖励"), Request().getIp(), Request().getUa());
+            // balance
+            balanceMQService.increaseBalance(uid, change, B_DAILY_SIGN, ("每日签到获得").concat(Integer.toString(change)).concat("铜币奖励"), "");
 
             Map<String, Object> resp = new HashMap<>(2);
             resp.put("msg", "签到成功, 获得 " + change + " 铜币");
