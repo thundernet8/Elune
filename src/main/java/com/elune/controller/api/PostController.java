@@ -42,6 +42,7 @@ import java.util.Map;
 import static com.elune.constants.UserLogType.*;
 import static com.elune.constants.NotificationType.*;
 import static com.elune.constants.BalanceLogType.*;
+import static com.elune.constants.CoinRewards.*;
 
 /**
  * @author Touchumind
@@ -60,6 +61,9 @@ public class PostController extends APIController {
 
     @FromService
     private BalanceMQService balanceMQService;
+
+    @FromService
+    private BalanceLogService balanceLogService;
 
     @FromService
     private UserLogMQService userLogMQService;
@@ -98,6 +102,13 @@ public class PostController extends APIController {
                 throw new HttpException("你没有权限创建评论或回复(账户未激活或已禁用)", 403);
             }
 
+            // 尝试扣取积分
+            int balance = balanceLogService.getBalance(uid);
+            if (balance + R_CREATE_POST < 0) {
+
+                throw new HttpException("你没有足够的余额创建回复", 400);
+            }
+
             TopicEntity topicEntity = topicService.getTopicEntity(postCreationModel.topicId);
 
             if (topicEntity.getStatus().equals(Byte.valueOf("0"))) {
@@ -115,16 +126,20 @@ public class PostController extends APIController {
 
             long createResult = postService.createPost(user, postCreationModel);
 
+            if (createResult < 1) {
+                throw new HttpException("创建回复失败", 400);
+            }
+
+            String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(topicEntity.getId()));
+            // 扣除积分
+            balanceMQService.increaseBalance(user.getId(), R_CREATE_POST, B_CREATE_POST, "在话题《".concat(topicEntity.getTitle()).concat("》上发表了回复"), topicLink);
+
             // 给主题作者增加铜币
-
             if (!(user.getId().equals(topicEntity.getAuthorId()))) {
-
-                String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(topicEntity.getId()));
                 balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_REPLIED, B_TOPIC_BE_REPLIED, "创建的话题《".concat(topicEntity.getTitle()).concat("》收到来自").concat(user.getUsername()).concat("的回复"), topicLink);
             }
 
             // log
-            String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(postCreationModel.topicId));
             userLogMQService.createUserLog(uid, user.getUsername(), L_CREATE_POST, "", "在话题《".concat(topicEntity.getTitle()).concat("》上创建了新回复: ").concat(postCreationModel.content), topicLink, Request().getIp(), Request().getUa());
 
             // notification
