@@ -21,6 +21,7 @@ package com.elune.controller.api;
 
 import com.elune.configuration.AppConfiguration;
 import com.elune.constants.Constant;
+import com.elune.entity.PostEntity;
 import com.elune.entity.TopicEntity;
 import com.elune.entity.UserEntity;
 import com.elune.model.Pagination;
@@ -191,6 +192,77 @@ public class PostController extends APIController {
             Succeed(pagination);
         } catch (Exception e) {
 
+            Fail(e);
+        }
+    }
+
+    @HttpPost
+    @Route("{long:id}/likes")
+    public void likePost(long id) {
+
+        Session session = Request().session();
+        long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+        if (uid < 1) {
+
+            throw new HttpException("你必须登录才能点赞评论", 401);
+        }
+
+        UserEntity user = userService.getUserEntity(uid);
+
+        if (user == null) {
+
+            throw new HttpException("你必须登录才能点赞评论", 401);
+        }
+
+        if (user.getStatus().equals(Byte.valueOf("0"))) {
+
+            throw new HttpException("你没有权限点赞评论(账户未激活或已禁用)", 403);
+        }
+
+        // 尝试扣取积分
+        int balance = balanceLogService.getBalance(uid);
+        if (balance + R_LIKE_POST < 0) {
+
+            throw new HttpException("你没有足够的余额点赞评论", 400);
+        }
+
+        PostEntity postEntity = postService.getPostEntity(id);
+        if (postEntity == null || postEntity.getStatus().equals(Byte.valueOf("0"))) {
+
+            throw new HttpException("评论不存在或已被删除", 404);
+        }
+
+        if (postEntity.getAuthorId().equals(uid)) {
+
+            throw new HttpException("不能感谢自己", 400);
+        }
+        TopicEntity topicEntity = topicService.getTopicEntity(postEntity.getTid());
+
+        try {
+
+            boolean result = postService.upvotePost(id);
+            if (!result) {
+                throw new HttpException("点赞话题失败", 400);
+            }
+
+            String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(topicEntity.getId()));
+
+            // 扣除积分
+            balanceMQService.increaseBalance(user.getId(), R_LIKE_POST, B_LIKE_POST, "感谢".concat(postEntity.getAuthorName()).concat("在话题《").concat(topicEntity.getTitle()).concat("》的评论"), topicLink);
+
+            if (uid != postEntity.getAuthorId()) {
+                // log
+                userLogMQService.createUserLog(uid, user.getUsername(), L_LIKE_POST, "", "感谢了".concat(postEntity.getAuthorName()).concat("在话题《").concat(topicEntity.getTitle()).concat("》上的评论"), topicLink, Request().getIp(), Request().getUa());
+
+                // notification
+                notificationMQService.createNotification(postEntity.getAuthorName(), user.getUsername().concat("感谢了").concat("你在话题《").concat(topicEntity.getTitle()).concat("》上的评论"), "", N_POST_LIKE);
+
+                // add balance for author
+                balanceMQService.increaseBalance(postEntity.getAuthorId(), CoinRewards.R_POST_BE_LIKED, B_POST_BE_LIKED, "在话题《".concat(topicEntity.getTitle()).concat("》上的评论收到").concat(user.getUsername()).concat("的感谢"), topicLink);
+            }
+
+            Succeed(result);
+        } catch (Exception e) {
             Fail(e);
         }
     }

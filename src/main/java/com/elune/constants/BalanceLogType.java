@@ -41,6 +41,8 @@ public interface BalanceLogType {
 
     Byte B_TOPIC_BE_CANCEL_FOLLOW = 11;
 
+    Byte B_POST_BE_LIKED = 12;
+
     Byte B_DAILY_SIGN = 20;
 
     // TODO 消费类型log types > 100

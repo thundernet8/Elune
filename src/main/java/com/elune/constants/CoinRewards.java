@@ -43,4 +43,6 @@ public interface CoinRewards {
     int R_TOPIC_BE_LIKED = 10;
 
     int R_TOPIC_BE_FOLLOWED = 20;
+
+    int R_POST_BE_LIKED = 10;
 }

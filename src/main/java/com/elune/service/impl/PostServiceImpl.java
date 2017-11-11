@@ -60,18 +60,24 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post getPost(long id) {
 
+        PostEntity postEntity = getPostEntity(id);
+        if (postEntity == null) {
+
+            return null;
+        }
+
+        Post post = DozerMapperUtil.map(postEntity, Post.class);
+
+        return assemblePosts(Collections.singletonList(post)).get(0);
+    }
+
+    @Override
+    public PostEntity getPostEntity(long id) {
+
         try (SqlSession sqlSession = dbManager.getSqlSession()) {
 
             PostMapper mapper = sqlSession.getMapper(PostMapper.class);
-            PostEntity postEntity = mapper.selectByPrimaryKey(id);
-            if (postEntity == null) {
-
-                return null;
-            }
-
-            Post post = DozerMapperUtil.map(postEntity, Post.class);
-
-            return assemblePosts(Collections.singletonList(post)).get(0);
+            return mapper.selectByPrimaryKey(id);
         }
     }
 

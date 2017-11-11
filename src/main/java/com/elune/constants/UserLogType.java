@@ -49,6 +49,8 @@ public interface UserLogType {
 
     Byte L_CANCEL_LIKE_TOPIC = 33;
 
+    Byte L_LIKE_POST = 34;
+
     Byte L_UPLOAD_IMAGE = 40;
 
     Byte L_UPLOAD_AVATAR = 41;
