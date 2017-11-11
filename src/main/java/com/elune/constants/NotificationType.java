@@ -50,4 +50,6 @@ public interface NotificationType {
     Byte N_USER_UNFOLLOW = 14;
 
     Byte N_USER_BE_UPDATED = 15;
+
+    Byte N_POST_LIKE = 16;
 }

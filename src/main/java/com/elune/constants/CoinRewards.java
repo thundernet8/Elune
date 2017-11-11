@@ -28,7 +28,13 @@ public interface CoinRewards {
 
     int R_REGISTER_REF = 1000;
 
-    int R_CREATE_POST = 10;
+    int R_CREATE_POST = -10;
+
+    int R_CREATE_TOPIC = -50;
+
+    int R_LIKE_TOPIC = -10;
+
+    int R_LIKE_POST = -10;
 
     int R_TOPIC_BE_REPLIED = 10;
 
@@ -37,4 +43,6 @@ public interface CoinRewards {
     int R_TOPIC_BE_LIKED = 10;
 
     int R_TOPIC_BE_FOLLOWED = 20;
+
+    int R_POST_BE_LIKED = 10;
 }

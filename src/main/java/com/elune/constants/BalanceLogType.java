@@ -27,8 +27,6 @@ public interface BalanceLogType {
 
     Byte B_REGISTER_BE_REF = 3;
 
-    Byte B_CREATE_POST = 4;
-
     Byte B_TOPIC_BE_REPLIED = 5;
 
     Byte B_TOPIC_BE_FAVORITED = 6;
@@ -43,9 +41,17 @@ public interface BalanceLogType {
 
     Byte B_TOPIC_BE_CANCEL_FOLLOW = 11;
 
+    Byte B_POST_BE_LIKED = 12;
+
     Byte B_DAILY_SIGN = 20;
 
     // TODO 消费类型log types > 100
 
     Byte B_CREATE_TOPIC = 101;
+
+    Byte B_CREATE_POST = 102;
+
+    Byte B_LIKE_TOPIC = 103;
+
+    Byte B_LIKE_POST = 104;
 }

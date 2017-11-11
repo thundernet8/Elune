@@ -40,6 +40,7 @@ import java.util.*;
 import static com.elune.constants.UserLogType.*;
 import static com.elune.constants.NotificationType.*;
 import static com.elune.constants.BalanceLogType.*;
+import static com.elune.constants.CoinRewards.*;
 
 /**
  * @author Touchumind
@@ -72,6 +73,9 @@ public class TopicController extends APIController {
     private BalanceMQService balanceMQService;
 
     @FromService
+    private BalanceLogService balanceLogService;
+
+    @FromService
     private AppConfiguration appConfiguration;
     @HttpPost
     @Route("")
@@ -98,7 +102,18 @@ public class TopicController extends APIController {
                 throw new HttpException("你没有权限创建话题(账户未激活或已禁用)", 403);
             }
 
+            // 尝试扣取积分
+            int balance = balanceLogService.getBalance(uid);
+            if (balance + R_CREATE_TOPIC < 0) {
+
+                throw new HttpException("你没有足够的余额创建话题", 400);
+            }
+
             long createResult = topicService.createTopic(author, topicCreationModel);
+
+            if (createResult < 1) {
+                throw new HttpException("创建话题失败", 400);
+            }
 
             // 创建标签
             List<TagCreationModel> tags = StringUtil.getTagsFromContent(topicCreationModel.content, 5);
@@ -107,6 +122,8 @@ public class TopicController extends APIController {
             // log
             String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(createResult));
             userLogMQService.createUserLog(uid, author.getUsername(), L_CREATE_TOPIC, "", "创建了话题《".concat(topicCreationModel.title).concat("》"), topicLink, Request().getIp(), Request().getUa());
+            // 扣除积分
+            balanceMQService.increaseBalance(author.getId(), R_CREATE_TOPIC, B_CREATE_TOPIC, "创建话题《".concat(topicCreationModel.title).concat("》"), topicLink);
 
             Map<String, Object> resp = new HashMap<>(2);
             resp.put("result", createResult);
@@ -388,6 +405,13 @@ public class TopicController extends APIController {
             throw new HttpException("你没有权限点赞话题(账户未激活或已禁用)", 403);
         }
 
+        // 尝试扣取积分
+        int balance = balanceLogService.getBalance(uid);
+        if (balance + R_LIKE_TOPIC < 0) {
+
+            throw new HttpException("你没有足够的余额点赞话题", 400);
+        }
+
         TopicEntity topicEntity = topicService.getTopicEntity(id);
         if (topicEntity == null || topicEntity.getStatus().equals(Byte.valueOf("0"))) {
 
@@ -397,10 +421,17 @@ public class TopicController extends APIController {
         try {
 
             boolean result = topicService.upvoteTopic(id);
+            if (!result) {
+                throw new HttpException("点赞话题失败", 400);
+            }
+
+            String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(topicEntity.getId()));
+
+            // 扣除积分
+            balanceMQService.increaseBalance(user.getId(), R_LIKE_TOPIC, B_LIKE_TOPIC, "感谢话题《".concat(topicEntity.getTitle()).concat("》"), topicLink);
 
             if (uid != topicEntity.getAuthorId()) {
                 // log
-                String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(topicEntity.getId()));
                 userLogMQService.createUserLog(uid, user.getUsername(), L_LIKE_TOPIC, "", "喜欢了话题《".concat(topicEntity.getTitle()).concat("》"), topicLink, Request().getIp(), Request().getUa());
 
                 // notification

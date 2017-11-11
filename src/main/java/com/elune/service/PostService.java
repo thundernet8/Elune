@@ -30,6 +30,8 @@ public interface PostService {
 
     Post getPost(long id);
 
+    PostEntity getPostEntity(long id);
+
     long createPost(UserEntity author, PostCreationModel postCreationModel);
 
     boolean upvotePost(long id);
