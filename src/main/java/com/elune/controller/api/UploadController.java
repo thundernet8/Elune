@@ -25,6 +25,7 @@ import com.elune.service.UserLogMQService;
 import com.elune.service.UserService;
 import com.elune.utils.EncryptUtil;
 
+import com.elune.utils.ImageUtil;
 import com.fedepot.exception.HttpException;
 import com.fedepot.ioc.annotation.ForInject;
 import com.fedepot.ioc.annotation.FromService;
@@ -101,7 +102,7 @@ public class UploadController extends APIController{
             while (iterator.hasNext()) {
 
                 Map.Entry<String, FormFile> entry = iterator.next();
-                String imageUrl = saveImage(basePath, baseUrl, entry.getValue());
+                String imageUrl = saveImage(basePath, baseUrl, entry.getValue(), 0, 0);
                 imageUrls.add(imageUrl);
 
                 // log
@@ -146,7 +147,7 @@ public class UploadController extends APIController{
 
         try {
             Map.Entry<String, FormFile> entry = files.entrySet().iterator().next();
-            String imageUrl = saveImage(basePath, baseUrl, entry.getValue());
+            String imageUrl = saveImage(basePath, baseUrl, entry.getValue(), 128, 128);
             Map<String, Object> updateInfo = new HashMap<>(2);
             updateInfo.put("id", uid);
             updateInfo.put("avatar", imageUrl);
@@ -166,7 +167,7 @@ public class UploadController extends APIController{
         }
     }
 
-    private String saveImage(String basePath, String baseUrl, FormFile formFile) throws Exception {
+    private String saveImage(String basePath, String baseUrl, FormFile formFile, int width, int height) throws Exception {
 
         String md5 = EncryptUtil.md5(formFile.getData());
         String fileName = formFile.getFileName();
@@ -177,12 +178,19 @@ public class UploadController extends APIController{
 
             ext = fileName.substring(index);
         }
+
+        String scaleSuffix = width > 0 && height > 0 ? "_".concat(Integer.toString(width)).concat("x").concat(Integer.toString(height)) : "";
+
         String filePath = basePath.concat(File.separator).concat(md5).concat(ext);
-        String fullUrl = baseUrl.concat(md5).concat(ext);
+        String scaleFilePath = basePath.concat(File.separator).concat(md5).concat(scaleSuffix).concat(".jpg");
+        String fullUrl = baseUrl.concat(md5).concat(scaleSuffix).concat("".equals(scaleSuffix) ? ext : ".jpg");
 
         try {
 
             FileUtils.writeByteArrayToFile(new File(filePath), formFile.getData());
+            if (!("".equals(scaleSuffix))) {
+                ImageUtil.scale(filePath, scaleFilePath, width, height, true);
+            }
             return fullUrl;
         } catch (IOException e) {
 
