@@ -179,7 +179,7 @@ public class TopicController extends APIController {
                 // notification
                 if (uid != topicEntity.getAuthorId()) {
 
-                    notificationMQService.createNotification(user.getUsername(), topicEntity.getAuthorName(), user.getUsername().concat("更新了话题《").concat(topicEntity.getTitle()).concat("》"), "", N_TOPIC_BE_UPDATED);
+                    notificationMQService.createNotification(topicEntity.getAuthorName(), user.getUsername().concat("更新了话题《").concat(topicEntity.getTitle()).concat("》"), "", N_TOPIC_BE_UPDATED);
                 }
 
                 Map<String, Object> resp = new HashMap<>(2);
