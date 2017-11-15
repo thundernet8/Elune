@@ -238,6 +238,7 @@ public class TopicController extends APIController {
             case "post_time":
             case "posts_count":
             case "views_count":
+                sb.append("is_pinned DESC,");
                 sb.append(orderBy);
                 sb.append(" ");
                 sb.append(order);
@@ -256,7 +257,7 @@ public class TopicController extends APIController {
                 }
                 break;
             default:
-                sb.append("id ");
+                sb.append("is_pinned DESC, id ");
                 sb.append(order);
         }
 
