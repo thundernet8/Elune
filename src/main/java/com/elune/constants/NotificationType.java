@@ -52,4 +52,8 @@ public interface NotificationType {
     Byte N_USER_BE_UPDATED = 15;
 
     Byte N_POST_LIKE = 16;
+
+    Byte N_TOPIC_BE_STICKY = 17;
+
+    Byte N_TOPIC_BE_CANCEL_STICKY = 18;
 }
