@@ -41,6 +41,7 @@ import static com.elune.constants.UserLogType.*;
 import static com.elune.constants.NotificationType.*;
 import static com.elune.constants.BalanceLogType.*;
 import static com.elune.constants.CoinRewards.*;
+import static com.elune.constants.RoleType.*;
 
 /**
  * @author Touchumind
@@ -152,18 +153,18 @@ public class TopicController extends APIController {
 
             UserEntity user = userService.getUserEntity(uid);
 
-            if (user == null || user.getStatus().equals(Byte.valueOf("0")) || user.getRoleId() > 100) {
+            if (user == null || user.getStatus().equals(Byte.valueOf("0")) || user.getRoleId() > NORMAL_USER) {
 
                 throw new HttpException("你没有权限更新话题", 403);
             }
 
-            Topic topic = topicService.getTopic(id);
-            if (topic == null || topic.getStatus().equals(Byte.valueOf("0"))) {
+            TopicEntity topicEntity = topicService.getTopicEntity(id);
+            if (topicEntity == null || topicEntity.getStatus().equals(Byte.valueOf("0"))) {
 
                 throw new Exception("话题不存在");
             }
 
-            if (user.getRoleId() > 2 && DateUtil.getTimeStamp() - topic.getCreateTime() > 3600) {
+            if (user.getRoleId() > 2 && DateUtil.getTimeStamp() - topicEntity.getCreateTime() > 3600) {
 
                 throw new Exception("话题创建超过1小时，不能重新编辑");
             }
@@ -171,14 +172,14 @@ public class TopicController extends APIController {
             boolean updateResult = topicService.updateTopic(topicUpdateModel);
 
             if (updateResult) {
-
+                String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(topicEntity.getId()));
                 // log
-                userLogMQService.createUserLog(uid, user.getUsername(), L_UPDATE_TOPIC, "", "更新了话题《".concat(topic.getTitle()).concat("》"), "", Request().getIp(), Request().getUa());
+                userLogMQService.createUserLog(uid, user.getUsername(), L_UPDATE_TOPIC, "", "更新了话题《".concat(topicEntity.getTitle()).concat("》"), topicLink, Request().getIp(), Request().getUa());
 
                 // notification
-                if (uid != topic.getAuthorId()) {
+                if (uid != topicEntity.getAuthorId()) {
 
-                    notificationMQService.createNotification(user.getUsername(), topic.getAuthorName(), user.getUsername().concat("更新了话题《").concat(topic.getTitle()).concat("》"), "", N_TOPIC_BE_UPDATED);
+                    notificationMQService.createNotification(topicEntity.getAuthorName(), user.getUsername().concat("更新了话题《").concat(topicEntity.getTitle()).concat("》"), "", N_TOPIC_BE_UPDATED);
                 }
 
                 Map<String, Object> resp = new HashMap<>(2);
@@ -237,6 +238,7 @@ public class TopicController extends APIController {
             case "post_time":
             case "posts_count":
             case "views_count":
+                sb.append("is_pinned DESC,");
                 sb.append(orderBy);
                 sb.append(" ");
                 sb.append(order);
@@ -255,7 +257,7 @@ public class TopicController extends APIController {
                 }
                 break;
             default:
-                sb.append("id ");
+                sb.append("is_pinned DESC, id ");
                 sb.append(order);
         }
 
@@ -494,6 +496,107 @@ public class TopicController extends APIController {
 
             Succeed(result);
         } catch (Exception e) {
+            Fail(e);
+        }
+    }
+
+    @HttpPost
+    @Route("{long:id}/sticky")
+    public void stickyTopic(long id) {
+
+        try {
+
+            Session session = Request().session();
+            long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+            if (uid < 1) {
+
+                throw new HttpException("你必须登录才能置顶话题", 401);
+            }
+
+            UserEntity user = userService.getUserEntity(uid);
+
+            if (user == null || user.getStatus().equals(Byte.valueOf("0")) || user.getRoleId() > ADMIN) {
+
+                throw new HttpException("你没有权限置顶话题", 403);
+            }
+
+            TopicEntity topicEntity = topicService.getTopicEntity(id);
+            if (topicEntity == null || topicEntity.getStatus().equals(Byte.valueOf("0"))) {
+
+                throw new Exception("话题不存在");
+            }
+
+            boolean updateResult = topicService.pinTopic(id);
+
+            if (updateResult) {
+                String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(topicEntity.getId()));
+                // log
+                userLogMQService.createUserLog(uid, user.getUsername(), L_STICKY_TOPIC, "", "置顶了话题《".concat(topicEntity.getTitle()).concat("》"), topicLink, Request().getIp(), Request().getUa());
+
+                // notification
+                if (uid != topicEntity.getAuthorId()) {
+                    notificationMQService.createNotification(topicEntity.getAuthorName(), user.getUsername().concat("置顶了你的话题《").concat(topicEntity.getTitle()).concat("》"), "", N_TOPIC_BE_STICKY);
+                }
+
+                // add balance for author
+                balanceMQService.increaseBalance(topicEntity.getAuthorId(), CoinRewards.R_TOPIC_BE_STICKY, B_TOPIC_BE_STICKY, "创建的话题《".concat(topicEntity.getTitle()).concat("》被").concat(user.getUsername()).concat("置顶"), topicLink);
+
+                Succeed(updateResult);
+            } else {
+
+                throw new Exception("话题置顶失败");
+            }
+        } catch (Exception e) {
+
+            Fail(e);
+        }
+    }
+
+    @HttpDelete
+    @Route("{long:id}/sticky")
+    public void unStickyTopic(long id) {
+
+        try {
+
+            Session session = Request().session();
+            long uid = session == null || session.attribute("uid") == null ? 0 : session.attribute("uid");
+            if (uid < 1) {
+
+                throw new HttpException("你必须登录才能取消置顶话题", 401);
+            }
+
+            UserEntity user = userService.getUserEntity(uid);
+
+            if (user == null || user.getStatus().equals(Byte.valueOf("0")) || user.getRoleId() > ADMIN) {
+
+                throw new HttpException("你没有权限取消置顶话题", 403);
+            }
+
+            TopicEntity topicEntity = topicService.getTopicEntity(id);
+            if (topicEntity == null || topicEntity.getStatus().equals(Byte.valueOf("0"))) {
+
+                throw new Exception("话题不存在");
+            }
+
+            boolean updateResult = topicService.unpinTopic(id);
+
+            if (updateResult) {
+                String topicLink = appConfiguration.get(Constant.CONFIG_KEY_SITE_FRONTEND_HOME, "").concat("/topic/").concat(Long.toString(topicEntity.getId()));
+                // log
+                userLogMQService.createUserLog(uid, user.getUsername(), L_UNSTICKY_TOPIC, "", "取消置顶话题《".concat(topicEntity.getTitle()).concat("》"), topicLink, Request().getIp(), Request().getUa());
+
+                // notification
+                if (uid != topicEntity.getAuthorId()) {
+                    notificationMQService.createNotification(topicEntity.getAuthorName(), user.getUsername().concat("取消置顶你的话题《").concat(topicEntity.getTitle()).concat("》"), "", N_TOPIC_BE_CANCEL_STICKY);
+                }
+
+                Succeed(updateResult);
+            } else {
+
+                throw new Exception("话题取消置顶失败");
+            }
+        } catch (Exception e) {
+
             Fail(e);
         }
     }

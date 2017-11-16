@@ -43,6 +43,8 @@ public interface BalanceLogType {
 
     Byte B_POST_BE_LIKED = 12;
 
+    Byte B_TOPIC_BE_STICKY = 13;
+
     Byte B_DAILY_SIGN = 20;
 
     // TODO 消费类型log types > 100

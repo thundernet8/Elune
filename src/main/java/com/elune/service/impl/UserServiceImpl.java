@@ -41,10 +41,7 @@ import com.fedepot.ioc.annotation.Service;
 import org.apache.ibatis.session.SqlSession;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -140,6 +137,9 @@ public class UserServiceImpl implements UserService {
         } else if (!StringUtil.isEmail(email)) {
 
             errMsg = "邮箱格式不合法";
+        } else if (Arrays.asList("admin", "administrator", "system").contains(username.toLowerCase())) {
+
+            errMsg = "用户名不合法";
         } else if (getUserByName(username) != null) {
 
             errMsg = "用户名已被注册";

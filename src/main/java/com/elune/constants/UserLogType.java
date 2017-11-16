@@ -39,6 +39,10 @@ public interface UserLogType {
 
     Byte L_DELETE_TOPIC = 22;
 
+    Byte L_STICKY_TOPIC = 23;
+
+    Byte L_UNSTICKY_TOPIC = 24;
+
     Byte L_CREATE_POST = 25;
 
     Byte L_FAVORITE_TOPIC = 30;
